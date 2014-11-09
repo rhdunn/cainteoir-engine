@@ -27,7 +27,11 @@
 
 namespace tts = cainteoir::tts;
 
-bool match_l2p_rule(const uint8_t *rule, const uint8_t *start, const uint8_t *&current, const uint8_t *end)
+static const uint8_t *
+match_l2p_rule(const uint8_t *rule,
+               const uint8_t *start,
+               const uint8_t *current,
+               const uint8_t *end)
 {
 	enum state_t
 	{
@@ -43,8 +47,7 @@ bool match_l2p_rule(const uint8_t *rule, const uint8_t *start, const uint8_t *&c
 	while (true) switch (*rule)
 	{
 	case 0:
-		current = context;
-		return true;
+		return context;
 	case '(':
 		right = context;
 		state = right_match;
@@ -59,54 +62,53 @@ bool match_l2p_rule(const uint8_t *rule, const uint8_t *start, const uint8_t *&c
 		switch (state)
 		{
 		case left_match:
-			if (left != start - 1) return false;
+			if (left != start - 1) return nullptr;
 			++rule;
 			break;
 		case right_match:
-			if (right != end) return false;
+			if (right != end) return nullptr;
 			++rule;
 			break;
 		default:
-			return false;
+			return nullptr;
 		}
 		break;
 	default:
 		switch (state)
 		{
 		case context_match:
-			if (context > end) return false;
+			if (context > end) return nullptr;
 			if (*context == *rule)
 			{
 				++rule;
 				++context;
 			}
 			else
-				return false;
+				return nullptr;
 			break;
 		case left_match:
-			if (left < start) return false;
+			if (left < start) return nullptr;
 			if (*left == *rule)
 			{
 				++rule;
 				--left;
 			}
 			else
-				return false;
+				return nullptr;
 			break;
 		case right_match:
-			if (right > end) return false;
+			if (right > end) return nullptr;
 			if (*right == *rule)
 			{
 				++rule;
 				++right;
 			}
 			else
-				return false;
+				return nullptr;
 			break;
 		}
 		break;
 	}
-	return false;
 }
 
 struct ruleset : public tts::phoneme_reader
@@ -193,6 +195,7 @@ void ruleset::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 bool ruleset::read()
 {
 	const uint8_t *rule = nullptr;
+	const uint8_t *next = nullptr;
 	while (true) switch (mState)
 	{
 	case need_phonemes:
@@ -218,8 +221,10 @@ bool ruleset::read()
 			throw tts::phoneme_error(i18n("unable to pronounce the text"));
 		}
 
-		if (match_l2p_rule(rule, mStart, mCurrent, mEnd))
+		next = match_l2p_rule(rule, mStart, mCurrent, mEnd);
+		if (next != nullptr)
 		{
+			mCurrent = next;
 			mPhonemeCurrent = mRules.pstr();
 			mPhonemeEnd = mPhonemeCurrent + strlen(mPhonemeCurrent);
 			mState = have_phonemes;
