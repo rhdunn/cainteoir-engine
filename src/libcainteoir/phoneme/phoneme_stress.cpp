@@ -35,7 +35,9 @@ enum syllable_t : uint8_t
 	onset,
 	nucleus,
 	coda_start,
+	coda_start_affricate,
 	coda,
+	coda_affricate,
 };
 
 struct syllable_reader_t : public tts::syllable_reader
@@ -78,12 +80,18 @@ bool syllable_reader_t::read()
 			case syllable_t::nucleus:
 				coda = end = current;
 				return true;
+			case syllable_t::coda_start_affricate:
 			case syllable_t::coda_start:
 				coda = end = coda_start;
 				return true;
 			case syllable_t::coda:
 				end = coda_start;
 				coda = --coda_start;
+				return true;
+			case syllable_t::coda_affricate:
+				coda = --coda_start;
+				++coda_start;
+				end = ++coda_start;
 				return true;
 			}
 			break;
@@ -98,12 +106,18 @@ bool syllable_reader_t::read()
 				break;
 			case syllable_t::nucleus:
 				break;
+			case syllable_t::coda_start_affricate:
 			case syllable_t::coda_start:
 				coda = end = coda_start;
 				return true;
 			case syllable_t::coda:
 				end = coda_start;
 				coda = --coda_start;
+				return true;
+			case syllable_t::coda_affricate:
+				coda = --coda_start;
+				++coda_start;
+				end = ++coda_start;
 				return true;
 			}
 			break;
@@ -118,11 +132,13 @@ bool syllable_reader_t::read()
 				coda = current;
 				end = current;
 				return true;
+			case syllable_t::coda_start_affricate:
 			case syllable_t::coda_start:
 				coda = coda_start;
 				end = current;
 				return true;
 			case syllable_t::coda:
+			case syllable_t::coda_affricate:
 				coda = --coda_start;
 				end = current;
 				return true;
@@ -139,13 +155,21 @@ bool syllable_reader_t::read()
 			case syllable_t::onset:
 				break;
 			case syllable_t::nucleus:
-				state = syllable_t::coda_start;
+				if (phoneme.get(ipa::joined_to_next_phoneme) == ipa::joined_to_next_phoneme)
+					state = syllable_t::coda_start_affricate;
+				else
+					state = syllable_t::coda_start;
+				coda_start = current;
+				break;
+			case syllable_t::coda_start_affricate:
+				state = syllable_t::coda_affricate;
 				coda_start = current;
 				break;
 			case syllable_t::coda_start:
 				state = syllable_t::coda;
 				coda_start = current;
 				break;
+			case syllable_t::coda_affricate:
 			case syllable_t::coda:
 				break;
 			}
@@ -161,11 +185,13 @@ bool syllable_reader_t::read()
 				coda = current;
 				end = current;
 				return true;
+			case syllable_t::coda_start_affricate:
 			case syllable_t::coda_start:
 				coda = coda_start;
 				end = current;
 				return true;
 			case syllable_t::coda:
+			case syllable_t::coda_affricate:
 				coda = --coda_start;
 				end = current;
 				return true;
