@@ -124,19 +124,34 @@ bool ruleset::match_phoneme(const char *phonemes, const uint8_t *&rules)
 {
 	const char *phonemes_end = phonemes + strlen(phonemes);
 	ipa::phoneme p;
-	bool matched = false;
-	while (mPhonemeSet->parse(phonemes, phonemes_end, p)) switch (*rules)
+	char feature[4] = { 0, 0, 0, 0 };
+	uint8_t feature_pos = 0xFF;
+	while (true) switch (*rules)
 	{
-	case 'C':
-		if (!p.get("con")) return false;
-		if (!p.get("tie")) // not an affricate ...
-			++rules;
-		matched = true;
+	case 0:
+		return !mPhonemeSet->parse(phonemes, phonemes_end, p);
+	case '{':
+		if (!mPhonemeSet->parse(phonemes, phonemes_end, p))
+			return true;
+		feature_pos = 0;
+		++rules;
+		break;
+	case '}':
+		if (feature_pos != 3)
+			return false;
+		if (!p.get(feature))
+			return false;
+		++rules;
+		feature_pos = 0xFF;
 		break;
 	default:
-		return false;
+		if (feature_pos == 0xFF)
+			return !mPhonemeSet->parse(phonemes, phonemes_end, p);
+		if (feature_pos >= 4)
+			return false;
+		feature[feature_pos++] = *rules++;
+		break;
 	}
-	return matched;
 }
 
 std::pair<const uint8_t *, const char *>
@@ -228,7 +243,7 @@ ruleset::next_match(const uint8_t *current)
 			break;
 		}
 		break;
-	case 'C':
+	case '{':
 		switch (state)
 		{
 		case right_match:
