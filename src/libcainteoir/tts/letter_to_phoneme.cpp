@@ -142,43 +142,39 @@ bool ruleset::match_phoneme(const char *phonemes, const uint8_t *&rules)
 std::pair<const uint8_t *, const char *>
 ruleset::next_match(const uint8_t *current)
 {
+	if (current == mEnd) return { nullptr, nullptr };
+
+	uint16_t offset = mRuleGroups[*current];
+	if (offset == 0)
+	{
+		++current;
+		throw tts::phoneme_error(i18n("unable to pronounce the text"));
+	}
+
+	mRules.seek(offset);
+
 	static const uint8_t null_rule[] = { 0 };
 
 	enum state_t
 	{
-		need_phonemes,
 		in_rule_group,
 		context_match,
 		left_match,
 		right_match,
 	};
 
-	state_t state = need_phonemes;
+	state_t state = in_rule_group;
 	const uint8_t *rule     = null_rule;
 	const uint8_t *context  = nullptr;
 	const uint8_t *left     = nullptr;
 	const uint8_t *right    = nullptr;
 	const char    *phonemes = nullptr;
-	uint16_t       offset   = 0;
 	std::pair<const uint8_t *, const char *> ctx;
 	while (true) switch (*rule)
 	{
 	case 0:
 		switch (state)
 		{
-		case need_phonemes:
-			if (current == mEnd) return { nullptr, nullptr };
-
-			offset = mRuleGroups[*current];
-			if (offset == 0)
-			{
-				++current;
-				throw tts::phoneme_error(i18n("unable to pronounce the text"));
-			}
-
-			mRules.seek(offset);
-			state = in_rule_group;
-			break;
 		case in_rule_group:
 			rule = (const uint8_t *)mRules.pstr();
 			if (*rule == 0)
