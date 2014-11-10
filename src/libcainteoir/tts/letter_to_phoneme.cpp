@@ -26,6 +26,7 @@
 #include "../synthesizer/synth.hpp"
 
 namespace tts = cainteoir::tts;
+namespace ipa = cainteoir::ipa;
 
 struct ruleset : public tts::phoneme_reader
 {
@@ -46,6 +47,8 @@ private:
 	std::shared_ptr<tts::phoneme_parser> mPhonemeSet;
 	cainteoir::native_endian_buffer mRules;
 	uint16_t mRuleGroups[256];
+
+	bool match_phoneme(const char *phonemes, const uint8_t *&rules);
 
 	std::pair<const uint8_t *, const char *>
 	next_match(const uint8_t *current);
@@ -117,6 +120,25 @@ bool ruleset::read()
 	return true;
 }
 
+bool ruleset::match_phoneme(const char *phonemes, const uint8_t *&rules)
+{
+	const char *phonemes_end = phonemes + strlen(phonemes);
+	ipa::phoneme p;
+	bool matched = false;
+	while (mPhonemeSet->parse(phonemes, phonemes_end, p)) switch (*rules)
+	{
+	case 'C':
+		if (!p.get("con")) return false;
+		if (!p.get("tie")) // not an affricate ...
+			++rules;
+		matched = true;
+		break;
+	default:
+		return false;
+	}
+	return matched;
+}
+
 std::pair<const uint8_t *, const char *>
 ruleset::next_match(const uint8_t *current)
 {
@@ -138,6 +160,7 @@ ruleset::next_match(const uint8_t *current)
 	const uint8_t *right    = nullptr;
 	const char    *phonemes = nullptr;
 	uint16_t       offset   = 0;
+	std::pair<const uint8_t *, const char *> ctx;
 	while (true) switch (*rule)
 	{
 	case 0:
@@ -202,6 +225,29 @@ ruleset::next_match(const uint8_t *current)
 			}
 			else
 				++rule;
+			break;
+		default:
+			state = in_rule_group;
+			rule = null_rule;
+			break;
+		}
+		break;
+	case 'C':
+		switch (state)
+		{
+		case right_match:
+			offset = mRules.offset();
+			ctx = next_match(right);
+			mRules.seek(offset);
+			if (ctx.first != nullptr && match_phoneme(ctx.second, rule))
+			{
+				right = ctx.first;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
 			break;
 		default:
 			state = in_rule_group;
