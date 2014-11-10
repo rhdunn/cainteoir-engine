@@ -259,7 +259,7 @@ ruleset::next_match(const uint8_t *current)
 		switch (state)
 		{
 		case context_match:
-			if (context <= mEnd && *context == *rule)
+			if (context < mEnd && *context == *rule)
 			{
 				++rule;
 				++context;
@@ -283,7 +283,7 @@ ruleset::next_match(const uint8_t *current)
 			}
 			break;
 		case right_match:
-			if (right <= mEnd && *right == *rule)
+			if (right < mEnd && *right == *rule)
 			{
 				++rule;
 				++right;
