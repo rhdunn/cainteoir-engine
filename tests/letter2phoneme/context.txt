@@ -3,3 +3,6 @@ b
 ab
 ba
 bufad
+jac
+bjc
+bjk

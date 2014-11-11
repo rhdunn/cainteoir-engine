@@ -50,8 +50,14 @@ private:
 
 	bool match_phoneme(const char *phonemes, const uint8_t *&rules);
 
+	enum elision_rules_t
+	{
+		match_elision_rules,
+		ignore_elision_rules,
+	};
+
 	std::pair<const uint8_t *, const char *>
-	next_match(const uint8_t *current);
+	next_match(const uint8_t *current, elision_rules_t elision = match_elision_rules);
 };
 
 ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
@@ -155,7 +161,7 @@ bool ruleset::match_phoneme(const char *phonemes, const uint8_t *&rules)
 }
 
 std::pair<const uint8_t *, const char *>
-ruleset::next_match(const uint8_t *current)
+ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 {
 	if (current == mEnd) return { nullptr, nullptr };
 
@@ -203,7 +209,11 @@ ruleset::next_match(const uint8_t *current)
 			state = context_match;
 			break;
 		default:
-			return { context, phonemes };
+			if (elision == ignore_elision_rules && *phonemes == 0)
+				state = in_rule_group;
+			else
+				return { context, phonemes };
+			break;
 		}
 		break;
 	case '(':
@@ -248,7 +258,7 @@ ruleset::next_match(const uint8_t *current)
 		{
 		case right_match:
 			offset = mRules.offset();
-			ctx = next_match(right);
+			ctx = next_match(right, ignore_elision_rules);
 			mRules.seek(offset);
 			if (ctx.first != nullptr && match_phoneme(ctx.second, rule))
 			{
