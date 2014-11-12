@@ -198,7 +198,8 @@ ended.
 
 A character match in this state moves the left context to the left.
 
-A classdef match is not supported.
+A classdef match sets the default context to the end of the reverse class
+definition match.
 
 A phoneme feature match is not supported.
 
@@ -225,10 +226,21 @@ feature.
 
 ### Class Definition Matching
 
-A forward scanning class definition match (in the default and right context)
-enumerates the strings in the class definition. Each string is checked against
-the current context position. If the string matches, the current context
-position is updated to the position after the match.
+A class definition match enumerates the strings in the class definition. Each
+string is checked against the current context position. If the string matches,
+the current context position is updated to the position after the match.
+
+String matches are performed by enumerating each character in the current
+classdef string against the current context position, with character matches
+moving to the next context position.
+
+Reverse string matches (in reverse class definition matches) are performed by
+enumerating each character in the current classdef string from last to first
+against the current context position, with character matches moving to the
+previous context position.
+
+If a string fails to match, the current context is reset to its starting
+position from applying the classdef logic.
 
 ## Dictionary
 

@@ -53,6 +53,8 @@ private:
 
 	bool match_classdef(uint16_t offset, const uint8_t *&current);
 
+	bool match_classdef_back(uint16_t offset, const uint8_t *&current);
+
 	enum elision_rules_t
 	{
 		match_elision_rules,
@@ -204,6 +206,41 @@ bool ruleset::match_classdef(uint16_t offset, const uint8_t *&current)
 	}
 }
 
+bool ruleset::match_classdef_back(uint16_t offset, const uint8_t *&current)
+{
+	uint16_t prev_offset = mRules.offset();
+	mRules.seek(offset);
+
+	while (true)
+	{
+		offset = mRules.u32();
+		if (offset == 0)
+		{
+			mRules.seek(prev_offset);
+			return false;
+		}
+
+		const uint8_t *start = (const uint8_t *)mRules.pstr(offset);
+		const uint8_t *match = start;
+		while (*match) ++match;
+		--match;
+
+		const uint8_t *check = current;
+		while (match >= start && check >= mStart && *check == *match)
+		{
+			--match;
+			--check;
+		}
+
+		if (match < start)
+		{
+			current = check;
+			mRules.seek(prev_offset);
+			return true;
+		}
+	}
+}
+
 std::pair<const uint8_t *, const char *>
 ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 {
@@ -344,8 +381,15 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 			}
 			break;
 		case left_match:
-			state = in_rule_group;
-			rule = null_rule;
+			if (match_classdef_back(offset, left))
+			{
+				++rule;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
 			break;
 		case right_match:
 			if (match_classdef(offset, right))
