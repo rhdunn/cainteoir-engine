@@ -5,6 +5,10 @@
 - [Header](#header)
 - [Letter-to-Phoneme Rules](#letter-to-phoneme-rules)
   - [Pattern](#pattern)
+  - [Default Context Match](#default-context-match)
+  - [Right Context Match](#right-context-match)
+  - [Left Context Match](#left-context-match)
+  - [Phoneme Look Ahead](#phoneme-look-ahead)
 - [Dictionary](#dictionary)
 - [String Table](#string-table)
 - [Magic Values](#magic-values)
@@ -113,20 +117,62 @@ The rule pattern is a sequence of characters with the following meaning:
 | `[\80-\xFF]` | Match the specified character in the given context. |
 | `(`          | Switch to the right context.                        |
 | `)`          | Switch to the left context.                         |
-
-The default context state starts at the location where the last match ended, or
-the start of the string if no rules have been checked for the string. A match
-in this state moves the default context to the right.
-
-The right context state starts at the default context location. A match in this
-state moves the right context to the right.
-
-The left context state starts at the location just before where the last match
-ended. A match in this state moves the left context to the left.
+| `{ccc}`      | Match a phoneme feature, where `c` is `[a-z0-9]`.   |
 
 If the end of the rule pattern is reached, the default context location is
-where the current match ends. If any of the pattern characters fail to match,
-there is no match and the last match position is preserved.
+where the current match ends.
+
+If any of the pattern characters fail to match, there is no match and the last
+match position is preserved.
+
+## Default Context Match
+
+The default context state starts at the location where the last match ended, or
+the start of the string if no rules have been checked for the string.
+
+A character match moves the default context to the right.
+
+A phoneme feature match is not supported.
+
+## Right Context Match
+
+The right context state starts at the default context location.
+
+A character match moves the right context to the right.
+
+A phoneme feature triggers a phoneme look ahead pass. If the phonemes match,
+the right context is moved to the default context from the matching rule of
+the look ahead phoneme.
+
+## Left Context Match
+
+The left context state starts at the location just before where the last match
+ended.
+
+A character match in this state moves the left context to the left.
+
+A phoneme feature match is not supported.
+
+## Phoneme Look Ahead
+
+A new scan process is triggered from the current context location as if a match
+occurred at that point. This does not update any state-based information from
+the current scan.
+
+If the scan matches a rule with an empty phoneme sequence, that rule is ignored
+and the scan continues. This is to support elision (phoneme deletion) rules,
+while matching assimilation rules depending on the elided phonemes (e.g. `ng`
+rules in English).
+
+The phonemes from a match are checked in order such that the phoneme contains
+the phoneme features in the order they are listed in the pattern. That is, the
+pattern string must contain at least the same number of phoneme feature
+patterns from the current position as there are phonemes, and each phoneme
+must contain the feature at the same offset (e.g. the second phoneme must
+contain the second phoneme feature pattern).
+
+If there is a match, the rule continues from after the last matching phoneme
+feature.
 
 ## Dictionary
 
