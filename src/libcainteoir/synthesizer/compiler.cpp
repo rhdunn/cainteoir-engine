@@ -496,12 +496,20 @@ parse_classdef(cainteoir_file_reader &reader,
 	if (!reader.read() || reader.type() != cainteoir_file_reader::text || reader.match().size() != 1)
 		return;
 
-	auto &matches = classdefs[*reader.match().begin()];
+	uint8_t c = *reader.match().begin();
+	if (c < 'A' || c > 'Z')
+		fprintf(stderr, "unsupported class definition '%c'\n", c);
+
+	std::list<cainteoir::buffer> matches;
 	while (reader.read()) switch (reader.type())
 	{
 	case cainteoir_file_reader::text:
 		if (reader.match().compare("end") == 0)
+		{
+			if (c >= 'A' && c <= 'Z')
+				classdefs[c] = matches;
 			return;
+		}
 		matches.push_back(reader.match());
 		break;
 	}
