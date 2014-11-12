@@ -333,8 +333,15 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 		else switch (state)
 		{
 		case context_match:
-			state = in_rule_group;
-			rule = null_rule;
+			if (match_classdef(offset, context))
+			{
+				++rule;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
 			break;
 		case left_match:
 			state = in_rule_group;

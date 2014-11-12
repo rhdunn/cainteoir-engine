@@ -6,3 +6,6 @@ bufad
 jac
 bjc
 bjk
+bijh
+bijx
+bijt

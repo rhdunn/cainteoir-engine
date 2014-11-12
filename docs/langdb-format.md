@@ -171,7 +171,8 @@ match position is preserved.
 The default context state starts at the location where the last match ended, or
 the start of the string if no rules have been checked for the string.
 
-A character match moves the default context to the right.
+A classdef match sets the default context to the end of the class definition
+match.
 
 A classdef match is not supported.
 
