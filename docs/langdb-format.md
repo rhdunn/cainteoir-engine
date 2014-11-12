@@ -125,7 +125,7 @@ where the current match ends.
 If any of the pattern characters fail to match, there is no match and the last
 match position is preserved.
 
-## Default Context Match
+### Default Context Match
 
 The default context state starts at the location where the last match ended, or
 the start of the string if no rules have been checked for the string.
@@ -134,7 +134,7 @@ A character match moves the default context to the right.
 
 A phoneme feature match is not supported.
 
-## Right Context Match
+### Right Context Match
 
 The right context state starts at the default context location.
 
@@ -144,7 +144,7 @@ A phoneme feature triggers a phoneme look ahead pass. If the phonemes match,
 the right context is moved to the default context from the matching rule of
 the look ahead phoneme.
 
-## Left Context Match
+### Left Context Match
 
 The left context state starts at the location just before where the last match
 ended.
@@ -153,7 +153,7 @@ A character match in this state moves the left context to the left.
 
 A phoneme feature match is not supported.
 
-## Phoneme Look Ahead
+### Phoneme Look Ahead
 
 A new scan process is triggered from the current context location as if a match
 occurred at that point. This does not update any state-based information from
