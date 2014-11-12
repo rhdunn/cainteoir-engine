@@ -67,6 +67,41 @@ file.
 The `phonemeset` field identifies the format in which the phonemes are
 transcribed.
 
+## Class Definition
+
+This defines a named character class which lists the character sequences that
+match this class.
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| magic          | u8[3]  |  0     |
+| num-entries    | u16    |  3     |
+| class          | u8     |  5     |
+| END OF SECTION |        |  6     |
+
+The `magic` field identifies the section as a class definition. This is the
+string "CLS".
+
+The `num-entries` field is the number of entries there are in this table.
+
+The `class` field is the name of the character class. Only values `A` to `Z`
+are recognized as character classes.
+
+After the section block, `num-entries` entry blocks are written out in order.
+An associated String Table section occurs after the last entry, with the `pstr`
+strings from all the entry blocks included.
+
+Each entry block has the form:
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| match          | pstr   |  0     |
+| END OF ENTRY   |        |  4     |
+
+The `match` field defines a sequence of characters that results in a match for
+this character class. This can be a single ASCII character, a UTF-8 character
+containing multiple bytes, or a sequence of ASCII/UTF-8 characters.
+
 ## Letter-to-Phoneme Rules
 
 This is the representation of the letter-to-phoneme rule group, which holds a

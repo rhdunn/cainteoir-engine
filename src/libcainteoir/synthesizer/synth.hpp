@@ -59,9 +59,12 @@ namespace cainteoir { namespace tts
 	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_ENTRY_SIZE = 8;
 	static constexpr uint16_t DICTIONARY_TABLE_SIZE = 5;
 	static constexpr uint16_t DICTIONARY_TABLE_ENTRY_SIZE = 8;
+	static constexpr uint16_t CLASSDEF_TABLE_SIZE = 6;
+	static constexpr uint16_t CLASSDEF_TABLE_ENTRY_SIZE = 4;
 
 	static constexpr uint32_t LETTER_TO_PHONEME_TABLE_MAGIC = make_magic32('L', '2', 'P');
 	static constexpr uint32_t DICTIONARY_TABLE_MAGIC = make_magic32('D', 'I', 'C');
+	static constexpr uint32_t CLASSDEF_TABLE_MAGIC = make_magic32('C', 'L', 'S');
 
 	// Voice Synthesizers //////////////////////////////////////////////////////////////////
 

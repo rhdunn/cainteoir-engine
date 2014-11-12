@@ -490,12 +490,31 @@ parse_rules(cainteoir_file_reader &reader,
 }
 
 void
+parse_classdef(cainteoir_file_reader &reader,
+               std::map<uint8_t, std::list<cainteoir::buffer>> &classdefs)
+{
+	if (!reader.read() || reader.type() != cainteoir_file_reader::text || reader.match().size() != 1)
+		return;
+
+	auto &matches = classdefs[*reader.match().begin()];
+	while (reader.read()) switch (reader.type())
+	{
+	case cainteoir_file_reader::text:
+		if (reader.match().compare("end") == 0)
+			return;
+		matches.push_back(reader.match());
+		break;
+	}
+}
+
+void
 tts::compile_language(const char *aFileName, FILE *aOutput)
 {
 	if (!aOutput) return;
 
 	cainteoir::buffer locale{ nullptr, nullptr };
 	cainteoir::buffer phonemeset{ nullptr, nullptr };
+	std::map<uint8_t, std::list<cainteoir::buffer>> classdefs;
 	std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> l2p_rules;
 	tts::dictionary dict;
 
@@ -521,6 +540,10 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 			{
 				parse_rules(reader, l2p_rules);
 			}
+			else if (reader.match().compare("classdef") == 0)
+			{
+				parse_classdef(reader, classdefs);
+			}
 			else if (reader.match().compare("dictionary") == 0)
 			{
 				reader.read();
@@ -539,6 +562,17 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	out.pstr(locale);
 	out.pstr(phonemeset);
 	out.end_section();
+
+	for (auto &classdef : classdefs)
+	{
+		uint16_t entries = classdef.second.size() * tts::CLASSDEF_TABLE_ENTRY_SIZE;
+		out.begin_section("CLS", tts::CLASSDEF_TABLE_SIZE + entries, true);
+		out.u16(classdef.second.size());
+		out.u8(classdef.first);
+		for (const auto &entry : classdef.second)
+			out.pstr(entry);
+		out.end_section();
+	}
 
 	for (auto &group : l2p_rules)
 	{

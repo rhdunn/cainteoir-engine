@@ -77,6 +77,14 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 	case tts::STRING_TABLE_MAGIC:
 		mRules.seek(mRules.u32());
 		break;
+	case tts::CLASSDEF_TABLE_MAGIC:
+		{
+			uint16_t entries = mRules.u16();
+			uint8_t  id = mRules.u8();
+			uint16_t offset = mRules.offset();
+			mRules.seek(offset + (entries * tts::CLASSDEF_TABLE_ENTRY_SIZE));
+		}
+		break;
 	case tts::LETTER_TO_PHONEME_TABLE_MAGIC:
 		{
 			uint16_t entries = mRules.u16();
