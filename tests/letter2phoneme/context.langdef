@@ -7,10 +7,13 @@
 .locale		en
 .phonemeset	cxs
 
+classdef H h x end
+
 rules
 
 	# a #################
 
+	a (H	/a/
 	ab	/@b/
 	a	/&/
 
@@ -35,6 +38,10 @@ rules
 	   f (_	/v/
 	   f	/f/
 
+	# h #################
+
+	h	/h/
+
 	# i #################
 
 	i ({con}{con}	/i:/
@@ -57,9 +64,14 @@ rules
 	# t #################
 
 	ts	/t_s/
+	t	/t/
 
 	# u #################
 
 	u	/@/
+
+	# x #################
+
+	x	/x/
 
 end

@@ -573,12 +573,13 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 
 	for (auto &classdef : classdefs)
 	{
-		uint16_t entries = classdef.second.size() * tts::CLASSDEF_TABLE_ENTRY_SIZE;
+		uint16_t entries = (classdef.second.size() + 1) * tts::CLASSDEF_TABLE_ENTRY_SIZE;
 		out.begin_section("CLS", tts::CLASSDEF_TABLE_SIZE + entries, true);
-		out.u16(classdef.second.size());
+		out.u16(classdef.second.size() + 1);
 		out.u8(classdef.first);
 		for (const auto &entry : classdef.second)
 			out.pstr(entry);
+		out.u32(0); // end of classdef
 		out.end_section();
 	}
 

@@ -206,7 +206,12 @@ namespace cainteoir
 
 		const char *pstr()
 		{
-			const char *ret = (const char *)first + u32();
+			return pstr(u32());
+		}
+
+		const char *pstr(uint32_t offset)
+		{
+			const char *ret = (const char *)first + offset;
 			if (ret >= (const char *)last)
 				throw std::runtime_error("end of file");
 			return ret;

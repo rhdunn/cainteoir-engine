@@ -12,3 +12,6 @@ bikc
 bits
 bjca
 bjck
+bah
+bax
+bat

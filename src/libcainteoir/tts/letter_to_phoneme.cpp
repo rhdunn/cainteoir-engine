@@ -47,8 +47,11 @@ private:
 	std::shared_ptr<tts::phoneme_parser> mPhonemeSet;
 	cainteoir::native_endian_buffer mRules;
 	uint16_t mRuleGroups[256];
+	uint16_t mClassDefs[256];
 
 	bool match_phoneme(const char *phonemes, const uint8_t *&rules);
+
+	bool match_classdef(uint16_t offset, const uint8_t *&current);
 
 	enum elision_rules_t
 	{
@@ -65,6 +68,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 	, mRules((const uint8_t *)aData->begin(), (const uint8_t *)aData->end())
 {
 	memset(mRuleGroups, 0, sizeof(mRuleGroups));
+	memset(mClassDefs, 0, sizeof(mClassDefs));
 
 	mRules.seek(tts::LANGDB_HEADER_ID);
 	const char *locale = mRules.pstr();
@@ -83,6 +87,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 			uint8_t  id = mRules.u8();
 			uint16_t offset = mRules.offset();
 			mRules.seek(offset + (entries * tts::CLASSDEF_TABLE_ENTRY_SIZE));
+			mClassDefs[id] = offset;
 		}
 		break;
 	case tts::LETTER_TO_PHONEME_TABLE_MAGIC:
@@ -165,6 +170,37 @@ bool ruleset::match_phoneme(const char *phonemes, const uint8_t *&rules)
 			return false;
 		feature[feature_pos++] = *rules++;
 		break;
+	}
+}
+
+bool ruleset::match_classdef(uint16_t offset, const uint8_t *&current)
+{
+	uint16_t prev_offset = mRules.offset();
+	mRules.seek(offset);
+
+	while (true)
+	{
+		offset = mRules.u32();
+		if (offset == 0)
+		{
+			mRules.seek(prev_offset);
+			return false;
+		}
+
+		const uint8_t *match = (const uint8_t *)mRules.pstr(offset);
+		const uint8_t *check = current;
+		while (*match && check < mEnd && *check == *match)
+		{
+			++match;
+			++check;
+		}
+
+		if (!*match)
+		{
+			current = check;
+			mRules.seek(prev_offset);
+			return true;
+		}
 	}
 }
 
@@ -281,6 +317,39 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 		default:
 			state = in_rule_group;
 			rule = null_rule;
+			break;
+		}
+		break;
+	case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+	case 'G': case 'H': case 'I': case 'J': case 'K': case 'L': case 'M':
+	case 'N': case 'O': case 'P': case 'Q': case 'R': case 'S':
+	case 'T': case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z':
+		offset = mClassDefs[*rule];
+		if (offset == 0)
+		{
+			state = in_rule_group;
+			rule = null_rule;
+		}
+		else switch (state)
+		{
+		case context_match:
+			state = in_rule_group;
+			rule = null_rule;
+			break;
+		case left_match:
+			state = in_rule_group;
+			rule = null_rule;
+			break;
+		case right_match:
+			if (match_classdef(offset, right))
+			{
+				++rule;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
 			break;
 		}
 		break;

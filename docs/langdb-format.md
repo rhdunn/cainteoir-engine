@@ -9,6 +9,7 @@
   - [Right Context Match](#right-context-match)
   - [Left Context Match](#left-context-match)
   - [Phoneme Look Ahead](#phoneme-look-ahead)
+  - [Class Definition Matching](#class-definition-matching)
 - [Dictionary](#dictionary)
 - [String Table](#string-table)
 - [Magic Values](#magic-values)
@@ -82,7 +83,8 @@ match this class.
 The `magic` field identifies the section as a class definition. This is the
 string "CLS".
 
-The `num-entries` field is the number of entries there are in this table.
+The `num-entries` field is the number of entries there are in this table. This
+has an extra item for the end of classdef marker.
 
 The `class` field is the name of the character class. Only values `A` to `Z`
 are recognized as character classes.
@@ -101,6 +103,9 @@ Each entry block has the form:
 The `match` field defines a sequence of characters that results in a match for
 this character class. This can be a single ASCII character, a UTF-8 character
 containing multiple bytes, or a sequence of ASCII/UTF-8 characters.
+
+An entry with a `match` value of `0` is used to indicate the end of the
+classdef.
 
 ## Letter-to-Phoneme Rules
 
@@ -149,6 +154,7 @@ The rule pattern is a sequence of characters with the following meaning:
 |--------------|-----------------------------------------------------|
 | `\x0`        | The end of the rule pattern.                        |
 | `[a-z]`      | Match the specified character in the given context. |
+| `[A-Z]`      | Match the specified classdef in the given context.  |
 | `[\80-\xFF]` | Match the specified character in the given context. |
 | `(`          | Switch to the right context.                        |
 | `)`          | Switch to the left context.                         |
@@ -167,6 +173,8 @@ the start of the string if no rules have been checked for the string.
 
 A character match moves the default context to the right.
 
+A classdef match is not supported.
+
 A phoneme feature match is not supported.
 
 ### Right Context Match
@@ -174,6 +182,9 @@ A phoneme feature match is not supported.
 The right context state starts at the default context location.
 
 A character match moves the right context to the right.
+
+A classdef match sets the right context to the end of the class definition
+match.
 
 A phoneme feature triggers a phoneme look ahead pass. If the phonemes match,
 the right context is moved to the default context from the matching rule of
@@ -185,6 +196,8 @@ The left context state starts at the location just before where the last match
 ended.
 
 A character match in this state moves the left context to the left.
+
+A classdef match is not supported.
 
 A phoneme feature match is not supported.
 
@@ -208,6 +221,13 @@ contain the second phoneme feature pattern).
 
 If there is a match, the rule continues from after the last matching phoneme
 feature.
+
+### Class Definition Matching
+
+A forward scanning class definition match (in the default and right context)
+enumerates the strings in the class definition. Each string is checked against
+the current context position. If the string matches, the current context
+position is updated to the position after the match.
 
 ## Dictionary
 
