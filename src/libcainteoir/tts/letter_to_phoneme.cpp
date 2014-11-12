@@ -46,14 +46,14 @@ private:
 	std::shared_ptr<cainteoir::buffer> mData;
 	std::shared_ptr<tts::phoneme_parser> mPhonemeSet;
 	cainteoir::native_endian_buffer mRules;
-	uint16_t mRuleGroups[256];
-	uint16_t mClassDefs[256];
+	uint32_t mRuleGroups[256];
+	uint32_t mClassDefs[256];
 
 	bool match_phoneme(const char *phonemes, const uint8_t *&rules);
 
-	bool match_classdef(uint16_t offset, const uint8_t *&current);
+	bool match_classdef(uint32_t offset, const uint8_t *&current);
 
-	bool match_classdef_back(uint16_t offset, const uint8_t *&current);
+	bool match_classdef_back(uint32_t offset, const uint8_t *&current);
 
 	enum elision_rules_t
 	{
@@ -87,7 +87,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 		{
 			uint16_t entries = mRules.u16();
 			uint8_t  id = mRules.u8();
-			uint16_t offset = mRules.offset();
+			uint32_t offset = mRules.offset();
 			mRules.seek(offset + (entries * tts::CLASSDEF_TABLE_ENTRY_SIZE));
 			mClassDefs[id] = offset;
 		}
@@ -96,7 +96,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 		{
 			uint16_t entries = mRules.u16();
 			uint8_t  id = mRules.u8();
-			uint16_t offset = mRules.offset();
+			uint32_t offset = mRules.offset();
 			mRules.seek(offset + (entries * tts::LETTER_TO_PHONEME_TABLE_ENTRY_SIZE));
 			mRuleGroups[id] = offset;
 		}
@@ -104,7 +104,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 	case tts::DICTIONARY_TABLE_MAGIC:
 		{
 			uint16_t entries = mRules.u16();
-			uint16_t offset = mRules.offset();
+			uint32_t offset = mRules.offset();
 			mRules.seek(offset + (entries * tts::DICTIONARY_TABLE_ENTRY_SIZE));
 		}
 		break;
@@ -175,9 +175,9 @@ bool ruleset::match_phoneme(const char *phonemes, const uint8_t *&rules)
 	}
 }
 
-bool ruleset::match_classdef(uint16_t offset, const uint8_t *&current)
+bool ruleset::match_classdef(uint32_t offset, const uint8_t *&current)
 {
-	uint16_t prev_offset = mRules.offset();
+	uint32_t prev_offset = mRules.offset();
 	mRules.seek(offset);
 
 	while (true)
@@ -206,9 +206,9 @@ bool ruleset::match_classdef(uint16_t offset, const uint8_t *&current)
 	}
 }
 
-bool ruleset::match_classdef_back(uint16_t offset, const uint8_t *&current)
+bool ruleset::match_classdef_back(uint32_t offset, const uint8_t *&current)
 {
-	uint16_t prev_offset = mRules.offset();
+	uint32_t prev_offset = mRules.offset();
 	mRules.seek(offset);
 
 	while (true)
@@ -246,7 +246,7 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 {
 	if (current == mEnd) return { nullptr, nullptr };
 
-	uint16_t offset = mRuleGroups[*current];
+	uint32_t offset = mRuleGroups[*current];
 	if (offset == 0)
 	{
 		++current;
