@@ -31,6 +31,13 @@ namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 namespace css = cainteoir::css;
 
+struct conditional_t
+{
+	uint8_t c;
+	uint8_t type;
+	std::string value;
+};
+
 void tts::read_phoneme_units(cainteoir::native_endian_buffer &data, std::vector<unit_t> &units)
 {
 	uint16_t n = data.u16();
@@ -503,6 +510,41 @@ parse_rules(cainteoir_file_reader &reader,
 }
 
 void
+parse_conditional(cainteoir_file_reader &reader,
+                  std::list<conditional_t> &conditionals)
+{
+	// set @c if type=value
+
+	if (!reader.read() || reader.type() != cainteoir_file_reader::text)
+		throw std::runtime_error("invalid conditional expression");
+
+	if (reader.match().size() != 2 || *reader.match().begin() != '@')
+		throw std::runtime_error("invalid conditional expression");
+
+	uint8_t c = *(reader.match().begin() + 1);
+	if (c <= 0x20 || c >= 0x7F)
+		throw std::runtime_error("invalid conditional expression");
+
+	if (!reader.read() || reader.type() != cainteoir_file_reader::text)
+		throw std::runtime_error("invalid conditional expression");
+
+	if (reader.match().compare("if") != 0)
+		throw std::runtime_error("invalid conditional expression");
+
+	if (!reader.read() || reader.type() != cainteoir_file_reader::text)
+		throw std::runtime_error("invalid conditional expression");
+
+	std::string expression = reader.match().str();
+	if (expression.find("locale=") == 0)
+	{
+		std::string locale = expression.substr(7);
+		conditionals.push_back({ c, tts::LANGDB_CONDRULE_LOCALE, locale });
+	}
+	else
+		throw std::runtime_error("unsupported conditional expression");
+}
+
+void
 parse_classdef(cainteoir_file_reader &reader,
                std::map<uint8_t, std::list<cainteoir::buffer>> &classdefs)
 {
@@ -537,6 +579,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	cainteoir::buffer phonemeset{ nullptr, nullptr };
 	std::map<uint8_t, std::list<cainteoir::buffer>> classdefs;
 	std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> l2p_rules;
+	std::list<conditional_t> conditionals;
 	tts::dictionary dict;
 
 	auto reader = cainteoir_file_reader(cainteoir::path(aFileName));
@@ -565,6 +608,10 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 			{
 				parse_classdef(reader, classdefs);
 			}
+			else if (reader.match().compare("set") == 0)
+			{
+				parse_conditional(reader, conditionals);
+			}
 			else if (reader.match().compare("dictionary") == 0)
 			{
 				reader.read();
@@ -583,6 +630,20 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	out.pstr(locale);
 	out.pstr(phonemeset);
 	out.end_section();
+
+	if (!conditionals.empty())
+	{
+		uint16_t entries = conditionals.size() * tts::CONDRULE_TABLE_ENTRY_SIZE;
+		out.begin_section("CND", tts::CONDRULE_TABLE_SIZE + entries, true);
+		out.u16(conditionals.size());
+		for (const auto &entry : conditionals)
+		{
+			out.u8(entry.c);
+			out.u8(entry.type);
+			out.pstr(entry.value);
+		}
+		out.end_section();
+	}
 
 	for (auto &classdef : classdefs)
 	{

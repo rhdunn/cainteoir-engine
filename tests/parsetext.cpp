@@ -188,7 +188,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	else if (type == mode_type::phoneme_stream ||
 	         type == mode_type::prosody_stream)
 	{
-		auto rules = tts::createPronunciationRules(ruleset);
+		auto rules = tts::createPronunciationRules(ruleset, locale);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
 		std::shared_ptr<tts::clause_processor> processor
 			=  std::make_shared<tts::clause_processor_chain>()

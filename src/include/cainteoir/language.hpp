@@ -22,10 +22,13 @@
 #define CAINTEOIR_ENGINE_LANGUAGE_HPP
 
 #include "phoneme.hpp"
+#include "locale.hpp"
 
 namespace cainteoir { namespace tts
 {
-	std::shared_ptr<phoneme_reader> createPronunciationRules(const char *aRuleSetPath);
+	std::shared_ptr<phoneme_reader>
+	createPronunciationRules(const char *aRuleSetPath,
+	                         const cainteoir::language::tag &aLocale);
 
 	void compile_language(const char *aFileName, FILE *aOutput);
 }}

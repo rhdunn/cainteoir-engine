@@ -373,7 +373,7 @@ int main(int argc, char ** argv)
 			{ 'v', "voice", voicename, "VOICE",
 			  i18n("Use the TTS voice named VOICE") },
 			{ 'l', "language", language, "LANG",
-			  i18n("Use a TTS voice that speaks the language LANG") },
+			  i18n("Use LANG with the ruleset, or to locate the TTS voice") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
@@ -462,7 +462,8 @@ int main(int argc, char ** argv)
 			}
 			else if (ruleset != nullptr)
 			{
-				auto rules = tts::createPronunciationRules(ruleset);
+				auto locale = cainteoir::language::make_lang(language ? language : "");
+				auto rules = tts::createPronunciationRules(ruleset, locale);
 				if (!rules.get())
 				{
 					fprintf(stderr, "cannot load letter-to-phoneme rule file \"%s\"\n", argv[1]);

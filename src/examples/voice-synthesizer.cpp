@@ -115,7 +115,7 @@ create_reader(const char *filename,
 		if (!reader)
 			throw std::runtime_error("unsupported document format");
 
-		auto rules = tts::createPronunciationRules(ruleset);
+		auto rules = tts::createPronunciationRules(ruleset, locale);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
 		std::shared_ptr<tts::clause_processor> processor
 			=  std::make_shared<tts::clause_processor_chain>()
@@ -251,7 +251,7 @@ int main(int argc, char **argv)
 			{ 'v', "voice", voicename, "VOICE",
 			  i18n("Use the voice named VOICE") },
 			{ 'l', "locale", locale_name, "LOCALE",
-			  i18n("Use LOCALE for processing numbers") },
+			  i18n("Use LOCALE for processing numbers and rules") },
 			{ 0, "short-scale", bind_value(scale, tts::short_scale),
 			  i18n("Use the short scale for processing numbers") },
 			{ 0, "long-scale", bind_value(scale, tts::long_scale),

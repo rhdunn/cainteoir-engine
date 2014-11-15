@@ -3,6 +3,8 @@
 - [Data Types](#data-types)
 - [Structure](#structure)
 - [Header](#header)
+- [Rule Condition Expressions](#rule-condition-expressions)
+- [Class Definition](#class-definition)
 - [Letter-to-Phoneme Rules](#letter-to-phoneme-rules)
   - [Pattern](#pattern)
   - [Default Context Match](#default-context-match)
@@ -67,6 +69,48 @@ file.
 
 The `phonemeset` field identifies the format in which the phonemes are
 transcribed.
+
+## Rule Condition Expressions
+
+This defines a set of conditional expressions. The expressions are checked in
+order, with matching rules enabling the associated conditional expression.
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| magic          | u8[3]  |  0     |
+| num-entries    | u16    |  3     |
+| END OF SECTION |        |  5     |
+
+The `magic` field identifies the section as a rule conditional expression set.
+This is the string "CND".
+
+The `num-entries` field is the number of entries there are in this table.
+
+After the section block, `num-entries` entry blocks are written out in order.
+An associated String Table section occurs after the last entry, with the `pstr`
+strings from all the entry blocks included.
+
+Each entry block has the form:
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| conditional    | u8     |  0     |
+| type           | u8     |  1     |
+| value          | pstr   |  2     |
+| END OF ENTRY   |        |  6     |
+
+The `conditional` field specifies the conditional rule to set if this entry is
+matched.
+
+The `type` field identifies how the conditional rule is matched.
+
+The `value` field identifies what to match against.
+
+The behaviour of the `type` field is defined as:
+
+| Type | Match Condition                         |
+|------|-----------------------------------------|
+|    1 | If the language locale matches `value`. |
 
 ## Class Definition
 
@@ -162,7 +206,8 @@ The rule pattern is a sequence of characters with the following meaning:
 | `@c`         | Specify a conditional rule `c`; `c=[\x21-\x7E]`.    |
 
 Conditional rule patterns occur at the start of the pattern string. If the
-conditional rule `c` is not set to true this rule is skipped.
+conditional rule `c` is not set to true this rule is skipped. Conditional
+rules are set on matching [Rule Condition Expressions](#rule-condition-expressions).
 
 If the end of the rule pattern is reached, the default context location is
 where the current match ends.
@@ -309,6 +354,8 @@ creating a new section type to avoid collisions in the magic values.
 
 | Magic | Usage                        |
 |-------|------------------------------|
+| CLS   | Class Definition             |
+| CND   | Rule Condition Expressions   |
 | DIC   | Dictionary                   |
 | L2P   | Letter To Phoneme Rules      |
 | STR   | String Table                 |

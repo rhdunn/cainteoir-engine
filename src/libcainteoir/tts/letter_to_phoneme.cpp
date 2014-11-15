@@ -1,6 +1,6 @@
 /* Letter-to-Phoneme Rule Processor.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2014 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -30,7 +30,8 @@ namespace ipa = cainteoir::ipa;
 
 struct ruleset : public tts::phoneme_reader
 {
-	ruleset(const std::shared_ptr<cainteoir::buffer> &aData);
+	ruleset(const std::shared_ptr<cainteoir::buffer> &aData,
+	        const cainteoir::language::tag &aLocale);
 
 	void reset(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 
@@ -66,7 +67,8 @@ private:
 	next_match(const uint8_t *current, elision_rules_t elision = match_elision_rules);
 };
 
-ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
+ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData,
+                 const cainteoir::language::tag &aLocale)
 	: mData(aData)
 	, mRules((const uint8_t *)aData->begin(), (const uint8_t *)aData->end())
 {
@@ -84,6 +86,21 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 	{
 	case tts::STRING_TABLE_MAGIC:
 		mRules.seek(mRules.u32());
+		break;
+	case tts::CONDRULE_TABLE_MAGIC:
+		for (auto n : cainteoir::range<uint16_t>(0, mRules.u16()))
+		{
+			uint8_t c = mRules.u8();
+			uint8_t type = mRules.u8();
+			const char *value = mRules.pstr();
+			switch (type)
+			{
+			case tts::LANGDB_CONDRULE_LOCALE:
+				if (aLocale == cainteoir::language::make_lang(value))
+					mConditionalFlags[c] = 1;
+				break;
+			}
+		}
 		break;
 	case tts::CLASSDEF_TABLE_MAGIC:
 		{
@@ -458,7 +475,9 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 	}
 }
 
-std::shared_ptr<tts::phoneme_reader> tts::createPronunciationRules(const char *aRuleSetPath)
+std::shared_ptr<tts::phoneme_reader>
+tts::createPronunciationRules(const char *aRuleSetPath,
+                              const cainteoir::language::tag &aLocale)
 {
 	if (!aRuleSetPath) return {};
 
@@ -470,5 +489,5 @@ std::shared_ptr<tts::phoneme_reader> tts::createPronunciationRules(const char *a
 	if (strncmp(header, "LANGDB", 6) != 0 || *(const uint16_t *)(header + 6) != 0x3031)
 		return {};
 
-	return std::make_shared<ruleset>(data);
+	return std::make_shared<ruleset>(data, aLocale);
 }
