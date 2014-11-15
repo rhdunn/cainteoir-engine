@@ -48,6 +48,7 @@ private:
 	cainteoir::native_endian_buffer mRules;
 	uint32_t mRuleGroups[256];
 	uint32_t mClassDefs[256];
+	uint8_t  mConditionalFlags[256];
 
 	bool match_phoneme(const char *phonemes, const uint8_t *&rules);
 
@@ -71,6 +72,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData)
 {
 	memset(mRuleGroups, 0, sizeof(mRuleGroups));
 	memset(mClassDefs, 0, sizeof(mClassDefs));
+	memset(mConditionalFlags, 0, sizeof(mConditionalFlags));
 
 	mRules.seek(tts::LANGDB_HEADER_ID);
 	const char *locale = mRules.pstr();
@@ -295,6 +297,14 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 			else
 				return { context, phonemes };
 			break;
+		}
+		break;
+	case '@':
+		++rule;
+		if (!mConditionalFlags[*rule++])
+		{
+			state = in_rule_group;
+			rule = null_rule;
 		}
 		break;
 	case '(':

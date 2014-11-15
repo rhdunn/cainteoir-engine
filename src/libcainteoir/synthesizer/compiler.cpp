@@ -454,12 +454,24 @@ parse_rules(cainteoir_file_reader &reader,
 	cainteoir::buffer context{ nullptr, nullptr };
 	cainteoir::buffer left{ nullptr, nullptr };
 	cainteoir::buffer right{ nullptr, nullptr };
+	std::pair<std::string, cainteoir::buffer> *rule = nullptr;
 	while (reader.read()) switch (reader.type())
 	{
 	case cainteoir_file_reader::text:
 		{
 			if (reader.match().compare("end") == 0)
 				return;
+
+			if (*reader.match().begin() == '@' && rule)
+			{
+				if (reader.match().size() != 2)
+					throw std::runtime_error("invalid rule conditional");
+				auto c = *(reader.match().begin() + 1);
+				if (c <= 0x20 || c >= 0x7F)
+					throw std::runtime_error("invalid rule conditional");
+				rule->first = reader.match().str() + rule->first;
+			}
+
 			auto last = reader.match().end();
 			if (*--last == ')')
 				left = reader.match();
@@ -474,13 +486,14 @@ parse_rules(cainteoir_file_reader &reader,
 		{
 			auto &group = l2p_rules[*context.begin()];
 
-			std::string rule = context.str();
+			std::string pattern = context.str();
 			for (auto c : cainteoir::reverse(left))
-				rule.push_back(c);
+				pattern.push_back(c);
 			for (auto c : right)
-				rule.push_back(c);
+				pattern.push_back(c);
 
-			group.push_back({ rule, reader.match() });
+			group.push_back({ pattern, reader.match() });
+			rule = &group.back();
 			context = { nullptr, nullptr };
 			left = { nullptr, nullptr };
 			right = { nullptr, nullptr };

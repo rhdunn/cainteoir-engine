@@ -158,7 +158,11 @@ The rule pattern is a sequence of characters with the following meaning:
 | `[\80-\xFF]` | Match the specified character in the given context. |
 | `(`          | Switch to the right context.                        |
 | `)`          | Switch to the left context.                         |
-| `{ccc}`      | Match a phoneme feature, where `c` is `[a-z0-9]`.   |
+| `{ccc}`      | Match a phoneme feature; `c=[a-z0-9]`.              |
+| `@c`         | Specify a conditional rule `c`; `c=[\x21-\x7E]`.    |
+
+Conditional rule patterns occur at the start of the pattern string. If the
+conditional rule `c` is not set to true this rule is skipped.
 
 If the end of the rule pattern is reached, the default context location is
 where the current match ends.
