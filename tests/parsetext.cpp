@@ -173,6 +173,8 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
            const char *ruleset,
            const char *dictionary,
            const char *phonemeset,
+           const char *phoneme_map,
+           const char *accent,
            tts::stress_type stress)
 {
 	if (type == mode_type::word_stream)
@@ -189,6 +191,10 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 	         type == mode_type::prosody_stream)
 	{
 		auto rules = tts::createPronunciationRules(ruleset, locale);
+		if (phoneme_map)
+			rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
+		if (accent)
+			rules = tts::createAccentConverter(accent, rules);
 		auto dict = tts::createCainteoirDictionaryReader(dictionary);
 		std::shared_ptr<tts::clause_processor> processor
 			=  std::make_shared<tts::clause_processor_chain>()
@@ -249,6 +255,8 @@ int main(int argc, char ** argv)
 		const char *dictionary = nullptr;
 		const char *phonemeset = "ipa";
 		const char *locale_name = "en";
+		const char *phoneme_map = nullptr;
+		const char *accent = nullptr;
 		tts::stress_type stress = tts::stress_type::as_transcribed;
 		mode_type type = mode_type::parse_text;
 		phoneme_mode phonemes = phoneme_mode::events;
@@ -303,6 +311,10 @@ int main(int argc, char ** argv)
 			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
 			{ 0, "syllable-stress", bind_value(stress, tts::stress_type::syllable),
 			  i18n("Place the stress on syllable boundaries") },
+			{ 'M', "phoneme-map", phoneme_map, "PHONEME_MAP",
+			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
+			{ 'a', "accent", accent, "ACCENT",
+			  i18n("Use ACCENT to convert phonemes to the specified accent") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
@@ -336,10 +348,10 @@ int main(int argc, char ** argv)
 		{
 			cainteoir::document doc(reader, metadata);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
-			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, stress);
+			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, phoneme_map, accent, stress);
 		}
 		else
-			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, stress);
+			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, phoneme_map, accent, stress);
 		if (show_help)
 		{
 			print_help({ general_options, mode_options }, usage);
