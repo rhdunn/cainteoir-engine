@@ -90,7 +90,11 @@ bool dictionary_phoneme_reader::read()
 	return true;
 }
 
-static bool matches(const ipa::phonemes &a, const ipa::phonemes &b, bool ignore_syllable_breaks)
+static bool
+matches(const ipa::phonemes &a,
+        const ipa::phonemes &b,
+        bool ignore_syllable_breaks,
+        ipa::phoneme::value_type mask)
 {
 	auto first1 = a.begin(), last1 = a.end();
 	auto first2 = b.begin(), last2 = b.end();
@@ -102,7 +106,7 @@ static bool matches(const ipa::phonemes &a, const ipa::phonemes &b, bool ignore_
 			if (*first2 == ipa::syllable_break) { ++first2; continue; }
 		}
 
-		if (*first1 != *first2) return false;
+		if (first1->get(mask) != first2->get(mask)) return false;
 		++first1;
 		++first2;
 	}
@@ -126,6 +130,7 @@ static bool pronounce(tts::dictionary &dict,
                       const char *phonemeset,
                       tts::stress_type stress,
                       bool ignore_syllable_breaks,
+                      ipa::phoneme::value_type mask,
                       mode_type mode)
 {
 	ipa::phonemes phonemes;
@@ -170,7 +175,7 @@ static bool pronounce(tts::dictionary &dict,
 
 	tts::make_stressed(pronounced, stress);
 
-	bool match = matches(pronounced, phonemes, ignore_syllable_breaks);
+	bool match = matches(pronounced, phonemes, ignore_syllable_breaks, mask);
 	if (mode == mode_type::mismatched_entries && match)
 		return true;
 
@@ -205,8 +210,15 @@ static void pronounce(tts::dictionary &dict,
                       const char *phonemeset,
                       tts::stress_type stress,
                       bool ignore_syllable_breaks,
+                      bool ignore_stress,
                       mode_type mode)
 {
+	ipa::phoneme::value_type mask = ipa::main | ipa::diacritics;
+	if (ignore_stress)
+		mask |= ipa::tone_start | ipa::tone_middle | ipa::tone_end | ipa::length;
+	else
+		mask |= ipa::suprasegmentals;
+
 	writer->reset(stdout);
 
 	int matched = 0;
@@ -217,7 +229,7 @@ static void pronounce(tts::dictionary &dict,
 		if (is_variant(*entry.first)) continue;
 
 		if (pronounce(dict, entry.first,
-		              rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode))
+		              rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mask, mode))
 			++matched;
 		++entries;
 	}
@@ -311,6 +323,7 @@ int main(int argc, char ** argv)
 		bool time = false;
 		word_mode_type word_mode = word_mode_type::merge;
 		bool ignore_syllable_breaks = false;
+		bool ignore_stress = false;
 		const char *voicename = nullptr;
 		const char *language = nullptr;
 		const char *ruleset = nullptr;
@@ -350,6 +363,8 @@ int main(int argc, char ** argv)
 			  i18n("Place the stress on syllable boundaries") },
 			{ 0, "ignore-syllable-breaks", bind_value(ignore_syllable_breaks, true),
 			  i18n("Ignore syllable breaks (/./) when comparing pronunciations.") },
+			{ 0, "ignore-stress", bind_value(ignore_stress, true),
+			  i18n("Ignore stress markers when comparing pronunciations.") },
 		}};
 
 		const option_group action_options = { i18n("Action:"), {
@@ -458,7 +473,7 @@ int main(int argc, char ** argv)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 				if (accent)
 					rules = tts::createAccentConverter(accent, rules);
-				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
+				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
 			}
 			else if (ruleset != nullptr)
 			{
@@ -473,7 +488,7 @@ int main(int argc, char ** argv)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 				if (accent)
 					rules = tts::createAccentConverter(accent, rules);
-				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
+				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
 			}
 			else
 			{
@@ -496,7 +511,7 @@ int main(int argc, char ** argv)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 				if (accent)
 					rules = tts::createAccentConverter(accent, rules);
-				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, mode);
+				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
 			}
 			break;
 		case mode_type::from_document:
