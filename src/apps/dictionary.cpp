@@ -118,6 +118,7 @@ static bool is_variant(const cainteoir::buffer &s)
 	for (auto c : s)
 	{
 		if (c == '@') return true;
+		if (c == '^') return true;
 	}
 	return false;
 }
