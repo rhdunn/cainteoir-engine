@@ -197,6 +197,13 @@ namespace cainteoir { namespace tts
 		paused,
 	};
 
+	struct unknown_diphone : public std::runtime_error
+	{
+		unknown_diphone(const std::string &msg) : std::runtime_error(msg)
+		{
+		}
+	};
+
 	struct synthesis_callback
 	{
 		virtual ~synthesis_callback() {}

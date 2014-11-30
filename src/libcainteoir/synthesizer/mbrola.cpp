@@ -223,6 +223,7 @@ private:
 	{
 		need_data,
 		have_data,
+		unknown_diphone,
 	};
 
 	pid_t pid;
@@ -341,16 +342,60 @@ bool mbrola_synthesizer::read(cainteoir::audio *out)
 	flush();
 
 	char message[512];
+	char error_msg[128];
 	short data[1024];
 	ssize_t read;
+	char *msg = message;
 	while ((read = audio.read(data, sizeof(data), proc)) > 0)
 	{
 		out->write((const char *)data, read);
-		if ((read = error.read(message, sizeof(message), proc, { 0, 50 })) != 0)
-			fwrite(message, read, 1, stderr);
+
+		ssize_t n = sizeof(message) - (msg - message);
+		if ((read = error.read(msg, n, proc, { 0, 50 })) != 0)
+		{
+			if (state != have_data)
+				continue;
+
+			char *eol = (char *)memchr(msg, '\n', n);
+			while (eol != nullptr)
+			{
+				*eol = '\0';
+
+				char *warn    = strstr(msg, "Warning: ");
+				char *unknown = strstr(msg, " unkown, replaced with "); // typo present in mbrola
+				if (warn != nullptr && unknown != nullptr)
+				{
+					*unknown = '\0';
+					snprintf(error_msg, sizeof(error_msg), "unknown diphone `%s`, replaced with `%s`", msg + 9, unknown + 23);
+					state = unknown_diphone;
+				}
+
+				read -= strlen(msg) + 1;
+				msg = eol + 1;
+				n = sizeof(message) - (msg - message);
+				eol = (char *)memchr(msg, '\n', n);
+			}
+
+			if (read != 0)
+			{
+				strncpy(msg, message, read);
+				msg = message + read;
+			}
+			else
+				msg = message;
+		}
 	}
 
-	state = need_data;
+	switch (state)
+	{
+	case unknown_diphone:
+		state = need_data;
+		throw tts::unknown_diphone(error_msg);
+		break;
+	default:
+		state = need_data;
+		break;
+	}
 	return true;
 }
 
