@@ -314,17 +314,25 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 {
 	if (!prosody) return false;
 
-	while (prosody->read())
+	while (true) switch (state)
 	{
+	case need_data:
+	case have_data:
+		if (!prosody->read())
+			return read(out);
+
 		write(*prosody);
-		if (prosody->first.phoneme1 == ipa::intonation_break && prosody->first.phoneme2 == ipa::unspecified)
+		if (prosody->first.phoneme1 == ipa::intonation_break &&
+		    prosody->first.phoneme2 == ipa::unspecified)
 		{
 			if (state == have_data && !read(out))
 				return false;
 		}
+		break;
+	default:
+		state = need_data;
+		break;
 	}
-
-	return read(out);
 }
 
 bool mbrola_synthesizer::write(const tts::prosody &aProsody)
