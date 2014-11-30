@@ -213,8 +213,6 @@ struct mbrola_synthesizer : public tts::synthesizer
 
 	//@}
 private:
-	bool write(const tts::prosody &aProsody);
-
 	bool read(cainteoir::audio *out);
 
 	void flush();
@@ -321,7 +319,9 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 		if (!prosody->read())
 			return read(out);
 
-		write(*prosody);
+		if (writer->write(*prosody))
+			state = have_data;
+
 		if (prosody->first.phoneme1 == ipa::intonation_break &&
 		    prosody->first.phoneme2 == ipa::unspecified)
 		{
@@ -333,15 +333,6 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 		state = need_data;
 		break;
 	}
-}
-
-bool mbrola_synthesizer::write(const tts::prosody &aProsody)
-{
-	if (!writer->write(aProsody))
-		return false;
-
-	state = have_data;
-	return true;
 }
 
 bool mbrola_synthesizer::read(cainteoir::audio *out)
