@@ -356,6 +356,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/engines/tts_engine.hpp \
 	src/libcainteoir/engines/engines.cpp \
 	src/libcainteoir/engines/espeak.cpp \
+	src/libcainteoir/engines/mbrola.cpp \
 	src/libcainteoir/engines/pico.cpp \
 	\
 	src/libcainteoir/phoneme/arpabet_phonemeset.cpp \
@@ -395,7 +396,6 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/synthesizer/compiler.cpp \
 	src/libcainteoir/synthesizer/synth.hpp \
 	src/libcainteoir/synthesizer/synthesizer.cpp \
-	src/libcainteoir/synthesizer/mbrola.cpp \
 	\
 	src/libcainteoir/unicode/utf8.cpp
 

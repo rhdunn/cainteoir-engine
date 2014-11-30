@@ -21,7 +21,7 @@
 #include "config.h"
 #include "compatibility.hpp"
 
-#include "synth.hpp"
+#include "../synthesizer/synth.hpp"
 #include <stdexcept>
 
 namespace tts = cainteoir::tts;
