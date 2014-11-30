@@ -185,9 +185,18 @@ synthesize(const std::shared_ptr<tts::synthesizer> &voice,
 
 	out->open();
 	voice->bind(pho);
-	while (voice->synthesize(out.get()))
-		;
-	out->close();
+	while (true) try
+	{
+		if (!voice->synthesize(out.get()))
+		{
+			out->close();
+			return;
+		}
+	}
+	catch (const tts::unknown_diphone &e)
+	{
+		fprintf(stdout, "error: %s\n", e.what());
+	}
 }
 
 static void
