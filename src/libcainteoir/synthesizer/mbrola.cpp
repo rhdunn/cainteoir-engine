@@ -379,16 +379,7 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 				mRead -= strlen(mCurrentMessage) + 1;
 				mCurrentMessage = eol + 1;
 				mAvailable = sizeof(mMessage) - (mCurrentMessage - mMessage);
-			}
-			else if (mRead != 0)
-			{
-				strncpy(mCurrentMessage, mMessage, mRead);
-				mCurrentMessage = mMessage + mRead;
-				state = read_errors;
-			}
 
-			if (eol != nullptr)
-			{
 				char *warn    = strstr(msg, "Warning: ");
 				char *unknown = strstr(msg, " unkown, replaced with "); // typo present in mbrola
 				if (warn != nullptr && unknown != nullptr)
@@ -398,6 +389,12 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 					snprintf(error_msg, sizeof(error_msg), "unknown diphone `%s`, replaced with `%s`", msg + 9, unknown + 23);
 					throw tts::unknown_diphone(error_msg);
 				}
+			}
+			else if (mRead != 0)
+			{
+				strncpy(mCurrentMessage, mMessage, mRead);
+				mCurrentMessage = mMessage + mRead;
+				state = read_errors;
 			}
 		}
 		else
