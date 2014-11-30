@@ -320,7 +320,6 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 
 	short data[1024];
 	ssize_t read;
-	char *eol = nullptr;
 
 	while (true) switch (state)
 	{
@@ -368,31 +367,38 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 		state = (mRead > 0) ? read_error_line : write_data;
 		break;
 	case read_error_line:
-		eol = (char *)memchr(mCurrentMessage, '\n', mAvailable);
-		if (eol != nullptr)
+		if (mRead > 0)
 		{
-			*eol = '\0';
-
-			char *warn    = strstr(mCurrentMessage, "Warning: ");
-			char *unknown = strstr(mCurrentMessage, " unkown, replaced with "); // typo present in mbrola
-			if (warn != nullptr && unknown != nullptr)
+			char *eol = (char *)memchr(mCurrentMessage, '\n', mAvailable);
+			char *msg = nullptr;
+			if (eol != nullptr)
 			{
-				*unknown = '\0';
-				char error_msg[128];
-				snprintf(error_msg, sizeof(error_msg), "unknown diphone `%s`, replaced with `%s`", mCurrentMessage + 9, unknown + 23);
-				throw tts::unknown_diphone(error_msg);
+				msg = mCurrentMessage;
+				*eol = '\0';
+
+				mRead -= strlen(mCurrentMessage) + 1;
+				mCurrentMessage = eol + 1;
+				mAvailable = sizeof(mMessage) - (mCurrentMessage - mMessage);
+			}
+			else if (mRead != 0)
+			{
+				strncpy(mCurrentMessage, mMessage, mRead);
+				mCurrentMessage = mMessage + mRead;
+				state = read_errors;
 			}
 
-			mRead -= strlen(mCurrentMessage) + 1;
-			mCurrentMessage = eol + 1;
-			mAvailable = sizeof(mMessage) - (mCurrentMessage - mMessage);
-			eol = (char *)memchr(mCurrentMessage, '\n', mAvailable);
-		}
-		else if (mRead != 0)
-		{
-			strncpy(mCurrentMessage, mMessage, mRead);
-			mCurrentMessage = mMessage + mRead;
-			state = read_errors;
+			if (eol != nullptr)
+			{
+				char *warn    = strstr(msg, "Warning: ");
+				char *unknown = strstr(msg, " unkown, replaced with "); // typo present in mbrola
+				if (warn != nullptr && unknown != nullptr)
+				{
+					*unknown = '\0';
+					char error_msg[128];
+					snprintf(error_msg, sizeof(error_msg), "unknown diphone `%s`, replaced with `%s`", msg + 9, unknown + 23);
+					throw tts::unknown_diphone(error_msg);
+				}
+			}
 		}
 		else
 		{
