@@ -166,16 +166,8 @@ phoneme /{mid,cnt,unr,vwl}/ 55ms # /ə/
 	unit "@"
 end
 
-phoneme /{mid,cnt,unr,vwl,rzd}/ 55ms # /ɚ/
-	unit "r="
-end
-
 phoneme /{lmd,fnt,unr,vwl}/ 70ms # /ɛ/
 	unit "E"
-end
-
-phoneme /{lmd,cnt,unr,vwl,rzd}/ 140ms # /ɝ/
-	unit "r="
 end
 
 phoneme /{lmd,bck,rnd,vwl}/ 80ms # /ɔ/
@@ -196,7 +188,7 @@ end
 
 # Diphthongs ##################################################################
 
-phoneme /{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /eɪ̯/
+phoneme /{lmd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /ɛɪ̯/
 	unit "EI"
 end
 
@@ -204,12 +196,8 @@ phoneme /{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /ɔɪ̯/
 	unit "OI"
 end
 
-phoneme /{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /aɪ̯/
+phoneme /{low,bck,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /ɑɪ̯/
 	unit "AI"
-end
-
-phoneme /{umd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ 135ms # /oʊ̯/
-	unit "@U"
 end
 
 phoneme /{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 135ms # /əʊ̯/

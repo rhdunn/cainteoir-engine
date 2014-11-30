@@ -24,10 +24,6 @@ phoneme /{vls,blb,stp}/ 50ms # /p/
 	unit "p"
 end
 
-phoneme /{vls,blb,stp,asp}/ 80ms # /pʰ/
-	unit "p"
-end
-
 phoneme /{vcd,blb,stp}/ 80ms # /b/
 	unit "b"
 end
@@ -36,23 +32,11 @@ phoneme /{vls,alv,stp}/ 50ms # /t/
 	unit "t"
 end
 
-phoneme /{vls,alv,stp,asp}/ 80ms # /tʰ/
-	unit "t"
-end
-
 phoneme /{vcd,alv,stp}/ 80ms # /d/
 	unit "d"
 end
 
-phoneme /{vcd,alv,flp}/ 80ms # /ɾ/
-	unit "d"
-end
-
 phoneme /{vls,vel,stp}/ 50ms # /k/
-	unit "k"
-end
-
-phoneme /{vls,vel,stp,asp}/ 80ms # /kʰ/
 	unit "k"
 end
 
@@ -114,18 +98,8 @@ phoneme /{vcd,blb,nas}/ 70ms # /m/
 	unit "m"
 end
 
-phoneme /{vcd,blb,nas,syl}/ 70ms # /m̩/
-	unit  0 "@"
-	unit 20 "m"
-end
-
 phoneme /{vcd,alv,nas}/ 70ms # /n/
 	unit "n"
-end
-
-phoneme /{vcd,alv,nas,syl}/ 70ms # /n̩/
-	unit  0 "@"
-	unit 20 "n"
 end
 
 phoneme /{vcd,vel,nas}/ 120ms # /ŋ/
@@ -142,11 +116,6 @@ phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
 	unit "l"
 end
 
-phoneme /{vcd,alv,lat,apr,syl}/ 55ms # /l̩/
-	unit  0 "@"
-	unit 20 "5"
-end
-
 phoneme /{vcd,alv,lat,apr,vfz}/ 55ms # /ɫ/
 	unit "5"
 end
@@ -160,14 +129,6 @@ phoneme /{vcd,pal,apr}/ 50ms # /j/
 end
 
 # Short Vowels ################################################################
-
-phoneme /{hgh,fnt,unr,vwl}/ 60ms # /i/
-	unit "i:"
-end
-
-phoneme /{hgh,bck,rnd,vwl}/ 60ms # /u/
-	unit "u:"
-end
 
 phoneme /{smh,fnt,unr,vwl}/ 60ms # /ɪ/
 	unit "I"
@@ -183,14 +144,6 @@ end
 
 phoneme /{mid,cnt,unr,vwl}/ 45ms # /ə/
 	unit "@"
-end
-
-phoneme /{lmd,fnt,unr,vwl}/ 80ms # /ɛ/
-	unit "e"
-end
-
-phoneme /{lmd,bck,rnd,vwl}/ 80ms # /ɔ/
-	unit "O:"
 end
 
 phoneme /{lmd,bck,unr,vwl}/ 80ms # /ʌ/
@@ -209,10 +162,6 @@ phoneme /{low,bck,rnd,vwl}/ 90ms # /ɒ/
 	unit "Q"
 end
 
-phoneme /{low,bck,unr,vwl}/ 90ms # /ɑ/
-	unit "A:"
-end
-
 # Long Vowels #################################################################
 
 phoneme /{hgh,fnt,unr,vwl,lng}/ 120ms # /iː/
@@ -223,36 +172,12 @@ phoneme /{hgh,bck,rnd,vwl,lng}/ 110ms # /uː/
 	unit "u:"
 end
 
-phoneme /{umd,fnt,unr,vwl,lng}/ 120ms # /eː/
-	unit "e"
-end
-
-phoneme /{mid,cnt,unr,vwl,lng}/ 130ms # /əː/
-	unit "3:" # The <@> unit is softer as it is for unstressed positions.
-end
-
-phoneme /{lmd,fnt,unr,vwl,lng}/ 120ms # /ɛː/
-	unit "e"
-end
-
 phoneme /{lmd,cnt,unr,vwl,lng}/ 140ms # /ɜː/
 	unit "3:"
 end
 
 phoneme /{lmd,bck,rnd,vwl,lng}/ 140ms # /ɔː/
 	unit "O:"
-end
-
-phoneme /{sml,fnt,unr,vwl,lng}/ 120ms # /æː/
-	unit "{"
-end
-
-phoneme /{sml,cnt,unr,vwl,lng}/ 120ms # /ɐː/
-	unit "V"
-end
-
-phoneme /{low,bck,rnd,vwl,lng}/ 140ms # /ɒː/
-	unit "Q"
 end
 
 phoneme /{low,bck,unr,vwl,lng}/ 155ms # /ɑː/
@@ -290,9 +215,5 @@ phoneme /{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /ʊə̯/
 end
 
 phoneme /{umd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /eə̯/
-	unit "e@"
-end
-
-phoneme /{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ 140ms # /ɛə̯/
 	unit "e@"
 end
