@@ -240,6 +240,9 @@ namespace cainteoir { namespace tts
 
 		virtual std::shared_ptr<tts::prosody_writer>
 		unit_writer() = 0;
+
+		virtual range<const phoneme_units *>
+		phones() = 0;
 	};
 
 	void read_voice_metadata(rdf::graph &aMetadata);

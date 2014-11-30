@@ -43,6 +43,7 @@ enum class actions
 	print_diphones,
 	print_units,
 	synthesize,
+	list_phones,
 };
 
 enum class input_type
@@ -189,6 +190,22 @@ synthesize(const std::shared_ptr<tts::synthesizer> &voice,
 	out->close();
 }
 
+static void
+list_phones(const std::shared_ptr<tts::voice> &voice,
+            const char *phonemeset)
+{
+	auto out = tts::createPhonemeWriter(phonemeset);
+	for (auto &phone : voice->phones())
+	{
+		cainteoir::memory_file p;
+		out->reset(p);
+		out->write(phone.phoneme1);
+		out->write(phone.phoneme2);
+		fputc('\0', p);
+		fprintf(stdout, "%s\n", p.buffer()->begin());
+	}
+}
+
 int main(int argc, char **argv)
 {
 	try
@@ -245,6 +262,8 @@ int main(int argc, char **argv)
 			  i18n("Output the PHO file contents to stdout as diphones") },
 			{ 0, "units", bind_value(action, actions::print_units),
 			  i18n("Output the PHO file contents to stdout as voice units") },
+			{ 0, "list-phones", bind_value(action, actions::list_phones),
+			  i18n("List the phones supported by the voice") },
 		}};
 
 		const option_group speech_options = { i18n("Speech:"), {
@@ -305,6 +324,17 @@ int main(int argc, char **argv)
 		{
 		case actions::show_metadata:
 			show_metadata(metadata);
+			break;
+		case actions::list_phones:
+			if (voicename)
+			{
+				auto voiceref = tts::get_voice_uri(metadata, rdf::tts("name"), voicename);
+
+				auto voice = tts::create_voice(metadata, voiceref);
+				if (!voice) throw std::runtime_error("cannot find the specified voice");
+
+				list_phones(voice, dst_phonemeset ? dst_phonemeset : src_phonemeset);
+			}
 			break;
 		case actions::print_pho:
 		case actions::print_diphones:

@@ -421,6 +421,8 @@ struct mbrola_voice : public tts::voice
 	unit_reader(const std::shared_ptr<tts::prosody_reader> &aProsody);
 
 	std::shared_ptr<tts::prosody_writer> unit_writer() { return mWriter; }
+
+	cainteoir::range<const tts::phoneme_units *> phones() { return mPhonemes; };
 private:
 	char mDatabase[256];
 	std::string mVolumeScale;
