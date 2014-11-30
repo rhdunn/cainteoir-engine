@@ -319,6 +319,9 @@ int main(int argc, char **argv)
 		rdf::graph metadata;
 		tts::read_voice_metadata(metadata);
 
+		if (!dst_phonemeset)
+			dst_phonemeset = src_phonemeset;
+
 		const char *filename = argc == 1 ? argv[0] : nullptr;
 		switch (action)
 		{
@@ -333,7 +336,7 @@ int main(int argc, char **argv)
 				auto voice = tts::create_voice(metadata, voiceref);
 				if (!voice) throw std::runtime_error("cannot find the specified voice");
 
-				list_phones(voice, dst_phonemeset ? dst_phonemeset : src_phonemeset);
+				list_phones(voice, dst_phonemeset);
 			}
 			break;
 		case actions::print_pho:
@@ -359,11 +362,11 @@ int main(int argc, char **argv)
 				switch (action)
 				{
 				case actions::print_pho:
-					out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
+					out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset));
 					break;
 				case actions::print_diphones:
 					pho = tts::createDiphoneReader(pho);
-					out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
+					out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset));
 					break;
 				case actions::print_units:
 					pho = voice->unit_reader(pho);
@@ -380,7 +383,7 @@ int main(int argc, char **argv)
 				if (action == actions::print_diphones)
 					pho = tts::createDiphoneReader(pho);
 
-				auto out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset ? dst_phonemeset : src_phonemeset));
+				auto out = tts::createPhoWriter(tts::createPhonemeWriter(dst_phonemeset));
 				print(pho, out);
 			}
 			break;
