@@ -213,15 +213,15 @@ struct mbrola_synthesizer : public tts::synthesizer
 
 	//@}
 private:
-	bool read(cainteoir::audio *out);
-
 	void flush();
 
 	enum state_t
 	{
 		need_data,
 		have_data,
-		unknown_diphone,
+		write_data,
+		read_errors,
+		read_error_line,
 	};
 
 	pid_t pid;
@@ -230,6 +230,11 @@ private:
 	pipe_t audio;
 	pipe_t error;
 	state_t state;
+
+	char mMessage[512];
+	ssize_t mRead;
+	ssize_t mAvailable;
+	char *mCurrentMessage;
 
 	int sample_rate;
 	rdf::uri sample_format;
@@ -253,6 +258,7 @@ mbrola_synthesizer::mbrola_synthesizer(const char *aDatabase,
 	, writer(aWriter)
 	, mUnits(aUnits)
 	, mPhonemes(aPhonemes)
+	, mCurrentMessage(mMessage)
 {
 	pipe_t input;
 
@@ -312,12 +318,22 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 {
 	if (!prosody) return false;
 
+	short data[1024];
+	ssize_t read;
+	char *eol = nullptr;
+
 	while (true) switch (state)
 	{
 	case need_data:
 	case have_data:
 		if (!prosody->read())
-			return read(out);
+		{
+			if (state == need_data)
+				return false;
+			flush();
+			state = write_data;
+			continue;
+		}
 
 		if (writer->write(*prosody))
 			state = have_data;
@@ -325,78 +341,69 @@ bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 		if (prosody->first.phoneme1 == ipa::intonation_break &&
 		    prosody->first.phoneme2 == ipa::unspecified)
 		{
-			if (state == have_data && !read(out))
-				return false;
+			if (state == have_data)
+			{
+				flush();
+				state = write_data;
+			}
 		}
 		break;
-	default:
-		state = need_data;
-		break;
-	}
-}
-
-bool mbrola_synthesizer::read(cainteoir::audio *out)
-{
-	if (state != have_data) return false;
-	flush();
-
-	char message[512];
-	char error_msg[128];
-	short data[1024];
-	ssize_t read;
-	char *msg = message;
-	while ((read = audio.read(data, sizeof(data), proc)) > 0)
-	{
-		if (out)
-			out->write((const char *)data, read);
-
-		ssize_t n = sizeof(message) - (msg - message);
-		if ((read = error.read(msg, n, proc, { 0, 50 })) != 0)
+	case write_data:
+		read = audio.read(data, sizeof(data), proc);
+		if (read > 0)
 		{
-			if (state != have_data)
-				continue;
-
-			char *eol = (char *)memchr(msg, '\n', n);
-			while (eol != nullptr)
-			{
-				*eol = '\0';
-
-				char *warn    = strstr(msg, "Warning: ");
-				char *unknown = strstr(msg, " unkown, replaced with "); // typo present in mbrola
-				if (warn != nullptr && unknown != nullptr)
-				{
-					*unknown = '\0';
-					snprintf(error_msg, sizeof(error_msg), "unknown diphone `%s`, replaced with `%s`", msg + 9, unknown + 23);
-					state = unknown_diphone;
-				}
-
-				read -= strlen(msg) + 1;
-				msg = eol + 1;
-				n = sizeof(message) - (msg - message);
-				eol = (char *)memchr(msg, '\n', n);
-			}
-
-			if (read != 0)
-			{
-				strncpy(msg, message, read);
-				msg = message + read;
-			}
-			else
-				msg = message;
+			if (out)
+				out->write((const char *)data, read);
+			state = read_errors;
 		}
-	}
+		else
+		{
+			state = need_data;
+			return true;
+		}
+		break;
+	case read_errors:
+		mAvailable = sizeof(mMessage) - (mCurrentMessage - mMessage);
+		mRead = error.read(mCurrentMessage, mAvailable, proc, { 0, 50 });
+		state = (mRead > 0) ? read_error_line : write_data;
+		break;
+	case read_error_line:
+		eol = (char *)memchr(mCurrentMessage, '\n', mAvailable);
+		if (eol != nullptr)
+		{
+			*eol = '\0';
 
-	switch (state)
-	{
-	case unknown_diphone:
-		state = need_data;
-		throw tts::unknown_diphone(error_msg);
+			char *warn    = strstr(mCurrentMessage, "Warning: ");
+			char *unknown = strstr(mCurrentMessage, " unkown, replaced with "); // typo present in mbrola
+			if (warn != nullptr && unknown != nullptr)
+			{
+				*unknown = '\0';
+				char error_msg[128];
+				snprintf(error_msg, sizeof(error_msg), "unknown diphone `%s`, replaced with `%s`", mCurrentMessage + 9, unknown + 23);
+				throw tts::unknown_diphone(error_msg);
+			}
+
+			mRead -= strlen(mCurrentMessage) + 1;
+			mCurrentMessage = eol + 1;
+			mAvailable = sizeof(mMessage) - (mCurrentMessage - mMessage);
+			eol = (char *)memchr(mCurrentMessage, '\n', mAvailable);
+		}
+		else if (mRead != 0)
+		{
+			strncpy(mCurrentMessage, mMessage, mRead);
+			mCurrentMessage = mMessage + mRead;
+			state = read_errors;
+		}
+		else
+		{
+			mCurrentMessage = mMessage;
+			state = read_errors;
+		}
 		break;
 	default:
 		state = need_data;
 		break;
 	}
-	return true;
 }
 
 void mbrola_synthesizer::flush()
