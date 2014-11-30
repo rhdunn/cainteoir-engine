@@ -312,7 +312,7 @@ void mbrola_synthesizer::bind(const std::shared_ptr<tts::prosody_reader> &aProso
 
 bool mbrola_synthesizer::synthesize(cainteoir::audio *out)
 {
-	if (!prosody || !out) return false;
+	if (!prosody) return false;
 
 	while (prosody->read())
 	{
@@ -348,7 +348,8 @@ bool mbrola_synthesizer::read(cainteoir::audio *out)
 	char *msg = message;
 	while ((read = audio.read(data, sizeof(data), proc)) > 0)
 	{
-		out->write((const char *)data, read);
+		if (out)
+			out->write((const char *)data, read);
 
 		ssize_t n = sizeof(message) - (msg - message);
 		if ((read = error.read(msg, n, proc, { 0, 50 })) != 0)
