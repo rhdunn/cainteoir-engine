@@ -162,10 +162,10 @@ static int espeak_tts_callback(short *wav, int numsamples, espeak_EVENT *event)
 	for (; event->type != espeakEVENT_LIST_TERMINATED; ++event) switch (event->type)
 	{
 	case espeakEVENT_WORD:
-		callback->ontextrange(event->text_position, event->length);
+		callback->ontextrange({ (uint32_t)event->text_position, (uint32_t)event->length });
 		break;
 	case espeakEVENT_END:
-		callback->ontextrange(event->text_position, 0);
+		callback->ontextrange({ (uint32_t)event->text_position, 0 });
 		break;
 	default:
 		break;

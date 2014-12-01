@@ -113,7 +113,7 @@ struct speech_impl : public tts::speech , public tts::synthesis_callback
 
 	void onaudiodata(short *data, int nsamples);
 
-	void ontextrange(size_t pos, size_t len);
+	void ontextrange(const cainteoir::range<uint32_t> &range);
 };
 
 static void * speak_tts_thread(void *data)
@@ -253,7 +253,7 @@ void speech_impl::started()
 void speech_impl::progress(size_t n)
 {
 	currentOffset = n;
-	ontextrange(0, 0);
+	ontextrange({ 0, 0 });
 }
 
 void speech_impl::finished()
@@ -322,10 +322,10 @@ void speech_impl::onaudiodata(short *data, int nsamples)
 	audio->write((const char *)data, nsamples*2);
 }
 
-void speech_impl::ontextrange(size_t pos, size_t len)
+void speech_impl::ontextrange(const cainteoir::range<uint32_t> &range)
 {
-	speakingPos = pos;
-	speakingLen = len;
+	speakingPos = range.begin();
+	speakingLen = range.size();
 
 	size_t actualPos = currentOffset + speakingPos;
 

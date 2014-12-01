@@ -212,7 +212,7 @@ namespace cainteoir { namespace tts
 
 		virtual void onaudiodata(short *data, int nsamples) = 0;
 
-		virtual void ontextrange(size_t pos, size_t len) = 0;
+		virtual void ontextrange(const range<uint32_t> &range) = 0;
 	};
 
 	struct synthesizer : public audio_info
