@@ -153,7 +153,7 @@ static void * speak_tts_thread(void *data)
 						audio->set_interval(node.media_begin, node.media_end);
 						audio->set_target(speak->audio);
 						while (audio->read())
-							speak->audio->write((const char *)audio->data.begin(), audio->data.size());
+							speak->onaudiodata((short *)audio->data.begin(), audio->data.size() / 2);
 						media_overlay_depth = depth;
 					}
 				}
