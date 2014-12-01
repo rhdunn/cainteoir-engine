@@ -123,7 +123,6 @@ static void * speak_tts_thread(void *data)
 
 	try
 	{
-		speak->audio->open();
 		speak->started();
 
 		size_t n = 0;
@@ -244,6 +243,8 @@ speech_impl::~speech_impl()
 
 void speech_impl::started()
 {
+	audio->open();
+
 	mElapsedTime = 0.0;
 	mTotalTime = (double(textLen) / CHARACTERS_PER_WORD / wordsPerMinute * 60.0);
 	mProgress = 0.0;
