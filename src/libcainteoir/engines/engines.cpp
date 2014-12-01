@@ -195,7 +195,6 @@ static void * speak_tts_thread(void *data)
 		speak->mErrorMessage = e.what();
 	}
 
-	speak->audio->close();
 	speak->finished();
 	return nullptr;
 }
@@ -259,6 +258,7 @@ void speech_impl::progress(size_t n)
 
 void speech_impl::finished()
 {
+	audio->close();
 	speechState = cainteoir::tts::stopped;
 }
 
@@ -269,14 +269,14 @@ bool speech_impl::is_speaking() const
 
 void speech_impl::stop()
 {
-	finished();
+	speechState = cainteoir::tts::stopped;
 	pthread_join(threadId, nullptr);
 }
 
 void speech_impl::wait()
 {
 	pthread_join(threadId, nullptr);
-	finished();
+	speechState = cainteoir::tts::stopped;
 }
 
 double speech_impl::elapsedTime() const
