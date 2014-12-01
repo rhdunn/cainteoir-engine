@@ -6,7 +6,7 @@ U 65
 t 50
 d 80
 r\ 55
-E 80
+Phoneme /{lmd,fnt,unr,vwl,ts1}/ is not supported by the duration model.
 s 100
 s 100
 t 50
@@ -70,7 +70,7 @@ t 50
 s 100
 k 50
 w 55
-E@_^ 140
+Phoneme /{lmd,fnt,unr,vwl,ts1}{mid,cnt,unr,vwl,nsy}/ is not supported by the duration model.
 t_S 120
 OI_^ 180
 s 100
@@ -92,7 +92,7 @@ h 60
 & 70
 .
 p 50
-i 60
+Phoneme /{hgh,fnt,unr,vwl,ts1}/ is not supported by the duration model.
 r\ 55
 @U_^ 135
 .
@@ -105,7 +105,7 @@ Q 90
 m 70
 @ 45
 l 55
-E 80
+Phoneme /{lmd,fnt,unr,vwl,ts1}/ is not supported by the duration model.
 .
 t 50
 @ 45
