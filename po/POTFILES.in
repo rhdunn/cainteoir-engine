@@ -2,6 +2,7 @@ src/apps/cainteoir.cpp
 src/apps/dictionary.cpp
 src/apps/metadata.cpp
 src/apps/phoneme-converter.cpp
+src/apps/sigproc.cpp
 src/examples/doc2doc.cpp
 src/examples/musicplayer.cpp
 src/examples/tagcloud.cpp
@@ -34,6 +35,7 @@ src/libcainteoir/document.cpp
 src/libcainteoir/encoding.cpp
 src/libcainteoir/engines/engines.cpp
 src/libcainteoir/engines/espeak.cpp
+src/libcainteoir/engines/mbrola.cpp
 src/libcainteoir/engines/pico.cpp
 src/libcainteoir/languages.cpp
 src/libcainteoir/mimetype.cpp
@@ -67,12 +69,16 @@ src/libcainteoir/phoneme/phoneme_to_phoneme.cpp
 src/libcainteoir/phoneme/units.cpp
 src/libcainteoir/rdf/formatter.cpp
 src/libcainteoir/rdf/metadata.cpp
+src/libcainteoir/sigproc/complex.cpp
+src/libcainteoir/sigproc/fft.cpp
+src/libcainteoir/sigproc/samples.cpp
+src/libcainteoir/sigproc/window.cpp
+src/libcainteoir/sigproc/window_enumerator.cpp
 src/libcainteoir/synthesizer/compiler.cpp
 src/libcainteoir/synthesizer/diphone.cpp
 src/libcainteoir/synthesizer/distribution.cpp
 src/libcainteoir/synthesizer/duration.cpp
 src/libcainteoir/synthesizer/fixed_duration.cpp
-src/libcainteoir/synthesizer/mbrola.cpp
 src/libcainteoir/synthesizer/pho_file.cpp
 src/libcainteoir/synthesizer/pitch.cpp
 src/libcainteoir/synthesizer/prosody.cpp
