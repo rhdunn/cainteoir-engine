@@ -129,7 +129,13 @@ struct pipe_t
 		fds[type] = -1;
 	}
 
-	ssize_t read(void *buf, size_t count, const procstat_t &proc, timeval timeout = { 60, 0 });
+	ssize_t read(void *buf, size_t count, const procstat_t &proc, timeval timeout);
+
+	ssize_t read(void *buf, size_t count, const procstat_t &proc)
+	{
+		timeval timeout = { 60, 0 };
+		return read(buf, count, proc, timeout);
+	}
 
 	FILE *open(const char *mode)
 	{
