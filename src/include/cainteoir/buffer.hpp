@@ -23,6 +23,7 @@
 
 #include "range.hpp"
 
+#include <stdexcept>
 #include <cstring>
 #include <string>
 #include <memory>
