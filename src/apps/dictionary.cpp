@@ -315,6 +315,53 @@ static uint32_t from_document(tts::dictionary &base_dict,
 	return words;
 }
 
+static uint32_t from_dictionary(tts::dictionary &base_dict,
+                                tts::dictionary &dict,
+                                tts::dictionary &src_dict,
+                                word_mode_type word_mode)
+{
+	uint32_t words = 0;
+	for (auto &entry : src_dict)
+	{
+		auto &match = base_dict.lookup(entry.first);
+		switch (match.type)
+		{
+		case tts::dictionary::no_match:
+			switch (word_mode)
+			{
+			case word_mode_type::merge:
+			case word_mode_type::only_in_document:
+				dict.add_entry(entry.first, entry.second);
+				++words;
+				break;
+			default:
+				fprintf(stderr, "error: cannot find '%s' in the dictionary\n", entry.first->str().c_str());
+				break;
+			}
+			break;
+		case tts::dictionary::say_as:
+			if (word_mode == word_mode_type::in_dictionary_and_document)
+			{
+				ipa::phonemes pronunciation;
+				if (base_dict.pronounce(entry.first, {}, pronunciation))
+				{
+					dict.add_entry(entry.first, { pronunciation });
+					++words;
+				}
+			}
+			break;
+		case tts::dictionary::phonemes:
+			if (word_mode == word_mode_type::in_dictionary_and_document)
+			{
+				dict.add_entry(entry.first, match );
+				++words;
+			}
+			break;
+		}
+	}
+	return words;
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -404,6 +451,7 @@ int main(int argc, char ** argv)
 
 		tts::dictionary base_dict;
 		tts::dictionary dict;
+		tts::dictionary src_dict;
 
 		uint32_t words = 0;
 		if (dictionary != nullptr)
@@ -421,9 +469,21 @@ int main(int argc, char ** argv)
 		if (dictionary == nullptr || word_mode != word_mode_type::merge)
 		{
 			if (argc == 0)
-				words += from_document(base_dict, dict, nullptr, dictionary_format != nullptr, word_mode);
+			{
+				if (source_dictionary == nullptr)
+					words += from_document(base_dict, dict, nullptr, dictionary_format != nullptr, word_mode);
+			}
 			else for (int i = 0; i != argc; ++i)
 				words += from_document(base_dict, dict, argv[i], dictionary_format != nullptr, word_mode);
+		}
+
+		if (source_dictionary != nullptr)
+		{
+			auto reader = tts::createCainteoirDictionaryReader(source_dictionary);
+			while (reader->read())
+				src_dict.add_entry(reader->word, reader->entry);
+			if (word_mode == word_mode_type::only_in_document && words == 0) // new words
+				words += from_dictionary(base_dict, dict, src_dict, word_mode);
 		}
 
 		std::shared_ptr<tts::dictionary_formatter> formatter;
@@ -464,11 +524,6 @@ int main(int argc, char ** argv)
 		case mode_type::mismatched_entries:
 			if (source_dictionary != nullptr)
 			{
-				tts::dictionary src_dict;
-				auto reader = tts::createCainteoirDictionaryReader(source_dictionary);
-				while (reader->read())
-					src_dict.add_entry(reader->word, reader->entry);
-
 				std::shared_ptr<tts::phoneme_reader> rules = std::make_shared<dictionary_phoneme_reader>(src_dict);
 				if (phoneme_map)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
