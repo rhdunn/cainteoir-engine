@@ -1,6 +1,6 @@
 /* Phoneme-to-Phoneme Rule Processor.
  *
- * Copyright (C) 2014 Reece H. Dunn
+ * Copyright (C) 2014-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -43,8 +43,16 @@ struct phoneme_to_phoneme : public tts::phoneme_reader
 private:
 	bool next_phoneme(ipa::phoneme &phoneme);
 
+	struct entry_t
+	{
+		ipa::phonemes phonemes;
+		bool valid;
+
+		entry_t() : valid(false) {}
+	};
+
 	std::shared_ptr<tts::phoneme_reader> mPhonemes;
-	cainteoir::trie<ipa::phonemes, ipa::phoneme> mPhonemeMap;
+	cainteoir::trie<entry_t, ipa::phoneme> mPhonemeMap;
 	std::list<ipa::phoneme> mReadQueue;
 
 	ipa::phonemes::const_iterator mCurrentPhoneme;
@@ -79,7 +87,7 @@ phoneme_to_phoneme::phoneme_to_phoneme(const char *aPhonemeToPhonemeRules,
 		{
 			phonemes->reset(cainteoir::make_buffer(rules.match().begin(), rules.match().size()));
 
-			auto entry = const_cast<cainteoir::trie_node<ipa::phonemes, ipa::phoneme> *>(mPhonemeMap.root());
+			auto entry = const_cast<cainteoir::trie_node<entry_t, ipa::phoneme> *>(mPhonemeMap.root());
 			while (phonemes->read())
 				entry = entry->add(*phonemes);
 
@@ -93,11 +101,9 @@ phoneme_to_phoneme::phoneme_to_phoneme(const char *aPhonemeToPhonemeRules,
 
 			phonemes->reset(cainteoir::make_buffer(rules.match().begin(), rules.match().size()));
 
+			entry->item.valid = true;
 			while (phonemes->read())
-				entry->item.push_back(*phonemes);
-
-			if (entry->item.empty())
-				throw std::runtime_error("Unknown content in the phoneme-to-phoneme rule file.");
+				entry->item.phonemes.push_back(*phonemes);
 		}
 		else
 		{
@@ -154,8 +160,8 @@ bool phoneme_to_phoneme::read()
 
 			if (match)
 			{
-				mCurrentPhoneme = match->item.begin();
-				mLastPhoneme = match->item.end();
+				mCurrentPhoneme = match->item.phonemes.begin();
+				mLastPhoneme = match->item.phonemes.end();
 				return read();
 			}
 			else
@@ -165,7 +171,7 @@ bool phoneme_to_phoneme::read()
 			}
 			return true;
 		}
-		if (!entry->item.empty())
+		if (entry->item.valid)
 		{
 			read_queue.clear();
 			match = entry;
@@ -182,8 +188,8 @@ bool phoneme_to_phoneme::read()
 
 	if (match)
 	{
-		mCurrentPhoneme = match->item.begin();
-		mLastPhoneme = match->item.end();
+		mCurrentPhoneme = match->item.phonemes.begin();
+		mLastPhoneme = match->item.phonemes.end();
 		return read();
 	}
 
