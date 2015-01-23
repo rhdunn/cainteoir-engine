@@ -299,6 +299,8 @@ std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryFormatter(FILE *
 		return tts::createDictionaryEntryFormatter(out);
 	if (!strcmp(aFormat, "cainteoir"))
 		return tts::createCainteoirDictionaryFormatter(out);
+	if (!strcmp(aFormat, "cmudict"))
+		return tts::createCMUDictionaryFormatter(out);
 	if (!strcmp(aFormat, "espeak"))
 		return tts::createEspeakDictionaryFormatter(out);
 	return {};

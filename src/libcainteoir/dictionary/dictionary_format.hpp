@@ -33,6 +33,8 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<dictionary_formatter> createCainteoirDictionaryFormatter(FILE *out);
 
+	std::shared_ptr<dictionary_formatter> createCMUDictionaryFormatter(FILE *out);
+
 	std::shared_ptr<dictionary_formatter> createEspeakDictionaryFormatter(FILE *out);
 
 	std::shared_ptr<dictionary_formatter> createDictionaryEntryFormatter(FILE *out);
