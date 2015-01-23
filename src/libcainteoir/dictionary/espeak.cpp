@@ -1,6 +1,6 @@
 /* eSpeak Pronunciation Dictionary Format.
  *
- * Copyright (C) 2013 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -20,8 +20,7 @@
 
 #include "config.h"
 #include "compatibility.hpp"
-
-#include <cainteoir/dictionary.hpp>
+#include "dictionary_format.hpp"
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;

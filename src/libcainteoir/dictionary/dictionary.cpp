@@ -1,6 +1,6 @@
 /* Pronunciation Dictionary.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -20,9 +20,9 @@
 
 #include "config.h"
 #include "compatibility.hpp"
+#include "dictionary_format.hpp"
 
 #include <ucd/ucd.h>
-#include <cainteoir/dictionary.hpp>
 #include <cainteoir/unicode.hpp>
 
 namespace tts = cainteoir::tts;

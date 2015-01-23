@@ -1,6 +1,6 @@
 /* Pronunciation Dictionary API.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -179,12 +179,6 @@ namespace cainteoir { namespace tts
 
 		virtual ~dictionary_formatter() {}
 	};
-
-	std::shared_ptr<dictionary_formatter> createCainteoirDictionaryFormatter(FILE *out);
-
-	std::shared_ptr<dictionary_formatter> createEspeakDictionaryFormatter(FILE *out);
-
-	std::shared_ptr<dictionary_formatter> createDictionaryEntryFormatter(FILE *out);
 
 	std::shared_ptr<dictionary_formatter> createDictionaryFormatter(FILE *out, const char *aFormat);
 
