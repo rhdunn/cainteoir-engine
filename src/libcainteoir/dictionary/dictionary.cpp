@@ -288,6 +288,8 @@ std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryEntryFormatter(F
 
 std::shared_ptr<tts::dictionary_reader> tts::createDictionaryReader(const char *aDictionaryPath)
 {
+	if (!aDictionaryPath) return {};
+
 	return createCainteoirDictionaryReader(aDictionaryPath);
 }
 

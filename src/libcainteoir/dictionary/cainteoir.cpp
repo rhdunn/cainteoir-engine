@@ -140,8 +140,6 @@ bool cainteoir_dictionary_reader::read()
 
 std::shared_ptr<tts::dictionary_reader> tts::createCainteoirDictionaryReader(const char *aDictionaryPath)
 {
-	if (!aDictionaryPath) return {};
-
 	return std::make_shared<cainteoir_dictionary_reader>(cainteoir::path(aDictionaryPath));
 }
 
