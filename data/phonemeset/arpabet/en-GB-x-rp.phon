@@ -37,6 +37,7 @@ L	/{vcd,alv,lat,apr}/ # /l/
 M	/{vcd,blb,nas}/ # /m/
 N	/{vcd,alv,nas}/ # /n/
 NG	/{vcd,vel,nas}/ # /ŋ/
+OA	/{lmd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɔə̯/
 OH	/{low,bck,rnd,vwl}/ # /ɒ/
 OW	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/
 OY	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/
