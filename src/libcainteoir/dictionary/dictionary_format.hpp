@@ -25,6 +25,12 @@
 
 namespace cainteoir { namespace tts
 {
+	// readers
+
+	std::shared_ptr<dictionary_reader> createCainteoirDictionaryReader(const char *aDictionaryPath);
+
+	// formatters
+
 	std::shared_ptr<dictionary_formatter> createCainteoirDictionaryFormatter(FILE *out);
 
 	std::shared_ptr<dictionary_formatter> createEspeakDictionaryFormatter(FILE *out);

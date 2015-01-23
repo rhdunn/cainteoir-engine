@@ -615,7 +615,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 			else if (reader.match().compare("dictionary") == 0)
 			{
 				reader.read();
-				auto dict_reader = tts::createCainteoirDictionaryReader(reader.match().str().c_str());
+				auto dict_reader = tts::createDictionaryReader(reader.match().str().c_str());
 				while (dict_reader->read())
 					dict.add_entry(dict_reader->word, dict_reader->entry);
 			}

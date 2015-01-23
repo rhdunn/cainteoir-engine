@@ -195,7 +195,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 		if (accent)
 			rules = tts::createAccentConverter(accent, rules);
-		auto dict = tts::createCainteoirDictionaryReader(dictionary);
+		auto dict = tts::createDictionaryReader(dictionary);
 		std::shared_ptr<tts::clause_processor> processor
 			=  std::make_shared<tts::clause_processor_chain>()
 			<< tts::context_analysis()

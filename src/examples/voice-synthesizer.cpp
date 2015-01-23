@@ -117,7 +117,7 @@ create_reader(const char *filename,
 			throw std::runtime_error("unsupported document format");
 
 		auto rules = tts::createPronunciationRules(ruleset, locale);
-		auto dict = tts::createCainteoirDictionaryReader(dictionary);
+		auto dict = tts::createDictionaryReader(dictionary);
 		std::shared_ptr<tts::clause_processor> processor
 			=  std::make_shared<tts::clause_processor_chain>()
 			<< tts::context_analysis()

@@ -456,7 +456,7 @@ int main(int argc, char ** argv)
 		uint32_t words = 0;
 		if (dictionary != nullptr)
 		{
-			auto reader = tts::createCainteoirDictionaryReader(dictionary);
+			auto reader = tts::createDictionaryReader(dictionary);
 			while (reader->read())
 				base_dict.add_entry(reader->word, reader->entry);
 			if (word_mode == word_mode_type::merge)
@@ -479,7 +479,7 @@ int main(int argc, char ** argv)
 
 		if (source_dictionary != nullptr)
 		{
-			auto reader = tts::createCainteoirDictionaryReader(source_dictionary);
+			auto reader = tts::createDictionaryReader(source_dictionary);
 			while (reader->read())
 				src_dict.add_entry(reader->word, reader->entry);
 			if (word_mode == word_mode_type::only_in_document && words == 0) // new words

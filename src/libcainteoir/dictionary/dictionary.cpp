@@ -286,6 +286,11 @@ std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryEntryFormatter(F
 	return std::make_shared<dictionary_entry_formatter>(out);
 }
 
+std::shared_ptr<tts::dictionary_reader> tts::createDictionaryReader(const char *aDictionaryPath)
+{
+	return createCainteoirDictionaryReader(aDictionaryPath);
+}
+
 std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryFormatter(FILE *out, const char *aFormat)
 {
 	if (!aFormat)
