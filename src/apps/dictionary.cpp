@@ -486,14 +486,8 @@ int main(int argc, char ** argv)
 				words += from_dictionary(base_dict, dict, src_dict, word_mode);
 		}
 
-		std::shared_ptr<tts::dictionary_formatter> formatter;
-		if (!dictionary_format)
-			formatter = tts::createDictionaryEntryFormatter(stdout);
-		else if (!strcmp(dictionary_format, "cainteoir"))
-			formatter = tts::createCainteoirDictionaryFormatter(stdout);
-		else if (!strcmp(dictionary_format, "espeak"))
-			formatter = tts::createEspeakDictionaryFormatter(stdout);
-		else
+		auto formatter = tts::createDictionaryFormatter(stdout, dictionary_format);
+		if (!formatter)
 		{
 			fprintf(stderr, "unsupported dictionary format \"%s\"\n", dictionary_format);
 			return 0;

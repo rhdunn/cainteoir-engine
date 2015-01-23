@@ -286,6 +286,17 @@ std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryEntryFormatter(F
 	return std::make_shared<dictionary_entry_formatter>(out);
 }
 
+std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryFormatter(FILE *out, const char *aFormat)
+{
+	if (!aFormat)
+		return tts::createDictionaryEntryFormatter(out);
+	if (!strcmp(aFormat, "cainteoir"))
+		return tts::createCainteoirDictionaryFormatter(out);
+	if (!strcmp(aFormat, "espeak"))
+		return tts::createEspeakDictionaryFormatter(out);
+	return {};
+}
+
 void tts::formatDictionary(tts::dictionary &dict,
 	                   std::shared_ptr<dictionary_formatter> &formatter,
 	                   std::shared_ptr<phoneme_writer> &writer,

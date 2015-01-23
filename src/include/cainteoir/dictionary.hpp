@@ -186,6 +186,8 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<dictionary_formatter> createDictionaryEntryFormatter(FILE *out);
 
+	std::shared_ptr<dictionary_formatter> createDictionaryFormatter(FILE *out, const char *aFormat);
+
 	void formatDictionary(tts::dictionary &dict,
 	                      std::shared_ptr<dictionary_formatter> &formatter,
 	                      std::shared_ptr<phoneme_writer> &writer,
