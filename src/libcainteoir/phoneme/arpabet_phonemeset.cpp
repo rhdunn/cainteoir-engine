@@ -309,7 +309,7 @@ bool arpabet_writer::write(const ipa::phoneme &aPhoneme)
 		{
 			if (aPhoneme.get(ipa::phoneme_type) == ipa::vowel)
 			{
-				mIsSchwa = aPhoneme.get(schwa_mask) == schwa;
+				mIsSchwa = aPhoneme.get(schwa_mask) == schwa && aPhoneme.get(ipa::length) == ipa::short_;
 				mStress = aPhoneme.get(ipa::stress);
 			}
 			else

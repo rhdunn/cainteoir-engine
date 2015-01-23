@@ -1,0 +1,59 @@
+# Copyright (C) 2015 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.type	arpabet
+
+PAU	/{pau,est}/
+
+AA	/{low,bck,unr,vwl,lng}/ # /ɑː/
+AE	/{sml,fnt,unr,vwl}/ # /æ/
+AH	/{lmd,bck,unr,vwl}/ # /ʌ/
+AO	/{lmd,bck,rnd,vwl,lng}/ # /ɔː/
+AW	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/
+AX	/{mid,cnt,unr,vwl}/ # /ə/
+AY	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/
+B	/{vcd,blb,stp}/ # /b/
+CH	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
+D	/{vcd,alv,stp}/ # /d/
+DH	/{vcd,dnt,frc}/ # /ð/
+EA	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/
+EH	/{lmd,fnt,unr,vwl}/ # /ɛ/
+EL	/{vcd,alv,lat,apr,syl}/ # /l̩/
+EM	/{vcd,blb,nas,syl}/ # /m̩/
+EN	/{vcd,alv,nas,syl}/ # /n̩/
+ER	/{mid,cnt,unr,vwl,lng}/ # /əː/
+EY	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/
+F	/{vls,lbd,frc}/ # /f/
+G	/{vcd,vel,stp}/ # /ɡ/
+HH	/{vls,glt,apr}/ # /h/
+IA	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/
+IH	/{smh,fnt,unr,vwl}/ # /ɪ/
+IY	/{hgh,fnt,unr,vwl,lng}/ # /iː/
+JH	/{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ # /d͡ʒ/
+K	/{vls,vel,stp}/ # /k/
+L	/{vcd,alv,lat,apr}/ # /l/
+M	/{vcd,blb,nas}/ # /m/
+N	/{vcd,alv,nas}/ # /n/
+NG	/{vcd,vel,nas}/ # /ŋ/
+OH	/{low,bck,rnd,vwl}/ # /ɒ/
+OW	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/
+OY	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/
+P	/{vls,blb,stp}/ # /p/
+R	/{vcd,alv,apr}/ # /ɹ/
+S	/{vls,alv,sib,frc}/ # /s/
+SH	/{vls,pla,sib,frc}/ # /ʃ/
+T	/{vls,alv,stp}/ # /t/
+TH	/{vls,dnt,frc}/ # /θ/
+UA	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/
+UH	/{smh,bck,rnd,vwl}/ # /ʊ/
+UW	/{hgh,bck,rnd,vwl,lng}/ # /uː/
+V	/{vcd,lbd,frc}/ # /v/
+W	/{vcd,lbv,apr}/ # /w/
+Y	/{vcd,pal,apr}/ # /j/
+Z	/{vcd,alv,sib,frc}/ # /z/
+ZH	/{vcd,pla,sib,frc}/ # /ʒ/
+
+##### References:
+#
+#  1. https://en.wikipedia.org/wiki/Arpabet

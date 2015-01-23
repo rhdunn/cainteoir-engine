@@ -102,6 +102,13 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/cmu-pauses.cmu', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'arpabet/en-US', 'to': 'ipa'},
 			{'test': 'phonemeset/arpabet/cmu-invalid-diphthong.ipa', 'result': 'phonemeset/arpabet/cmu-invalid-diphthong.cmu', 'from': 'ipa', 'to': 'arpabet/en-US'},
 		]},
+		{'name': 'en-GB-x-rp', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/arpabet/en-GB-x-rp-phonemes.ipa', 'result': 'phonemeset/arpabet/en-GB-x-rp-phonemes.arpabet', 'from': 'ipa', 'to': 'arpabet/en-GB-x-rp'},
+			{'test': 'phonemeset/arpabet/en-GB-x-rp-phonemes.arpabet', 'result': 'phonemeset/arpabet/en-GB-x-rp-phonemes.ipa', 'from': 'arpabet/en-GB-x-rp', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.cmu', 'from': 'ipa', 'to': 'arpabet/en-GB-x-rp'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.cmu', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'arpabet/en-GB-x-rp', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-invalid-diphthong.ipa', 'result': 'phonemeset/arpabet/cmu-invalid-diphthong.cmu', 'from': 'ipa', 'to': 'arpabet/en-GB-x-rp'},
+		]},
 	]})
 	test.run({'name': 'SAMPA-Based', 'groups': [
 		{'name': 'English', 'type': 'phonemeset', 'tests': [
