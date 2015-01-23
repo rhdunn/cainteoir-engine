@@ -27,6 +27,7 @@ EY	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/
 F	/{vls,lbd,frc}/ # /f/
 G	/{vcd,vel,stp}/ # /ɡ/
 HH	/{vls,glt,apr}/ # /h/
+HW	/{vls,lbv,apr}/ # /ʍ/
 IH	/{smh,fnt,unr,vwl}/ # /ɪ/
 IY	/{hgh,fnt,unr,vwl}/ # /i/
 JH	/{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ # /d͡ʒ/
