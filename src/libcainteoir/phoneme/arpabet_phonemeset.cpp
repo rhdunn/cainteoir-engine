@@ -1,6 +1,6 @@
 /* Arpabet-Based Phoneme Set Reader/Writer.
  *
- * Copyright (C) 2014 Reece H. Dunn
+ * Copyright (C) 2014-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -248,6 +248,7 @@ private:
 	state mState;
 	ipa::phoneme::value_type mStress;
 	bool mNeedSpace;
+	bool mIsSchwa;
 	tts::arpabet_variant mVariant;
 };
 
@@ -257,6 +258,7 @@ arpabet_writer::arpabet_writer(tts::phoneme_file_reader &aPhonemeSet, const char
 	, mState(state::need_phoneme)
 	, mStress(-1)
 	, mNeedSpace(false)
+	, mIsSchwa(false)
 	, mVariant(aVariant)
 {
 	while (aPhonemeSet.read()) switch (aPhonemeSet.type)
@@ -291,10 +293,13 @@ void arpabet_writer::reset(FILE *aOutput)
 {
 	mOutput = aOutput;
 	mNeedSpace = false;
+	mIsSchwa = false;
 }
 
 bool arpabet_writer::write(const ipa::phoneme &aPhoneme)
 {
+	auto schwa_mask = ipa::vowel_height | ipa::vowel_backness | ipa::rounded;
+	auto schwa = ipa::mid | ipa::center; // {mid,cnt,unr}
 	while (true) switch (mState)
 	{
 	case state::need_phoneme:
@@ -303,7 +308,10 @@ bool arpabet_writer::write(const ipa::phoneme &aPhoneme)
 		else
 		{
 			if (aPhoneme.get(ipa::phoneme_type) == ipa::vowel)
+			{
+				mIsSchwa = aPhoneme.get(schwa_mask) == schwa;
 				mStress = aPhoneme.get(ipa::stress);
+			}
 			else
 				mStress = -1;
 
@@ -316,6 +324,7 @@ bool arpabet_writer::write(const ipa::phoneme &aPhoneme)
 	case state::have_phoneme:
 		{
 			auto next = mPosition->get(aPhoneme);
+			mIsSchwa = false;
 			mState = state::output_phoneme;
 			if (next != nullptr)
 			{
@@ -327,6 +336,7 @@ bool arpabet_writer::write(const ipa::phoneme &aPhoneme)
 	case state::have_separator:
 		fputc('\n', mOutput);
 		mNeedSpace = false;
+		mIsSchwa = false;
 		mState = state::need_phoneme;
 		break;
 	case state::output_phoneme:
@@ -359,10 +369,14 @@ void arpabet_writer::output_phoneme()
 	fwrite(mPosition->item->begin(), 1, mPosition->item->size(), mOutput);
 	switch (mStress)
 	{
-	case ipa::unstressed:       if (mVariant == tts::arpabet_variant::arpabet) fputc('0', mOutput); break;
+	case ipa::unstressed:
+		if (mVariant == tts::arpabet_variant::arpabet && !mIsSchwa)
+			fputc('0', mOutput);
+		break;
 	case ipa::primary_stress:   fputc('1', mOutput); break;
 	case ipa::secondary_stress: fputc('2', mOutput); break;
 	}
+	mIsSchwa = false;
 	mState = state::need_phoneme;
 }
 
