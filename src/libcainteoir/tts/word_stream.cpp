@@ -32,6 +32,8 @@ static bool parseCainteoirDictionary(tts::dictionary &dict, const cainteoir::pat
 	try
 	{
 		auto reader = tts::createDictionaryReader(path);
+		if (!reader)
+			return false;
 		while (reader->read())
 			dict.add_entry(reader->word, reader->entry);
 	}

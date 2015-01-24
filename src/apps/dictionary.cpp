@@ -457,6 +457,11 @@ int main(int argc, char ** argv)
 		if (dictionary != nullptr)
 		{
 			auto reader = tts::createDictionaryReader(dictionary);
+			if (!reader)
+			{
+				fprintf(stderr, "unsupported dictionary format for: %s\n", dictionary);
+				return 0;
+			}
 			while (reader->read())
 				base_dict.add_entry(reader->word, reader->entry);
 			if (word_mode == word_mode_type::merge)
@@ -480,6 +485,11 @@ int main(int argc, char ** argv)
 		if (source_dictionary != nullptr)
 		{
 			auto reader = tts::createDictionaryReader(source_dictionary);
+			if (!reader)
+			{
+				fprintf(stderr, "unsupported dictionary format for: %s\n", dictionary);
+				return 0;
+			}
 			while (reader->read())
 				src_dict.add_entry(reader->word, reader->entry);
 			if (word_mode == word_mode_type::only_in_document && words == 0) // new words
