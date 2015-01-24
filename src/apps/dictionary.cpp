@@ -59,8 +59,16 @@ static bool add_dictionary_entries(const char *aDictionaryPath, tts::dictionary 
 		fprintf(stderr, "unsupported dictionary format for: %s\n", aDictionaryPath);
 		return false;
 	}
-	while (reader->read())
+	while (true) try
+	{
+		if (!reader->read())
+			return true;
 		aDictionary.add_entry(reader->word, reader->entry);
+	}
+	catch (const tts::phoneme_error &e)
+	{
+		fprintf(stderr, "error reading entry \"%s\": %s\n", reader->word->str().c_str(), e.what());
+	}
 	return true;
 }
 
