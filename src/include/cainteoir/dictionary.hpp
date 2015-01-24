@@ -164,7 +164,7 @@ namespace cainteoir { namespace tts
 		virtual ~dictionary_reader() {}
 	};
 
-	std::shared_ptr<dictionary_reader> createDictionaryReader(const char *aDictionaryPath);
+	std::shared_ptr<dictionary_reader> createDictionaryReader(const char *aDictionaryPath, const char *aPreferredPhonemeset = nullptr);
 
 	struct dictionary_formatter
 	{

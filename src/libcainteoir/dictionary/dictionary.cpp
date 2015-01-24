@@ -288,7 +288,7 @@ std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryEntryFormatter(F
 	return std::make_shared<dictionary_entry_formatter>(out);
 }
 
-std::shared_ptr<tts::dictionary_reader> tts::createDictionaryReader(const char *aDictionaryPath)
+std::shared_ptr<tts::dictionary_reader> tts::createDictionaryReader(const char *aDictionaryPath, const char *aPreferredPhonemeSet)
 {
 	if (!aDictionaryPath) return {};
 
@@ -301,7 +301,7 @@ std::shared_ptr<tts::dictionary_reader> tts::createDictionaryReader(const char *
 	if (m::cainteoir.match(header))
 		return createCainteoirDictionaryReader(aDictionaryPath);
 	if (m::cmudict.match(header))
-		return createCMUDictionaryReader(aDictionaryPath);
+		return createCMUDictionaryReader(aDictionaryPath, aPreferredPhonemeSet);
 
 	return {};
 }

@@ -243,9 +243,9 @@ bool cmudict_dictionary_reader::read()
 	return false;
 }
 
-std::shared_ptr<tts::dictionary_reader> tts::createCMUDictionaryReader(const char *aDictionaryPath)
+std::shared_ptr<tts::dictionary_reader> tts::createCMUDictionaryReader(const char *aDictionaryPath, const char *aPreferredPhonemeSet)
 {
-	return std::make_shared<cmudict_dictionary_reader>(aDictionaryPath, "cmu");
+	return std::make_shared<cmudict_dictionary_reader>(aDictionaryPath, aPreferredPhonemeSet ? aPreferredPhonemeSet : "cmu");
 }
 
 struct cmudict_formatter : public tts::dictionary_formatter

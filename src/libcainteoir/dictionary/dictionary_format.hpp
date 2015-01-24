@@ -29,7 +29,7 @@ namespace cainteoir { namespace tts
 
 	std::shared_ptr<dictionary_reader> createCainteoirDictionaryReader(const char *aDictionaryPath);
 
-	std::shared_ptr<dictionary_reader> createCMUDictionaryReader(const char *aDictionaryPath);
+	std::shared_ptr<dictionary_reader> createCMUDictionaryReader(const char *aDictionaryPath, const char *aPreferredPhonemeSet);
 
 	// formatters
 
