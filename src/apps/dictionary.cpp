@@ -51,6 +51,19 @@ enum class word_mode_type
 	in_dictionary_and_document,
 };
 
+static bool add_dictionary_entries(const char *aDictionaryPath, tts::dictionary &aDictionary)
+{
+	auto reader = tts::createDictionaryReader(aDictionaryPath);
+	if (!reader)
+	{
+		fprintf(stderr, "unsupported dictionary format for: %s\n", aDictionaryPath);
+		return false;
+	}
+	while (reader->read())
+		aDictionary.add_entry(reader->word, reader->entry);
+	return true;
+}
+
 struct dictionary_phoneme_reader : public tts::phoneme_reader
 {
 	dictionary_phoneme_reader(tts::dictionary &aDictionary)
@@ -456,14 +469,8 @@ int main(int argc, char ** argv)
 		uint32_t words = 0;
 		if (dictionary != nullptr)
 		{
-			auto reader = tts::createDictionaryReader(dictionary);
-			if (!reader)
-			{
-				fprintf(stderr, "unsupported dictionary format for: %s\n", dictionary);
+			if (!add_dictionary_entries(dictionary, base_dict))
 				return 0;
-			}
-			while (reader->read())
-				base_dict.add_entry(reader->word, reader->entry);
 			if (word_mode == word_mode_type::merge)
 			{
 				dict  = base_dict;
@@ -484,14 +491,8 @@ int main(int argc, char ** argv)
 
 		if (source_dictionary != nullptr)
 		{
-			auto reader = tts::createDictionaryReader(source_dictionary);
-			if (!reader)
-			{
-				fprintf(stderr, "unsupported dictionary format for: %s\n", dictionary);
+			if (!add_dictionary_entries(source_dictionary, src_dict))
 				return 0;
-			}
-			while (reader->read())
-				src_dict.add_entry(reader->word, reader->entry);
 			if (word_mode == word_mode_type::only_in_document && words == 0) // new words
 				words += from_dictionary(base_dict, dict, src_dict, word_mode);
 		}
