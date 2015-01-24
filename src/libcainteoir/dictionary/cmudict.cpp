@@ -66,6 +66,8 @@ bool cmudict_dictionary_reader::read()
 		entry_word,
 		entry_context,
 		entry_pronunciation,
+		entry_comment,
+		have_entry,
 	};
 
 	state_t state = start;
@@ -129,10 +131,11 @@ bool cmudict_dictionary_reader::read()
 		};
 		break;
 	case comment:
+	case entry_comment:
 		switch (*mCurrent)
 		{
 		case '\r': case '\n':
-			state = start;
+			state = (state == comment) ? start : have_entry;
 			++mCurrent;
 			break;
 		default:
@@ -199,36 +202,42 @@ bool cmudict_dictionary_reader::read()
 		switch (*mCurrent)
 		{
 		case '\r': case '\n':
-			{
-				char data[512] = { 0 };
-				char *ptr = data;
-				for (auto c : cainteoir::buffer(word_start, word_end))
-				{
-					*ptr++ = tolower(c);
-				}
-				if (context_start != nullptr)
-				{
-					*ptr++ = '@';
-					for (auto c : cainteoir::buffer(context_start, context_end))
-						*ptr++ = c;
-				}
-
-				state = start;
-				pronunciation_end = mCurrent;
-				++mCurrent;
-
-				word = cainteoir::make_buffer(data, ptr - data);
-				auto pronunciation = std::make_shared<cainteoir::buffer>(pronunciation_start, pronunciation_end);
-
-				entry = { pronunciation, mPhonemeSet };
-
-				return true;
-			}
+			state = have_entry;
+			pronunciation_end = mCurrent;
+			++mCurrent;
+			break;
+		case '#':
+			state = entry_comment;
+			pronunciation_end = mCurrent;
+			++mCurrent;
 			break;
 		default:
 			++mCurrent;
 			break;
 		};
+		break;
+	case have_entry:
+		{
+			char data[512] = { 0 };
+			char *ptr = data;
+			for (auto c : cainteoir::buffer(word_start, word_end))
+			{
+				*ptr++ = tolower(c);
+			}
+			if (context_start != nullptr)
+			{
+				*ptr++ = '@';
+				for (auto c : cainteoir::buffer(context_start, context_end))
+					*ptr++ = c;
+			}
+
+			word = cainteoir::make_buffer(data, ptr - data);
+			auto pronunciation = std::make_shared<cainteoir::buffer>(pronunciation_start, pronunciation_end);
+
+			entry = { pronunciation, mPhonemeSet };
+
+			return true;
+		}
 		break;
 	}
 	return false;
