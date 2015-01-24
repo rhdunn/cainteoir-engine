@@ -428,7 +428,31 @@ static const std::initializer_list<m::magic> mime_magic = {
 const m::mime_info m::mime_data = { mime_magic, "", "", "", {}, {} };
 
 //}}}
+/* === Cainteoir Dictionary/Phoneme Format ===
+ */
+//{{{
 
+static const std::initializer_list<m::matchlet> cainteoir_pattern1 = { { 0,  1, ".author\t" } };
+static const std::initializer_list<m::matchlet> cainteoir_pattern2 = { { 0,  1, ".copyright\t" } };
+static const std::initializer_list<m::matchlet> cainteoir_pattern3 = { { 0,  1, ".license\t" } };
+static const std::initializer_list<m::matchlet> cainteoir_pattern4 = { { 0,  1, ".description\t" } };
+static const std::initializer_list<m::matchlet> cainteoir_pattern5 = { { 0,  1, ".import\t" } };
+static const std::initializer_list<m::matchlet> cainteoir_pattern6 = { { 0,  1, ".phonemeset\t" } };
+
+static const std::initializer_list<m::magic> cainteoir_magic = {
+	cainteoir_pattern1,
+	cainteoir_pattern2,
+	cainteoir_pattern3,
+	cainteoir_pattern4,
+	cainteoir_pattern5,
+	cainteoir_pattern6,
+};
+
+static const m::mime_info cainteoir_data = { cainteoir_magic, "", "", "", {}, {} };
+
+//}}}
+
+const m::mimetype m::cainteoir("cainteoir", nullptr, &cainteoir_data);
 const m::mimetype m::email( "email", m::email_mimetype);
 const m::mimetype m::epub(  "epub",  m::epub_mimetype);
 const m::mimetype m::gzip(  "gzip",  m::gzip_mimetype);

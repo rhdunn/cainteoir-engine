@@ -46,6 +46,7 @@ namespace cainteoir { namespace mime
 		const void *info;
 	};
 
+	extern const mimetype cainteoir;
 	extern const mimetype email;
 	extern const mimetype epub;
 	extern const mimetype gzip;

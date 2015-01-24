@@ -24,9 +24,11 @@
 
 #include <ucd/ucd.h>
 #include <cainteoir/unicode.hpp>
+#include <cainteoir/mimetype.hpp>
 
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
+namespace m = cainteoir::mime;
 
 void tts::multiword_entry::operator++()
 {
@@ -290,7 +292,16 @@ std::shared_ptr<tts::dictionary_reader> tts::createDictionaryReader(const char *
 {
 	if (!aDictionaryPath) return {};
 
-	return createCainteoirDictionaryReader(aDictionaryPath);
+	char data[128] = { 0 };
+	FILE *f = fopen(aDictionaryPath, "rb");
+	size_t n = f ? fread(data, 1, sizeof(data), f) : 0;
+	fclose(f);
+
+	auto header = std::make_shared<cainteoir::buffer>(data, data + n);
+	if (m::cainteoir.match(header))
+		return createCainteoirDictionaryReader(aDictionaryPath);
+
+	return {};
 }
 
 std::shared_ptr<tts::dictionary_formatter> tts::createDictionaryFormatter(FILE *out, const char *aFormat)
