@@ -1,6 +1,6 @@
 /* Mime Type Support.
  *
- * Copyright (C) 2011-2014 Reece H. Dunn
+ * Copyright (C) 2011-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -451,8 +451,22 @@ static const std::initializer_list<m::magic> cainteoir_magic = {
 static const m::mime_info cainteoir_data = { cainteoir_magic, "", "", "", {}, {} };
 
 //}}}
+/* === CMU Dictionary Format ===
+ */
+//{{{
+
+static const std::initializer_list<m::matchlet> cmudict_pattern1 = { { 0,  1, ";;;" } };
+
+static const std::initializer_list<m::magic> cmudict_magic = {
+	cmudict_pattern1,
+};
+
+static const m::mime_info cmudict_data = { cmudict_magic, "", "", "", {}, {} };
+
+//}}}
 
 const m::mimetype m::cainteoir("cainteoir", nullptr, &cainteoir_data);
+const m::mimetype m::cmudict("cmudict", nullptr, &cmudict_data);
 const m::mimetype m::email( "email", m::email_mimetype);
 const m::mimetype m::epub(  "epub",  m::epub_mimetype);
 const m::mimetype m::gzip(  "gzip",  m::gzip_mimetype);

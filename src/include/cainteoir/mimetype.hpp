@@ -1,6 +1,6 @@
 /* Mime Type Support.
  *
- * Copyright (C) 2011 Reece H. Dunn
+ * Copyright (C) 2011-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -47,6 +47,7 @@ namespace cainteoir { namespace mime
 	};
 
 	extern const mimetype cainteoir;
+	extern const mimetype cmudict;
 	extern const mimetype email;
 	extern const mimetype epub;
 	extern const mimetype gzip;

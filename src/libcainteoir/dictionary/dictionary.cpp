@@ -300,6 +300,8 @@ std::shared_ptr<tts::dictionary_reader> tts::createDictionaryReader(const char *
 	auto header = std::make_shared<cainteoir::buffer>(data, data + n);
 	if (m::cainteoir.match(header))
 		return createCainteoirDictionaryReader(aDictionaryPath);
+	if (m::cmudict.match(header))
+		return createCMUDictionaryReader(aDictionaryPath);
 
 	return {};
 }

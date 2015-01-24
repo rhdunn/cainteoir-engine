@@ -25,6 +25,220 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
+struct cmudict_dictionary_reader : public tts::dictionary_reader
+{
+	cmudict_dictionary_reader(const char *aDictionaryPath, const char *aPhonemeSet);
+
+	bool read();
+private:
+	std::shared_ptr<cainteoir::buffer> mData;
+	const char *mCurrent;
+	const char *mEnd;
+
+	std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
+};
+
+cmudict_dictionary_reader::cmudict_dictionary_reader(const char *aDictionaryPath, const char *aPhonemeSet)
+	: mData(cainteoir::make_file_buffer(aDictionaryPath))
+	, mPhonemeSet(tts::createPhonemeReader(aPhonemeSet))
+{
+	if (mData)
+	{
+		mCurrent = mData->begin();
+		mEnd = mData->end();
+	}
+	else
+	{
+		mCurrent = nullptr;
+		mEnd = nullptr;
+	}
+}
+
+bool cmudict_dictionary_reader::read()
+{
+	enum state_t
+	{
+		start,
+		new_comment1,
+		new_comment2,
+		comment,
+		entry_word0,
+		entry_word,
+		entry_context,
+		entry_pronunciation,
+	};
+
+	state_t state = start;
+	const char *word_start = nullptr;
+	const char *word_end = nullptr;
+	const char *context_start = nullptr;
+	const char *context_end = nullptr;
+	const char *pronunciation_start = nullptr;
+	const char *pronunciation_end = nullptr;
+
+	while (mCurrent != mEnd) switch (state)
+	{
+	case start:
+		switch (*mCurrent)
+		{
+		case ';':
+			state = new_comment1;
+			++mCurrent;
+			break;
+		case ' ': case '\t': case '\r': case '\n':
+			++mCurrent;
+			break;
+		default:
+			state = entry_word0;
+			word_start = mCurrent;
+			break;
+		};
+		break;
+	case new_comment1:
+		switch (*mCurrent)
+		{
+		case ';':
+			state = new_comment2;
+			++mCurrent;
+			break;
+		case '\r': case '\n':
+			state = start;
+			++mCurrent;
+			break;
+		default:
+			state = entry_word0;
+			word_start = mCurrent - 1;
+			break;
+		};
+		break;
+	case new_comment2:
+		switch (*mCurrent)
+		{
+		case ';':
+			state = comment;
+			++mCurrent;
+			break;
+		case '\r': case '\n':
+			state = start;
+			++mCurrent;
+			break;
+		default:
+			state = entry_word0;
+			word_start = mCurrent - 2;
+			break;
+		};
+		break;
+	case comment:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n':
+			state = start;
+			++mCurrent;
+			break;
+		default:
+			++mCurrent;
+			break;
+		};
+		break;
+	case entry_word0:
+		switch (*mCurrent)
+		{
+		case ' ': case '\t': case '\r': case '\n':
+			state = start;
+			++mCurrent;
+			break;
+		default:
+			state = entry_word;
+			++mCurrent;
+			break;
+		};
+		break;
+	case entry_word:
+		switch (*mCurrent)
+		{
+		case ' ': case '\t':
+			state = entry_pronunciation;
+			word_end = mCurrent;
+			++mCurrent;
+			pronunciation_start = mCurrent;
+			break;
+		case '(':
+			state = entry_context;
+			word_end = mCurrent;
+			++mCurrent;
+			context_start = mCurrent;
+			break;
+		case '\r': case '\n':
+			state = start;
+			++mCurrent;
+			break;
+		default:
+			++mCurrent;
+			break;
+		};
+		break;
+	case entry_context:
+		switch (*mCurrent)
+		{
+		case ')':
+			state = entry_pronunciation;
+			context_end = mCurrent;
+			++mCurrent;
+			pronunciation_start = mCurrent;
+			break;
+		case '\r': case '\n':
+			state = start;
+			++mCurrent;
+			break;
+		default:
+			++mCurrent;
+			break;
+		};
+		break;
+	case entry_pronunciation:
+		switch (*mCurrent)
+		{
+		case '\r': case '\n':
+			{
+				char data[512] = { 0 };
+				char *ptr = data;
+				for (auto c : cainteoir::buffer(word_start, word_end))
+				{
+					*ptr++ = tolower(c);
+				}
+				if (context_start != nullptr)
+				{
+					*ptr++ = '@';
+					for (auto c : cainteoir::buffer(context_start, context_end))
+						*ptr++ = c;
+				}
+
+				state = start;
+				pronunciation_end = mCurrent;
+				++mCurrent;
+
+				word = cainteoir::make_buffer(data, ptr - data);
+				auto pronunciation = std::make_shared<cainteoir::buffer>(pronunciation_start, pronunciation_end);
+
+				entry = { pronunciation, mPhonemeSet };
+
+				return true;
+			}
+			break;
+		default:
+			++mCurrent;
+			break;
+		};
+		break;
+	}
+	return false;
+}
+
+std::shared_ptr<tts::dictionary_reader> tts::createCMUDictionaryReader(const char *aDictionaryPath)
+{
+	return std::make_shared<cmudict_dictionary_reader>(aDictionaryPath, "cmu");
+}
+
 struct cmudict_formatter : public tts::dictionary_formatter
 {
 	cmudict_formatter(FILE *aOut)
