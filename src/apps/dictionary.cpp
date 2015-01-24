@@ -1,6 +1,6 @@
-/* Test for the exception dictionary API.
+/* An application for working with pronunciation dictionaries.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
