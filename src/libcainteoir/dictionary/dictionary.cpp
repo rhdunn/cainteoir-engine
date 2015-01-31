@@ -294,6 +294,8 @@ std::shared_ptr<tts::dictionary_reader> tts::createDictionaryReader(const char *
 
 	char data[128] = { 0 };
 	FILE *f = fopen(aDictionaryPath, "rb");
+	if (!f) return {};
+
 	size_t n = f ? fread(data, 1, sizeof(data), f) : 0;
 	fclose(f);
 
