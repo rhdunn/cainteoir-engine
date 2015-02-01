@@ -173,6 +173,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
            const char *ruleset,
            const char *dictionary,
            const char *phonemeset,
+           const char *preferred_phonemeset,
            const char *phoneme_map,
            const char *accent,
            tts::stress_type stress)
@@ -195,7 +196,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 		if (accent)
 			rules = tts::createAccentConverter(accent, rules);
-		auto dict = tts::createDictionaryReader(dictionary);
+		auto dict = tts::createDictionaryReader(dictionary, preferred_phonemeset);
 		std::shared_ptr<tts::clause_processor> processor
 			=  std::make_shared<tts::clause_processor_chain>()
 			<< tts::context_analysis()
@@ -254,6 +255,7 @@ int main(int argc, char ** argv)
 		const char *ruleset = nullptr;
 		const char *dictionary = nullptr;
 		const char *phonemeset = "ipa";
+		const char *preferred_phonemeset = nullptr;
 		const char *locale_name = "en";
 		const char *phoneme_map = nullptr;
 		const char *accent = nullptr;
@@ -281,6 +283,8 @@ int main(int argc, char ** argv)
 			  i18n("Use the RULESET pronunciation rule file") },
 			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
 			  i18n("Use PHONEMESET to transcribe phonemes as (default: ipa)") },
+			{ 'I', "input-phonemeset", preferred_phonemeset, "PHONEMESET",
+			  i18n("Prefer PHONEMESET to parse phoneme entries (default: auto)") },
 		}};
 
 		const option_group mode_options = { i18n("Processing Mode:"), {
@@ -348,10 +352,10 @@ int main(int argc, char ** argv)
 		{
 			cainteoir::document doc(reader, metadata);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
-			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, phoneme_map, accent, stress);
+			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
 		}
 		else
-			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, phoneme_map, accent, stress);
+			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
 		if (show_help)
 		{
 			print_help({ general_options, mode_options }, usage);
