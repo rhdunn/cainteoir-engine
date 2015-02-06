@@ -184,6 +184,9 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u028E\u031D\u030A	/{vcd,pal,lat,apr,slv,rsd}/
 \u029F\u031D\u030A	/{vcd,vel,lat,apr,slv,rsd}/
 
+\u0273\u030D		/{vcd,rfx,nas,syl}/
+\u014B\u030D		/{vcd,vel,nas,syl}/
+
 # Diacritics, Modifiers & Suprasegmentals
 
 \.			/{sbr}/
