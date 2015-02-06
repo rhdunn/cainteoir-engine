@@ -1,0 +1,75 @@
+# Copyright (C) 2014-2015 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.type	arpabet
+
+.type	festvox
+
+aa	/{low,bck,unr,vwl}/ # /ɑ/
+ae	/{sml,fnt,unr,vwl}/ # /æ/
+ah	/{lmd,bck,unr,vwl}/ # /ʌ/
+ao	/{lmd,bck,rnd,vwl}/ # /ɔ/
+aw	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/
+ax	/{mid,cnt,unr,vwl}/ # /ə/
+axr	/{mid,cnt,unr,vwl,rzd}/ # /ɚ/
+ay	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/
+b	/{vcd,blb,stp}/ # /b/
+bcl	/{vcd,blb,stp,unx}/ # /b̚/
+ch	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
+d	/{vcd,alv,stp}/ # /d/
+dcl	/{vcd,alv,stp,unx}/ # /d̚/
+dh	/{vcd,dnt,frc}/ # /ð/
+dx	/{vcd,alv,flp}/ # /ɾ/
+eh	/{lmd,fnt,unr,vwl}/ # /ɛ/
+el	/{vcd,alv,lat,apr,syl}/ # /l̩/
+em	/{vcd,blb,nas,syl}/ # /m̩/
+en	/{vcd,alv,nas,syl}/ # /n̩/
+eng	/{vcd,vel,nas,syl}/ # /ŋ̍/
+er	/{lmd,cnt,unr,vwl,rzd}/ # /ɜ˞/
+ey	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/
+f	/{vls,lbd,frc}/ # /f/
+g	/{vcd,vel,stp}/ # /ɡ/
+gcl	/{vcd,vel,stp,unx}/ # /ɡ̚/
+hh	/{vls,glt,apr}/ # /h/
+hv	/{vcd,glt,frc}/ # /ɦ/
+ih	/{smh,fnt,unr,vwl}/ # /ɪ/
+iy	/{hgh,fnt,unr,vwl}/ # /i/
+ix	/{hgh,cnt,unr,vwl}/ # /ɨ/
+jh	/{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ # /d͡ʒ/
+k	/{vls,vel,stp}/ # /k/
+kcl	/{vls,vel,stp,unx}/ # /k̚/
+l	/{vcd,alv,lat,apr}/ # /l/
+m	/{vcd,blb,nas}/ # /m/
+n	/{vcd,alv,nas}/ # /n/
+ng	/{vcd,vel,nas}/ # /ŋ/
+nx	/{vcd,alv,flp,nzd}/ # /ɾ̃/
+ow	/{umd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ # /oʊ̯/
+oy	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/
+p	/{vls,blb,stp}/ # /p/
+pcl	/{vls,blb,stp,unx}/ # /p̚/
+q	/{vls,glt,stp}/ # /ʔ/
+r	/{vcd,alv,apr}/ # /ɹ/
+s	/{vls,alv,sib,frc}/ # /s/
+sh	/{vls,pla,sib,frc}/ # /ʃ/
+t	/{vls,alv,stp}/ # /t/
+tcl	/{vls,alv,stp,unx}/ # /t̚/
+th	/{vls,dnt,frc}/ # /θ/
+uh	/{smh,bck,rnd,vwl}/ # /ʊ/
+uw	/{hgh,bck,rnd,vwl}/ # /u/
+ux	/{hgh,cnt,rnd,vwl}/ # /ʉ/
+v	/{vcd,lbd,frc}/ # /v/
+w	/{vcd,lbv,apr}/ # /w/
+y	/{vcd,pal,apr}/ # /j/
+z	/{vcd,alv,sib,frc}/ # /z/
+zh	/{vcd,pla,sib,frc}/ # /ʒ/
+
+h\#	/{pau,est}/ # start/end marker
+
+epi	/{pau}/ # epenthetic silence
+pau	/{pau,est}/
+
+##### References:
+#
+#  1. Phone Recognition on the TIMIT Database, C. Lopez [PDF]
+#  2. https://en.wikipedia.org/wiki/Arpabet

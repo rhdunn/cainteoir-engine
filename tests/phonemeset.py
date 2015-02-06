@@ -95,6 +95,13 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/arpabet/cmu-pauses.mrpa', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'mrpa', 'to': 'ipa'},
 			{'test': 'phonemeset/arpabet/cmu-invalid-diphthong.ipa', 'result': 'phonemeset/arpabet/cmu-invalid-diphthong.cmu', 'from': 'ipa', 'to': 'mrpa'},
 		]},
+		{'name': 'timit', 'type': 'phonemeset', 'tests': [
+			{'test': 'phonemeset/arpabet/timit-phonemes.ipa', 'result': 'phonemeset/arpabet/timit-phonemes.timit', 'from': 'ipa', 'to': 'timit'},
+			{'test': 'phonemeset/arpabet/timit-phonemes.timit', 'result': 'phonemeset/arpabet/timit-phonemes.ipa', 'from': 'timit', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.ipa', 'result': 'phonemeset/arpabet/cmu-pauses.radio', 'from': 'ipa', 'to': 'timit'},
+			{'test': 'phonemeset/arpabet/cmu-pauses.radio', 'result': 'phonemeset/arpabet/cmu-pauses.ipa', 'from': 'timit', 'to': 'ipa'},
+			{'test': 'phonemeset/arpabet/cmu-invalid-diphthong.ipa', 'result': 'phonemeset/arpabet/cmu-invalid-diphthong.cmu', 'from': 'ipa', 'to': 'timit'},
+		]},
 		{'name': 'en-US', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/arpabet/en-US-phonemes.ipa', 'result': 'phonemeset/arpabet/en-US-phonemes.arpabet', 'from': 'ipa', 'to': 'arpabet/en-US'},
 			{'test': 'phonemeset/arpabet/en-US-phonemes.arpabet', 'result': 'phonemeset/arpabet/en-US-phonemes.ipa', 'from': 'arpabet/en-US', 'to': 'ipa'},
