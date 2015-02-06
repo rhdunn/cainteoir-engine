@@ -192,7 +192,7 @@ namespace cainteoir
 		if (errno == ERANGE)
 			return 1.0;
 
-		return scale_factor(aScaleToFraction, aRange);
+		return scale_factor(target, aRange);
 	}
 }
 
