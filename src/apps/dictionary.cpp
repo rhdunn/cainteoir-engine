@@ -495,10 +495,7 @@ int main(int argc, char ** argv)
 		if (dictionary == nullptr || word_mode != word_mode_type::merge)
 		{
 			if (argc == 0)
-			{
-				if (source_dictionary == nullptr)
-					words += from_document(base_dict, dict, nullptr, dictionary_format != nullptr, word_mode);
-			}
+				words += from_document(base_dict, dict, nullptr, dictionary_format != nullptr, word_mode);
 			else for (int i = 0; i != argc; ++i)
 				words += from_document(base_dict, dict, argv[i], dictionary_format != nullptr, word_mode);
 		}
@@ -507,8 +504,6 @@ int main(int argc, char ** argv)
 		{
 			if (!add_dictionary_entries(source_dictionary, src_dict, preferred_phonemeset))
 				return 0;
-			if (word_mode == word_mode_type::only_in_document && words == 0) // new words
-				words += from_dictionary(base_dict, dict, src_dict, word_mode);
 		}
 
 		auto formatter = tts::createDictionaryFormatter(stdout, dictionary_format);
