@@ -182,7 +182,9 @@ int main(int argc, char ** argv)
 {
 	try
 	{
+		bool show_toc = false;
 		decltype(writeTextDocument) *writer = nullptr;
+		std::pair<size_t, size_t> nav_range = { -1, -1 };
 
 		const option_group general_options = { nullptr, {
 			{ 0, "text", bind_value(writer, &writeTextDocument),
@@ -191,17 +193,27 @@ int main(int argc, char ** argv)
 			  i18n("Output as a HTML document.") },
 		}};
 
+		const option_group toc_options = { i18n("Table of Contents:"), {
+			{ 'c', "contents", bind_value(show_toc, true),
+			  i18n("List the table of contents for the specified document") },
+			{ 'f', "from", nav_range.first, "FROM",
+			  i18n("Start reading/recoding from contents marker FROM") },
+			{ 't', "to", nav_range.second, "TO",
+			  i18n("Finish reading/recording after contents marker TO") },
+		}};
+
 		const std::initializer_list<const char *> usage = {
 			i18n("doc2doc [OPTION..] DOCUMENT"),
 			i18n("doc2doc [OPTION..]"),
 		};
 
-		if (!parse_command_line({ general_options }, usage, argc, argv))
+		if (!parse_command_line({ general_options, toc_options }, usage, argc, argv))
 			return 0;
 
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
+		rdf::uri subject(filename ? filename : std::string(), std::string());
 
-		if (!writer)
+		if (!writer && !show_toc)
 			throw std::runtime_error(i18n("unsupported format to convert to (html and text only)"));
 
 		rdf::graph metadata;
@@ -212,7 +224,25 @@ int main(int argc, char ** argv)
 			return EXIT_FAILURE;
 		}
 
-		writer(reader);
+		cainteoir::document doc(reader, metadata);
+		auto listing = cainteoir::navigation(metadata, subject, rdf::epv("toc"));
+
+		if (show_toc)
+		{
+			int toc_number = 1;
+			for (auto &entry : listing)
+			{
+				printf(" %4d ", toc_number);
+				for (int i = 0; i < entry.depth; ++i)
+					printf("... ");
+				printf("%s\n", entry.title.c_str());
+				++toc_number;
+			}
+			return 0;
+		}
+
+		auto children = cainteoir::createDocumentReader(doc.children(listing, nav_range));
+		writer(children);
 	}
 	catch (std::runtime_error &e)
 	{
