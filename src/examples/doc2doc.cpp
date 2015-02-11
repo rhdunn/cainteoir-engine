@@ -29,6 +29,7 @@
 
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/path.hpp>
 #include <stdexcept>
 #include <stack>
 
@@ -192,8 +193,9 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 		    (reader->type & cainteoir::events::media_ref && media_overlay_depth != -1))
 		{
 			auto output = text.buffer();
+			auto audiofile = cainteoir::path(audio.str()).zip_path();
 
-			fprintf(stdout, "%s,%G,%G,", audio.str().c_str(), media_begin.value(), media_end.value());
+			fprintf(stdout, "%s,%G,%G,", audiofile.str().c_str(), media_begin.value(), media_end.value());
 			fwrite(output->begin(), 1, output->size(), stdout);
 			fwrite("\n", 1, 1, stdout);
 
