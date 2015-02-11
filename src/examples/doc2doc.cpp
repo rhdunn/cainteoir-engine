@@ -180,11 +180,31 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 
 static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reader)
 {
+	int depth = 0;
+	int media_overlay_depth = -1;
 	while (reader->read())
 	{
-		if (reader->type & cainteoir::events::text)
+		if (reader->type & cainteoir::events::begin_context)
+		{
+			++depth;
+		}
+
+		if (reader->type & cainteoir::events::end_context)
+		{
+			if (depth == media_overlay_depth)
+				media_overlay_depth = -1;
+			--depth;
+		}
+
+		if (reader->type & cainteoir::events::media_ref)
+		{
+			media_overlay_depth = depth;
+		}
+
+		if (reader->type & cainteoir::events::text && media_overlay_depth != -1)
 		{
 			fwrite(reader->content->begin(), 1, reader->content->size(), stdout);
+			fwrite("\n", 1, 1, stdout);
 		}
 	}
 }
