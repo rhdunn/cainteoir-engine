@@ -178,6 +178,17 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 	fprintf(stdout, "\n</html>");
 }
 
+static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reader)
+{
+	while (reader->read())
+	{
+		if (reader->type & cainteoir::events::text)
+		{
+			fwrite(reader->content->begin(), 1, reader->content->size(), stdout);
+		}
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -191,6 +202,8 @@ int main(int argc, char ** argv)
 			  i18n("Output as plain text.") },
 			{ 0, "html", bind_value(writer, &writeHtmlDocument),
 			  i18n("Output as a HTML document.") },
+			{ 0, "media-overlays", bind_value(writer, &writeMediaOverlays),
+			  i18n("Output media overlay information.") },
 		}};
 
 		const option_group toc_options = { i18n("Table of Contents:"), {
