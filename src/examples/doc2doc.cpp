@@ -188,6 +188,19 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 	css::time media_end;
 	while (reader->read())
 	{
+		if ((reader->type & cainteoir::events::end_context && depth == media_overlay_depth) ||
+		    (reader->type & cainteoir::events::media_ref && media_overlay_depth != -1))
+		{
+			auto output = text.buffer();
+
+			fprintf(stdout, "%s,%G,%G,", audio.str().c_str(), media_begin.value(), media_end.value());
+			fwrite(output->begin(), 1, output->size(), stdout);
+			fwrite("\n", 1, 1, stdout);
+
+			media_overlay_depth = -1;
+			text.clear();
+		}
+
 		if (reader->type & cainteoir::events::begin_context)
 		{
 			++depth;
@@ -195,17 +208,6 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 
 		if (reader->type & cainteoir::events::end_context)
 		{
-			if (depth == media_overlay_depth)
-			{
-				media_overlay_depth = -1;
-				auto output = text.buffer();
-
-				fprintf(stdout, "%s,%G,%G,", audio.str().c_str(), media_begin.value(), media_end.value());
-				fwrite(output->begin(), 1, output->size(), stdout);
-				fwrite("\n", 1, 1, stdout);
-
-				text.clear();
-			}
 			--depth;
 		}
 
