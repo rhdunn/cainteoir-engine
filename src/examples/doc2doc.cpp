@@ -180,8 +180,6 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 
 static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reader)
 {
-	static const auto space = std::make_shared<cainteoir::buffer>(" ");
-
 	int depth = 0;
 	int media_overlay_depth = -1;
 	cainteoir::rope text;
@@ -215,7 +213,6 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 		if (reader->type & cainteoir::events::text && media_overlay_depth != -1)
 		{
 			text += reader->content;
-			text += space;
 		}
 	}
 }
