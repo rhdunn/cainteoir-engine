@@ -854,6 +854,7 @@ check: \
 	tests/styles.check \
 	tests/htmltree.check \
 	tests/events.check \
+	tests/media_stream.check \
 	tests/phoneme.check \
 	tests/trie.check \
 	tests/phonemeset.check \
