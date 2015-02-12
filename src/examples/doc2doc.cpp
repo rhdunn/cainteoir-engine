@@ -1,6 +1,6 @@
 /* Document converter.
  *
- * Copyright (C) 2012-2013 Reece H. Dunn
+ * Copyright (C) 2012-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -187,6 +187,7 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 	rdf::uri audio;
 	css::time media_begin;
 	css::time media_end;
+	fprintf(stdout, "AudioPath,StartTime,EndTime,Text\n");
 	while (reader->read())
 	{
 		if ((reader->type & cainteoir::events::end_context && depth == media_overlay_depth) ||
