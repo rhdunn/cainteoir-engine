@@ -187,7 +187,9 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 	rdf::uri audio;
 	css::time media_begin;
 	css::time media_end;
-	fprintf(stdout, "AudioPath,StartTime,EndTime,Text\n");
+	uint32_t from = 0;
+	uint32_t to = 0;
+	fprintf(stdout, "AudioPath,StartTime,EndTime,FromChar,ToChar,Text\n");
 	while (reader->read())
 	{
 		if ((reader->type & cainteoir::events::end_context && depth == media_overlay_depth) ||
@@ -196,7 +198,9 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 			auto output = text.buffer();
 			auto audiofile = cainteoir::path(audio.str()).zip_path();
 
-			fprintf(stdout, "%s,%G,%G,", audiofile.str().c_str(), media_begin.value(), media_end.value());
+			fprintf(stdout, "%s,", audiofile.str().c_str());
+			fprintf(stdout, "%G,%G,", media_begin.value(), media_end.value());
+			fprintf(stdout, "%u,%u,", from, to);
 			fwrite(output->begin(), 1, output->size(), stdout);
 			fwrite("\n", 1, 1, stdout);
 
@@ -220,11 +224,13 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 			media_begin = reader->media_begin.as(css::time::seconds);
 			media_end = reader->media_end.as(css::time::seconds);
 			media_overlay_depth = depth;
+			from = to + 1;
 		}
 
 		if (reader->type & cainteoir::events::text && media_overlay_depth != -1)
 		{
 			text += reader->content;
+			to += reader->content->size();
 		}
 	}
 }
