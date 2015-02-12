@@ -224,12 +224,14 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 			media_begin = reader->media_begin.as(css::time::seconds);
 			media_end = reader->media_end.as(css::time::seconds);
 			media_overlay_depth = depth;
-			from = to + 1;
+			from = to;
 		}
 
-		if (reader->type & cainteoir::events::text && media_overlay_depth != -1)
+		if (reader->type & cainteoir::events::text)
 		{
-			text += reader->content;
+			if (media_overlay_depth != -1)
+				text += reader->content;
+
 			to += reader->content->size();
 		}
 	}
