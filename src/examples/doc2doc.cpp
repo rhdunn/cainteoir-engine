@@ -29,12 +29,14 @@
 
 #include <cainteoir/metadata.hpp>
 #include <cainteoir/document.hpp>
+#include <cainteoir/unicode.hpp>
 #include <cainteoir/path.hpp>
 #include <stdexcept>
 #include <stack>
 
 namespace css    = cainteoir::css;
 namespace rdf    = cainteoir::rdf;
+namespace utf8   = cainteoir::utf8;
 namespace events = cainteoir::events;
 
 static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader)
@@ -187,9 +189,11 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 	rdf::uri audio;
 	css::time media_begin;
 	css::time media_end;
-	uint32_t from = 0;
-	uint32_t to = 0;
-	fprintf(stdout, "AudioPath,StartTime,EndTime,FromChar,ToChar,Text\n");
+	uint32_t from_byte = 0;
+	uint32_t to_byte = 0;
+	uint32_t from_char = 0;
+	uint32_t to_char = 0;
+	fprintf(stdout, "AudioPath,StartTime,EndTime,FromByte,ToByte,FromChar,ToChar,Text\n");
 	while (reader->read())
 	{
 		if ((reader->type & cainteoir::events::end_context && depth == media_overlay_depth) ||
@@ -200,7 +204,8 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 
 			fprintf(stdout, "%s,", audiofile.str().c_str());
 			fprintf(stdout, "%G,%G,", media_begin.value(), media_end.value());
-			fprintf(stdout, "%u,%u,", from, to);
+			fprintf(stdout, "%u,%u,", from_byte, to_byte);
+			fprintf(stdout, "%u,%u,", from_char, to_char);
 			fwrite(output->begin(), 1, output->size(), stdout);
 			fwrite("\n", 1, 1, stdout);
 
@@ -224,7 +229,8 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 			media_begin = reader->media_begin.as(css::time::seconds);
 			media_end = reader->media_end.as(css::time::seconds);
 			media_overlay_depth = depth;
-			from = to;
+			from_byte = to_byte;
+			from_char = to_char;
 		}
 
 		if (reader->type & cainteoir::events::text)
@@ -232,7 +238,15 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 			if (media_overlay_depth != -1)
 				text += reader->content;
 
-			to += reader->content->size();
+			to_byte += reader->content->size();
+
+			const char *current = reader->content->begin();
+			const char *last = reader->content->end();
+			while (current != last)
+			{
+				++to_char;
+				current = utf8::next(current);
+			}
 		}
 	}
 }
