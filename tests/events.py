@@ -171,6 +171,7 @@ if __name__ == '__main__':
 		]},
 		{'name': 'phrasing content', 'type': 'events', 'tests': [
 			{'test': 'html/phrasing-content/br.xhtml', 'result': 'html/phrasing-content/br.events'},
+			{'test': 'html/phrasing-content/br-spacing.xhtml', 'result': 'html/phrasing-content/br-spacing.events'},
 		]},
 		{'name': 'entities', 'type': 'events', 'tests': [
 			{'test': 'html/entities.xhtml', 'result': 'html/entities.events'},

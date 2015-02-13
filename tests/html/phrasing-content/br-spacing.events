@@ -1,0 +1,8 @@
+anchor []
+begin-context paragraph +sans-serif
+text(6): """Lorem """
+text(5): """ipsum"""
+text(5): """dolor"""
+text(9): """sit amet,"""
+text(12): """consectetur """
+end-context

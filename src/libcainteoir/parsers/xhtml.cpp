@@ -1,6 +1,6 @@
 /* XHTML Document Parser.
  *
- * Copyright (C) 2010-2014 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -1296,6 +1296,10 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 		{
 			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, false });
 			return false;
+		}
+		if (reader.context() == &html::br_node)
+		{
+			trim_left = cainteoir::whitespace::collapse;
 		}
 		styles = reader.context()->styles;
 		if (styles)
