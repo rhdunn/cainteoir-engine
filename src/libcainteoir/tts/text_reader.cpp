@@ -60,6 +60,11 @@ private:
 	const char *mLast;
 	reader_state mReaderState;
 	uint8_t mState;
+
+	uint8_t mSavedState;
+	const char *mSavedCurrent;
+	char *mSavedMatchCurrent;
+	uint32_t mSavedMatchLast;
 };
 
 text_reader_t::text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader)
@@ -72,6 +77,10 @@ text_reader_t::text_reader_t(const std::shared_ptr<cainteoir::document_reader> &
 	, mReaderState(reader_state::need_text)
 	, mMatchNext(0)
 	, mMatchLast(0)
+	, mSavedState(0)
+	, mSavedCurrent(nullptr)
+	, mSavedMatchCurrent(nullptr)
+	, mSavedMatchLast(0)
 {
 	mMatch.type = tts::error;
 }
@@ -85,6 +94,11 @@ bool text_reader_t::read()
 			mCurrent = mReader->content->begin();
 			mLast = mReader->content->end();
 			mReaderState = reader_state::have_text;
+
+			mSavedState = mState;
+			mSavedCurrent = mCurrent;
+			mSavedMatchCurrent = mMatchCurrent;
+			mSavedMatchLast = mMatchLast;
 		}
 		else if (mReader->type & cainteoir::events::end_context)
 		{
@@ -123,11 +137,6 @@ bool text_reader_t::read()
 	ucd::codepoint_t cp = 0;
 	const char *next = nullptr;
 	ucd::script current_script = ucd::Zzzz;
-
-	uint8_t saved_state = mState;
-	const char *saved_current = mCurrent;
-	char *saved_match_current = mMatchCurrent;
-	uint32_t saved_match_last = mMatchLast;
 
 	for (; (next = cainteoir::utf8::read(mCurrent, cp)) <= mLast; mCurrent = next)
 	{
@@ -201,19 +210,20 @@ bool text_reader_t::read()
 		{
 			if (!fsm::data[mState].is_terminal)
 			{
-				mState = saved_state;
-				mCurrent = saved_current;
-				mMatchCurrent = (char *)cainteoir::utf8::next(saved_match_current);
-				mMatchLast = saved_match_last + 1;
+				mState = mSavedState;
+				mCurrent = mSavedCurrent;
+				mMatchCurrent = (char *)cainteoir::utf8::next(mSavedMatchCurrent);
+				mMatchLast = mSavedMatchLast + 1;
+				mSavedCurrent = nullptr;
 			}
 			return matched();
 		}
 		else if (fsm::data[new_state].is_terminal)
 		{
-			saved_state = new_state;
-			saved_current = next;
-			saved_match_current = mMatchCurrent;
-			saved_match_last = mMatchLast;
+			mSavedState = new_state;
+			mSavedCurrent = next;
+			mSavedMatchCurrent = mMatchCurrent;
+			mSavedMatchLast = mMatchLast;
 		}
 
 		++mMatchLast;
