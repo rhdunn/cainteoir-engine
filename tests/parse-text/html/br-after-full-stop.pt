@@ -1,0 +1,11 @@
+.Latn.lower    [0..3] one
+.full-stop     [3..4] .
+.Latn.lower    [4..7] two
+.full-stop     [7..8] .
+.Latn.lower    [9..14] three
+.full-stop     [14..15] .
+.Latn.lower    [16..20] four
+.ellipsis      [20..25] ...
+.Latn.lower    [26..30] five
+.full-stop     [30..31] .
+.end-para      [31..31] 

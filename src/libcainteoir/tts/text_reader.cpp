@@ -61,6 +61,7 @@ private:
 	reader_state mReaderState;
 	uint8_t mState;
 
+	bool mHaveSavedState;
 	uint8_t mSavedState;
 	const char *mSavedCurrent;
 	char *mSavedMatchCurrent;
@@ -77,6 +78,7 @@ text_reader_t::text_reader_t(const std::shared_ptr<cainteoir::document_reader> &
 	, mReaderState(reader_state::need_text)
 	, mMatchNext(0)
 	, mMatchLast(0)
+	, mHaveSavedState(false)
 	, mSavedState(0)
 	, mSavedCurrent(nullptr)
 	, mSavedMatchCurrent(nullptr)
@@ -94,11 +96,15 @@ bool text_reader_t::read()
 			mCurrent = mReader->content->begin();
 			mLast = mReader->content->end();
 			mReaderState = reader_state::have_text;
-
-			mSavedState = mState;
 			mSavedCurrent = mCurrent;
-			mSavedMatchCurrent = mMatchCurrent;
-			mSavedMatchLast = mMatchLast;
+			if (!mHaveSavedState)
+			{
+				mSavedState = mState;
+				mSavedMatchCurrent = mMatchCurrent;
+				mSavedMatchLast = mMatchLast;
+			}
+			else
+				mHaveSavedState = false;
 		}
 		else if (mReader->type & cainteoir::events::end_context)
 		{
@@ -214,12 +220,12 @@ bool text_reader_t::read()
 				mCurrent = mSavedCurrent;
 				mMatchCurrent = (char *)cainteoir::utf8::next(mSavedMatchCurrent);
 				mMatchLast = mSavedMatchLast + 1;
-				mSavedCurrent = nullptr;
 			}
 			return matched();
 		}
 		else if (fsm::data[new_state].is_terminal)
 		{
+			mHaveSavedState = true;
 			mSavedState = new_state;
 			mSavedCurrent = next;
 			mSavedMatchCurrent = mMatchCurrent;
@@ -266,6 +272,7 @@ bool text_reader_t::matched()
 	mMatch.range = { mMatchNext, mMatchLast };
 	mMatchCurrent = mMatchBuffer;
 	mMatchNext = mMatchLast;
+	mHaveSavedState = false;
 	return true;
 }
 

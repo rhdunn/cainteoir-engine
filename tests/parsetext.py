@@ -48,6 +48,8 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/msword.html', 'result': 'parse-text/html/msword.pt'},
 			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.pt'},
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.pt'},
+			{'test': 'parse-text/html/br-after-full-stop.html', 'result': 'parse-text/html/br-after-full-stop.pt'},
+			{'test': 'parse-text/html/ol.html', 'result': 'parse-text/html/ol.pt'},
 		]},
 	]})
 	test.run({'name': 'Clauses', 'groups': [
@@ -76,6 +78,8 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/msword.html', 'result': 'parse-text/html/msword.nc'},
 			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.nc'},
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.nc'},
+			{'test': 'parse-text/html/br-after-full-stop.html', 'result': 'parse-text/html/br-after-full-stop.nc'},
+			{'test': 'parse-text/html/ol.html', 'result': 'parse-text/html/ol.nc'},
 		]},
 	]})
 	test.run({'name': 'Context Analysis', 'groups': [
@@ -105,6 +109,8 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/msword.html', 'result': 'parse-text/html/msword.nc'},
 			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.nc'},
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.ca'},
+			{'test': 'parse-text/html/br-after-full-stop.html', 'result': 'parse-text/html/br-after-full-stop.nc'},
+			{'test': 'parse-text/html/ol.html', 'result': 'parse-text/html/ol.nc'},
 		]},
 	]})
 	test.run({'name': 'Word Stream', 'groups': [
@@ -131,6 +137,8 @@ if __name__ == '__main__':
 			{'test': 'parse-text/html/msword.html', 'result': 'parse-text/html/msword.nc'},
 			{'test': 'parse-text/html/split-word.html', 'result': 'parse-text/html/split-word.nc'},
 			{'test': 'parse-text/html/ordinal.html', 'result': 'parse-text/html/ordinal.ws'},
+			{'test': 'parse-text/html/br-after-full-stop.html', 'result': 'parse-text/html/br-after-full-stop.nc'},
+			{'test': 'parse-text/html/ol.html', 'result': 'parse-text/html/ol.ws'},
 		]},
 		{'name': 'Cardinal Numbers', 'type': 'wordstream', 'tests': [
 			# af -- Afrikaans
