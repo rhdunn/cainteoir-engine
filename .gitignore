@@ -69,7 +69,8 @@ tests/styles
 
 # docs/phonemes output:
 
-*.html
+README.html
+docs/*.html
 docs/implementation-status/csv2html.stamp
 
 # autotools output:
