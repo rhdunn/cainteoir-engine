@@ -22,6 +22,8 @@ text(18): """Lorem ipsum dolor."""
 end-context
 begin-context paragraph +sans-serif
 text(11): """Lorem ipsum"""
+begin-context line-break
+end-context
 text(6): """dolor."""
 end-context
 begin-context block +monospace

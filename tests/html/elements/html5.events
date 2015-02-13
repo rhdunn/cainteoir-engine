@@ -143,6 +143,8 @@ text(1): """ """
 text(10): """twenty-six"""
 text(1): """ """
 text(6): """twenty"""
+begin-context line-break
+end-context
 text(5): """seven"""
 text(1): """ """
 text(6): """twenty"""

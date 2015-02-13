@@ -1,8 +1,16 @@
 anchor []
 begin-context paragraph +sans-serif
 text(6): """Lorem """
+begin-context line-break
+end-context
 text(5): """ipsum"""
+begin-context line-break
+end-context
 text(5): """dolor"""
+begin-context line-break
+end-context
 text(9): """sit amet,"""
+begin-context line-break
+end-context
 text(12): """consectetur """
 end-context

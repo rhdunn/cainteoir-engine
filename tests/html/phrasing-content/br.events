@@ -1,5 +1,7 @@
 anchor []
 begin-context paragraph +sans-serif
 text(5): """Lorem"""
+begin-context line-break
+end-context
 text(5): """ipsum"""
 end-context

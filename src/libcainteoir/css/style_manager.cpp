@@ -266,6 +266,26 @@ const css::styles cainteoir::block =
 	0,
 };
 
+const css::styles cainteoir::line_break =
+{
+	"line_break",
+	css::display::line_break,
+	css::media_synchronisation::inherit,
+	css::vertical_align::inherit,
+	css::text_align::inherit,
+	css::text_decoration::inherit,
+	css::whitespace::normal,
+	css::font_style::inherit,
+	css::font_variant_caps::inherit,
+	css::font_weight::inherit,
+	"",
+	"",
+	{},
+	{},
+	css::role::none,
+	0,
+};
+
 const css::styles cainteoir::paragraph =
 {
 	"paragraph",

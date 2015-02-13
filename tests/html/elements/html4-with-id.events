@@ -33,6 +33,8 @@ end-context
 begin-context paragraph +sans-serif
 anchor [#]al
 text(11): """Lorem ipsum"""
+begin-context line-break
+end-context
 anchor [#]am
 text(6): """dolor."""
 end-context

@@ -63,7 +63,7 @@ namespace html
 	static const xml::context::entry big_node        = {};
 	static const xml::context::entry blockquote_node = {};
 	static const xml::context::entry body_node       = {};
-	static const xml::context::entry br_node         = { xml::begin_tag_type::open_close }; // HTML§12.1.2
+	static const xml::context::entry br_node         = { &cainteoir::line_break, xml::begin_tag_type::open_close }; // HTML§12.1.2
 	static const xml::context::entry button_node     = {};
 	static const xml::context::entry canvas_node     = {};
 	static const xml::context::entry caption_node    = {};
@@ -1260,6 +1260,8 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 
 bool html_document_reader::parse_node(rdf::graph *aMetadata)
 {
+	static const auto newline = std::make_shared<cainteoir::buffer>("\n");
+
 	context_data &data = ctx.top();
 	while (reader.read()) switch (reader.nodeType())
 	{
@@ -1300,6 +1302,11 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 		if (reader.context() == &html::br_node)
 		{
 			trim_left = cainteoir::whitespace::collapse;
+			content = {};
+			styles = reader.context()->styles;
+			type   = events::begin_context | events::end_context;
+			anchor = rdf::uri();
+			return true;
 		}
 		styles = reader.context()->styles;
 		if (styles)

@@ -67,6 +67,7 @@ void format_style(const css::styles &styles)
 		default:                   break;
 		}
 		break;
+	case css::display::line_break: fprintf(stdout, "line-break"); break;
 	case css::display::list_item:  fprintf(stdout, "list-item"); break;
 	case css::display::table:      fprintf(stdout, "table"); break;
 	case css::display::table_row:  fprintf(stdout, "row"); break;

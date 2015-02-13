@@ -135,6 +135,7 @@ namespace cainteoir { namespace css
 		table_row,
 		table_cell,
 		none,
+		line_break,
 	};
 
 	enum class vertical_align : uint8_t
@@ -394,6 +395,7 @@ namespace cainteoir
 	extern const css::styles parallel;
 	extern const css::styles hidden;
 	extern const css::styles block;
+	extern const css::styles line_break;
 	extern const css::styles paragraph;
 	extern const css::styles heading0;
 	extern const css::styles heading1;
