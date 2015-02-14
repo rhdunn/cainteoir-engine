@@ -25,22 +25,56 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-struct cmudict_dictionary_reader : public tts::dictionary_reader
+struct cmudict_parser
 {
-	cmudict_dictionary_reader(const char *aDictionaryPath, const char *aPhonemeSet);
+	enum type_t
+	{
+		unknown,
+		line_comment,
+		entry,
+		context,
+		pronunciation,
+		comment,
+	};
+
+	cmudict_parser(const char *aDictionaryPath);
 
 	bool read();
+
+	type_t type() const { return mType; }
+
+	cainteoir::buffer match() const { return { mMatchBegin, mMatchEnd }; }
 private:
+	enum class state_t
+	{
+		start,
+		line_comment1,
+		line_comment2,
+		entry_comment,
+		comment,
+		entry,
+		context1,
+		context2,
+		pronunciation1,
+		pronunciation2,
+	};
+
 	std::shared_ptr<cainteoir::buffer> mData;
 	const char *mCurrent;
 	const char *mEnd;
+	state_t mState;
 
-	std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
+	type_t mType;
+	const char *mMatchBegin;
+	const char *mMatchEnd;
 };
 
-cmudict_dictionary_reader::cmudict_dictionary_reader(const char *aDictionaryPath, const char *aPhonemeSet)
+cmudict_parser::cmudict_parser(const char *aDictionaryPath)
 	: mData(cainteoir::make_file_buffer(aDictionaryPath))
-	, mPhonemeSet(tts::createPhonemeReader(aPhonemeSet))
+	, mState(state_t::start)
+	, mType(unknown)
+	, mMatchBegin(nullptr)
+	, mMatchEnd(nullptr)
 {
 	if (mData)
 	{
@@ -54,143 +88,124 @@ cmudict_dictionary_reader::cmudict_dictionary_reader(const char *aDictionaryPath
 	}
 }
 
-bool cmudict_dictionary_reader::read()
+bool cmudict_parser::read()
 {
-	enum state_t
+	while (mCurrent != mEnd) switch (mState)
 	{
-		start,
-		new_comment1,
-		new_comment2,
-		comment,
-		entry_word0,
-		entry_word,
-		entry_context,
-		entry_pronunciation,
-		entry_comment,
-		have_entry,
-	};
-
-	state_t state = start;
-	const char *word_start = nullptr;
-	const char *word_end = nullptr;
-	const char *context_start = nullptr;
-	const char *context_end = nullptr;
-	const char *pronunciation_start = nullptr;
-	const char *pronunciation_end = nullptr;
-
-	while (mCurrent != mEnd) switch (state)
-	{
-	case start:
+	case state_t::start:
 		switch (*mCurrent)
 		{
 		case ';':
-			state = new_comment1;
+			mState = state_t::line_comment1;
 			++mCurrent;
 			break;
 		case ' ': case '\t': case '\r': case '\n':
 			++mCurrent;
 			break;
 		default:
-			state = entry_word0;
-			word_start = mCurrent;
+			mState = state_t::entry;
+			mMatchBegin = mCurrent;
+			mType = entry;
+			++mCurrent;
 			break;
 		};
 		break;
-	case new_comment1:
+	case state_t::line_comment1:
 		switch (*mCurrent)
 		{
 		case ';':
-			state = new_comment2;
+			mState = state_t::line_comment2;
 			++mCurrent;
 			break;
 		case '\r': case '\n':
-			state = start;
+			mState = state_t::start;
 			++mCurrent;
 			break;
 		default:
-			state = entry_word0;
-			word_start = mCurrent - 1;
+			mState = state_t::entry;
+			mMatchBegin = mCurrent - 1;
+			mType = entry;
+			++mCurrent;
 			break;
 		};
 		break;
-	case new_comment2:
+	case state_t::line_comment2:
 		switch (*mCurrent)
 		{
 		case ';':
-			state = comment;
+			mState = state_t::comment;
 			++mCurrent;
+			mMatchBegin = mCurrent;
+			mType = line_comment;
 			break;
 		case '\r': case '\n':
-			state = start;
+			mState = state_t::start;
 			++mCurrent;
 			break;
 		default:
-			state = entry_word0;
-			word_start = mCurrent - 2;
+			mState = state_t::entry;
+			mMatchBegin = mCurrent - 2;
+			mType = entry;
+			++mCurrent;
 			break;
 		};
 		break;
-	case comment:
-	case entry_comment:
+	case state_t::entry_comment:
+		mState = state_t::comment;
+		mMatchBegin = mCurrent;
+		mType = comment;
+		break;
+	case state_t::comment:
 		switch (*mCurrent)
 		{
 		case '\r': case '\n':
-			state = (state == comment) ? start : have_entry;
+			mState = state_t::start;
+			mMatchEnd = mCurrent;
 			++mCurrent;
-			break;
+			return true;
 		default:
 			++mCurrent;
 			break;
 		};
 		break;
-	case entry_word0:
-		switch (*mCurrent)
-		{
-		case ' ': case '\t': case '\r': case '\n':
-			state = start;
-			++mCurrent;
-			break;
-		default:
-			state = entry_word;
-			++mCurrent;
-			break;
-		};
-		break;
-	case entry_word:
+	case state_t::entry:
 		switch (*mCurrent)
 		{
 		case ' ': case '\t':
-			state = entry_pronunciation;
-			word_end = mCurrent;
+			mState = state_t::pronunciation1;
+			mMatchEnd = mCurrent;
 			++mCurrent;
-			pronunciation_start = mCurrent;
-			break;
+			return true;
 		case '(':
-			state = entry_context;
-			word_end = mCurrent;
+			mState = state_t::context1;
+			mMatchEnd = mCurrent;
 			++mCurrent;
-			context_start = mCurrent;
-			break;
+			return true;
 		case '\r': case '\n':
-			state = start;
+			mState = state_t::start;
+			mMatchEnd = mCurrent;
 			++mCurrent;
-			break;
+			return true;
 		default:
 			++mCurrent;
 			break;
 		};
 		break;
-	case entry_context:
+	case state_t::context1:
+		mState = state_t::context2;
+		mMatchBegin = mCurrent;
+		mType = context;
+		break;
+	case state_t::context2:
 		switch (*mCurrent)
 		{
 		case ')':
-			state = entry_pronunciation;
-			context_end = mCurrent;
+			mState = state_t::pronunciation1;
+			mMatchEnd = mCurrent;
 			++mCurrent;
-			pronunciation_start = mCurrent;
-			break;
+			return true;
 		case '\r': case '\n':
-			state = start;
+			mState = state_t::start;
 			++mCurrent;
 			break;
 		default:
@@ -198,44 +213,141 @@ bool cmudict_dictionary_reader::read()
 			break;
 		};
 		break;
-	case entry_pronunciation:
+	case state_t::pronunciation1:
+		mState = state_t::pronunciation2;
+		mMatchBegin = mCurrent;
+		mType = pronunciation;
+		break;
+	case state_t::pronunciation2:
 		switch (*mCurrent)
 		{
 		case '\r': case '\n':
-			state = have_entry;
-			pronunciation_end = mCurrent;
+			mState = state_t::start;
+			mMatchEnd = mCurrent;
 			++mCurrent;
-			break;
+			return true;
 		case '#':
-			state = entry_comment;
-			pronunciation_end = mCurrent;
+			mState = state_t::entry_comment;
+			mMatchEnd = mCurrent;
 			++mCurrent;
-			break;
+			return true;
 		default:
 			++mCurrent;
 			break;
 		};
 		break;
-	case have_entry:
+	};
+	return false;
+}
+
+struct cmudict_dictionary_reader : public tts::dictionary_reader
+{
+	cmudict_dictionary_reader(const char *aDictionaryPath, const char *aPhonemeSet);
+
+	bool read();
+private:
+	cmudict_parser mReader;
+	std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
+};
+
+cmudict_dictionary_reader::cmudict_dictionary_reader(const char *aDictionaryPath, const char *aPhonemeSet)
+	: mReader(aDictionaryPath)
+	, mPhonemeSet(tts::createPhonemeReader(aPhonemeSet))
+{
+}
+
+bool cmudict_dictionary_reader::read()
+{
+	enum class state_t
+	{
+		start,
+		entry,
+		context,
+		pronunciation,
+	};
+
+	state_t state = state_t::start;
+	cainteoir::buffer entry_word(nullptr, nullptr);
+	cainteoir::buffer context(nullptr, nullptr);
+	cainteoir::buffer pronunciation(nullptr, nullptr);
+
+	while (true) switch (state)
+	{
+	case state_t::start:
+		if (!mReader.read())
+			return false;
+		switch (mReader.type())
+		{
+		case cmudict_parser::entry:
+			entry_word = mReader.match();
+			state = state_t::entry;
+			break;
+		default: // Ignore line comments and errors ...
+			break;
+		}
+		break;
+	case state_t::entry:
+		if (!mReader.read())
+			return false;
+		switch (mReader.type())
+		{
+		case cmudict_parser::context:
+			context = mReader.match();
+			state = state_t::context;
+			break;
+		case cmudict_parser::pronunciation:
+			pronunciation = mReader.match();
+			state = state_t::pronunciation;
+			break;
+		case cmudict_parser::entry:
+			entry_word = mReader.match();
+			state = state_t::entry;
+			break;
+		default: // Invalid entry ... reset
+			state = state_t::start;
+			break;
+		}
+		break;
+	case state_t::context:
+		if (!mReader.read())
+			return false;
+		switch (mReader.type())
+		{
+		case cmudict_parser::pronunciation:
+			pronunciation = mReader.match();
+			if (pronunciation.empty())
+			{
+				state = state_t::start;
+				context = { nullptr, nullptr };
+			}
+			else
+				state = state_t::pronunciation;
+			break;
+		default: // Invalid entry ... reset
+			state = state_t::start;
+			context = { nullptr, nullptr };
+			break;
+		}
+		break;
+	case state_t::pronunciation:
 		{
 			char data[512] = { 0 };
 			char *ptr = data;
-			for (auto c : cainteoir::buffer(word_start, word_end))
+			for (auto c : entry_word)
 			{
 				*ptr++ = tolower(c);
 			}
-			if (context_start != nullptr)
+			if (!context.empty())
 			{
 				*ptr++ = '@';
-				for (auto c : cainteoir::buffer(context_start, context_end))
+				for (auto c : context)
 					*ptr++ = c;
 			}
 
+			std::shared_ptr<cainteoir::buffer> phonemes = std::make_shared<cainteoir::buffer>(pronunciation.begin(), pronunciation.end());
+
 			word = cainteoir::make_buffer(data, ptr - data);
-			auto pronunciation = std::make_shared<cainteoir::buffer>(pronunciation_start, pronunciation_end);
-
-			entry = { pronunciation, mPhonemeSet };
-
+			entry = { phonemes, mPhonemeSet };
 			return true;
 		}
 		break;
