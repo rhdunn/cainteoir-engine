@@ -5,6 +5,7 @@
 .type	arpabet
 
 PAU	/{pau,est}/
+-	/{sbr}/
 
 AA	/{low,bck,unr,vwl,lng}/ # /ɑː/
 AE	/{sml,fnt,unr,vwl}/ # /æ/
