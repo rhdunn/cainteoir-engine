@@ -1,6 +1,6 @@
 /* Voice Database File Builder.
  *
- * Copyright (C) 2014 Reece H. Dunn
+ * Copyright (C) 2014-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -514,11 +514,18 @@ parse_conditional(cainteoir_file_reader &reader,
                   std::list<conditional_t> &conditionals)
 {
 	// set @c if type=value
+	// set !c if type=value
 
 	if (!reader.read() || reader.type() != cainteoir_file_reader::text)
 		throw std::runtime_error("invalid conditional expression");
 
-	if (reader.match().size() != 2 || *reader.match().begin() != '@')
+	if (reader.match().size() != 2)
+		throw std::runtime_error("invalid conditional expression");
+
+	uint8_t set = tts::LANGDB_CONDRULE_SET;
+	if (*reader.match().begin() == '!')
+		set = tts::LANGDB_CONDRULE_UNSET;
+	else if (*reader.match().begin() != '@')
 		throw std::runtime_error("invalid conditional expression");
 
 	uint8_t c = *(reader.match().begin() + 1);
@@ -538,7 +545,7 @@ parse_conditional(cainteoir_file_reader &reader,
 	if (expression.find("locale=") == 0)
 	{
 		std::string locale = expression.substr(7);
-		conditionals.push_back({ c, tts::LANGDB_CONDRULE_LOCALE, locale });
+		conditionals.push_back({ c, tts::LANGDB_CONDRULE_LOCALE | set, locale });
 	}
 	else
 		throw std::runtime_error("unsupported conditional expression");

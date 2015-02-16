@@ -1,6 +1,6 @@
 /* Letter-to-Phoneme Rule Processor.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -93,11 +93,12 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData,
 			uint8_t c = mRules.u8();
 			uint8_t type = mRules.u8();
 			const char *value = mRules.pstr();
-			switch (type)
+			uint8_t set = (type & tts::LANGDB_CONDRULE_SET_MASK) == tts::LANGDB_CONDRULE_SET;
+			switch (type & ~tts::LANGDB_CONDRULE_SET_MASK)
 			{
 			case tts::LANGDB_CONDRULE_LOCALE:
 				if (aLocale == cainteoir::language::make_lang(value))
-					mConditionalFlags[c] = 1;
+					mConditionalFlags[c] = set;
 				break;
 			}
 		}
