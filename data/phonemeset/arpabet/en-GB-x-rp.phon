@@ -29,6 +29,7 @@ F	/{vls,lbd,frc}/ # /f/
 G	/{vcd,vel,stp}/ # /ɡ/
 HH	/{vls,glt,apr}/ # /h/
 HW	/{vls,lbv,apr}/ # /ʍ/
+I	/{hgh,fnt,unr,vwl}/ # /i/
 IA	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/
 IH	/{smh,fnt,unr,vwl}/ # /ɪ/
 IY	/{hgh,fnt,unr,vwl,lng}/ # /iː/
@@ -48,6 +49,7 @@ S	/{vls,alv,sib,frc}/ # /s/
 SH	/{vls,pla,sib,frc}/ # /ʃ/
 T	/{vls,alv,stp}/ # /t/
 TH	/{vls,dnt,frc}/ # /θ/
+U	/{hgh,bck,rnd,vwl}/ # /u/
 UA	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/
 UH	/{smh,bck,rnd,vwl}/ # /ʊ/
 UW	/{hgh,bck,rnd,vwl,lng}/ # /uː/
