@@ -1,0 +1,4 @@
+AudioPath,StartTime,EndTime,FromByte,ToByte,FromChar,ToChar,Text
+OEBPS/text1.mp3,0,3,0,18,0,18,"Lorem,\nipsum,\ndolor."
+OEBPS/text1.mp3,3,8,18,38,18,38,"\"Lorem \nipsum \ndolor.\""
+OEBPS/text1.mp3,8,22,38,57,38,57,"'Lorem \nipsum\ndolor.'"

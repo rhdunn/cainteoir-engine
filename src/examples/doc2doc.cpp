@@ -196,38 +196,27 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 	fprintf(stdout, "AudioPath,StartTime,EndTime,FromByte,ToByte,FromChar,ToChar,Text\n");
 	while (reader->read())
 	{
-		if ((reader->type & cainteoir::events::end_context && depth == media_overlay_depth) ||
-		    (reader->type & cainteoir::events::media_ref && media_overlay_depth != -1))
-		{
-			auto output = text.buffer();
-			auto audiofile = cainteoir::path(audio.str()).zip_path();
-
-			fprintf(stdout, "%s,", audiofile.str().c_str());
-			fprintf(stdout, "%G,%G,", media_begin.value(), media_end.value());
-			fprintf(stdout, "%u,%u,", from_byte, to_byte);
-			fprintf(stdout, "%u,%u,", from_char, to_char);
-			fputc('"', stdout);
-			for (auto c : *output)
-			{
-				if (c == '"')
-					fputc('\\', stdout);
-				fputc(c, stdout);
-			}
-			fputc('"', stdout);
-			fputc('\n', stdout);
-
-			media_overlay_depth = -1;
-			text.clear();
-		}
+		bool media_overlay_event = false;
 
 		if (reader->type & cainteoir::events::begin_context)
 		{
 			++depth;
+			if (media_overlay_depth != -1 && reader->styles) switch (reader->styles->display)
+			{
+			case css::display::line_break:
+				text += std::make_shared<cainteoir::buffer>("\n");
+				break;
+			}
 		}
 
 		if (reader->type & cainteoir::events::end_context)
 		{
 			--depth;
+			if (depth == media_overlay_depth)
+			{
+				media_overlay_depth = -1;
+				media_overlay_event = true;
+			}
 		}
 
 		if (reader->type & cainteoir::events::media_ref)
@@ -235,7 +224,7 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 			audio = reader->anchor;
 			media_begin = reader->media_begin.as(css::time::seconds);
 			media_end = reader->media_end.as(css::time::seconds);
-			media_overlay_depth = depth;
+			media_overlay_depth = depth - 1;
 			from_byte = to_byte;
 			from_char = to_char;
 		}
@@ -254,6 +243,37 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 				++to_char;
 				current = utf8::next(current);
 			}
+		}
+
+		if (media_overlay_event)
+		{
+			auto output = text.buffer();
+			auto audiofile = cainteoir::path(audio.str()).zip_path();
+
+			fprintf(stdout, "%s,", audiofile.str().c_str());
+			fprintf(stdout, "%G,%G,", media_begin.value(), media_end.value());
+			fprintf(stdout, "%u,%u,", from_byte, to_byte);
+			fprintf(stdout, "%u,%u,", from_char, to_char);
+			fputc('"', stdout);
+			for (auto c : *output) switch (c)
+			{
+			case '"':
+				fputc('\\', stdout);
+				fputc('"', stdout);
+				break;
+			case '\n':
+				fputc('\\', stdout);
+				fputc('n', stdout);
+				break;
+			default:
+				fputc(c, stdout);
+				break;
+			}
+			fputc('"', stdout);
+			fputc('\n', stdout);
+
+			media_overlay_depth = -1;
+			text.clear();
 		}
 	}
 }
