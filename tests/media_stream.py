@@ -31,6 +31,7 @@ if __name__ == '__main__':
 			{'test': 'epub3/media-overlay/multiple-files/spanning.epub', 'result': 'epub3/media-overlay/multiple-files/multiple.csv'},
 			{'test': 'epub3/media-overlay/multiple-files/spanning-different-id.epub', 'result': 'epub3/media-overlay/multiple-files/multiple.csv'},
 			{'test': 'epub3/media-overlay/single-file/comma-and-quotes.epub', 'result': 'epub3/media-overlay/single-file/comma-and-quotes.csv'},
+			{'test': 'epub3/media-overlay/single-file/nested-blocks.epub', 'result': 'epub3/media-overlay/single-file/comma-and-quotes.csv'},
 		]},
 	]})
 	test.summary()
