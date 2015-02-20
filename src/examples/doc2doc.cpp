@@ -206,8 +206,15 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 			fprintf(stdout, "%G,%G,", media_begin.value(), media_end.value());
 			fprintf(stdout, "%u,%u,", from_byte, to_byte);
 			fprintf(stdout, "%u,%u,", from_char, to_char);
-			fwrite(output->begin(), 1, output->size(), stdout);
-			fwrite("\n", 1, 1, stdout);
+			fputc('"', stdout);
+			for (auto c : *output)
+			{
+				if (c == '"')
+					fputc('\\', stdout);
+				fputc(c, stdout);
+			}
+			fputc('"', stdout);
+			fputc('\n', stdout);
 
 			media_overlay_depth = -1;
 			text.clear();

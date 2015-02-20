@@ -1,0 +1,4 @@
+AudioPath,StartTime,EndTime,FromByte,ToByte,FromChar,ToChar,Text
+OEBPS/text1.mp3,0,3,0,20,0,20,"Lorem, ipsum, dolor."
+OEBPS/text1.mp3,3,8,20,40,20,40,"\"Lorem ipsum dolor.\""
+OEBPS/text1.mp3,8,22,40,60,40,60,"'Lorem ipsum dolor.'"
