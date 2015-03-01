@@ -316,6 +316,8 @@ namespace cainteoir { namespace tts
 		virtual bool read() = 0;
 
 		virtual ~phoneme_reader() {}
+
+		phoneme_reader() : ipa::phoneme(ipa::unspecified) {}
 	};
 
 	std::shared_ptr<phoneme_reader> createPhonemeReader(const char *aPhonemeSet);
