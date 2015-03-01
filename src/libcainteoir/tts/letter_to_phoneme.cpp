@@ -68,7 +68,10 @@ private:
 	uint32_t mClassDefs[256];
 	uint8_t  mConditionalFlags[256];
 
-	bool match_phoneme(const char *phonemes, const uint8_t *&rules);
+	ipa::phoneme mPreviousPhoneme;
+
+	bool match_phoneme_next(const char *phonemes, const uint8_t *&rules);
+	bool match_phoneme_prev(const uint8_t *&rules);
 
 	bool match_classdef(uint32_t offset, const uint8_t *&current);
 
@@ -165,6 +168,7 @@ void ruleset::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 
 bool ruleset::read()
 {
+	mPreviousPhoneme = *this;
 	while (!mPhonemeSet->parse(mPhonemeCurrent, mPhonemeEnd, *this))
 	{
 		auto match = next_match(mCurrent);
@@ -178,7 +182,7 @@ bool ruleset::read()
 	return true;
 }
 
-bool ruleset::match_phoneme(const char *phonemes, const uint8_t *&rules)
+bool ruleset::match_phoneme_next(const char *phonemes, const uint8_t *&rules)
 {
 	const char *phonemes_end = phonemes + strlen(phonemes);
 	ipa::phoneme p;
@@ -210,6 +214,36 @@ bool ruleset::match_phoneme(const char *phonemes, const uint8_t *&rules)
 		feature[feature_pos++] = *rules++;
 		break;
 	}
+}
+
+bool ruleset::match_phoneme_prev(const uint8_t *&rules)
+{
+	char feature[4] = { 0, 0, 0, 0 };
+	uint8_t feature_pos = 0xFF;
+	while (true) switch (*rules)
+	{
+	case 0:
+		return feature_pos == 0xFF;
+	case '}':
+		feature_pos = 0;
+		++rules;
+		break;
+	case '{':
+		if (feature_pos != 3)
+			return false;
+		if (!mPreviousPhoneme.get(feature))
+			return false;
+		feature_pos = 0xFF;
+		++rules;
+		break;
+	default:
+		if (feature_pos == 0xFF || feature_pos >= 3)
+			return false;
+		feature[2 - feature_pos] = *rules++;
+		++feature_pos;
+		break;
+	}
+	return false;
 }
 
 bool ruleset::match_classdef(uint32_t offset, const uint8_t *&current)
@@ -386,11 +420,27 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 			offset = mRules.offset();
 			ctx = next_match(right, ignore_elision_rules);
 			mRules.seek(offset);
-			if (ctx.first != nullptr && match_phoneme(ctx.second, rule))
+			if (ctx.first != nullptr && match_phoneme_next(ctx.second, rule))
 			{
 				right = ctx.first;
 			}
 			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		default:
+			state = in_rule_group;
+			rule = null_rule;
+			break;
+		}
+		break;
+	case '}':
+		switch (state)
+		{
+		case left_match:
+			if (!match_phoneme_prev(rule))
 			{
 				state = in_rule_group;
 				rule = null_rule;
