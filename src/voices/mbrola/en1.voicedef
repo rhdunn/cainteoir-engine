@@ -154,10 +154,6 @@ phoneme /{sml,fnt,unr,vwl}/ 70ms # /æ/
 	unit "{"
 end
 
-phoneme /{sml,cnt,unr,vwl}/ 60ms # /ɐ/
-	unit "V"
-end
-
 phoneme /{low,bck,rnd,vwl}/ 90ms # /ɒ/
 	unit "Q"
 end
