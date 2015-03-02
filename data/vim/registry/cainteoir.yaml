@@ -6,4 +6,4 @@ files:
   - ftdetect/phonfiletype.vim     # *.phon -- Phoneme transcription definition file
   - ftdetect/ptpfiletype.vim      # *.ptp -- Phoneme-to-phoneme rule file
   - syntax/dict.vim
-  - syntax/phon.vim
+  - syntax/cainteoir.vim
