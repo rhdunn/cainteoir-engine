@@ -263,7 +263,7 @@ int main(int argc, char **argv)
 		}};
 
 		const option_group output_options = { i18n("Output:"), {
-			{ 'M', "metadata", bind_value(action, actions::show_metadata),
+			{ 0, "metadata", bind_value(action, actions::show_metadata),
 			  i18n("Show the RDF metadata for the engine and voices") },
 			{ 0, "pho", bind_value(action, actions::print_pho),
 			  i18n("Output the PHO file contents to stdout") },
