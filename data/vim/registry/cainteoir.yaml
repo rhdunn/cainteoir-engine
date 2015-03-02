@@ -5,5 +5,4 @@ files:
   - ftdetect/featuresfiletype.vim # *.features -- used in the test files
   - ftdetect/phonfiletype.vim     # *.phon -- Phoneme transcription definition file
   - ftdetect/ptpfiletype.vim      # *.ptp -- Phoneme-to-phoneme rule file
-  - syntax/dict.vim
   - syntax/cainteoir.vim

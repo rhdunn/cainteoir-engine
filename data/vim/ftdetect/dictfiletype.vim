@@ -33,7 +33,7 @@ function! s:filetype_cainteoirdict(mode)
       let s:current_fileformats   = &g:fileformats
       let s:current_fileencodings = &g:fileencodings
       set fileencodings=utf-8 fileformats=unix
-      setlocal filetype=dict
+      setlocal filetype=cainteoir
     elseif a:mode == "post"
       let &g:fileformats   = s:current_fileformats
       let &g:fileencodings = s:current_fileencodings
@@ -41,6 +41,6 @@ function! s:filetype_cainteoirdict(mode)
   endif
 endfunction
 
-au BufNewFile  *.dict setlocal filetype=dict fileencoding=utf-8 fileformat=unix
+au BufNewFile  *.dict setlocal filetype=cainteoir fileencoding=utf-8 fileformat=unix
 au BufRead     *.dict call s:filetype_cainteoirdict("pre")
 au BufReadPost *.dict call s:filetype_cainteoirdict("post")

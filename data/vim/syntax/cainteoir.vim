@@ -1,6 +1,6 @@
 " Vim syntax file
 " Language:	Cainteoir Text-to-Speech Data Files
-" Filenames:    *.phon, *.features
+" Filenames:    *.phon, *.features, *.dict, *.ptp
 " Maintainer:	Reece H. Dunn <msclrhd@gmail.com>
 " Last Change:	2015 Mar 2
 
@@ -37,7 +37,14 @@ syn keyword	cainteoirFeatDiacritic		mrd lrd lzd pzd vzd fzd vfz nzd rzd atr rtr 
 syn match	cainteoirEscape			'\\.'
 syn match	cainteoirUnicodeEscape		'\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]'
 
-syn match	cainteoirDirective		'\.[a-z]*'
+syn match	cainteoirNumberSpecifier	"_[0-9]x"
+syn match	cainteoirNumberSpecifier	"_10\^[0-9]*"
+syn match	cainteoirNumberSpecifier	"_andDD"
+syn match	cainteoirNumberSpecifier	"_DandDD"
+
+syn region	cainteoirDirective		start='^\.[a-z]' end='$' contains=cainteoirComment,cainteoirString
+
+syn region	cainteoirString			start="\"" end="\""
 
 syn region	cainteoirComment		start="#" end="$" keepend contains=@Spell
 
@@ -56,6 +63,8 @@ hi def link cainteoirFeatDiacritic		Identifier
 hi def link cainteoirUnicodeEscape		Special
 hi def link cainteoirEscape			Special
 hi def link cainteoirDirective			PreProc
+hi def link cainteoirString			String
+hi def link cainteoirNumberSpecifier		Statement
 
 let b:current_syntax = "cainteoir"
 " vim: ts=8
