@@ -56,11 +56,23 @@ au BufNewFile  *.phon setlocal filetype=cainteoir fileencoding=utf-8 fileformat=
 au BufRead     *.phon call s:filetype_cainteoir("pre",  "force")
 au BufReadPost *.phon call s:filetype_cainteoir("post", "force")
 
-" Cainteoir Text-to-Speech phoneme-to-phoneme mapping file
+" Cainteoir Text-to-Speech phoneme-to-phoneme mapping files
 
 au BufNewFile  *.ptp setlocal filetype=cainteoir fileencoding=utf-8 fileformat=unix
 au BufRead     *.ptp call s:filetype_cainteoir("pre",  "force")
 au BufReadPost *.ptp call s:filetype_cainteoir("post", "force")
+
+" Cainteoir Text-to-Speech voice definition files
+
+au BufNewFile  *.voicedef setlocal filetype=cainteoir fileencoding=utf-8 fileformat=unix
+au BufRead     *.voicedef call s:filetype_cainteoir("pre",  "force")
+au BufReadPost *.voicedef call s:filetype_cainteoir("post", "force")
+
+" Cainteoir Text-to-Speech language definition files
+
+au BufNewFile  *.langdef setlocal filetype=cainteoir fileencoding=utf-8 fileformat=unix
+au BufRead     *.langdef call s:filetype_cainteoir("pre",  "force")
+au BufReadPost *.langdef call s:filetype_cainteoir("post", "force")
 
 " Cainteoir Text-to-Speech phoneme feature test files
 

@@ -1,6 +1,6 @@
 " Vim syntax file
 " Language:	Cainteoir Text-to-Speech Data Files
-" Filenames:    *.phon, *.features, *.dict, *.ptp
+" Filenames:    *.phon, *.features, *.dict, *.ptp, *.voicedef, *.langdef
 " Maintainer:	Reece H. Dunn <msclrhd@gmail.com>
 " Last Change:	2015 Mar 2
 
