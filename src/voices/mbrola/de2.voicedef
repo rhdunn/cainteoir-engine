@@ -188,10 +188,6 @@ phoneme /{lmd,fnt,unr,vwl,lng}/ 110ms # /ɛː/
 	unit "E:"
 end
 
-phoneme /{lmd,fnt,rnd,vwl,lng}/ 120ms # /œː/
-	unit "9"
-end
-
 phoneme /{low,fnt,unr,vwl,lng}/ 110ms # /aː/
 	unit "a:"
 end
