@@ -223,6 +223,7 @@ bool ruleset::match_phoneme_prev(const uint8_t *&rules)
 	while (true) switch (*rules)
 	{
 	case 0:
+	case '(':
 		return feature_pos == 0xFF;
 	case '}':
 		feature_pos = 0;
