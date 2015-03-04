@@ -69,9 +69,9 @@ namespace cainteoir { namespace tts
 	static constexpr uint32_t CLASSDEF_TABLE_MAGIC = make_magic32('C', 'L', 'S');
 	static constexpr uint32_t CONDRULE_TABLE_MAGIC = make_magic32('C', 'N', 'D');
 
-	static constexpr uint8_t LANGDB_CONDRULE_SET_MASK = 0xF0;
+	static constexpr uint8_t LANGDB_CONDRULE_SET_MASK = 0x80;
 	static constexpr uint8_t LANGDB_CONDRULE_SET      = 0x00;
-	static constexpr uint8_t LANGDB_CONDRULE_UNSET    = 0xF0;
+	static constexpr uint8_t LANGDB_CONDRULE_UNSET    = 0x80;
 
 	static constexpr uint8_t LANGDB_CONDRULE_LOCALE = 1;
 
