@@ -99,14 +99,18 @@ Each entry block has the form:
 | value          | pstr   |  2     |
 | END OF ENTRY   |        |  6     |
 
-The `conditional` field specifies the conditional rule to set if this entry is
-matched.
+The `conditional` field specifies the conditional rule to modify if this entry
+is matched.
 
-The `type` field identifies how the conditional rule is matched.
+The `type` field identifies how the conditional rule is matched. If the upper
+bit is set (`0x80`) `conditional` is set to `0`, otherwise `conditional` is set
+to `1`.
+
 
 The `value` field identifies what to match against.
 
-The behaviour of the `type` field is defined as:
+The behaviour of the `type` field excluding the upper bit (`type & 0x7F`) is
+defined as:
 
 | Type | Match Condition                         |
 |------|-----------------------------------------|
