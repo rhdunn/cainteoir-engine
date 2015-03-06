@@ -362,7 +362,7 @@ TEST_CASE("explicit feature reader -- no input")
 {
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
 	assert(reader.get());
-	assert(*reader == ipa::phoneme());
+	assert(*reader == ipa::unspecified);
 
 	assert(!reader->read());
 	assert(*reader == ipa::phoneme());
