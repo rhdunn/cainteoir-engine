@@ -134,15 +134,23 @@ phoneme /d͡s/
 	unit "ds"
 end
 
-# Short Vowels ################################################################
+# Vowels ######################################################################
+
+phoneme /i/
+	duration  60ms
+	duration 100ms if /iː/
+	unit "i:"
+end
 
 phoneme /ɪ/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /ɪː/
 	unit "I"
 end
 
 phoneme /ʊ/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /ʊː/
 	unit "U"
 end
 
@@ -151,46 +159,45 @@ phoneme /e/
 	unit "e"
 end
 
-phoneme /ɛ/
-	duration 60ms
-	unit "E"
-end
-
-phoneme /œ/
-	duration 60ms
-	unit "9"
-end
-
-phoneme /ɔ/
-	duration 60ms
-	unit "O"
-end
-
-phoneme /a/
-	duration 60ms
-	unit "a"
-end
-
-phoneme /ɑ/
-	duration 60ms
-	unit "A"
-end
-
-# Long Vowels #################################################################
-
-phoneme /iː/
-	duration 100ms
-	unit "i:"
-end
-
 phoneme /eː/
 	duration 110ms
 	unit "e:"
 end
 
-phoneme /oː/
-	duration 110ms
+phoneme /o/
+	duration  60ms
+	duration 110ms if /oː/
 	unit "o:"
+end
+
+phoneme /ɛ/
+	duration  60ms
+	duration 110ms if /ɛː/
+	unit "E"
+end
+
+phoneme /œ/
+	duration  60ms
+	duration 110ms if /œː/
+	unit "9"
+end
+
+phoneme /ɔ/
+	duration  60ms
+	duration 110ms if /ɔː/
+	unit "O"
+end
+
+phoneme /a/
+	duration  60ms
+	duration 110ms if /aː/
+	unit "a"
+end
+
+phoneme /ɑ/
+	duration  60ms
+	duration 110ms if /ɑː/
+	unit "A"
 end
 
 # Diphthongs ##################################################################
