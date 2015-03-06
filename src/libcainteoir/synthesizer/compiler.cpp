@@ -344,6 +344,11 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 				reader.read();
 				sample_format = reader.match();
 			}
+			else if (reader.match().compare(".phonemeset") == 0)
+			{
+				reader.read();
+				parser = createPhonemeParser(reader.match().str().c_str());
+			}
 		}
 		else if (reader.type() == cainteoir_file_reader::text)
 		{

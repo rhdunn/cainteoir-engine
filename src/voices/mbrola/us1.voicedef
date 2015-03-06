@@ -1,6 +1,6 @@
 # MBROLA us1 Voice Definition File
 #
-# Copyright (C) 2014 Reece H. Dunn
+# Copyright (C) 2014-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -15,195 +15,196 @@
 .frequency	16000
 .channels	1
 .sample-format	s16le
+.phonemeset	ipa
 
 pitch 105.5Hz 21Hz 5.25Hz # min=95Hz max=200Hz
 
 # Plosives ####################################################################
 
-phoneme /{vls,blb,stp}/ 50ms # /p/
+phoneme /p/ 50ms
 	unit "p"
 end
 
-phoneme /{vls,blb,stp,asp}/ 80ms # /pʰ/
+phoneme /pʰ/ 80ms
 	unit "p_h"
 end
 
-phoneme /{vcd,blb,stp}/ 80ms # /b/
+phoneme /b/ 80ms
 	unit "b"
 end
 
-phoneme /{vls,alv,stp}/ 50ms # /t/
+phoneme /t/ 50ms
 	unit "t"
 end
 
-phoneme /{vls,alv,stp,asp}/ 80ms # /tʰ/
+phoneme /tʰ/ 80ms
 	unit "t_h"
 end
 
-phoneme /{vcd,alv,stp}/ 80ms # /d/
+phoneme /d/ 80ms
 	unit "d"
 end
 
-phoneme /{vcd,alv,flp}/ 50ms # /ɾ/
+phoneme /ɾ/ 50ms
 	unit "4"
 end
 
-phoneme /{vls,vel,stp}/ 50ms # /k/
+phoneme /k/ 50ms
 	unit "k"
 end
 
-phoneme /{vls,vel,stp,asp}/ 80ms # /kʰ/
+phoneme /kʰ/ 80ms
 	unit "k_h"
 end
 
-phoneme /{vcd,vel,stp}/ 80ms # /ɡ/
+phoneme /ɡ/ 80ms
 	unit "g"
 end
 
 # Fricatives ##################################################################
 
-phoneme /{vls,lbd,frc}/ 95ms # /f/
+phoneme /f/ 95ms
 	unit "f"
 end
 
-phoneme /{vcd,lbd,frc}/ 50ms # /v/
+phoneme /v/ 50ms
 	unit "v"
 end
 
-phoneme /{vls,dnt,frc}/ 90ms # /θ/
+phoneme /θ/ 90ms
 	unit "T"
 end
 
-phoneme /{vcd,dnt,frc}/ 50ms # /ð/
+phoneme /ð/ 50ms
 	unit "D"
 end
 
-phoneme /{vls,alv,sib,frc}/ 100ms # /s/
+phoneme /s/ 100ms
 	unit "s"
 end
 
-phoneme /{vcd,alv,sib,frc}/ 70ms # /z/
+phoneme /z/ 70ms
 	unit "z"
 end
 
-phoneme /{vls,pla,sib,frc}/ 100ms # /ʃ/
+phoneme /ʃ/ 100ms
 	unit "S"
 end
 
-phoneme /{vcd,pla,sib,frc}/ 70ms # /ʒ/
+phoneme /ʒ/ 70ms
 	unit "Z"
 end
 
-phoneme /{vls,glt,apr}/ 60ms # /h/
+phoneme /h/ 60ms
 	unit "h"
 end
 
 # Affricates ##################################################################
 
-phoneme /{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ 95ms # /d͡ʒ/
+phoneme /d͡ʒ/ 95ms
 	unit "dZ"
 end
 
-phoneme /{vls,alv,stp,tie}{vls,pla,sib,frc}/ 120ms # /t͡ʃ/
+phoneme /t͡ʃ/ 120ms
 	unit "tS"
 end
 
 # Nasals ######################################################################
 
-phoneme /{vcd,blb,nas}/ 70ms # /m/
+phoneme /m/ 70ms
 	unit "m"
 end
 
-phoneme /{vcd,alv,nas}/ 70ms # /n/
+phoneme /n/ 70ms
 	unit "n"
 end
 
-phoneme /{vcd,vel,nas}/ 120ms # /ŋ/
+phoneme /ŋ/ 120ms
 	unit "N"
 end
 
 # Sonorants ###################################################################
 
-phoneme /{vcd,alv,apr}/ 55ms # /ɹ/
+phoneme /ɹ/ 55ms
 	unit "r"
 end
 
-phoneme /{vcd,alv,apr,syl}/ 55ms # /ɹ̩/
+phoneme /ɹ̩/ 55ms
 	unit "r="
 end
 
-phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
+phoneme /l/ 55ms
 	unit "l"
 end
 
-phoneme /{vcd,lbv,apr}/ 55ms # /w/
+phoneme /w/ 55ms
 	unit "w"
 end
 
-phoneme /{vcd,pal,apr}/ 50ms # /j/
+phoneme /j/ 50ms
 	unit "j"
 end
 
 # Short Vowels ################################################################
 
-phoneme /{hgh,fnt,unr,vwl}/ 60ms # /i/
+phoneme /i/ 60ms
 	unit "i"
 end
 
-phoneme /{hgh,bck,rnd,vwl}/ 60ms # /u/
+phoneme /u/ 60ms
 	unit "u"
 end
 
-phoneme /{smh,fnt,unr,vwl}/ 60ms # /ɪ/
+phoneme /ɪ/ 60ms
 	unit "I"
 end
 
-phoneme /{smh,bck,rnd,vwl}/ 65ms # /ʊ/
+phoneme /ʊ/ 65ms
 	unit "U"
 end
 
-phoneme /{mid,cnt,unr,vwl}/ 55ms # /ə/
+phoneme /ə/ 55ms
 	unit "@"
 end
 
-phoneme /{lmd,fnt,unr,vwl}/ 70ms # /ɛ/
+phoneme /ɛ/ 70ms
 	unit "E"
 end
 
-phoneme /{lmd,bck,rnd,vwl}/ 80ms # /ɔ/
+phoneme /ɔ/ 80ms
 	unit "O"
 end
 
-phoneme /{lmd,bck,unr,vwl}/ 80ms # /ʌ/
+phoneme /ʌ/ 80ms
 	unit "V"
 end
 
-phoneme /{sml,fnt,unr,vwl}/ 70ms # /æ/
+phoneme /æ/ 70ms
 	unit "{"
 end
 
-phoneme /{low,bck,unr,vwl}/ 90ms # /ɑ/
+phoneme /ɑ/ 90ms
 	unit "A"
 end
 
 # Diphthongs ##################################################################
 
-phoneme /{lmd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /ɛɪ̯/
+phoneme /ɛɪ̯/ 130ms
 	unit "EI"
 end
 
-phoneme /{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /ɔɪ̯/
+phoneme /ɔɪ̯/ 150ms
 	unit "OI"
 end
 
-phoneme /{low,bck,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /ɑɪ̯/
+phoneme /ɑɪ̯/ 130ms
 	unit "AI"
 end
 
-phoneme /{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 135ms # /əʊ̯/
+phoneme /əʊ̯/ 135ms
 	unit "@U"
 end
 
-phoneme /{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 170ms # /aʊ̯/
+phoneme /aʊ̯/ 170ms
 	unit "aU"
 end

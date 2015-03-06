@@ -1,6 +1,6 @@
 # MBROLA de8 Voice Definition File
 #
-# Copyright (C) 2014 Reece H. Dunn
+# Copyright (C) 2014-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -15,193 +15,194 @@
 .frequency	16000
 .channels	1
 .sample-format	s16le
+.phonemeset	ipa
 
 pitch 123.5Hz 27Hz 6.75Hz # min=110Hz max=245Hz
 
 # Plosives ####################################################################
 
-phoneme /{vcd,blb,stp}/ 80ms # /b/
+phoneme /b/ 80ms
 	unit "b"
 end
 
-phoneme /{vls,alv,stp}/ 50ms # /t/
+phoneme /t/ 50ms
 	unit "t"
 end
 
-phoneme /{vcd,alv,stp}/ 80ms # /d/
+phoneme /d/ 80ms
 	unit "d"
 end
 
-phoneme /{vls,vel,stp}/ 50ms # /k/
+phoneme /k/ 50ms
 	unit "k"
 end
 
-phoneme /{vcd,vel,stp}/ 80ms # /ɡ/
+phoneme /ɡ/ 80ms
 	unit "g"
 end
 
 # Fricatives ##################################################################
 
-phoneme /{vls,lbd,frc}/ 95ms # /f/
+phoneme /f/ 95ms
 	unit "f"
 end
 
-phoneme /{vcd,lbd,frc}/ 50ms # /v/
+phoneme /v/ 50ms
 	unit "v"
 end
 
-phoneme /{vls,alv,sib,frc}/ 100ms # /s/
+phoneme /s/ 100ms
 	unit "s"
 end
 
-phoneme /{vls,pla,sib,frc}/ 100ms # /ʃ/
+phoneme /ʃ/ 100ms
 	unit "S"
 end
 
-phoneme /{vcd,pla,sib,frc}/ 70ms # /ʒ/
+phoneme /ʒ/ 70ms
 	unit "Z"
 end
 
-phoneme /{vls,vel,frc}/ 60ms # /x/
+phoneme /x/ 60ms
 	unit "x"
 end
 
-phoneme /{vls,pal,frc}/ 60ms # /ç/
+phoneme /ç/ 60ms
 	unit "C"
 end
 
-phoneme /{vcd,uvl,frc}/ 55ms # /ʁ/
+phoneme /ʁ/ 55ms
 	unit "R"
 end
 
-phoneme /{vls,glt,apr}/ 60ms # /h/
+phoneme /h/ 60ms
 	unit "h"
 end
 
 # Nasals ######################################################################
 
-phoneme /{vcd,blb,nas}/ 70ms # /m/
+phoneme /m/ 70ms
 	unit "m"
 end
 
-phoneme /{vcd,alv,nas}/ 70ms # /n/
+phoneme /n/ 70ms
 	unit "n"
 end
 
-phoneme /{vcd,vel,nas}/ 120ms # /ŋ/
+phoneme /ŋ/ 120ms
 	unit "N"
 end
 
 # Sonorants ###################################################################
 
-phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
+phoneme /l/ 55ms
 	unit "l"
 end
 
-phoneme /{vcd,pal,apr}/ 50ms # /j/
+phoneme /j/ 50ms
 	unit "j"
 end
 
 # Affricates ##################################################################
 
-phoneme /{vls,blb,stp,tie}{vls,lbd,frc}/ 130ms # /p͡f/
+phoneme /p͡f/ 130ms
 	unit "pf"
 end
 
-phoneme /{vcd,alv,stp,tie}{vls,alv,sib,frc}/ 130ms # /d͡s/
+phoneme /d͡s/ 130ms
 	unit "ds"
 end
 
 # Short Vowels ################################################################
 
-phoneme /{smh,fnt,unr,vwl}/ 60ms # /ɪ/
+phoneme /ɪ/ 60ms
 	unit "I"
 end
 
-phoneme /{smh,bck,rnd,vwl}/ 60ms # /ʊ/
+phoneme /ʊ/ 60ms
 	unit "U"
 end
 
-phoneme /{umd,fnt,unr,vwl}/ 60ms # /e/
+phoneme /e/ 60ms
 	unit "e"
 end
 
-phoneme /{lmd,fnt,unr,vwl}/ 60ms # /ɛ/
+phoneme /ɛ/ 60ms
 	unit "E"
 end
 
-phoneme /{lmd,fnt,rnd,vwl}/ 60ms # /œ/
+phoneme /œ/ 60ms
 	unit "9"
 end
 
-phoneme /{lmd,bck,rnd,vwl}/ 60ms # /ɔ/
+phoneme /ɔ/ 60ms
 	unit "O"
 end
 
-phoneme /{low,fnt,unr,vwl}/ 60ms # /a/
+phoneme /a/ 60ms
 	unit "a"
 end
 
-phoneme /{low,bck,unr,vwl}/ 60ms # /ɑ/
+phoneme /ɑ/ 60ms
 	unit "A"
 end
 
 # Long Vowels #################################################################
 
-phoneme /{hgh,fnt,unr,vwl,lng}/ 100ms # /iː/
+phoneme /iː/ 100ms
 	unit "i:"
 end
 
-phoneme /{umd,fnt,unr,vwl,lng}/ 110ms # /eː/
+phoneme /eː/ 110ms
 	unit "e:"
 end
 
-phoneme /{umd,bck,rnd,vwl,lng}/ 110ms # /oː/
+phoneme /oː/ 110ms
 	unit "o:"
 end
 
 # Diphthongs ##################################################################
 
-phoneme /{smh,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /ʊɪ̯/
+phoneme /ʊɪ̯/ 150ms
 	unit "UI"
 end
 
-phoneme /{umd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /oɪ̯/
+phoneme /oɪ̯/ 150ms
 	unit "oI"
 end
 
-phoneme /{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ 150ms # /ɔɪ̯/
+phoneme /ɔɪ̯/ 150ms
 	unit "OI"
 end
 
-phoneme /{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /aɪ̯/
+phoneme /aɪ̯/ 130ms
 	unit "aI"
 end
 
-phoneme /{low,bck,unr,vwl}{smh,fnt,unr,vwl,nsy}/ 130ms # /ɑɪ̯/
+phoneme /ɑɪ̯/ 130ms
 	unit "AI"
 end
 
-phoneme /{lmd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ 130ms # /ɔʊ̯/
+phoneme /ɔʊ̯/ 130ms
 	unit "OU"
 end
 
-phoneme /{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ 130ms # /aʊ̯/
+phoneme /aʊ̯/ 130ms
 	unit "aU"
 end
 
-phoneme /{smh,fnt,unr,vwl}{low,bck,unr,vwl,nsy}/ 130ms # /ɪɑ̯/
+phoneme /ɪɑ̯/ 130ms
 	unit "IA"
 end
 
-phoneme /{smh,bck,rnd,vwl}{low,bck,unr,vwl,nsy}/ 130ms # /ʊɑ̯/
+phoneme /ʊɑ̯/ 130ms
 	unit "UA"
 end
 
-phoneme /{umd,fnt,unr,vwl}{low,bck,unr,vwl,nsy}/ 130ms # /eɑ̯/
+phoneme /eɑ̯/ 130ms
 	unit "eA"
 end
 
-phoneme /{lmd,bck,unr,vwl}{low,bck,unr,vwl,nsy}/ 130ms # /ɔɑ̯/
+phoneme /ɔɑ̯/ 130ms
 	unit "OA"
 end

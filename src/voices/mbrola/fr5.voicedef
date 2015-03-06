@@ -1,6 +1,6 @@
 # MBROLA fr5 Voice Definition File
 #
-# Copyright (C) 2014 Reece H. Dunn
+# Copyright (C) 2014-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -15,155 +15,156 @@
 .frequency	16000
 .channels	1
 .sample-format	s16le
+.phonemeset	ipa
 
 pitch 104.5Hz 19Hz 4.75Hz # min=95Hz max=190Hz
 
 # Plosives ####################################################################
 
-phoneme /{vls,blb,stp}/ 50ms # /p/
+phoneme /p/ 50ms
 	unit "p"
 end
 
-phoneme /{vcd,blb,stp}/ 80ms # /b/
+phoneme /b/ 80ms
 	unit "b"
 end
 
-phoneme /{vls,alv,stp}/ 50ms # /t/
+phoneme /t/ 50ms
 	unit "t"
 end
 
-phoneme /{vcd,alv,stp}/ 80ms # /d/
+phoneme /d/ 80ms
 	unit "d"
 end
 
-phoneme /{vls,vel,stp}/ 50ms # /k/
+phoneme /k/ 50ms
 	unit "k"
 end
 
-phoneme /{vcd,vel,stp}/ 80ms # /ɡ/
+phoneme /ɡ/ 80ms
 	unit "g"
 end
 
 # Fricatives ##################################################################
 
-phoneme /{vls,lbd,frc}/ 95ms # /f/
+phoneme /f/ 95ms
 	unit "f"
 end
 
-phoneme /{vcd,lbd,frc}/ 50ms # /v/
+phoneme /v/ 50ms
 	unit "v"
 end
 
-phoneme /{vls,alv,sib,frc}/ 100ms # /s/
+phoneme /s/ 100ms
 	unit "s"
 end
 
-phoneme /{vcd,alv,sib,frc}/ 70ms # /z/
+phoneme /z/ 70ms
 	unit "z"
 end
 
-phoneme /{vls,pla,sib,frc}/ 100ms # /ʃ/
+phoneme /ʃ/ 100ms
 	unit "S"
 end
 
-phoneme /{vcd,pla,sib,frc}/ 70ms # /ʒ/
+phoneme /ʒ/ 70ms
 	unit "Z"
 end
 
-phoneme /{vcd,uvl,frc}/ 55ms # /ʁ/
+phoneme /ʁ/ 55ms
 	unit "R"
 end
 
 # Nasals ######################################################################
 
-phoneme /{vcd,blb,nas}/ 70ms # /m/
+phoneme /m/ 70ms
 	unit "m"
 end
 
-phoneme /{vcd,alv,nas}/ 70ms # /n/
+phoneme /n/ 70ms
 	unit "n"
 end
 
-phoneme /{vcd,vel,nas}/ 120ms # /ŋ/
+phoneme /ŋ/ 120ms
 	unit "N"
 end
 
 # Sonorants ###################################################################
 
-phoneme /{vcd,alv,lat,apr}/ 55ms # /l/
+phoneme /l/ 55ms
 	unit "l"
 end
 
-phoneme /{vcd,lbp,apr}/ 55ms # /ɥ/
+phoneme /ɥ/ 55ms
 	unit "H"
 end
 
-phoneme /{vcd,lbv,apr}/ 55ms # /w/
+phoneme /w/ 55ms
 	unit "w"
 end
 
-phoneme /{vcd,pal,apr}/ 50ms # /j/
+phoneme /j/ 50ms
 	unit "j"
 end
 
 # Short Vowels ################################################################
 
-phoneme /{hgh,fnt,unr,vwl}/ 60ms # /i/
+phoneme /i/ 60ms
 	unit "i"
 end
 
-phoneme /{hgh,fnt,rnd,vwl}/ 60ms # /y/
+phoneme /y/ 60ms
 	unit "y"
 end
 
-phoneme /{hgh,bck,rnd,vwl}/ 60ms # /u/
+phoneme /u/ 60ms
 	unit "u"
 end
 
-phoneme /{umd,fnt,unr,vwl}/ 60ms # /e/
+phoneme /e/ 60ms
 	unit "e"
 end
 
-phoneme /{umd,fnt,unr,vwl,nzd}/ 60ms # /ẽ/
+phoneme /ẽ/ 60ms
 	unit "e~"
 end
 
-phoneme /{umd,fnt,rnd,vwl}/ 60ms # /ø/
+phoneme /ø/ 60ms
 	unit "2"
 end
 
-phoneme /{umd,bck,rnd,vwl}/ 60ms # /o/
+phoneme /o/ 60ms
 	unit "o"
 end
 
-phoneme /{umd,bck,rnd,vwl,nzd}/ 60ms # /õ/
+phoneme /õ/ 60ms
 	unit "o~"
 end
 
-phoneme /{mid,cnt,unr,vwl}/ 60ms # /ə/
+phoneme /ə/ 60ms
 	unit "@"
 end
 
-phoneme /{lmd,fnt,unr,vwl}/ 60ms # /ɛ/
+phoneme /ɛ/ 60ms
 	unit "E"
 end
 
-phoneme /{lmd,fnt,rnd,vwl}/ 60ms # /œ/
+phoneme /œ/ 60ms
 	unit "9"
 end
 
-phoneme /{lmd,fnt,rnd,vwl,nzd}/ 60ms # /œ̃/
+phoneme /œ̃/ 60ms
 	unit "9~"
 end
 
-phoneme /{lmd,bck,rnd,vwl}/ 60ms # /ɔ/
+phoneme /ɔ/ 60ms
 	unit "O"
 end
 
-phoneme /{low,fnt,unr,vwl}/ 60ms # /a/
+phoneme /a/ 60ms
 	unit "a"
 end
 
-phoneme /{low,fnt,unr,vwl,nzd}/ 60ms # /ã/
+phoneme /ã/ 60ms
 	unit "a~"
 end
