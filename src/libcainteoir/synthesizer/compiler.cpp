@@ -157,13 +157,12 @@ struct phoneme_t
 {
 	ipa::phoneme phoneme1;
 	ipa::phoneme phoneme2;
-	css::time duration_mean;
-	css::time duration_stdev;
+	tts::duration duration;
 	std::list<unit_t> units;
 
 	phoneme_t()
-		: duration_stdev(5, css::time::milliseconds)
 	{
+		duration.sdev = { 5, css::time::milliseconds };
 	}
 };
 
@@ -200,11 +199,11 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 		else switch (state)
 		{
 		case pre_duration_mean:
-			entry.duration_mean = css::parse_smil_time(reader.match());
+			entry.duration.mean = css::parse_smil_time(reader.match());
 			state = pre_duration_stdev;
 			break;
 		case pre_duration_stdev:
-			entry.duration_stdev = css::parse_smil_time(reader.match());
+			entry.duration.sdev = css::parse_smil_time(reader.match());
 			state = in_phoneme_body;
 			break;
 		case in_unit_offset:
@@ -355,7 +354,7 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 			if (reader.match().compare("phoneme") == 0)
 			{
 				phonemes.push_back(parse_phoneme(reader, parser));
-				if (phonemes.back().duration_mean.units() != css::time::inherit)
+				if (phonemes.back().duration.mean.units() != css::time::inherit)
 					++duration_entries;
 				unit_entries += phonemes.back().units.size();
 			}
@@ -414,15 +413,15 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 		out.u16(duration_entries);
 		for (const auto &entry : phonemes)
 		{
-			if (entry.duration_mean.units() != css::time::inherit)
+			if (entry.duration.mean.units() != css::time::inherit)
 			{
 				out.u64(entry.phoneme1.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
 				out.u64(entry.phoneme2.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
-				out.u8((int)entry.duration_mean.as(css::time::milliseconds).value());
-				if (entry.duration_stdev.units() == css::time::inherit)
+				out.u8((int)entry.duration.mean.as(css::time::milliseconds).value());
+				if (entry.duration.sdev.units() == css::time::inherit)
 					out.u8(0);
 				else
-					out.u8((int)entry.duration_stdev.as(css::time::milliseconds).value());
+					out.u8((int)entry.duration.sdev.as(css::time::milliseconds).value());
 			}
 		}
 		out.end_section();
