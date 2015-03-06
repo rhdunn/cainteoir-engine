@@ -170,13 +170,21 @@ bool arpabet_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phonem
 			mStress = *mCurrent++;
 			break;
 		case type::phoneme:
-			mPosition = mPosition->get(*mCurrent);
-			if (mPosition == nullptr)
+			if (*mCurrent == '-' && mPosition != mPhonemes.root())
 			{
-				mState = state::error;
-				throw tts::phoneme_error("unknown phoneme");
+				// This may be a diphone ...
+				mState = state::emitting_phoneme1;
 			}
-			++mCurrent;
+			else
+			{
+				mPosition = mPosition->get(*mCurrent);
+				if (mPosition == nullptr)
+				{
+					mState = state::error;
+					throw tts::phoneme_error("unknown phoneme");
+				}
+				++mCurrent;
+			}
 			break;
 		}
 		break;
