@@ -1,6 +1,6 @@
 /* Test for the phoneme model.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -40,9 +40,15 @@ namespace cainteoir { namespace ipa
 		          << value.get(FEATURE_C(0xFFFFFFFFFFFFFFFF))
 		          << std::dec << std::setw(0) << std::setfill(fill) << std::nouppercase;
 	}
+
+	std::ostream &operator<<(std::ostream &os, const tts::phoneme_reader &reader)
+	{
+		return os << (const ipa::phoneme &)reader;
+	}
 }}
 
 PRINTABLE(ipa::phoneme);
+PRINTABLE(tts::phoneme_reader);
 
 TEST_CASE("ipa::phoneme -- object size")
 {
