@@ -153,17 +153,27 @@ struct unit_t
 	}
 };
 
+struct duration_t
+{
+	css::time mean;
+	css::time sdev;
+	ipa::phoneme phoneme1;
+	ipa::phoneme phoneme2;
+
+	duration_t()
+		: sdev(5, css::time::milliseconds)
+		, phoneme1(ipa::unspecified)
+		, phoneme2(ipa::unspecified)
+	{
+	}
+};
+
 struct phoneme_t
 {
 	ipa::phoneme phoneme1;
 	ipa::phoneme phoneme2;
-	tts::duration duration;
+	std::list<duration_t> durations;
 	std::list<unit_t> units;
-
-	phoneme_t()
-	{
-		duration.sdev = { 5, css::time::milliseconds };
-	}
 };
 
 static phoneme_t
@@ -175,6 +185,7 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 		in_phoneme_body,
 		in_duration_mean,
 		in_duration_stdev,
+		in_duration_conditional,
 		in_unit_offset,
 		in_unit_name,
 		in_unit_start,
@@ -184,7 +195,7 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 	state_t state = in_phoneme;
 	phoneme_t entry;
 	unit_t *unit = nullptr;
-	tts::duration *duration = nullptr;
+	duration_t *duration = nullptr;
 
 	while (reader.read()) switch (reader.type())
 	{
@@ -199,8 +210,16 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 		}
 		else if (reader.match().compare("duration") == 0)
 		{
-			duration = &entry.duration;
+			entry.durations.push_back({});
+			duration = &entry.durations.back();
+			duration->phoneme1 = entry.phoneme1;
+			duration->phoneme2 = entry.phoneme2;
 			state = in_duration_mean;
+		}
+		else if (reader.match().compare("if") == 0)
+		{
+			if (duration != nullptr)
+				state = in_duration_conditional;
 		}
 		else switch (state)
 		{
@@ -236,6 +255,17 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 				{
 					if (!parser->parse(begin, reader.match().end(), entry.phoneme2))
 						entry.phoneme2 = ipa::unspecified;
+				}
+				state = in_phoneme_body;
+			}
+			break;
+		case in_duration_conditional:
+			{
+				auto begin = reader.match().begin();
+				if (parser->parse(begin, reader.match().end(), duration->phoneme1))
+				{
+					if (!parser->parse(begin, reader.match().end(), duration->phoneme2))
+						duration->phoneme2 = ipa::unspecified;
 				}
 				state = in_phoneme_body;
 			}
@@ -360,8 +390,7 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 			if (reader.match().compare("phoneme") == 0)
 			{
 				phonemes.push_back(parse_phoneme(reader, parser));
-				if (phonemes.back().duration.mean.units() != css::time::inherit)
-					++duration_entries;
+				duration_entries += phonemes.back().durations.size();
 				unit_entries += phonemes.back().units.size();
 			}
 			else if (reader.match().compare("pitch") == 0)
@@ -417,18 +446,15 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 	{
 		out.begin_section("DUR", tts::TABLE_SECTION_SIZE + (duration_entries * tts::DURATION_TABLE_ENTRY_SIZE), false);
 		out.u16(duration_entries);
-		for (const auto &entry : phonemes)
+		for (const auto &entry : phonemes) for (const auto &duration : entry.durations)
 		{
-			if (entry.duration.mean.units() != css::time::inherit)
-			{
-				out.u64(entry.phoneme1.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
-				out.u64(entry.phoneme2.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
-				out.u8((int)entry.duration.mean.as(css::time::milliseconds).value());
-				if (entry.duration.sdev.units() == css::time::inherit)
-					out.u8(0);
-				else
-					out.u8((int)entry.duration.sdev.as(css::time::milliseconds).value());
-			}
+			out.u64(duration.phoneme1.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
+			out.u64(duration.phoneme2.get(ipa::main | ipa::diacritics | ipa::suprasegmentals));
+			out.u8((int)duration.mean.as(css::time::milliseconds).value());
+			if (duration.sdev.units() == css::time::inherit)
+				out.u8(0);
+			else
+				out.u8((int)duration.sdev.as(css::time::milliseconds).value());
 		}
 		out.end_section();
 	}
