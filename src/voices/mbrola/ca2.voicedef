@@ -21,150 +21,185 @@ pitch 106Hz 32Hz 8Hz # min=90Hz max=250Hz
 
 # Plosives ####################################################################
 
-phoneme /p/ 50ms
+phoneme /p/
+	duration 50ms
 	unit "p"
 end
 
-phoneme /b/ 80ms
+phoneme /b/
+	duration 80ms
 	unit "b"
 end
 
-phoneme /t/ 50ms
+phoneme /t/
+	duration 50ms
 	unit "t"
 end
 
-phoneme /d/ 80ms
+phoneme /d/
+	duration 80ms
 	unit "d"
 end
 
-phoneme /k/ 50ms
+phoneme /k/
+	duration 50ms
 	unit "k"
 end
 
-phoneme /ɡ/ 80ms
+phoneme /ɡ/
+	duration 80ms
 	unit "g"
 end
 
 # Fricatives ##################################################################
 
-phoneme /f/ 95ms
+phoneme /f/
+	duration 95ms
 	unit "f"
 end
 
-phoneme /v/ 50ms
+phoneme /v/
+	duration 50ms
 	unit "v"
 end
 
-phoneme /s/ 100ms
+phoneme /s/
+	duration 100ms
 	unit "s"
 end
 
-phoneme /z/ 70ms
+phoneme /z/
+	duration 70ms
 	unit "z"
 end
 
-phoneme /ʃ/ 100ms
+phoneme /ʃ/
+	duration 100ms
 	unit "S"
 end
 
-phoneme /ʒ/ 70ms
+phoneme /ʒ/
+	duration 70ms
 	unit "Z"
 end
 
-phoneme /ʁ/ 55ms
+phoneme /ʁ/
+	duration 55ms
 	unit "R"
 end
 
 # Nasals ######################################################################
 
-phoneme /m/ 70ms
+phoneme /m/
+	duration 70ms
 	unit "m"
 end
 
-phoneme /n/ 70ms
+phoneme /n/
+	duration 70ms
 	unit "n"
 end
 
-phoneme /ŋ/ 120ms
+phoneme /ŋ/
+	duration 120ms
 	unit "N"
 end
 
 # Sonorants ###################################################################
 
-phoneme /l/ 55ms
+phoneme /l/
+	duration 55ms
 	unit "l"
 end
 
-phoneme /ɥ/ 55ms
+phoneme /ɥ/
+	duration 55ms
 	unit "H"
 end
 
-phoneme /w/ 55ms
+phoneme /w/
+	duration 55ms
 	unit "w"
 end
 
-phoneme /j/ 50ms
+phoneme /j/
+	duration 50ms
 	unit "j"
 end
 
 # Short Vowels ################################################################
 
-phoneme /i/ 60ms
+phoneme /i/
+	duration 60ms
 	unit "i"
 end
 
-phoneme /y/ 60ms
+phoneme /y/
+	duration 60ms
 	unit "y"
 end
 
-phoneme /u/ 60ms
+phoneme /u/
+	duration 60ms
 	unit "u"
 end
 
-phoneme /e/ 60ms
+phoneme /e/
+	duration 60ms
 	unit "e"
 end
 
-phoneme /ẽ/ 60ms
+phoneme /ẽ/
+	duration 60ms
 	unit "e~"
 end
 
-phoneme /ø/ 60ms
+phoneme /ø/
+	duration 60ms
 	unit "2"
 end
 
-phoneme /o/ 60ms
+phoneme /o/
+	duration 60ms
 	unit "o"
 end
 
-phoneme /õ/ 60ms
+phoneme /õ/
+	duration 60ms
 	unit "o~"
 end
 
-phoneme /ə/ 60ms
+phoneme /ə/
+	duration 60ms
 	unit "@"
 end
 
-phoneme /ɛ/ 60ms
+phoneme /ɛ/
+	duration 60ms
 	unit "E"
 end
 
-phoneme /œ/ 60ms
+phoneme /œ/
+	duration 60ms
 	unit "9"
 end
 
-phoneme /œ̃/ 60ms
+phoneme /œ̃/
+	duration 60ms
 	unit "9~"
 end
 
-phoneme /ɔ/ 60ms
+phoneme /ɔ/
+	duration 60ms
 	unit "O"
 end
 
-phoneme /a/ 60ms
+phoneme /a/
+	duration 60ms
 	unit "a"
 end
 
-phoneme /ã/ 60ms
+phoneme /ã/
+	duration 60ms
 	unit "a~"
 end

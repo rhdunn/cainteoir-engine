@@ -21,188 +21,231 @@ pitch 123.5Hz 27Hz 6.75Hz # min=110Hz max=245Hz
 
 # Plosives ####################################################################
 
-phoneme /b/ 80ms
+phoneme /b/
+	duration 80ms
 	unit "b"
 end
 
-phoneme /t/ 50ms
+phoneme /t/
+	duration 50ms
 	unit "t"
 end
 
-phoneme /d/ 80ms
+phoneme /d/
+	duration 80ms
 	unit "d"
 end
 
-phoneme /k/ 50ms
+phoneme /k/
+	duration 50ms
 	unit "k"
 end
 
-phoneme /ɡ/ 80ms
+phoneme /ɡ/
+	duration 80ms
 	unit "g"
 end
 
 # Fricatives ##################################################################
 
-phoneme /f/ 95ms
+phoneme /f/
+	duration 95ms
 	unit "f"
 end
 
-phoneme /v/ 50ms
+phoneme /v/
+	duration 50ms
 	unit "v"
 end
 
-phoneme /s/ 100ms
+phoneme /s/
+	duration 100ms
 	unit "s"
 end
 
-phoneme /ʃ/ 100ms
+phoneme /ʃ/
+	duration 100ms
 	unit "S"
 end
 
-phoneme /ʒ/ 70ms
+phoneme /ʒ/
+	duration 70ms
 	unit "Z"
 end
 
-phoneme /x/ 60ms
+phoneme /x/
+	duration 60ms
 	unit "x"
 end
 
-phoneme /ç/ 60ms
+phoneme /ç/
+	duration 60ms
 	unit "C"
 end
 
-phoneme /ʁ/ 55ms
+phoneme /ʁ/
+	duration 55ms
 	unit "R"
 end
 
-phoneme /h/ 60ms
+phoneme /h/
+	duration 60ms
 	unit "h"
 end
 
 # Nasals ######################################################################
 
-phoneme /m/ 70ms
+phoneme /m/
+	duration 70ms
 	unit "m"
 end
 
-phoneme /n/ 70ms
+phoneme /n/
+	duration 70ms
 	unit "n"
 end
 
-phoneme /ŋ/ 120ms
+phoneme /ŋ/
+	duration 120ms
 	unit "N"
 end
 
 # Sonorants ###################################################################
 
-phoneme /l/ 55ms
+phoneme /l/
+	duration 55ms
 	unit "l"
 end
 
-phoneme /j/ 50ms
+phoneme /j/
+	duration 50ms
 	unit "j"
 end
 
 # Affricates ##################################################################
 
-phoneme /p͡f/ 130ms
+phoneme /p͡f/
+	duration 130ms
 	unit "pf"
 end
 
-phoneme /d͡s/ 130ms
+phoneme /d͡s/
+	duration 130ms
 	unit "ds"
 end
 
 # Short Vowels ################################################################
 
-phoneme /ɪ/ 60ms
+phoneme /ɪ/
+	duration 60ms
 	unit "I"
 end
 
-phoneme /ʊ/ 60ms
+phoneme /ʊ/
+	duration 60ms
 	unit "U"
 end
 
-phoneme /e/ 60ms
+phoneme /e/
+	duration 60ms
 	unit "e"
 end
 
-phoneme /ɛ/ 60ms
+phoneme /ɛ/
+	duration 60ms
 	unit "E"
 end
 
-phoneme /œ/ 60ms
+phoneme /œ/
+	duration 60ms
 	unit "9"
 end
 
-phoneme /ɔ/ 60ms
+phoneme /ɔ/
+	duration 60ms
 	unit "O"
 end
 
-phoneme /a/ 60ms
+phoneme /a/
+	duration 60ms
 	unit "a"
 end
 
-phoneme /ɑ/ 60ms
+phoneme /ɑ/
+	duration 60ms
 	unit "A"
 end
 
 # Long Vowels #################################################################
 
-phoneme /iː/ 100ms
+phoneme /iː/
+	duration 100ms
 	unit "i:"
 end
 
-phoneme /eː/ 110ms
+phoneme /eː/
+	duration 110ms
 	unit "e:"
 end
 
-phoneme /oː/ 110ms
+phoneme /oː/
+	duration 110ms
 	unit "o:"
 end
 
 # Diphthongs ##################################################################
 
-phoneme /ʊɪ̯/ 150ms
+phoneme /ʊɪ̯/
+	duration 150ms
 	unit "UI"
 end
 
-phoneme /oɪ̯/ 150ms
+phoneme /oɪ̯/
+	duration 150ms
 	unit "oI"
 end
 
-phoneme /ɔɪ̯/ 150ms
+phoneme /ɔɪ̯/
+	duration 150ms
 	unit "OI"
 end
 
-phoneme /aɪ̯/ 130ms
+phoneme /aɪ̯/
+	duration 130ms
 	unit "aI"
 end
 
-phoneme /ɑɪ̯/ 130ms
+phoneme /ɑɪ̯/
+	duration 130ms
 	unit "AI"
 end
 
-phoneme /ɔʊ̯/ 130ms
+phoneme /ɔʊ̯/
+	duration 130ms
 	unit "OU"
 end
 
-phoneme /aʊ̯/ 130ms
+phoneme /aʊ̯/
+	duration 130ms
 	unit "aU"
 end
 
-phoneme /ɪɑ̯/ 130ms
+phoneme /ɪɑ̯/
+	duration 130ms
 	unit "IA"
 end
 
-phoneme /ʊɑ̯/ 130ms
+phoneme /ʊɑ̯/
+	duration 130ms
 	unit "UA"
 end
 
-phoneme /eɑ̯/ 130ms
+phoneme /eɑ̯/
+	duration 130ms
 	unit "eA"
 end
 
-phoneme /ɔɑ̯/ 130ms
+phoneme /ɔɑ̯/
+	duration 130ms
 	unit "OA"
 end

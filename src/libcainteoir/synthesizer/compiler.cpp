@@ -172,9 +172,9 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 	enum state_t
 	{
 		in_phoneme,
-		pre_duration_mean,
-		pre_duration_stdev,
 		in_phoneme_body,
+		in_duration_mean,
+		in_duration_stdev,
 		in_unit_offset,
 		in_unit_name,
 		in_unit_start,
@@ -184,6 +184,7 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 	state_t state = in_phoneme;
 	phoneme_t entry;
 	unit_t *unit = nullptr;
+	tts::duration *duration = nullptr;
 
 	while (reader.read()) switch (reader.type())
 	{
@@ -196,14 +197,19 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 			unit = &entry.units.back();
 			state = in_unit_offset;
 		}
+		else if (reader.match().compare("duration") == 0)
+		{
+			duration = &entry.duration;
+			state = in_duration_mean;
+		}
 		else switch (state)
 		{
-		case pre_duration_mean:
-			entry.duration.mean = css::parse_smil_time(reader.match());
-			state = pre_duration_stdev;
+		case in_duration_mean:
+			duration->mean = css::parse_smil_time(reader.match());
+			state = in_duration_stdev;
 			break;
-		case pre_duration_stdev:
-			entry.duration.sdev = css::parse_smil_time(reader.match());
+		case in_duration_stdev:
+			duration->sdev = css::parse_smil_time(reader.match());
 			state = in_phoneme_body;
 			break;
 		case in_unit_offset:
@@ -231,7 +237,7 @@ parse_phoneme(cainteoir_file_reader &reader, const std::shared_ptr<tts::phoneme_
 					if (!parser->parse(begin, reader.match().end(), entry.phoneme2))
 						entry.phoneme2 = ipa::unspecified;
 				}
-				state = pre_duration_mean;
+				state = in_phoneme_body;
 			}
 			break;
 		}
