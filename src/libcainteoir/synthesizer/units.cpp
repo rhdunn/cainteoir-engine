@@ -46,7 +46,7 @@ struct unit_reader : public tts::prosody_reader
 
 	bool read();
 private:
-	bool find_unit();
+	bool find_unit(const ipa::phoneme::value_type mask);
 
 	std::shared_ptr<tts::prosody_reader> mProsody;
 	const std::vector<tts::unit_t> &mUnits;
@@ -68,13 +68,16 @@ private:
 
 bool unit_reader::read()
 {
+	constexpr auto mask_normal   = ~(ipa::stress | ipa::tone_start | ipa::tone_middle | ipa::tone_end);
+	constexpr auto mask_nolength = ~(ipa::stress | ipa::tone_start | ipa::tone_middle | ipa::tone_end | ipa::length);
+
 	while (true) switch (mState)
 	{
 	case need_phoneme:
 		if (!mProsody->read())
 			return false;
 
-		if (find_unit())
+		if (find_unit(mask_normal) || find_unit(mask_nolength))
 		{
 			mState = have_unit;
 			continue;
@@ -118,10 +121,8 @@ bool unit_reader::read()
 	}
 }
 
-bool unit_reader::find_unit()
+bool unit_reader::find_unit(const ipa::phoneme::value_type mask)
 {
-	constexpr auto mask = ~(ipa::stress | ipa::tone_start | ipa::tone_middle | ipa::tone_end);
-
 	for (const auto &entry : mPhonemes)
 	{
 		if (mProsody->first.phoneme1.get(mask) == entry.phoneme1 &&
