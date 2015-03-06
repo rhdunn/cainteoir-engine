@@ -154,68 +154,78 @@ phoneme /j/
 	unit "j"
 end
 
-# Short Vowels ################################################################
+# Vowels ######################################################################
+
+phoneme /i/
+	duration  60ms
+	duration 120ms if /iː/
+	unit "i:"
+end
+
+phoneme /u/
+	duration  60ms
+	duration 110ms if /uː/
+	unit "u:"
+end
 
 phoneme /ɪ/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /ɪː/
 	unit "I"
 end
 
 phoneme /ʊ/
-	duration 65ms
+	duration  65ms
+	duration 120ms if /ʊː/
 	unit "U"
 end
 
 phoneme /e/
-	duration 80ms
+	duration  80ms
+	duration 130ms if /eː/
 	unit "e"
 end
 
 phoneme /ə/
-	duration 45ms
+	duration  45ms
+	duration 110ms if /əː/
 	unit "@"
 end
 
-phoneme /ʌ/
-	duration 80ms
-	unit "V"
-end
-
-phoneme /æ/
-	duration 70ms
-	unit "{"
-end
-
-phoneme /ɒ/
-	duration 90ms
-	unit "Q"
-end
-
-# Long Vowels #################################################################
-
-phoneme /iː/
-	duration 120ms
-	unit "i:"
-end
-
-phoneme /uː/
-	duration 110ms
-	unit "u:"
-end
-
-phoneme /ɜː/
-	duration 140ms
+phoneme /ɜ/
+	duration  80ms
+	duration 140ms if /ɜː/
 	unit "3:"
 end
 
-phoneme /ɔː/
-	duration 140ms
+phoneme /ʌ/
+	duration  80ms
+	duration 110ms if /ʌː/
+	unit "V"
+end
+
+phoneme /ɔ/
+	duration  80ms
+	duration 140ms if /ɔː/
 	unit "O:"
 end
 
-phoneme /ɑː/
-	duration 155ms
+phoneme /æ/
+	duration  70ms
+	duration 120ms if /æː/
+	unit "{"
+end
+
+phoneme /ɑ/
+	duration  90ms
+	duration 155ms if /ɑː/
 	unit "A:"
+end
+
+phoneme /ɒ/
+	duration  90ms
+	duration 130ms if /ɒː/
+	unit "Q"
 end
 
 # Diphthongs ##################################################################
