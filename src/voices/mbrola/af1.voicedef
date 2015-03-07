@@ -132,65 +132,77 @@ phoneme /j/
 	unit "j"
 end
 
-# Short Vowels ################################################################
+# Vowels ######################################################################
 
 phoneme /i/
-	duration 60ms
+	duration  60ms
+	duration 110ms if /iː/
 	unit "i"
 end
 
 phoneme /y/
-	duration 60ms
+	duration  60ms
+	duration 110ms if /yː/
 	unit "y"
 end
 
 phoneme /u/
-	duration 60ms
+	duration  60ms
+	duration 110ms if /uː/
 	unit "u"
 end
 
 phoneme /e/
-	duration 55ms
+	duration  55ms
+	duration 110ms if /eː/
 	unit "e"
 end
 
 phoneme /ø/
-	duration 55ms
+	duration  55ms
+	duration 110ms if /øː/
 	unit "2"
 end
 
 phoneme /o/
-	duration 55ms
+	duration  55ms
+	duration 110ms if /oː/
 	unit "o"
 end
 
 phoneme /ə/
-	duration 55ms
+	duration  55ms
+	duration 110ms if /əː/
 	unit "@"
 end
 
 phoneme /ɛ/
-	duration 70ms
+	duration  70ms
+	duration 130ms if /ɛː/
 	unit "E"
 end
 
 phoneme /œ/
-	duration 70ms
+	duration  70ms
+	duration 130ms if /œː/
 	unit "9"
 end
 
 phoneme /ɔ/
-	duration 80ms
+	duration  80ms
+	duration 130ms if /ɔː/
 	unit "O"
 end
 
 phoneme /a/
-	duration 90ms
+	duration  90ms
+	duration 130ms if /aː/
 	unit "a"
 end
 
 phoneme /ɑ/
-	duration 90ms
+	duration  90ms
+	duration 130ms if /ɑː/
 	unit "A"
 end
 
