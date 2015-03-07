@@ -127,84 +127,100 @@ phoneme /j/
 	unit "j"
 end
 
-# Short Vowels ################################################################
+# Vowels ######################################################################
 
 phoneme /i/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /iː/
 	unit "i"
 end
 
 phoneme /y/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /yː/
 	unit "y"
 end
 
 phoneme /u/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /uː/
 	unit "u"
 end
 
 phoneme /e/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /eː/
 	unit "e"
 end
 
 phoneme /ẽ/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /ẽː/
 	unit "e~"
 end
 
 phoneme /ø/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /øː/
 	unit "2"
 end
 
 phoneme /o/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /oː/
 	unit "o"
 end
 
 phoneme /õ/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /õː/
 	unit "o~"
 end
 
 phoneme /ə/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /əː/
 	unit "@"
 end
 
 phoneme /ɛ/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /ɛː/
 	unit "E"
 end
 
 phoneme /œ/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /œː/
 	unit "9"
 end
 
 phoneme /œ̃/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /œ̃ː/
 	unit "9~"
 end
 
 phoneme /ɔ/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /ɔː/
 	unit "O"
 end
 
 phoneme /a/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /aː/
 	unit "a"
 end
 
 phoneme /ã/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /ãː/
 	unit "a~"
 end
 
 phoneme /ɑ/
-	duration 60ms
+	duration  60ms
+	duration 120ms if /ɑː/
 	unit "A"
 end
