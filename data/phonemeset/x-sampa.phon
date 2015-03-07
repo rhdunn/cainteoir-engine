@@ -4,9 +4,9 @@
 
 .import	x-sampa~base
 
-"	<	=st1
+\"	<	=st1
 %	<	=st2
-""	<	=st3
+\"\"	<	=st3
 
 ##### References:
 #

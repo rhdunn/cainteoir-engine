@@ -165,9 +165,9 @@ j<vel>	/{vcd,vel,apr}/ # [2]
 
 w<vls>	/{vls,lbv,apr}/ # [5]
 
-n"	/{vcd,uvl,nas}/ # [2]
-Q"	/{vcd,uvl,frc}/ # [16]
-r"	/{vcd,uvl,trl}/ # [2], [16], [17]
+n\"	/{vcd,uvl,nas}/ # [2]
+Q\"	/{vcd,uvl,frc}/ # [16]
+r\"	/{vcd,uvl,trl}/ # [2], [16], [17]
 
 H<vcd>	/{vcd,phr,frc}/
 
@@ -180,15 +180,15 @@ l!	/{vls,alv,lat,clk}/ # [19]
 I.	/{smh,fnt,rnd,vwl}/ # [20]
 a.	/{low,fnt,rnd,vwl}/ # [14], [22], [23], [24]
 
-i"	/{hgh,cnt,unr,vwl}/
-u"	/{hgh,cnt,rnd,vwl}/
-I"	/{smh,cnt,unr,vwl}/
-U"	/{smh,cnt,rnd,vwl}/
+i\"	/{hgh,cnt,unr,vwl}/
+u\"	/{hgh,cnt,rnd,vwl}/
+I\"	/{smh,cnt,unr,vwl}/
+U\"	/{smh,cnt,rnd,vwl}/
 @<umd>	/{umd,cnt,unr,vwl}/
 @.<umd>	/{umd,cnt,rnd,vwl}/ # [27]
-V"	/{lmd,cnt,unr,vwl}/
-O"	/{lmd,cnt,rnd,vwl}/
-&"	/{sml,cnt,unr,vwl}/ # [21], [22]
+V\"	/{lmd,cnt,unr,vwl}/
+O\"	/{lmd,cnt,rnd,vwl}/
+&\"	/{sml,cnt,unr,vwl}/ # [21], [22]
 
 u-	/{hgh,bck,unr,vwl}/
 o-	/{umd,bck,unr,vwl}/

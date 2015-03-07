@@ -125,7 +125,7 @@ l\#	/{vls,alv,lat,frc}/ # /ɬ/
 n^	/{vcd,pal,nas}/ # /ɲ/
 Q	/{vcd,vel,frc}/ # /ɣ/
 q	/{vls,uvl,stp}/ # /q/
-Q"	/{vcd,uvl,frc}/ # /ʁ/
+Q\"	/{vcd,uvl,frc}/ # /ʁ/
 R2	/{vcd,alv,trl}/ # /r/
 R	/{vcd,alv,trl}/ # /r/
 z.	/{vcd,rfx,sib,frc}/ # /ʐ/

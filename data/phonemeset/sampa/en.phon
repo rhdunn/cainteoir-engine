@@ -69,7 +69,7 @@ x	/{vls,vel,frc}/
 \u000A	/{pau}/		# clause pause (e.g. comma)
 
 :	>	=lng
-"	<	=st1
+\"	<	=st1
 %	<	=st2
 
 ##### References:
