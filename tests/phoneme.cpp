@@ -379,39 +379,63 @@ TEST_CASE("explicit feature reader -- no input")
 	assert(*reader == ipa::phoneme());
 }
 
-TEST_CASE("explicit feature reader -- single phoneme")
+TEST_CASE("explicit feature parser -- no input")
 {
-	static const std::initializer_list<const char *> kirshenbaum = {
-		"adv", "alp", "alv", "apc", "apr", "asp", "atr",
-		"bck", "blb",
-		"clk", "cnt", "con", "crv", "ctl", "czd",
-		"dnt", "dst", "dzd",
-		"ejc", "epg", "est",
-		"fbr", "flp", "fnt", "frc", "fzd",
-		"glf", "glr", "glt",
-		"hgh", "hlg",
-		"ibr", "imp",
-		"lat", "lbd", "lbp", "lbv", "lgl", "lmd", "lmn", "lng", "lnk", "low", "lrd", "ltr", "lwr", "lzd",
-		"mcz", "mid", "mrd", "mrm",
-		"nas", "nsy", "nzd", "nzr",
-		"orl",
-		"pal", "pau", "phr", "pla", "pzd",
-		"ret", "rfx", "rnd", "rsd", "rtc", "rtr", "rzd",
-		"sbr", "sib", "slv", "smh", "sml", "st1", "st2", "st3", "stp", "stv", "syl",
-		"te1", "te2", "te3", "te4", "te5",
-		"tie",
-		"tm1", "tm2", "tm3", "tm4", "tm5", "trl",
-		"ts1", "ts2", "ts3", "ts4", "ts5",
-		"umd", "unr", "unx", "ust", "uvl",
-		"vcd", "vel", "vfz", "vls", "vwl", "vzd",
-	};
+	const char *current = nullptr;
+	const char *end = nullptr;
+	const char *test = "{vcd,alv,stp}";
+	ipa::phoneme p;
 
+	std::shared_ptr<tts::phoneme_parser> parser = tts::createPhonemeParser("features");
+	assert(parser.get());
+
+	p = ipa::bilabial | ipa::flap;
+	assert(!parser->parse(current, end, p));
+	assert(current == nullptr);
+	assert(end == nullptr);
+	assert(p == ipa::phoneme());
+
+	current = end = test;
+	p = ipa::bilabial | ipa::flap;
+	assert(!parser->parse(current, end, p));
+	assert(current == test);
+	assert(end == test);
+	assert(p == ipa::phoneme());
+}
+
+static const std::initializer_list<const char *> phoneme_features = {
+	"adv", "alp", "alv", "apc", "apr", "asp", "atr",
+	"bck", "blb",
+	"clk", "cnt", "con", "crv", "ctl", "czd",
+	"dnt", "dst", "dzd",
+	"ejc", "epg", "est",
+	"fbr", "flp", "fnt", "frc", "fzd",
+	"glf", "glr", "glt",
+	"hgh", "hlg",
+	"ibr", "imp",
+	"lat", "lbd", "lbp", "lbv", "lgl", "lmd", "lmn", "lng", "lnk", "low", "lrd", "ltr", "lwr", "lzd",
+	"mcz", "mid", "mrd", "mrm",
+	"nas", "nsy", "nzd", "nzr",
+	"orl",
+	"pal", "pau", "phr", "pla", "pzd",
+	"ret", "rfx", "rnd", "rsd", "rtc", "rtr", "rzd",
+	"sbr", "sib", "slv", "smh", "sml", "st1", "st2", "st3", "stp", "stv", "syl",
+	"te1", "te2", "te3", "te4", "te5",
+	"tie",
+	"tm1", "tm2", "tm3", "tm4", "tm5", "trl",
+	"ts1", "ts2", "ts3", "ts4", "ts5",
+	"umd", "unr", "unx", "ust", "uvl",
+	"vcd", "vel", "vfz", "vls", "vwl", "vzd",
+};
+
+TEST_CASE("explicit feature reader -- single feature")
+{
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
-	for (const auto &test : kirshenbaum)
+	for (const auto &test : phoneme_features)
 	{
 		char phoneme[] = { '{', test[0], test[1], test[2], '}', 0 };
 
-		fprintf(stdout, "... ... testing phoneme %s\n", phoneme);
+		fprintf(stdout, "... ... testing feature %s\n", phoneme);
 		reader->reset(std::make_shared<cainteoir::buffer>(phoneme));
 
 		assert(reader->read());
@@ -419,6 +443,23 @@ TEST_CASE("explicit feature reader -- single phoneme")
 
 		assert(!reader->read());
 		assert(*reader == ipa::phoneme());
+	}
+}
+
+TEST_CASE("explicit feature parser -- single feature")
+{
+	std::shared_ptr<tts::phoneme_parser> parser = tts::createPhonemeParser("features");
+	for (const auto &test : phoneme_features)
+	{
+		char phoneme[] = { '{', test[0], test[1], test[2], '}', 0 };
+		const char *current = phoneme;
+		const char *end = phoneme + 5;
+		ipa::phoneme p = ipa::unit;
+
+		fprintf(stdout, "... ... testing feature %s\n", phoneme);
+		assert(parser->parse(current, end, p));
+		assert(current == end);
+		assert(p == ipa::phoneme().set(test));
 	}
 }
 
@@ -442,6 +483,28 @@ TEST_CASE("explicit feature reader -- multiple phonemes")
 	assert(*reader == ipa::phoneme());
 }
 
+TEST_CASE("explicit feature parser -- multiple phonemes")
+{
+	std::shared_ptr<tts::phoneme_parser> parser = tts::createPhonemeParser("features");
+
+	const char *test = "{vls,alv,stp}{low,fnt,unr,vwl}{vcd,vel,stp}"; // = /t&g/
+	const char *current = test;
+	const char *end = test + strlen(test);
+	ipa::phoneme p = ipa::unit;
+
+	assert(parser->parse(current, end, p));
+	assert(current == test + 13);
+	assert(p == ipa::phoneme(ipa::alveolar | ipa::plosive));
+
+	assert(parser->parse(current, end, p));
+	assert(current == test + 30);
+	assert(p == ipa::phoneme(ipa::low | ipa::front | ipa::vowel));
+
+	assert(parser->parse(current, end, p));
+	assert(current == end);
+	assert(p == ipa::phoneme(ipa::voiced | ipa::velar | ipa::plosive));
+}
+
 TEST_CASE("explicit feature reader -- multiple phonemes with whitespace")
 {
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
@@ -462,50 +525,93 @@ TEST_CASE("explicit feature reader -- multiple phonemes with whitespace")
 	assert(*reader == ipa::phoneme());
 }
 
+TEST_CASE("explicit feature parser -- multiple phonemes with whitespace")
+{
+	std::shared_ptr<tts::phoneme_parser> parser = tts::createPhonemeParser("features");
+
+	const char *test = "\r\t{vls,alv,stp}\n {low,fnt,unr,vwl}\r\n{vcd,vel,stp}"; // = /t&g/
+	const char *current = test;
+	const char *end = test + strlen(test);
+	ipa::phoneme p = ipa::unit;
+
+	assert(parser->parse(current, end, p));
+	assert(current == test + 15);
+	assert(p == ipa::phoneme(ipa::alveolar | ipa::plosive));
+
+	assert(parser->parse(current, end, p));
+	assert(current == test + 34);
+	assert(p == ipa::phoneme(ipa::low | ipa::front | ipa::vowel));
+
+	assert(parser->parse(current, end, p));
+	assert(current == end);
+	assert(p == ipa::phoneme(ipa::voiced | ipa::velar | ipa::plosive));
+}
+
+struct phoneme_test_t
+{
+	const char *phoneme;
+	int error_offset;
+	const std::string message;
+};
+
+static const std::initializer_list<phoneme_test_t> invalid_phonemes = {
+	// missing '}' at the end of the phoneme ...
+	{ "{vcd,alv,frc",              12, "unexpected end of phoneme (expecting '}')" },
+	{ "{vcd,alv,",                  9, "unexpected end of phoneme (expecting '}')" },
+	{ "{",                          1, "unexpected end of phoneme (expecting '}')" },
+	// no '{' to start the phoneme ...
+	{ "}",                          0, "unexpected start of phoneme (expecting '{')" },
+	{ "vcd,alv,frc",                0, "unexpected start of phoneme (expecting '{')" },
+	{ ",alv,frc",                   0, "unexpected start of phoneme (expecting '{')" },
+	{ "@",                          0, "unexpected start of phoneme (expecting '{')" },
+	{ "5",                          0, "unexpected start of phoneme (expecting '{')" },
+	// no phoneme feature specified ...
+	{ "{}",                         1, "missing phoneme feature" },
+	{ "{vcd,}",                     5, "missing phoneme feature" },
+	{ "{,lbd}",                     1, "missing phoneme feature" },
+	// features shorter/longer than 3 characters ...
+	{ "{s}",                        2, "a phoneme feature must be 3 characters long" },
+	{ "{5}",                        2, "a phoneme feature must be 3 characters long" },
+	{ "{%}",                        2, "a phoneme feature must be 3 characters long" },
+	{ "{st}",                       3, "a phoneme feature must be 3 characters long" },
+	{ "{stop}",                     5, "a phoneme feature must be 3 characters long" },
+	// unknown feature ...
+	{ "{aaa}",                      4, "unknown phoneme feature 'aaa'" },
+	{ "{xyz}",                      4, "unknown phoneme feature 'xyz'" },
+	{ "{STP}",                      4, "unknown phoneme feature 'STP'" },
+	{ "{stP}",                      4, "unknown phoneme feature 'stP'" },
+	{ "{st5}",                      4, "unknown phoneme feature 'st5'" },
+	{ "{st%}",                      4, "unknown phoneme feature 'st%'" },
+};
+
 TEST_CASE("explicit feature reader -- phoneme errors")
 {
-	static const std::initializer_list<std::pair<
-		const char *,
-		const std::string
-	>> phonemes = {
-		// missing '}' at the end of the phoneme ...
-		{ "{vcd,alv,frc",              "unexpected end of phoneme (expecting '}')" },
-		{ "{vcd,alv,",                 "unexpected end of phoneme (expecting '}')" },
-		{ "{",                         "unexpected end of phoneme (expecting '}')" },
-		// no '{' to start the phoneme ...
-		{ "}",                         "unexpected start of phoneme (expecting '{')" },
-		{ "vcd,alv,frc",               "unexpected start of phoneme (expecting '{')" },
-		{ ",alv,frc",                  "unexpected start of phoneme (expecting '{')" },
-		{ "@",                         "unexpected start of phoneme (expecting '{')" },
-		{ "5",                         "unexpected start of phoneme (expecting '{')" },
-		// no phoneme feature specified ...
-		{ "{}",                        "missing phoneme feature" },
-		{ "{vcd,}",                    "missing phoneme feature" },
-		{ "{,lbd}",                    "missing phoneme feature" },
-		// features shorter/longer than 3 characters ...
-		{ "{s}",                       "a phoneme feature must be 3 characters long" },
-		{ "{5}",                       "a phoneme feature must be 3 characters long" },
-		{ "{%}",                       "a phoneme feature must be 3 characters long" },
-		{ "{st}",                      "a phoneme feature must be 3 characters long" },
-		{ "{stop}",                    "a phoneme feature must be 3 characters long" },
-		// unknown feature ...
-		{ "{aaa}",                     "unknown phoneme feature 'aaa'" },
-		{ "{xyz}",                     "unknown phoneme feature 'xyz'" },
-		{ "{STP}",                     "unknown phoneme feature 'STP'" },
-		{ "{stP}",                     "unknown phoneme feature 'stP'" },
-		{ "{st5}",                     "unknown phoneme feature 'st5'" },
-		{ "{st%}",                     "unknown phoneme feature 'st%'" },
-	};
-
 	std::shared_ptr<tts::phoneme_reader> reader = tts::createPhonemeReader("features");
 
-	for (const auto &test : phonemes)
+	for (const auto &test : invalid_phonemes)
 	{
-		fprintf(stdout, "... ... testing invalid phoneme %s\n", test.first);
-		reader->reset(std::make_shared<cainteoir::buffer>(test.first));
+		fprintf(stdout, "... ... testing invalid phoneme %s\n", test.phoneme);
+		reader->reset(std::make_shared<cainteoir::buffer>(test.phoneme));
 
-		assert_throws(reader->read(), tts::phoneme_error, test.second);
+		assert_throws(reader->read(), tts::phoneme_error, test.message);
 		assert(*reader == ipa::phoneme());
+	}
+}
+
+TEST_CASE("explicit feature parser -- phoneme errors")
+{
+	std::shared_ptr<tts::phoneme_parser> parser = tts::createPhonemeParser("features");
+
+	for (const auto &test : invalid_phonemes)
+	{
+		const char *current = test.phoneme;
+		const char *end = test.phoneme + strlen(test.phoneme);
+		ipa::phoneme p = ipa::unit;
+
+		fprintf(stdout, "... ... testing invalid phoneme %s\n", test.phoneme);
+		assert_throws(parser->parse(current, end, p), tts::phoneme_error, test.message);
+		assert(current == test.phoneme + test.error_offset);
+		assert(p == ipa::phoneme());
 	}
 }
 
