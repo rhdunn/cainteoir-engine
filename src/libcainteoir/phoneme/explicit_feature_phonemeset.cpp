@@ -215,9 +215,9 @@ std::pair<bool, ipa::phoneme> tts::read_explicit_feature(const char * &mCurrent,
 	int abbrev_pos = 0;
 
 	ipa::phoneme p;
-	while (mCurrent < mEnd)
+	try
 	{
-		switch (s)
+		for (; mCurrent < mEnd; ++mCurrent) switch (s)
 		{
 		case begin_phoneme:
 			switch (*mCurrent)
@@ -268,7 +268,12 @@ std::pair<bool, ipa::phoneme> tts::read_explicit_feature(const char * &mCurrent,
 			}
 			break;
 		}
-		++mCurrent;
+	}
+	catch (...)
+	{
+		while (mCurrent < mEnd && *mCurrent != '{')
+			++mCurrent;
+		throw;
 	}
 
 	if (s != begin_phoneme)

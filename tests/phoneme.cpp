@@ -552,36 +552,37 @@ struct phoneme_test_t
 	const char *phoneme;
 	int error_offset;
 	const std::string message;
+	ipa::phoneme next_phoneme;
 };
 
 static const std::initializer_list<phoneme_test_t> invalid_phonemes = {
 	// missing '}' at the end of the phoneme ...
-	{ "{vcd,alv,frc",              12, "unexpected end of phoneme (expecting '}')" },
-	{ "{vcd,alv,",                  9, "unexpected end of phoneme (expecting '}')" },
-	{ "{",                          1, "unexpected end of phoneme (expecting '}')" },
+	{ "{vcd,alv,frc",      12, "unexpected end of phoneme (expecting '}')", {} },
+	{ "{vcd,alv,",          9, "unexpected end of phoneme (expecting '}')", {} },
+	{ "{",                  1, "unexpected end of phoneme (expecting '}')", {} },
 	// no '{' to start the phoneme ...
-	{ "}",                          0, "unexpected start of phoneme (expecting '{')" },
-	{ "vcd,alv,frc",                0, "unexpected start of phoneme (expecting '{')" },
-	{ ",alv,frc",                   0, "unexpected start of phoneme (expecting '{')" },
-	{ "@",                          0, "unexpected start of phoneme (expecting '{')" },
-	{ "5",                          0, "unexpected start of phoneme (expecting '{')" },
+	{ "}{dnt}",             1, "unexpected start of phoneme (expecting '{')", { ipa::dental } },
+	{ "vcd,alv,frc{dnt}",  11, "unexpected start of phoneme (expecting '{')", { ipa::dental } },
+	{ ",alv,frc{dnt}",      8, "unexpected start of phoneme (expecting '{')", { ipa::dental } },
+	{ "@{dnt}",             1, "unexpected start of phoneme (expecting '{')", { ipa::dental } },
+	{ "5{dnt}",             1, "unexpected start of phoneme (expecting '{')", { ipa::dental } },
 	// no phoneme feature specified ...
-	{ "{}",                         1, "missing phoneme feature" },
-	{ "{vcd,}",                     5, "missing phoneme feature" },
-	{ "{,lbd}",                     1, "missing phoneme feature" },
+	{ "{}{dnt}",            2, "missing phoneme feature", { ipa::dental } },
+	{ "{vcd,}{dnt}",        6, "missing phoneme feature", { ipa::dental } },
+	{ "{,lbd}{dnt}",        6, "missing phoneme feature", { ipa::dental } },
 	// features shorter/longer than 3 characters ...
-	{ "{s}",                        2, "a phoneme feature must be 3 characters long" },
-	{ "{5}",                        2, "a phoneme feature must be 3 characters long" },
-	{ "{%}",                        2, "a phoneme feature must be 3 characters long" },
-	{ "{st}",                       3, "a phoneme feature must be 3 characters long" },
-	{ "{stop}",                     5, "a phoneme feature must be 3 characters long" },
+	{ "{s}{dnt}",           3, "a phoneme feature must be 3 characters long", { ipa::dental } },
+	{ "{5}{dnt}",           3, "a phoneme feature must be 3 characters long", { ipa::dental } },
+	{ "{%}{dnt}",           3, "a phoneme feature must be 3 characters long", { ipa::dental } },
+	{ "{st}{dnt}",          4, "a phoneme feature must be 3 characters long", { ipa::dental } },
+	{ "{stop}{dnt}",        6, "a phoneme feature must be 3 characters long", { ipa::dental } },
 	// unknown feature ...
-	{ "{aaa}",                      4, "unknown phoneme feature 'aaa'" },
-	{ "{xyz}",                      4, "unknown phoneme feature 'xyz'" },
-	{ "{STP}",                      4, "unknown phoneme feature 'STP'" },
-	{ "{stP}",                      4, "unknown phoneme feature 'stP'" },
-	{ "{st5}",                      4, "unknown phoneme feature 'st5'" },
-	{ "{st%}",                      4, "unknown phoneme feature 'st%'" },
+	{ "{aaa}{dnt}",         5, "unknown phoneme feature 'aaa'", { ipa::dental } },
+	{ "{xyz}{dnt}",         5, "unknown phoneme feature 'xyz'", { ipa::dental } },
+	{ "{STP}{dnt}",         5, "unknown phoneme feature 'STP'", { ipa::dental } },
+	{ "{stP}{dnt}",         5, "unknown phoneme feature 'stP'", { ipa::dental } },
+	{ "{st5}{dnt}",         5, "unknown phoneme feature 'st5'", { ipa::dental } },
+	{ "{st%}{dnt}",         5, "unknown phoneme feature 'st%'", { ipa::dental } },
 };
 
 TEST_CASE("explicit feature reader -- phoneme errors")
@@ -595,6 +596,9 @@ TEST_CASE("explicit feature reader -- phoneme errors")
 
 		assert_throws(reader->read(), tts::phoneme_error, test.message);
 		assert(*reader == ipa::phoneme());
+
+		assert(reader->read() == (test.next_phoneme != ipa::phoneme()));
+		assert(*reader == test.next_phoneme);
 	}
 }
 
@@ -612,6 +616,10 @@ TEST_CASE("explicit feature parser -- phoneme errors")
 		assert_throws(parser->parse(current, end, p), tts::phoneme_error, test.message);
 		assert(current == test.phoneme + test.error_offset);
 		assert(p == ipa::phoneme());
+
+		assert(parser->parse(current, end, p) == (test.next_phoneme != ipa::phoneme()));
+		assert(current == end);
+		assert(p == test.next_phoneme);
 	}
 }
 
