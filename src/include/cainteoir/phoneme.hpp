@@ -72,7 +72,6 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t tongue_root            = FEATURE_C(0x000000C000000000);
 	constexpr feature_t joined_to_next_phoneme = FEATURE_C(0x0000010000000000);
 	constexpr feature_t syllabicity            = FEATURE_C(0x0000060000000000);
-	constexpr feature_t rhotic                 = FEATURE_C(0x0000080000000000);
 	constexpr feature_t diacritized            = FEATURE_C(0x0000100000000000);
 	// reserved (unassigned) ------------------------------- 000EE00000000000
 	// suprasegmentals ------------------------------------- FFF1000000000000

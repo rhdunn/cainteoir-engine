@@ -356,7 +356,6 @@ KIRSHENBAUM_RNGD("nzd", "nasalized", ipa::nasalized, ipa::coarticulation)
 KIRSHENBAUM_BIN1("rzd", "rhoticized", ipa::rhoticized)
 KIRSHENBAUM_RNGD("atr", "advanced tongue root [extension]", ipa::advanced_tongue_root, ipa::tongue_root)
 KIRSHENBAUM_RNGD("rtr", "retracted tongue root [extension]", ipa::retracted_tongue_root, ipa::tongue_root)
-KIRSHENBAUM_BIN1("rtc", "rhotic [extension]", ipa::rhotic)
 KIRSHENBAUM_BIN1("dcz", "diacritized [extension]", ipa::diacritized)
 
 TEST_CASE("explicit feature reader -- no input")
@@ -419,7 +418,7 @@ static const std::initializer_list<const char *> phoneme_features = {
 	"nas", "nsy", "nzd", "nzr",
 	"orl",
 	"pal", "pau", "phr", "pla", "pzd",
-	"ret", "rfx", "rnd", "rsd", "rtc", "rtr", "rzd",
+	"ret", "rfx", "rnd", "rsd", "rtr", "rzd",
 	"sbr", "sib", "slv", "smh", "sml", "st1", "st2", "st3", "stp", "stv", "syl",
 	"te1", "te2", "te3", "te4", "te5",
 	"tie",
@@ -584,6 +583,8 @@ static const std::initializer_list<phoneme_test_t> invalid_phonemes = {
 	{ "{stP}{dnt}",         5, "unknown phoneme feature 'stP'", { ipa::dental } },
 	{ "{st5}{dnt}",         5, "unknown phoneme feature 'st5'", { ipa::dental } },
 	{ "{st%}{dnt}",         5, "unknown phoneme feature 'st%'", { ipa::dental } },
+	// removed features ...
+	{ "{rtc}",              5, "unknown phoneme feature 'rtc'", {} }
 };
 
 TEST_CASE("explicit feature reader -- phoneme errors")
