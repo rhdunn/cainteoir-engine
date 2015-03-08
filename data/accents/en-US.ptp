@@ -1,6 +1,6 @@
 # Accent map for General American (GenAm) English.
 #
-# Copyright (C) 2014 Reece H. Dunn
+# Copyright (C) 2014-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -28,12 +28,12 @@
 
 # R-coloured Vowels
 
-/ɪʳ/		/ɝ/  # NURSE (FIR)
-/ʊʳ/		/ɝ/  # NURSE (FUR)
-/ɛʳ/		/ɝ/  # NURSE (FERN)
-/ɔːʳ/		/ɔɹ/ # NORTH
-/oːʳ/		/oɹ/ # FORCE
-/ɑːʳ/		/ɑɹ/ # START
+/ɪ˞/		/ɝ/  # NURSE (FIR)
+/ʊ˞/		/ɝ/  # NURSE (FUR)
+/ɛ˞/		/ɝ/  # NURSE (FERN)
+/ɔ˞ː/		/ɔɹ/ # NORTH
+/o˞ː/		/oɹ/ # FORCE
+/ɑ˞ː/		/ɑɹ/ # START
 
 # Diphthongs
 

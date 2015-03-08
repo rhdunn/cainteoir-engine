@@ -1,6 +1,6 @@
 # Accent map for Irish English (IrE).
 #
-# Copyright (C) 2014 Reece H. Dunn
+# Copyright (C) 2014-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -23,12 +23,12 @@
 
 # R-coloured Vowels
 
-/ɪʳ/		/ɪɹ/  # NURSE (FIR)
-/ʊʳ/		/ʊɹ/  # NURSE (FUR)
-/ɛʳ/		/ɛɹ/  # NURSE (FERN)
-/ɔːʳ/		/ɑɹ/  # NORTH
-/oːʳ/		/oːɹ/ # FORCE
-/ɑːʳ/		/aːɹ/ # START
+/ɪ˞/		/ɪɹ/  # NURSE (FIR)
+/ʊ˞/		/ʊɹ/  # NURSE (FUR)
+/ɛ˞/		/ɛɹ/  # NURSE (FERN)
+/ɔ˞ː/		/ɑɹ/  # NORTH
+/o˞ː/		/oːɹ/ # FORCE
+/ɑ˞ː/		/aːɹ/ # START
 
 # Diphthongs
 

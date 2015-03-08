@@ -1,6 +1,6 @@
 # Accent map for Received Pronunciation (RP) English.
 #
-# Copyright (C) 2014 Reece H. Dunn
+# Copyright (C) 2014-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -23,12 +23,12 @@
 
 # R-coloured Vowels
 
-/ɪʳ/		/ɜː/ # NURSE (FIR)
-/ʊʳ/		/ɜː/ # NURSE (FUR)
-/ɛʳ/		/ɜː/ # NURSE (FERN)
-/ɔːʳ/		/ɔː/ # NORTH
-/oːʳ/		/ɔː/ # FORCE
-/ɑːʳ/		/ɑː/ # START
+/ɪ˞/		/ɜː/ # NURSE (FIR)
+/ʊ˞/		/ɜː/ # NURSE (FUR)
+/ɛ˞/		/ɜː/ # NURSE (FERN)
+/ɔ˞ː/		/ɔː/ # NORTH
+/o˞ː/		/ɔː/ # FORCE
+/ɑ˞ː/		/ɑː/ # START
 
 # Diphthongs
 

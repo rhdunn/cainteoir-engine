@@ -1,6 +1,6 @@
 # Accent map for Scottish English (ScE).
 #
-# Copyright (C) 2014 Reece H. Dunn
+# Copyright (C) 2014-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -25,12 +25,12 @@
 
 # R-coloured Vowels
 
-/ɪʳ/		/ɪɾ/ # NURSE (FIR)
-/ʊʳ/		/ʌɾ/ # NURSE (FUR)
-/ɛʳ/		/ɛɾ/ # NURSE (FERN)
-/ɔːʳ/		/ɔɾ/ # NORTH
-/oːʳ/		/oɾ/ # FORCE
-/ɑːʳ/		/ɐ̟ɾ/ # START
+/ɪ˞/		/ɪɾ/ # NURSE (FIR)
+/ʊ˞/		/ʌɾ/ # NURSE (FUR)
+/ɛ˞/		/ɛɾ/ # NURSE (FERN)
+/ɔ˞ː/		/ɔɾ/ # NORTH
+/o˞ː/		/oɾ/ # FORCE
+/ɑ˞ː/		/ɐ̟ɾ/ # START
 
 # Diphthongs
 

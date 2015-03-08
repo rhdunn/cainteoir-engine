@@ -1,4 +1,4 @@
-# Copyright (C) 2014 Reece H. Dunn
+# Copyright (C) 2014-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -67,19 +67,19 @@ A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ PALM
 a:	/{sml,fnt,unr,vwl,lng}/ # /æː/
 a\#:	/{sml,cnt,unr,vwl,lng}/	# /ɐː/
 
-O@	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ NORTH
-O@r	/{lmd,bck,rnd,vwl,rtc,lng}/ # /ɔːʳ/ NORTH (en-sc)
-O@r-	/{lmd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /ɔːʳɹ/
-o@	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ FORCE
-o@r	/{umd,bck,rnd,vwl,rtc,lng}/ # /oːʳ/ FORCE (en-sc)
-o@r-	/{umd,bck,rnd,vwl,rtc,lng}{vcd,alv,apr}/ # /oːʳɹ/
-A@	/{low,bck,unr,vwl,rtc,lng}/ # /ɑːʳ/ START
-A@r	/{low,bck,unr,vwl,rtc,lng}/ # /ɑːʳ/ START (en-sc)
-A@r-	/{low,bck,unr,vwl,rtc,lng}{vcd,alv,apr}/ # /ɑːʳɹ/
+O@	/{lmd,bck,rnd,vwl,rzd,lng}/ # /ɔ˞ː/ NORTH
+O@r	/{lmd,bck,rnd,vwl,rzd,lng}/ # /ɔ˞ː/ NORTH (en-sc)
+O@r-	/{lmd,bck,rnd,vwl,rzd,lng}{vcd,alv,apr}/ # /ɔ˞ːɹ/
+o@	/{umd,bck,rnd,vwl,rzd,lng}/ # /o˞ː/ FORCE
+o@r	/{umd,bck,rnd,vwl,rzd,lng}/ # /o˞ː/ FORCE (en-sc)
+o@r-	/{umd,bck,rnd,vwl,rzd,lng}{vcd,alv,apr}/ # /o˞ːɹ/
+A@	/{low,bck,unr,vwl,rzd,lng}/ # /ɑ˞ː/ START
+A@r	/{low,bck,unr,vwl,rzd,lng}/ # /ɑ˞ː/ START (en-sc)
+A@r-	/{low,bck,unr,vwl,rzd,lng}{vcd,alv,apr}/ # /ɑ˞ːɹ/
 
-IR	/{smh,fnt,unr,vwl,rtc}/ # /ɪʳ/ NURSE (FIR)
-VR	/{smh,bck,rnd,vwl,rtc}/ # /ʊʳ/ NURSE (FUR)
-3:	/{lmd,fnt,unr,vwl,rtc}/ # /ɛʳ/ NURSE (FERN)
+IR	/{smh,fnt,unr,vwl,rzd}/ # /ɪ˞/ NURSE (FIR)
+VR	/{smh,bck,rnd,vwl,rzd}/ # /ʊ˞/ NURSE (FUR)
+3:	/{lmd,fnt,unr,vwl,rzd}/ # /ɛ˞/ NURSE (FERN)
 
 i	/{hgh,fnt,unr,vwl}/     # /i/  HAPP~Y~
 I\#	/{hgh,cnt,unr,vwl}/	# /ɨ/  RO~SES~

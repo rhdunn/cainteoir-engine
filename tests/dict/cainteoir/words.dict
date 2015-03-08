@@ -1,5 +1,5 @@
 .author		Reece H. Dunn
-.copyright	Copyright (C) 2013 Reece H. Dunn
+.copyright	Copyright (C) 2013-2015 Reece H. Dunn
 .license	GPLv3+
 .description	Test dictionary containing a sample word set with phoneme coverage.
 .phonemeset	ipa
@@ -18,13 +18,13 @@ comma		/ˈkɒ.mə/	# Reduced Vowel
 cure		/ˈkjʊə̯/		# Lexical Set
 dress		/ˈdɹɛs/		# Lexical Set
 face		/ˈfeɪ̯s/		# Lexical Set
-fern		/ˈfɛʳn/		# Lexical Set (Extended)
-fir		/ˈfɪʳ/		# Lexical Set (Extended)
+fern		/ˈfɛ˞n/		# Lexical Set (Extended)
+fir		/ˈfɪ˞/		# Lexical Set (Extended)
 fire		/ˈfaɪ̯ə̯/		# Triphthong
 fleece		/ˈfliːs/	# Lexical Set
 foot		/ˈfʊt/		# Lexical Set
-force		/ˈfoːʳs/	# Lexical Set
-fur		/ˈfʊʳ/		# Lexical Set (Extended)
+force		/ˈfo˞ːs/	# Lexical Set
+fur		/ˈfʊ˞/		# Lexical Set (Extended)
 goat		/ˈɡəʊ̯t/		# Lexical Set
 goose		/ˈɡuːs/		# Lexical Set
 happy		/ˈhæ.pi/	# Reduced Vowel
@@ -40,7 +40,7 @@ lot		/ˈlɒt/		# Lexical Set
 meat		/ˈmɛːt/		# Lexical Set (Extended)
 mouth		/ˈmaʊ̯θ/		# Lexical Set
 near		/ˈnɪə̯/		# Lexical Set
-north		/ˈnɔːʳθ/	# Lexical Set
+north		/ˈnɔ˞ːθ/	# Lexical Set
 nurse		/ˈnɜːs/		# Lexical Set
 palm		/ˈpɑːm/		# Lexical Set
 price		/ˈpɹaɪ̯s/	# Lexical Set
@@ -52,7 +52,7 @@ shy		/ˈʃaɪ̯/
 side-by-side	/ˈsaɪ̯d.baɪ̯ˌsaɪ̯d/
 side		/ˈsaɪ̯d/
 square		/ˈskwɛə̯/	# Lexical Set
-start		/ˈstɑːʳt/	# Lexical Set
+start		/ˈstɑ˞ːt/	# Lexical Set
 strut		/ˈstɹʌt/	# Lexical Set
 test		/ˈtɛst/
 that		/ˈðat/
