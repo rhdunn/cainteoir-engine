@@ -515,96 +515,96 @@ voices:	data/voices/mbrola/af1.vdb \
 
 data/voices/mbrola/af1.vdb: src/voices/mbrola/af1.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/ca1.vdb: src/voices/mbrola/ca1.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/ca2.vdb: src/voices/mbrola/ca2.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/de1.vdb: src/voices/mbrola/de1.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/de2.vdb: src/voices/mbrola/de2.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/de3.vdb: src/voices/mbrola/de3.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/de4.vdb: src/voices/mbrola/de4.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/de5.vdb: src/voices/mbrola/de5.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/de6.vdb: src/voices/mbrola/de6.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/de7.vdb: src/voices/mbrola/de7.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/de8.vdb: src/voices/mbrola/de8.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/en1.vdb: src/voices/mbrola/en1.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/fr1.vdb: src/voices/mbrola/fr1.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/fr2.vdb: src/voices/mbrola/fr2.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/fr3.vdb: src/voices/mbrola/fr3.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/fr4.vdb: src/voices/mbrola/fr4.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/fr5.vdb: src/voices/mbrola/fr5.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/fr6.vdb: src/voices/mbrola/fr6.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/fr7.vdb: src/voices/mbrola/fr7.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/us1.vdb: src/voices/mbrola/us1.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/us2.vdb: src/voices/mbrola/us2.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/us3.vdb: src/voices/mbrola/us3.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 ############################# language test files #############################
 
 tests/letter2phoneme/context.ldb: tests/letter2phoneme/context.langdef src/apps/cainteoir
-	src/apps/cainteoir --compile $< -o $@
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 ############################# tests ###########################################
 
