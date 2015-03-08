@@ -166,7 +166,7 @@ _^	>	=nsy
 _t	>	=mrm
 _k	>	=crv
 _N	>	=lgl
-_w	>	=lzd
+_w			/{vcd,lbv,apr,dcz}/
 _j			/{vcd,pal,apr,dcz}/
 _G	>	=vzd
 _?\\			/{vcd,phr,frc,dcz}/

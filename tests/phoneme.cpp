@@ -347,7 +347,6 @@ KIRSHENBAUM_RNGD("rsd", "raised [extension]", ipa::raised, ipa::articulation)
 KIRSHENBAUM_RNGD("lwr", "lowered [extension]", ipa::lowered, ipa::articulation)
 KIRSHENBAUM_RNGD("mrd", "more rounded [extension]", ipa::more_rounded, ipa::rounding)
 KIRSHENBAUM_RNGD("lrd", "less rounded [extension]", ipa::less_rounded, ipa::rounding)
-KIRSHENBAUM_RNGD("lzd", "labialized", ipa::labialized, ipa::coarticulation)
 KIRSHENBAUM_RNGD("vzd", "velarized", ipa::velarized, ipa::coarticulation)
 KIRSHENBAUM_RNGD("vfz", "velarized or pharyngealized [extension]", ipa::velarized_or_pharyngealized, ipa::coarticulation)
 KIRSHENBAUM_RNGD("nzd", "nasalized", ipa::nasalized, ipa::coarticulation)
@@ -411,7 +410,7 @@ static const std::initializer_list<const char *> phoneme_features = {
 	"glf", "glr", "glt",
 	"hgh", "hlg",
 	"ibr", "imp",
-	"lat", "lbd", "lbp", "lbv", "lgl", "lmd", "lmn", "lng", "lnk", "low", "lrd", "ltr", "lwr", "lzd",
+	"lat", "lbd", "lbp", "lbv", "lgl", "lmd", "lmn", "lng", "lnk", "low", "lrd", "ltr", "lwr",
 	"mcz", "mid", "mrd", "mrm",
 	"nas", "nsy", "nzd", "nzr",
 	"orl",
@@ -583,6 +582,7 @@ static const std::initializer_list<phoneme_test_t> invalid_phonemes = {
 	{ "{st%}{dnt}",         5, "unknown phoneme feature 'st%'", { ipa::dental } },
 	// removed features ...
 	{ "{fzd}",              5, "unknown phoneme feature 'fzd'", {} },
+	{ "{lzd}",              5, "unknown phoneme feature 'lzd'", {} },
 	{ "{pzd}",              5, "unknown phoneme feature 'pzd'", {} },
 	{ "{rtc}",              5, "unknown phoneme feature 'rtc'", {} },
 };

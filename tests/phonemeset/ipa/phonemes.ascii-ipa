@@ -202,7 +202,7 @@ S<w>
 Z<w>
 x<w>
 r<w>
-r<w><vls>
+r<vls><w>
 
 p<mrd>
 b<mrd>
@@ -214,10 +214,10 @@ b<lrd>
 k<lrd>
 x<lrd>
 
-p<w><lrd>
-b<w><lrd>
-k<w><lrd>
-x<w><lrd>
+p<lrd><w>
+b<lrd><w>
+k<lrd><w>
+x<lrd><w>
 
 n;
 t;
@@ -327,9 +327,9 @@ e<rsd>
 r<trl><rsd><vls>
 l^<rsd><vls>
 L<rsd><vls>
-L<w><rsd><vls>
+L<rsd><vls><w>
 L<rsd><vls>:
-L<w><rsd><vls>:
+L<rsd><vls>:<w>
 
 B<lwr>
 D<lwr>

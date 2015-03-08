@@ -125,7 +125,6 @@ static const std::initializer_list<const char *> articulation = {
 };
 
 static const std::initializer_list<const char *> coarticulation = {
-	"lzd",
 	"vzd",
 	"vfz",
 	"nzd",

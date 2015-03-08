@@ -195,14 +195,14 @@
 {vls,alv,stp,unx}
 {vls,vel,stp,unx}
 
-{vls,blb,stp,lzd}
-{vcd,blb,stp,lzd}
-{vls,vel,stp,lzd}
-{vls,pla,sib,frc,lzd}
-{vcd,pla,sib,frc,lzd}
-{vls,vel,frc,lzd}
-{vcd,alv,apr,lzd}
-{vcd,alv,apr,slv,lzd}
+{vls,blb,stp}{vcd,lbv,apr,dcz}
+{vcd,blb,stp}{vcd,lbv,apr,dcz}
+{vls,vel,stp}{vcd,lbv,apr,dcz}
+{vls,pla,sib,frc}{vcd,lbv,apr,dcz}
+{vcd,pla,sib,frc}{vcd,lbv,apr,dcz}
+{vls,vel,frc}{vcd,lbv,apr,dcz}
+{vcd,alv,apr}{vcd,lbv,apr,dcz}
+{vcd,alv,apr,slv}{vcd,lbv,apr,dcz}
 
 {vls,blb,stp,mrd}
 {vcd,blb,stp,mrd}
@@ -214,10 +214,10 @@
 {vls,vel,stp,lrd}
 {vls,vel,frc,lrd}
 
-{vls,blb,stp,lzd,lrd}
-{vcd,blb,stp,lzd,lrd}
-{vls,vel,stp,lzd,lrd}
-{vls,vel,frc,lzd,lrd}
+{vls,blb,stp,lrd}{vcd,lbv,apr,dcz}
+{vcd,blb,stp,lrd}{vcd,lbv,apr,dcz}
+{vls,vel,stp,lrd}{vcd,lbv,apr,dcz}
+{vls,vel,frc,lrd}{vcd,lbv,apr,dcz}
 
 {vcd,alv,nas}{vcd,pal,apr,dcz}
 {vls,alv,stp}{vcd,pal,apr,dcz}
@@ -327,9 +327,9 @@
 {vcd,alv,trl,slv,rsd}
 {vcd,pal,lat,apr,slv,rsd}
 {vcd,vel,lat,apr,slv,rsd}
-{vcd,vel,lat,apr,slv,lzd,rsd}
+{vcd,vel,lat,apr,slv,rsd}{vcd,lbv,apr,dcz}
 {vcd,vel,lat,apr,slv,rsd,lng}
-{vcd,vel,lat,apr,slv,lzd,rsd,lng}
+{vcd,vel,lat,apr,slv,rsd,lng}{vcd,lbv,apr,dcz}
 
 {vcd,blb,frc,lwr}
 {vcd,dnt,frc,lwr}

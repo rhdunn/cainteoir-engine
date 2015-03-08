@@ -233,7 +233,7 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u02B0	>	=asp
 \u02B2			/{vcd,pal,apr,dcz}/
 \u02B3			/{vcd,alv,trl,dcz}/
-\u02B7	>	=lzd
+\u02B7			/{vcd,lbv,apr,dcz}/
 \u02BC	>	=ejc
 \u02C8	<	=st1
 \u02CC	<	=st2

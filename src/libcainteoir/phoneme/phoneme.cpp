@@ -83,7 +83,6 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "lrd", ipa::less_rounded, ipa::rounding }, // extension
 	{ "ltr", ipa::lateral_release, ipa::release }, // extension
 	{ "lwr", ipa::lowered, ipa::articulation }, // extension
-	{ "lzd", ipa::labialized, ipa::coarticulation },
 	{ "mcz", ipa::mid_centralized, ipa::articulation }, // extension
 	{ "mid", ipa::mid, ipa::vowel_height },
 	{ "mrd", ipa::more_rounded, ipa::rounding }, // extension

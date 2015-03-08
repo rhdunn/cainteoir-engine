@@ -90,7 +90,7 @@ Z	/{vcd,pla,sib,frc}/
 \<H>			/{vcd,phr,frc,dcz}/
 \<h>	>	=asp
 \<r>	>	=rzd
-\<w>	>	=lzd
+\<w>			/{vcd,lbv,apr,dcz}/
 \<?>	>	=mrm
 
 `	?vls>	=ejc
