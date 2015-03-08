@@ -125,9 +125,9 @@ void print_phonemes(ipa::phonemes &aPhonemes,
 
 	aTo->reset(stdout);
 	feat->reset(stdout);
-	for (auto phoneme : aPhonemes)
+	for (auto &&phoneme = aPhonemes.begin(), last = aPhonemes.end(); phoneme != last; ++phoneme)
 	{
-		if (phoneme.get(ipa::phoneme_type) == ipa::separator && aNoPauses)
+		if (phoneme->get(ipa::phoneme_type) == ipa::separator && aNoPauses)
 			aTo->flush();
 		else
 		{
@@ -136,20 +136,38 @@ void print_phonemes(ipa::phonemes &aPhonemes,
 				print_open_marker(aMode);
 				need_open_marker = false;
 			}
-			if (phoneme.get(ipa::phoneme_type | ipa::length) == ipa::separator)
+			if (phoneme->get(ipa::phoneme_type | ipa::length) == ipa::separator)
 			{
 				aTo->flush();
 				print_close_marker(aMode);
 				need_open_marker = true;
 			}
-			aTo->write(phoneme);
+			aTo->write(*phoneme);
 			if (aShowFeatures)
 			{
 				fputc('\t', stdout);
-				feat->write(phoneme);
+				feat->write(*phoneme);
 			}
-			if (aMode == phoneme_mode::separate && !phoneme.get(ipa::joined_to_next_phoneme))
-				fputc('\n', stdout);
+
+			if (aMode == phoneme_mode::separate)
+			{
+				bool is_linked_phoneme = false;
+				if (phoneme->get(ipa::joined_to_next_phoneme))
+					is_linked_phoneme = true;
+				else
+				{
+					auto next = phoneme;
+					++next;
+					if (next != last)
+					{
+						if (next->get(ipa::diacritized))
+							is_linked_phoneme = true;
+					}
+				}
+
+				if (!is_linked_phoneme)
+					fputc('\n', stdout);
+			}
 		}
 	}
 	aTo->flush();
