@@ -219,12 +219,12 @@
 {vls,vel,stp,lzd,lrd}
 {vls,vel,frc,lzd,lrd}
 
-{vcd,alv,nas,pzd}
-{vls,alv,stp,pzd}
-{vcd,alv,stp,pzd}
-{vls,vel,stp,pzd}
-{vcd,lbd,frc,pzd}
-{vls,alv,sib,frc,pzd}
+{vcd,alv,nas}{vcd,pal,apr,dcz}
+{vls,alv,stp}{vcd,pal,apr,dcz}
+{vcd,alv,stp}{vcd,pal,apr,dcz}
+{vls,vel,stp}{vcd,pal,apr,dcz}
+{vcd,lbd,frc}{vcd,pal,apr,dcz}
+{vls,alv,sib,frc}{vcd,pal,apr,dcz}
 
 {vls,alv,stp,vzd}
 {vcd,alv,stp,vzd}

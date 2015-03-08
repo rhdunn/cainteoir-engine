@@ -8,7 +8,7 @@ error: no phoneme before post-phoneme modifiers
 {vls,alv,stp,dzd,ts5}
 {vcd,blb,stp,stv,dzd}
 error: unrecognised character \
-{vcd,pal,stp,pzd}
+{vcd,pal,stp}{vcd,pal,apr,dcz}
 {vls,vel,stp,mcz}
 {vls,uvl,stp,est}
 {vcd,vel,nas,lmn}

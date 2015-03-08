@@ -97,7 +97,6 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "pau", ipa::separator, ipa::phoneme_type }, // extension
 	{ "phr", ipa::pharyngeal, ipa::place_of_articulation },
 	{ "pla", ipa::palato_alveolar, ipa::place_of_articulation },
-	{ "pzd", ipa::palatalized, ipa::coarticulation },
 	{ "ret", ipa::retracted, ipa::articulation }, // extension
 	{ "rfx", ipa::retroflex, ipa::place_of_articulation },
 	{ "rnd", ipa::rounded, ipa::rounded },

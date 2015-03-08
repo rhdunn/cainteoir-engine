@@ -181,7 +181,6 @@ namespace cainteoir { namespace ipa
 	// diacritics -- co-articulation
 
 	constexpr feature_t labialized                  = FEATURE_C(0x0000000400000000);
-	constexpr feature_t palatalized                 = FEATURE_C(0x0000000800000000);
 	constexpr feature_t velarized                   = FEATURE_C(0x0000000C00000000);
 	constexpr feature_t velarized_or_pharyngealized = FEATURE_C(0x0000001400000000);
 	constexpr feature_t nasalized                   = FEATURE_C(0x0000001800000000);

@@ -167,7 +167,7 @@ _t	>	=mrm
 _k	>	=crv
 _N	>	=lgl
 _w	>	=lzd
-_j	>	=pzd
+_j			/{vcd,pal,apr,dcz}/
 _G	>	=vzd
 _?\\			/{vcd,phr,frc,dcz}/
 

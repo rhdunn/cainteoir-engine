@@ -32,7 +32,7 @@ syn keyword	cainteoirFeatDiacritic		syl nsy
 syn keyword	cainteoirFeatDiacritic		asp unx nzr ltr
 syn keyword	cainteoirFeatDiacritic		mrm slv stv crv
 syn keyword	cainteoirFeatDiacritic		dcz dzd apc lmn lgl adv ret czd mcz rsd lwr
-syn keyword	cainteoirFeatDiacritic		mrd lrd lzd pzd vzd vfz nzd rzd atr rtr
+syn keyword	cainteoirFeatDiacritic		mrd lrd lzd vzd vfz nzd rzd atr rtr
 
 syn match	cainteoirEscape			'\\.'
 syn match	cainteoirUnicodeEscape		'\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]'
