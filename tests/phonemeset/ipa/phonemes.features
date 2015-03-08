@@ -188,8 +188,8 @@
 {vls,alv,stp,nzr}
 {vcd,alv,stp,nzr}
 
-{vls,alv,stp,ltr}
-{vcd,alv,stp,ltr}
+{vls,alv,stp}{vcd,alv,lat,apr,dcz}
+{vcd,alv,stp}{vcd,alv,lat,apr,dcz}
 
 {vls,blb,stp,unx}
 {vls,alv,stp,unx}

@@ -149,7 +149,6 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t aspirated       = FEATURE_C(0x0000000000400000);
 	constexpr feature_t unexploded      = FEATURE_C(0x0000000000800000);
 	constexpr feature_t nasal_release   = FEATURE_C(0x0000000000C00000);
-	constexpr feature_t lateral_release = FEATURE_C(0x0000000001400000);
 
 	// diacritics -- phonation
 

@@ -81,7 +81,6 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "lnk", ipa::linking, ipa::phoneme_type }, // extension
 	{ "low", ipa::low, ipa::vowel_height },
 	{ "lrd", ipa::less_rounded, ipa::rounding }, // extension
-	{ "ltr", ipa::lateral_release, ipa::release }, // extension
 	{ "lwr", ipa::lowered, ipa::articulation }, // extension
 	{ "mcz", ipa::mid_centralized, ipa::articulation }, // extension
 	{ "mid", ipa::mid, ipa::vowel_height },

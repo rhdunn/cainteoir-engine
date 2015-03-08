@@ -106,7 +106,6 @@ static const std::initializer_list<const char *> release = {
 	"asp",
 	"unx",
 	"nzr",
-	"ltr",
 	"dcz",
 };
 

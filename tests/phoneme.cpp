@@ -328,7 +328,6 @@ KIRSHENBAUM_RNGD("nsy", "non-syllabic [extension]", ipa::non_syllabic, ipa::syll
 KIRSHENBAUM_RNGD("asp", "aspirated", ipa::aspirated, ipa::release)
 KIRSHENBAUM_RNGD("unx", "unexploded", ipa::unexploded, ipa::release)
 KIRSHENBAUM_RNGD("nzr", "nasal release [extension]", ipa::nasal_release, ipa::release)
-KIRSHENBAUM_RNGD("ltr", "lateral release [extension]", ipa::lateral_release, ipa::release)
 KIRSHENBAUM_BIN0("vls", "voiceless", ipa::voiced)
 KIRSHENBAUM_RNGD("mrm", "murmured (breathy voice) (murmured)", ipa::breathy_voice, ipa::phonation)
 KIRSHENBAUM_RNGD("slv", "slack voice [extension]", ipa::slack_voice, ipa::phonation)
@@ -410,7 +409,7 @@ static const std::initializer_list<const char *> phoneme_features = {
 	"glf", "glr", "glt",
 	"hgh", "hlg",
 	"ibr", "imp",
-	"lat", "lbd", "lbp", "lbv", "lgl", "lmd", "lmn", "lng", "lnk", "low", "lrd", "ltr", "lwr",
+	"lat", "lbd", "lbp", "lbv", "lgl", "lmd", "lmn", "lng", "lnk", "low", "lrd", "lwr",
 	"mcz", "mid", "mrd", "mrm",
 	"nas", "nsy", "nzd", "nzr",
 	"orl",
@@ -582,6 +581,7 @@ static const std::initializer_list<phoneme_test_t> invalid_phonemes = {
 	{ "{st%}{dnt}",         5, "unknown phoneme feature 'st%'", { ipa::dental } },
 	// removed features ...
 	{ "{fzd}",              5, "unknown phoneme feature 'fzd'", {} },
+	{ "{ltr}",              5, "unknown phoneme feature 'ltr'", {} },
 	{ "{lzd}",              5, "unknown phoneme feature 'lzd'", {} },
 	{ "{pzd}",              5, "unknown phoneme feature 'pzd'", {} },
 	{ "{rtc}",              5, "unknown phoneme feature 'rtc'", {} },

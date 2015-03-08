@@ -108,7 +108,7 @@ Z	/{vcd,pla,sib,frc}/
 \<lgl>	>	=lgl
 \<lmn>	>	=lmn
 \<lrd>	>	=lrd
-\<ltr>	>	=ltr
+\<ltr>			/{vcd,alv,lat,apr,dcz}/
 \<lwr>	>	=lwr
 \<mcz>	>	=mcz
 \<mrd>	>	=mrd
