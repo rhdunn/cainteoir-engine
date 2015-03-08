@@ -175,7 +175,7 @@ _d	>	=dzd
 _a	>	=apc
 _m	>	=lmn
 ~	>	=nzd
-_n	>	=nzr
+_n			/{vcd,alv,nas,dcz}/
 _l			/{vcd,alv,lat,apr,dcz}/
 _}	>	=unx
 

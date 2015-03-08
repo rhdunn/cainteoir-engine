@@ -114,7 +114,7 @@ Z	/{vcd,pla,sib,frc}/
 \<mrd>	>	=mrd
 \<nsy>	>	=nsy
 \<nzd>	?con>	=nzd # see ~ for vwl
-\<nzr>	>	=nzr
+\<nzr>			/{vcd,alv,nas,dcz}/
 \<ret>	>	=ret
 \<rsd>	>	=rsd
 \<rtr>	>	=rtr

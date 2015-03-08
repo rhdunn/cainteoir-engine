@@ -185,8 +185,8 @@
 {vls,alp,sib,frc,asp}
 {vls,vel,frc,asp}
 
-{vls,alv,stp,nzr}
-{vcd,alv,stp,nzr}
+{vls,alv,stp}{vcd,alv,nas,dcz}
+{vcd,alv,stp}{vcd,alv,nas,dcz}
 
 {vls,alv,stp}{vcd,alv,lat,apr,dcz}
 {vcd,alv,stp}{vcd,alv,lat,apr,dcz}

@@ -105,7 +105,6 @@ static const std::initializer_list<const char *> phoneme_type = {
 static const std::initializer_list<const char *> release = {
 	"asp",
 	"unx",
-	"nzr",
 	"dcz",
 };
 

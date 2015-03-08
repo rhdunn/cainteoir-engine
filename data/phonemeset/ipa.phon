@@ -224,7 +224,7 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u033D	>	=mcz
 \u0361	>	=tie
 
-\u207F	>	=nzr
+\u207F			/{vcd,alv,nas,dcz}/
 \u02DE	>	=rzd
 
 \u02D0	>	=lng

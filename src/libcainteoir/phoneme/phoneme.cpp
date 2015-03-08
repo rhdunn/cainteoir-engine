@@ -89,7 +89,6 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "nas", ipa::nasal, ipa::manner_of_articulation },
 	{ "nsy", ipa::non_syllabic, ipa::syllabicity },
 	{ "nzd", ipa::nasalized, ipa::coarticulation },
-	{ "nzr", ipa::nasal_release, ipa::release }, // extension
 	{ "orl", 0, 0 }, // ignored -- Kirshenbaum uses {stp}/{nas} instead of {orl,stp}/{nas,stp}.
 	{ "pal", ipa::palatal, ipa::place_of_articulation },
 	{ "pau", ipa::separator, ipa::phoneme_type }, // extension
