@@ -128,7 +128,6 @@ static const std::initializer_list<const char *> coarticulation = {
 	"lzd",
 	"pzd",
 	"vzd",
-	"fzd",
 	"vfz",
 	"nzd",
 };

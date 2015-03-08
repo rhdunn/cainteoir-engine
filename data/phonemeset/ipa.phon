@@ -232,14 +232,14 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 
 \u02B0	>	=asp
 \u02B2	>	=pzd
+\u02B3			/{vcd,alv,trl,dcz}/
 \u02B7	>	=lzd
 \u02BC	>	=ejc
 \u02C8	<	=st1
 \u02CC	<	=st2
 \u02E0	>	=vzd
 \u02E1	>	=ltr
-\u02E4	>	=fzd
-\u02B3			/{vcd,alv,trl,dcz}/
+\u02E4			/{vcd,phr,frc,dcz}/
 
 \u02C8\u02C8	<	=st3
 

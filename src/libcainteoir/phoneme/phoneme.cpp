@@ -63,7 +63,6 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "flp", ipa::flap, ipa::manner_of_articulation },
 	{ "fnt", ipa::front, ipa::vowel_backness },
 	{ "frc", ipa::fricative, ipa::manner_of_articulation },
-	{ "fzd", ipa::pharyngealized, ipa::coarticulation },
 	{ "glf", ipa::global_fall, ipa::phoneme_type }, // extension
 	{ "glr", ipa::global_rise, ipa::phoneme_type }, // extension
 	{ "glt", ipa::glottal, ipa::place_of_articulation },

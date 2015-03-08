@@ -87,7 +87,7 @@ Z	/{vcd,pla,sib,frc}/
 [	>	=dzd
 ;	>	=pzd
 
-\<H>	>	=fzd
+\<H>			/{vcd,phr,frc,dcz}/
 \<h>	>	=asp
 \<r>	>	=rzd
 \<w>	>	=lzd

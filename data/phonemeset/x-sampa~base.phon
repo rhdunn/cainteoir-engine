@@ -169,7 +169,7 @@ _N	>	=lgl
 _w	>	=lzd
 _j	>	=pzd
 _G	>	=vzd
-_?\\	>	=fzd
+_?\\			/{vcd,phr,frc,dcz}/
 
 _d	>	=dzd
 _a	>	=apc
