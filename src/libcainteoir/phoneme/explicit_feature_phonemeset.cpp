@@ -107,6 +107,7 @@ static const std::initializer_list<const char *> release = {
 	"unx",
 	"nzr",
 	"ltr",
+	"dcz",
 };
 
 static const std::initializer_list<const char *> phonation = {

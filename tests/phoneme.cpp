@@ -357,6 +357,7 @@ KIRSHENBAUM_BIN1("rzd", "rhoticized", ipa::rhoticized)
 KIRSHENBAUM_RNGD("atr", "advanced tongue root [extension]", ipa::advanced_tongue_root, ipa::tongue_root)
 KIRSHENBAUM_RNGD("rtr", "retracted tongue root [extension]", ipa::retracted_tongue_root, ipa::tongue_root)
 KIRSHENBAUM_BIN1("rtc", "rhotic [extension]", ipa::rhotic)
+KIRSHENBAUM_BIN1("dcz", "diacritized [extension]", ipa::diacritized)
 
 TEST_CASE("explicit feature reader -- no input")
 {
@@ -407,7 +408,7 @@ static const std::initializer_list<const char *> phoneme_features = {
 	"adv", "alp", "alv", "apc", "apr", "asp", "atr",
 	"bck", "blb",
 	"clk", "cnt", "con", "crv", "ctl", "czd",
-	"dnt", "dst", "dzd",
+	"dcz", "dnt", "dst", "dzd",
 	"ejc", "epg", "est",
 	"fbr", "flp", "fnt", "frc", "fzd",
 	"glf", "glr", "glt",
