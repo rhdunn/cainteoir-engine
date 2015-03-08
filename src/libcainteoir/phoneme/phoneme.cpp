@@ -1,6 +1,6 @@
 /* Phoneme Model.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -42,7 +42,6 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "alv", ipa::alveolar, ipa::place_of_articulation },
 	{ "apc", ipa::apical, ipa::articulation }, // extension
 	{ "apr", ipa::approximant, ipa::manner_of_articulation },
-	{ "asp", ipa::aspirated, ipa::release },
 	{ "atr", ipa::advanced_tongue_root, ipa::tongue_root }, // extension
 	{ "bck", ipa::back, ipa::vowel_backness },
 	{ "blb", ipa::bilabial, ipa::place_of_articulation },

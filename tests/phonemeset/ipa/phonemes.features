@@ -176,14 +176,14 @@
 {vcd,alv,stp,crv}
 {low,fnt,unr,vwl,crv}
 
-{vls,blb,stp,asp}
-{vls,alv,stp,asp}
-{vls,vel,stp,asp}
-{vls,lbd,frc,asp}
-{vls,alv,sib,frc,asp}
-{vls,rfx,sib,frc,asp}
-{vls,alp,sib,frc,asp}
-{vls,vel,frc,asp}
+{vls,blb,stp}{vls,glt,apr,dcz}
+{vls,alv,stp}{vls,glt,apr,dcz}
+{vls,vel,stp}{vls,glt,apr,dcz}
+{vls,lbd,frc}{vls,glt,apr,dcz}
+{vls,alv,sib,frc}{vls,glt,apr,dcz}
+{vls,rfx,sib,frc}{vls,glt,apr,dcz}
+{vls,alp,sib,frc}{vls,glt,apr,dcz}
+{vls,vel,frc}{vls,glt,apr,dcz}
 
 {vls,alv,stp}{vcd,alv,nas,dcz}
 {vcd,alv,stp}{vcd,alv,nas,dcz}
@@ -414,11 +414,11 @@
 
 {vls,blb,stp,dzd,tie}{vls,lbd,frc}
 {vls,alv,stp,tie}{vls,alv,sib,frc}
-{vls,alv,stp,tie}{vls,alv,sib,frc,asp}
+{vls,alv,stp,tie}{vls,alv,sib,frc}{vls,glt,apr,dcz}
 {vls,alv,stp,tie}{vls,alv,sib,frc,ejc}
 {vcd,alv,stp,tie}{vcd,alv,sib,frc}
 {vls,alv,stp,tie}{vls,pla,sib,frc}
-{vls,alv,stp,tie}{vls,pla,sib,frc,asp}
+{vls,alv,stp,tie}{vls,pla,sib,frc}{vls,glt,apr,dcz}
 {vls,alv,stp,tie}{vls,pla,sib,frc,ejc}
 {vcd,alv,stp,tie}{vcd,pla,sib,frc}
 {vls,alv,stp,tie}{vls,alp,sib,frc}
@@ -429,7 +429,7 @@
 {vcd,alv,stp,tie}{vcd,alv,lat,frc}
 {vls,pal,stp,tie}{vls,pal,frc}
 {vls,alv,stp,tie}{vls,alv,lat,frc}
-{vls,alv,stp,tie}{vls,alv,lat,frc,asp}
+{vls,alv,stp,tie}{vls,alv,lat,frc}{vls,glt,apr,dcz}
 {vls,alv,stp,tie}{vls,alv,lat,frc,ejc}
 {vls,vel,stp,tie}{vls,blb,stp}
 {vcd,vel,stp,tie}{vcd,blb,stp}

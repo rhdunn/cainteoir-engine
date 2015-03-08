@@ -2,7 +2,7 @@
 {vcd,vel,lat,imp,slv,rsd}
 
 {vls,alv,stp,dzd,tie}{vls,dnt,frc}
-{vls,alv,stp,dzd,tie}{vls,dnt,frc,asp}
+{vls,alv,stp,dzd,tie}{vls,dnt,frc}{vls,glt,apr,dcz}
 {vls,alv,stp,dzd,tie}{vls,dnt,frc,ejc}
 {vcd,blb,stp,dzd,tie}{vcd,lbd,frc}
 {vcd,pal,stp,tie}{vcd,pal,frc}

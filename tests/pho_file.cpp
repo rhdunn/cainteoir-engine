@@ -1,6 +1,6 @@
 /* MBROLA pho file tests.
  *
- * Copyright (C) 2014 Reece H. Dunn
+ * Copyright (C) 2014-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -149,7 +149,7 @@ TEST_CASE("reader -- |phoneme duration| [phonemes]")
 	        {}});
 
 	match(parse("p_h 80"),
-	      { { ipa::bilabial | ipa::plosive | ipa::aspirated, ipa::unspecified, { 80, css::time::milliseconds } },
+	      { { ipa::bilabial | ipa::plosive, ipa::glottal | ipa::approximant | ipa::diacritized, { 80, css::time::milliseconds } },
 	        { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	        {}});
 
@@ -201,7 +201,7 @@ TEST_CASE("reader -- |phoneme duration| [diphones]")
 
 	match(parse("i-p_h 80"),
 	      { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
-	        { ipa::bilabial | ipa::plosive | ipa::aspirated, ipa::unspecified, { 0, css::time::inherit } },
+	        { ipa::bilabial | ipa::plosive, ipa::glottal | ipa::approximant | ipa::diacritized, { 0, css::time::inherit } },
 	        {}});
 
 	match(parse("p-i_o 120"),
@@ -771,7 +771,7 @@ TEST_CASE("writer -- diacritics (phoneme)")
 {
 	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
 
-	match(to_str(pho, { { ipa::bilabial | ipa::plosive | ipa::aspirated, ipa::unspecified, { 80, css::time::milliseconds } },
+	match(to_str(pho, { { ipa::bilabial | ipa::plosive, ipa::glottal | ipa::approximant | ipa::diacritized, { 80, css::time::milliseconds } },
 	                    { ipa::unspecified, ipa::unspecified, { 0, css::time::inherit } },
 	                    {}}),
 	      "p_h 80\n", 7);
@@ -787,7 +787,7 @@ TEST_CASE("writer -- diacritics (diphone)")
 	std::shared_ptr<tts::prosody_writer> pho = tts::createPhoWriter(tts::createPhonemeWriter("cxs"));
 
 	match(to_str(pho, { { ipa::high | ipa::front | ipa::vowel, ipa::unspecified, { 80, css::time::milliseconds } },
-	                    { ipa::bilabial | ipa::plosive | ipa::aspirated, ipa::unspecified, { 0, css::time::inherit } },
+	                    { ipa::bilabial | ipa::plosive, ipa::glottal | ipa::approximant | ipa::diacritized, { 0, css::time::inherit } },
 	                    {}}),
 	      "i-p_h 80\n", 9);
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2014 Reece H. Dunn
+# Copyright (C) 2013-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -230,7 +230,7 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u02D0	>	=lng
 \u02D1	>	=hlg
 
-\u02B0	>	=asp
+\u02B0			/{vls,glt,apr,dcz}/
 \u02B2			/{vcd,pal,apr,dcz}/
 \u02B3			/{vcd,alv,trl,dcz}/
 \u02B7			/{vcd,lbv,apr,dcz}/

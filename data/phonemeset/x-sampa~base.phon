@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2014 Reece H. Dunn
+# Copyright (C) 2013-2015 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -152,7 +152,7 @@ x\\	/{vls,pla,sib,frc,vzd}/
 
 _0	>	=slv
 _v	>	=stv
-_h	>	=asp
+_h			/{vls,glt,apr,dcz}/
 _O	>	=mrd
 _c	>	=lrd
 _+	>	=adv

@@ -2,8 +2,7 @@
 {vcd,vel,lat,apr,ejc,slv,rsd}
 
 {vls,alv,stp,dzd,ts5}
-error: no phoneme before post-phoneme modifiers
-{vls,alv,stp,dzd,ts5}
+{vls,alv,stp,dzd,ts5}{vls,glt,apr,dcz}
 error: no phoneme before post-phoneme modifiers
 {vls,alv,stp,dzd,ts5}
 {vcd,blb,stp,stv,dzd}

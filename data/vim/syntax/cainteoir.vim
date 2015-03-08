@@ -29,7 +29,7 @@ syn keyword	cainteoirFeatSuprasegmental	ts1 ts2 ts3 ts4 ts5
 syn keyword	cainteoirFeatSuprasegmental	tm1 tm2 tm3 tm4 tm5
 syn keyword	cainteoirFeatSuprasegmental	te1 te2 te3 te4 te5
 syn keyword	cainteoirFeatDiacritic		syl nsy
-syn keyword	cainteoirFeatDiacritic		asp unx nzr
+syn keyword	cainteoirFeatDiacritic		unx nzr
 syn keyword	cainteoirFeatDiacritic		mrm slv stv crv
 syn keyword	cainteoirFeatDiacritic		dcz dzd apc lmn lgl adv ret czd mcz rsd lwr
 syn keyword	cainteoirFeatDiacritic		mrd lrd vzd vfz rzd atr rtr

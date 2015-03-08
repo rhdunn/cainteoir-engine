@@ -1,6 +1,6 @@
 /* Explicit Feature Phoneme Set.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -103,7 +103,6 @@ static const std::initializer_list<const char *> phoneme_type = {
 };
 
 static const std::initializer_list<const char *> release = {
-	"asp",
 	"unx",
 	"dcz",
 };

@@ -1,6 +1,6 @@
 /* Phoneme Model API.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -146,7 +146,6 @@ namespace cainteoir { namespace ipa
 
 	// diacritics -- release
 
-	constexpr feature_t aspirated       = FEATURE_C(0x0000000000400000);
 	constexpr feature_t unexploded      = FEATURE_C(0x0000000000800000);
 
 	// diacritics -- phonation
