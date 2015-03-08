@@ -15,3 +15,11 @@
 {mid,cnt,unr,vwl,tie}{hgh,cnt,rnd,vwl}
 
 {low,bck,unr,vwl,tie}{umd,fnt,unr,vwl}
+
+{smh,fnt,unr,vwl}{vcd,alv,trl,dcz}
+{smh,bck,rnd,vwl}{vcd,alv,trl,dcz}
+{lmd,fnt,unr,vwl}{vcd,alv,trl,dcz}
+
+{umd,bck,rnd,vwl,lng}{vcd,alv,trl,dcz}
+{lmd,bck,rnd,vwl,lng}{vcd,alv,trl,dcz}
+{low,bck,unr,vwl,lng}{vcd,alv,trl,dcz}

@@ -18,3 +18,11 @@ error: unrecognised character \
 {mid,cnt,unr,vwl,unx}
 
 {low,bck,unr,vwl,vfz}
+
+{smh,fnt,unr,vwl}
+{smh,bck,rnd,vwl}
+{lmd,fnt,unr,vwl}
+
+{umd,bck,rnd,vwl,lng}
+{lmd,bck,rnd,vwl,lng}
+{low,bck,unr,vwl,lng}
