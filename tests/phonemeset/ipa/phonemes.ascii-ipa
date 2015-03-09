@@ -226,8 +226,8 @@ k;
 v;
 s;
 
-t~
-d~
+t{vcd,vel,frc,dcz}
+d{vcd,vel,frc,dcz}
 
 p<H>
 b<H>

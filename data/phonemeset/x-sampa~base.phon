@@ -144,7 +144,6 @@ H\\	/{vls,epg,frc}/
 s\\	/{vls,alp,sib,frc}/
 z\\	/{vcd,alp,sib,frc}/
 l\\	/{vcd,alv,lat,flp}/
-x\\	/{vls,pla,sib,frc,vzd}/
 
 5	/{vcd,alv,lat,apr,vfz}/
 
@@ -168,7 +167,7 @@ _k	>	=crv
 _N	>	=lgl
 _w			/{vcd,lbv,apr,dcz}/
 _j			/{vcd,pal,apr,dcz}/
-_G	>	=vzd
+_G			/{vcd,vel,frc,dcz}/
 _?\\			/{vcd,phr,frc,dcz}/
 
 _d	>	=dzd

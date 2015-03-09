@@ -137,7 +137,6 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "vfz", ipa::velarized_or_pharyngealized, ipa::coarticulation }, // extension
 	{ "vls", 0, ipa::voiced },
 	{ "vwl", ipa::vowel, ipa::phoneme_type },
-	{ "vzd", ipa::velarized, ipa::coarticulation },
 };
 
 bool ipa::phoneme::get(const char *feature) const

@@ -237,7 +237,7 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u02BC	>	=ejc
 \u02C8	<	=st1
 \u02CC	<	=st2
-\u02E0	>	=vzd
+\u02E0			/{vcd,vel,frc,dcz}/
 \u02E1			/{vcd,alv,lat,apr,dcz}/
 \u02E4			/{vcd,phr,frc,dcz}/
 

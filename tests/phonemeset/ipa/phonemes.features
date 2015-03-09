@@ -226,8 +226,8 @@
 {vcd,lbd,frc}{vcd,pal,apr,dcz}
 {vls,alv,sib,frc}{vcd,pal,apr,dcz}
 
-{vls,alv,stp,vzd}
-{vcd,alv,stp,vzd}
+{vls,alv,stp}{vcd,vel,frc,dcz}
+{vcd,alv,stp}{vcd,vel,frc,dcz}
 
 {vls,blb,stp}{vcd,phr,frc,dcz}
 {vcd,blb,stp}{vcd,phr,frc,dcz}
