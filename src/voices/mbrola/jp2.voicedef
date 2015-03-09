@@ -1,0 +1,243 @@
+# MBROLA jp2 Voice Definition File
+#
+# Copyright (C) 2015 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.rdfns		"http://reecedunn.co.uk/tts/synthesizer/mbrola#"
+.id		jp2 # This is also the MBROLA voice data filename.
+.name		jp2
+.synthesizer	MBROLA
+.voice-author	Tomohisa Tachiki
+.locale		jp # Japanese
+.gender		female
+.volume-scale	0.556 # Samples default to max. height of 0.9.
+.frequency	16000
+.channels	1
+.sample-format	s16le
+.phonemeset	ipa
+
+pitch 191Hz 22Hz 5.5Hz # min=180Hz max=290Hz
+
+# Plosives ####################################################################
+
+phoneme /p/
+	duration 50ms
+	unit "p"
+end
+
+phoneme /b/
+	duration 80ms
+	unit "b"
+end
+
+phoneme /t/
+	duration 50ms
+	unit "t"
+end
+
+phoneme /d/
+	duration 80ms
+	unit "d"
+end
+
+phoneme /k/
+	duration 50ms
+	unit "k"
+end
+
+phoneme /ɡ/
+	duration 80ms
+	unit "g"
+end
+
+# Fricatives ##################################################################
+
+phoneme /ɸ/
+	duration 95ms
+	unit "f"
+end
+
+phoneme /v/
+	duration 50ms
+	unit "v"
+end
+
+phoneme /s/
+	duration 100ms
+	unit "s"
+end
+
+phoneme /z/
+	duration 70ms
+	unit "z"
+end
+
+phoneme /ɕ/
+	duration 100ms
+	unit "S"
+end
+
+phoneme /ʑ/
+	duration 70ms
+	unit "Z"
+end
+
+phoneme /ç/
+	duration 60ms
+	unit "C"
+end
+
+phoneme /h/
+	duration 60ms
+	unit "h"
+end
+
+# Nasals ######################################################################
+
+phoneme /m/
+	duration 70ms
+	unit "m"
+end
+
+phoneme /mː/
+	duration 130ms
+	unit "m:"
+end
+
+phoneme /n/
+	duration 70ms
+	unit "n"
+end
+
+phoneme /nː/
+	duration 130ms
+	unit "n:"
+end
+
+phoneme /ɲ/
+	duration 70ms
+	unit "n1"
+end
+
+phoneme /ɲː/
+	duration 130ms
+	unit "n1:"
+end
+
+phoneme /ŋ/
+	duration 70ms
+	unit "G"
+end
+
+phoneme /ŋː/
+	duration 130ms
+	unit "G:"
+end
+
+phoneme /ɴ/
+	duration  70ms
+	duration 130ms if /ɴː/
+	unit "N:"
+end
+
+# Sonorants ##################################################################
+
+phoneme /ɽ/
+	duration 55ms
+	unit "r"
+end
+
+phoneme /j/
+	duration 50ms
+	unit "j"
+end
+
+phoneme /w/
+	duration 55ms
+	unit "w"
+end
+
+# Affricates ##################################################################
+
+phoneme /t͡s/
+	duration 130ms
+	unit "ts"
+end
+
+phoneme /d͡z/
+	duration 130ms
+	unit "dz"
+end
+
+phoneme /t͡ɕ/
+	duration 130ms
+	unit "tS"
+end
+
+phoneme /d͡ʑ/
+	duration 130ms
+	unit "dZ"
+end
+
+# Vowels ######################################################################
+
+phoneme /i/
+	duration 60ms
+	unit "i"
+end
+
+phoneme /i̥/
+	duration 60ms
+	unit "i_0"
+end
+
+phoneme /iː/
+	duration 120ms
+	unit "i:"
+end
+
+phoneme /ɯᵝ/
+	duration 60ms
+	unit "u"
+end
+
+phoneme /ɯ̥ᵝ/
+	duration 60ms
+	unit "u_0"
+end
+
+phoneme /ɯᵝː/
+	duration 120ms
+	unit "u:"
+end
+
+phoneme /e̞/
+	duration 60ms
+	unit "e"
+end
+
+phoneme /e̞ː/
+	duration 120ms
+	unit "e:"
+end
+
+phoneme /o̞/
+	duration 60ms
+	unit "o"
+end
+
+phoneme /o̞ː/
+	duration 120ms
+	unit "o:"
+end
+
+phoneme /ä/
+	duration 60ms
+	unit "a"
+end
+
+phoneme /äː/
+	duration 120ms
+	unit "a:"
+end
