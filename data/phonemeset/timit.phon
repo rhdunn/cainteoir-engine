@@ -30,7 +30,7 @@ f	/{vls,lbd,frc}/ # /f/
 g	/{vcd,vel,stp}/ # /ɡ/
 gcl	/{vcd,vel,stp,unx}/ # /ɡ̚/
 hh	/{vls,glt,apr}/ # /h/
-hv	/{vcd,glt,frc}/ # /ɦ/
+hv	/{mrm,glt,frc}/ # /ɦ/
 ih	/{smh,fnt,unr,vwl}/ # /ɪ/
 iy	/{hgh,fnt,unr,vwl}/ # /i/
 ix	/{hgh,cnt,unr,vwl}/ # /ɨ/

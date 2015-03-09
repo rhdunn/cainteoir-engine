@@ -77,7 +77,7 @@ X	/{vls,uvl,frc}/
 R	/{vcd,uvl,frc}/
 X\\	/{vls,phr,frc}/
 \?\\	/{vcd,phr,frc}/
-h\\	/{vcd,glt,frc}/
+h\\	/{mrm,glt,frc}/
 
 K	/{vls,alv,lat,frc}/
 K\\	/{vcd,alv,lat,frc}/

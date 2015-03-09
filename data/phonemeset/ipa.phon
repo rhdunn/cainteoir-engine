@@ -75,7 +75,7 @@ x			/{vls,vel,frc}/
 \u0295			/{vcd,phr,frc}/
 \u029C			/{vls,epg,frc}/
 \u02A2			/{vcd,epg,frc}/
-\u0266			/{vcd,glt,frc}/
+\u0266			/{mrm,glt,frc}/
 
 \u028B			/{vcd,lbd,apr}/
 \u0279			/{vcd,alv,apr}/

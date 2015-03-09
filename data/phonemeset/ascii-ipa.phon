@@ -126,7 +126,7 @@ Z	/{vcd,pla,sib,frc}/
 
 :	>	=lng
 
-##### Appendix E : Segment List [10], [28]
+##### Appendix E : Segment List [10], [27]
 
 b<trl>	/{vcd,blb,trl}/ # [2]
 p!	/{vls,blb,clk}/
@@ -170,7 +170,7 @@ r\"	/{vcd,uvl,trl}/ # [2], [16], [17]
 
 H<vcd>	/{vcd,phr,frc}/
 
-h<?>	/{vcd,glt,frc}/ # [2], [26]
+h<?>	/{mrm,glt,frc}/ # [2]
 
 *<lat>	/{vcd,alv,lat,flp}/ # [2], [19]
 
@@ -184,7 +184,7 @@ u\"	/{hgh,cnt,rnd,vwl}/
 I\"	/{smh,cnt,unr,vwl}/
 U\"	/{smh,cnt,rnd,vwl}/
 @<umd>	/{umd,cnt,unr,vwl}/
-@.<umd>	/{umd,cnt,rnd,vwl}/ # [27]
+@.<umd>	/{umd,cnt,rnd,vwl}/ # [26]
 V\"	/{lmd,cnt,unr,vwl}/
 O\"	/{lmd,cnt,rnd,vwl}/
 &\"	/{sml,cnt,unr,vwl}/ # [21], [22]
@@ -310,16 +310,11 @@ _	>	=tie
 #     symbols), IPA chart and IPA usage (e.g. for describing affricates,
 #     diphthongs and triphthongs).
 #
-# 26. Kirshenbaum specifies this as /{mrm,glt,frc}/, which is technically
-#     correct. However, this phoneme is specified in the IPA chart as
-#     /{vcd,glt,frc}/ as it makes it easier to fit on the IPA chart and
-#     does not lose its distinction with other phonemes.
-#
-# 27. Kirsenbaum specifies this as /{mid,cnt,rnd,vwl}/, but this is not
+# 26. Kirsenbaum specifies this as /{mid,cnt,rnd,vwl}/, but this is not
 #     shown on the IPA vowel chart. Wikipedia moves this up to the {umd}
 #     position, where Kirshenbaum is missing a transcription.
 #
-# 28. Kirshenbaum lists /k!/ as a /{vcd,vel,clk}/, but the IPA symbol for this
+# 27. Kirshenbaum lists /k!/ as a /{vcd,vel,clk}/, but the IPA symbol for this
 #     was withdrawn in 1970, as the articulation is judged impossible.
 #
 ##### References:
