@@ -165,12 +165,12 @@
 {vcd,alv,sib,frc,stv}
 {hgh,fnt,unr,vwl,stv}
 
-{vcd,blb,nas,mrm}
-{vcd,blb,stp,mrm}
-{vcd,alv,stp,mrm}
-{vcd,vel,stp,mrm}
-{umd,fnt,unr,vwl,mrm}
-{low,fnt,unr,vwl,mrm}
+{vcd,blb,nas,brv}
+{vcd,blb,stp,brv}
+{vcd,alv,stp,brv}
+{vcd,vel,stp,brv}
+{umd,fnt,unr,vwl,brv}
+{low,fnt,unr,vwl,brv}
 
 {vcd,blb,stp,crv}
 {vcd,alv,stp,crv}

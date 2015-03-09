@@ -31,6 +31,7 @@ namespace ipa = cainteoir::ipa;
 static const std::initializer_list<const char *> voicing = {
 	"vcd",
 	"vls",
+	"mrm",
 };
 
 static const std::initializer_list<const char *> place_of_articulation = {
@@ -110,7 +111,7 @@ static const std::initializer_list<const char *> release = {
 static const std::initializer_list<const char *> phonation = {
 	"slv",
 	"stv",
-	"mrm",
+	"brv",
 	"crv",
 };
 

@@ -37,8 +37,8 @@ namespace cainteoir { namespace ipa
 	#   define FEATURE_C(c) c ## ULL
 	#endif
 
-	constexpr feature_t main                   = FEATURE_C(0x00001000001FFFFF);
-	constexpr feature_t diacritics             = FEATURE_C(0x00000FFFFFE00000);
+	constexpr feature_t main                   = FEATURE_C(0x00001000003FFFFF);
+	constexpr feature_t diacritics             = FEATURE_C(0x00000FFFFFC00000);
 	constexpr feature_t reserved               = FEATURE_C(0x000EE00000000000);
 	constexpr feature_t suprasegmentals        = FEATURE_C(0xFFF1000000000000);
 
@@ -47,23 +47,23 @@ namespace cainteoir { namespace ipa
 	// main ------------------------------------------------ 00000000001FFFFF
 	constexpr feature_t phoneme_type           = FEATURE_C(0x000000000000000F);
 	constexpr feature_t unit_value             = FEATURE_C(0x00000000000FFFF0);
-	// ... consonants -------------------------------------- 0000000000003FF0
+	// ... consonants -------------------------------------- 0000000000007FF0
 	constexpr feature_t place_of_articulation  = FEATURE_C(0x00000000000000F0);
 	constexpr feature_t manner_of_articulation = FEATURE_C(0x0000000000000700);
 	constexpr feature_t lateral                = FEATURE_C(0x0000000000000800);
 	constexpr feature_t sibilant               = FEATURE_C(0x0000000000001000);
-	constexpr feature_t voiced                 = FEATURE_C(0x0000000000002000);
-	// ... vowels ------------------------------------------ 00000000001FC000
-	constexpr feature_t rounded                = FEATURE_C(0x0000000000004000);
-	constexpr feature_t high                   = FEATURE_C(0x0000000000008000);
-	constexpr feature_t mid                    = FEATURE_C(0x0000000000010000);
-	constexpr feature_t low                    = FEATURE_C(0x0000000000020000);
-	constexpr feature_t lax                    = FEATURE_C(0x0000000000040000);
-	constexpr feature_t front                  = FEATURE_C(0x0000000000080000);
-	constexpr feature_t back                   = FEATURE_C(0x0000000000100000);
+	constexpr feature_t voicing                = FEATURE_C(0x0000000000006000);
+	// ... vowels ------------------------------------------ 00000000003F8000
+	constexpr feature_t rounded                = FEATURE_C(0x0000000000008000);
+	constexpr feature_t high                   = FEATURE_C(0x0000000000010000);
+	constexpr feature_t mid                    = FEATURE_C(0x0000000000020000);
+	constexpr feature_t low                    = FEATURE_C(0x0000000000040000);
+	constexpr feature_t lax                    = FEATURE_C(0x0000000000080000);
+	constexpr feature_t front                  = FEATURE_C(0x0000000000100000);
+	constexpr feature_t back                   = FEATURE_C(0x0000000000200000);
 	// diacritics ------------------------------------------ 00000FFFFFE00000
-	constexpr feature_t ejective               = FEATURE_C(0x0000000000200000);
-	constexpr feature_t unexploded             = FEATURE_C(0x0000000000400000);
+	constexpr feature_t ejective               = FEATURE_C(0x0000000000400000);
+	constexpr feature_t unexploded             = FEATURE_C(0x0000000000800000);
 	constexpr feature_t phonation              = FEATURE_C(0x000000000E000000);
 	constexpr feature_t articulation           = FEATURE_C(0x00000000F0000000);
 	constexpr feature_t rounding               = FEATURE_C(0x0000000300000000);
@@ -126,6 +126,12 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t click       = FEATURE_C(0x0000000000000600);
 	constexpr feature_t implosive   = FEATURE_C(0x0000000000000700);
 
+	// voicing
+
+	constexpr feature_t voiceless = FEATURE_C(0x0000000000000000);
+	constexpr feature_t voiced    = FEATURE_C(0x0000000000002000);
+	constexpr feature_t murmured  = FEATURE_C(0x0000000000004000);
+
 	// vowel height
 
 	constexpr feature_t vowel_height = high | mid | low | lax;
@@ -151,7 +157,6 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t modal_voice   = FEATURE_C(0x0000000006000000);
 	constexpr feature_t stiff_voice   = FEATURE_C(0x0000000008000000);
 	constexpr feature_t creaky_voice  = FEATURE_C(0x000000000A000000);
-	constexpr feature_t murmured      = breathy_voice; // alias
 
 	// diacritics -- articulation
 

@@ -12,7 +12,7 @@ endif
 " Phoneme Features
 
 syn keyword	cainteoirFeatUnused		ctl orl
-syn keyword	cainteoirFeatConsonant		con vls vcd
+syn keyword	cainteoirFeatConsonant		con vls vcd mrm
 syn keyword	cainteoirFeatConsonant		blb lbd dnt alv pla rfx pal vel uvl phr glt
 syn keyword	cainteoirFeatConsonant		alp lbp lbv epg
 syn keyword	cainteoirFeatConsonant		nas stp frc sib apr trl flp lat clk imp
@@ -30,7 +30,7 @@ syn keyword	cainteoirFeatSuprasegmental	tm1 tm2 tm3 tm4 tm5
 syn keyword	cainteoirFeatSuprasegmental	te1 te2 te3 te4 te5
 syn keyword	cainteoirFeatDiacritic		syl nsy
 syn keyword	cainteoirFeatDiacritic		unx nzr
-syn keyword	cainteoirFeatDiacritic		mrm slv stv crv
+syn keyword	cainteoirFeatDiacritic		brv slv stv crv
 syn keyword	cainteoirFeatDiacritic		dcz dzd apc lmn lgl adv ret czd mcz rsd lwr
 syn keyword	cainteoirFeatDiacritic		mrd lrd vfz rzd atr rtr
 

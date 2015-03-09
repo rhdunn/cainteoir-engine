@@ -326,10 +326,11 @@ KIRSHENBAUM_BIN1("tie", "tied (affricate/diphthong/...) [extension]", ipa::joine
 KIRSHENBAUM_RNGD("syl", "syllabic", ipa::syllabic, ipa::syllabicity)
 KIRSHENBAUM_RNGD("nsy", "non-syllabic [extension]", ipa::non_syllabic, ipa::syllabicity)
 KIRSHENBAUM_BIN1("unx", "unexploded", ipa::unexploded)
-KIRSHENBAUM_BIN0("vls", "voiceless", ipa::voiced)
-KIRSHENBAUM_RNGD("mrm", "murmured (breathy voice) (murmured)", ipa::breathy_voice, ipa::phonation)
+KIRSHENBAUM_RNGD("vls", "voiceless", ipa::voiceless, ipa::voicing)
+KIRSHENBAUM_RNGD("mrm", "murmured", ipa::murmured, ipa::voicing)
+KIRSHENBAUM_RNGD("brv", "breathy voice [extension]", ipa::breathy_voice, ipa::phonation)
 KIRSHENBAUM_RNGD("slv", "slack voice [extension]", ipa::slack_voice, ipa::phonation)
-KIRSHENBAUM_BIN1("vcd", "voiced", ipa::voiced)
+KIRSHENBAUM_RNGD("vcd", "voiced", ipa::voiced, ipa::voicing)
 KIRSHENBAUM_RNGD("stv", "stiff voice [extension]", ipa::stiff_voice, ipa::phonation)
 KIRSHENBAUM_RNGD("crv", "creaky voice [extension]", ipa::creaky_voice, ipa::phonation)
 KIRSHENBAUM_RNGD("dzd", "dentalized (dental diacritic) [extension]", ipa::dentalized, ipa::articulation)
@@ -398,7 +399,7 @@ TEST_CASE("explicit feature parser -- no input")
 
 static const std::initializer_list<const char *> phoneme_features = {
 	"adv", "alp", "alv", "apc", "apr", "atr",
-	"bck", "blb",
+	"bck", "blb", "brv",
 	"clk", "cnt", "con", "crv", "ctl", "czd",
 	"dcz", "dnt", "dst", "dzd",
 	"ejc", "epg", "est",

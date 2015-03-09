@@ -209,7 +209,7 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u031E	>	=lwr
 \u031F	>	=adv
 \u0320	>	=ret
-\u0324	>	=mrm
+\u0324	>	=brv
 \u0325	>	=slv # below
 \u0329	>	=syl # below
 \u032A	>	=dzd
