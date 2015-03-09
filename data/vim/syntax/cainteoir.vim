@@ -2,7 +2,7 @@
 " Language:	Cainteoir Text-to-Speech Data Files
 " Filenames:    *.phon, *.features, *.dict, *.ptp, *.voicedef, *.langdef
 " Maintainer:	Reece H. Dunn <msclrhd@gmail.com>
-" Last Change:	2015 Mar 2
+" Last Change:	2015 Mar 9
 
 " Quit when a (custom) syntax file was already loaded
 if exists("b:current_syntax")
@@ -16,6 +16,7 @@ syn keyword	cainteoirFeatConsonant		con vls vcd mrm
 syn keyword	cainteoirFeatConsonant		blb lbd dnt alv pla rfx pal vel uvl phr glt
 syn keyword	cainteoirFeatConsonant		alp lbp lbv epg
 syn keyword	cainteoirFeatConsonant		nas stp frc sib apr trl flp lat clk imp
+syn keyword	cainteoirFeatMain		dcz
 syn keyword	cainteoirFeatDiacritic		ejc
 syn keyword	cainteoirFeatVowel		vwl
 syn keyword	cainteoirFeatVowel		unr rnd
@@ -31,7 +32,7 @@ syn keyword	cainteoirFeatSuprasegmental	te1 te2 te3 te4 te5
 syn keyword	cainteoirFeatDiacritic		syl nsy
 syn keyword	cainteoirFeatDiacritic		unx
 syn keyword	cainteoirFeatDiacritic		brv slv stv crv
-syn keyword	cainteoirFeatDiacritic		dcz dzd apc lmn lgl adv ret czd mcz rsd lwr
+syn keyword	cainteoirFeatDiacritic		dzd apc lmn lgl adv ret czd mcz rsd lwr
 syn keyword	cainteoirFeatDiacritic		mrd lrd vfz nzd rzd atr rtr
 
 syn match	cainteoirEscape			'\\.'
@@ -48,7 +49,7 @@ syn region	cainteoirString			start="\"" end="\""
 
 syn region	cainteoirComment		start="#" end="$" keepend contains=@Spell
 
-syn region	cainteoirTranscription		start="/" end="/" contains=cainteoirFeatUnused,cainteoirFeatConsonant,cainteoirFeatVowel,cainteoirFeatSuprasegmental,cainteoirFeatDiacritic
+syn region	cainteoirTranscription		start="/" end="/" contains=cainteoirFeatUnused,cainteoirFeatMain,cainteoirFeatConsonant,cainteoirFeatVowel,cainteoirFeatSuprasegmental,cainteoirFeatDiacritic
 
 " Define the default highlighting.
 " Only used when an item doesn't have highlighting yet
@@ -56,8 +57,9 @@ syn region	cainteoirTranscription		start="/" end="/" contains=cainteoirFeatUnuse
 hi def link cainteoirComment			Comment
 hi def link cainteoirTranscription		String
 hi def link cainteoirFeatUnused			Constant
-hi def link cainteoirFeatConsonant		Type
-hi def link cainteoirFeatVowel			Type
+hi def link cainteoirFeatConsonant		cainteoirFeatMain
+hi def link cainteoirFeatVowel			cainteoirFeatMain
+hi def link cainteoirFeatMain			Type
 hi def link cainteoirFeatSuprasegmental		Identifier
 hi def link cainteoirFeatDiacritic		Identifier
 hi def link cainteoirUnicodeEscape		Special
