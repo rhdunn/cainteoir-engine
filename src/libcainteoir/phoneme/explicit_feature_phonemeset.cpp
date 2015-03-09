@@ -103,8 +103,11 @@ static const std::initializer_list<const char *> phoneme_type = {
 	"dst",
 };
 
-static const std::initializer_list<const char *> release = {
+static const std::initializer_list<const char *> unexploded = {
 	"unx",
+};
+
+static const std::initializer_list<const char *> diactitized = {
 	"dcz",
 };
 
@@ -310,7 +313,8 @@ void tts::write_explicit_feature(FILE *output, const ipa::phoneme &aPhoneme)
 		break;
 	}
 	write_feature(output, aPhoneme, phoneme_type, need_comma);
-	write_feature(output, aPhoneme, release, need_comma);
+	write_feature(output, aPhoneme, diactitized, need_comma);
+	write_feature(output, aPhoneme, unexploded, need_comma);
 	write_feature(output, aPhoneme, phonation, need_comma);
 	write_feature(output, aPhoneme, articulation, need_comma);
 	write_feature(output, aPhoneme, coarticulation, need_comma);
