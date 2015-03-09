@@ -18,6 +18,10 @@ error: unrecognised character \
 
 {low,bck,unr,vwl,vfz}
 
+{vcd,blb,stp}
+{vcd,alv,stp}
+{vcd,vel,stp}
+
 {smh,fnt,unr,vwl}
 {smh,bck,rnd,vwl}
 {lmd,fnt,unr,vwl}
@@ -25,3 +29,28 @@ error: unrecognised character \
 {umd,bck,rnd,vwl,lng}
 {lmd,bck,rnd,vwl,lng}
 {low,bck,unr,vwl,lng}
+
+{smh,fnt,unr,vwl}
+{smh,bck,rnd,vwl}
+{lmd,fnt,unr,vwl}
+
+{smh,fnt,unr,vwl}
+{smh,bck,rnd,vwl}
+{lmd,fnt,unr,vwl}
+
+{smh,fnt,unr,vwl}
+{smh,bck,rnd,vwl}
+{lmd,fnt,unr,vwl}
+
+{umd,bck,rnd,vwl}
+{lmd,bck,rnd,vwl}
+{low,bck,unr,vwl}
+
+{vcd,blb,nas}
+{vcd,alv,nas}
+
+{vls,alv,stp}
+{vcd,alv,stp}
+
+{vls,vel,stp}
+{vcd,vel,stp}

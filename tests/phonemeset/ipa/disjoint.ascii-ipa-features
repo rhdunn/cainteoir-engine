@@ -16,6 +16,10 @@
 
 {low,bck,unr,vwl,tie}{umd,fnt,unr,vwl}
 
+{vcd,blb,stp}{mrm,glt,frc,dcz}
+{vcd,alv,stp}{mrm,glt,frc,dcz}
+{vcd,vel,stp}{mrm,glt,frc,dcz}
+
 {smh,fnt,unr,vwl}{vcd,alv,trl,dcz}
 {smh,bck,rnd,vwl}{vcd,alv,trl,dcz}
 {lmd,fnt,unr,vwl}{vcd,alv,trl,dcz}
@@ -23,3 +27,28 @@
 {umd,bck,rnd,vwl,lng}{vcd,alv,trl,dcz}
 {lmd,bck,rnd,vwl,lng}{vcd,alv,trl,dcz}
 {low,bck,unr,vwl,lng}{vcd,alv,trl,dcz}
+
+{smh,fnt,unr,vwl}{vcd,alv,apr,dcz}
+{smh,bck,rnd,vwl}{vcd,alv,apr,dcz}
+{lmd,fnt,unr,vwl}{vcd,alv,apr,dcz}
+
+{smh,fnt,unr,vwl}{vcd,rfx,apr,dcz}
+{smh,bck,rnd,vwl}{vcd,rfx,apr,dcz}
+{lmd,fnt,unr,vwl}{vcd,rfx,apr,dcz}
+
+{smh,fnt,unr,vwl}{vcd,uvl,frc,dcz}
+{smh,bck,rnd,vwl}{vcd,uvl,frc,dcz}
+{lmd,fnt,unr,vwl}{vcd,uvl,frc,dcz}
+
+{umd,bck,rnd,vwl}{hgh,fnt,rnd,vwl,dcz}
+{lmd,bck,rnd,vwl}{hgh,fnt,rnd,vwl,dcz}
+{low,bck,unr,vwl}{hgh,fnt,rnd,vwl,dcz}
+
+{vcd,blb,nas}{vcd,glt,stp,dcz}
+{vcd,alv,nas}{vcd,glt,stp,dcz}
+
+{vls,alv,stp}{vls,alv,sib,frc,dcz}
+{vcd,alv,stp}{vls,alv,sib,frc,dcz}
+
+{vls,vel,stp}{vls,vel,frc,dcz}
+{vcd,vel,stp}{vls,vel,frc,dcz}

@@ -16,6 +16,10 @@ g_Q
 
 A_e
 
+b{mrm,glt,frc,dcz}
+d{mrm,glt,frc,dcz}
+g{mrm,glt,frc,dcz}
+
 I{vcd,alv,trl,dcz}
 U{vcd,alv,trl,dcz}
 E{vcd,alv,trl,dcz}
@@ -23,3 +27,28 @@ E{vcd,alv,trl,dcz}
 o:{vcd,alv,trl,dcz}
 O:{vcd,alv,trl,dcz}
 A:{vcd,alv,trl,dcz}
+
+I{vcd,alv,apr,dcz}
+U{vcd,alv,apr,dcz}
+E{vcd,alv,apr,dcz}
+
+I{vcd,rfx,apr,dcz}
+U{vcd,rfx,apr,dcz}
+E{vcd,rfx,apr,dcz}
+
+I{vcd,uvl,frc,dcz}
+U{vcd,uvl,frc,dcz}
+E{vcd,uvl,frc,dcz}
+
+o{hgh,fnt,rnd,vwl,dcz}
+O{hgh,fnt,rnd,vwl,dcz}
+A{hgh,fnt,rnd,vwl,dcz}
+
+m{vcd,glt,stp,dcz}
+n{vcd,glt,stp,dcz}
+
+t{vls,alv,sib,frc,dcz}
+d{vls,alv,sib,frc,dcz}
+
+k{vls,vel,frc,dcz}
+g{vls,vel,frc,dcz}
