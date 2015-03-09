@@ -129,7 +129,7 @@ static const std::initializer_list<const feature_data> kirshenbaum = {
 	{ "ts5", ipa::tone_start_top, ipa::tone_start }, // extension
 	{ "umd", ipa::upper_mid, ipa::vowel_height },
 	{ "unr", 0, ipa::rounded },
-	{ "unx", ipa::unexploded, ipa::release },
+	{ "unx", ipa::unexploded, ipa::unexploded },
 	{ "ust", ipa::upstep, ipa::phoneme_type }, // extension
 	{ "uvl", ipa::uvular, ipa::place_of_articulation },
 	{ "vcd", ipa::voiced, ipa::voiced },

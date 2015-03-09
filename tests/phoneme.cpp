@@ -325,7 +325,7 @@ KIRSHENBAUM_RNGD("te1", "extra-low (bottom) end tone [extension]", ipa::tone_end
 KIRSHENBAUM_BIN1("tie", "tied (affricate/diphthong/...) [extension]", ipa::joined_to_next_phoneme)
 KIRSHENBAUM_RNGD("syl", "syllabic", ipa::syllabic, ipa::syllabicity)
 KIRSHENBAUM_RNGD("nsy", "non-syllabic [extension]", ipa::non_syllabic, ipa::syllabicity)
-KIRSHENBAUM_RNGD("unx", "unexploded", ipa::unexploded, ipa::release)
+KIRSHENBAUM_BIN1("unx", "unexploded", ipa::unexploded)
 KIRSHENBAUM_BIN0("vls", "voiceless", ipa::voiced)
 KIRSHENBAUM_RNGD("mrm", "murmured (breathy voice) (murmured)", ipa::breathy_voice, ipa::phonation)
 KIRSHENBAUM_RNGD("slv", "slack voice [extension]", ipa::slack_voice, ipa::phonation)

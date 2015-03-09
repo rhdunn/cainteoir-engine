@@ -63,7 +63,7 @@ namespace cainteoir { namespace ipa
 	constexpr feature_t back                   = FEATURE_C(0x0000000000100000);
 	// diacritics ------------------------------------------ 00000FFFFFE00000
 	constexpr feature_t ejective               = FEATURE_C(0x0000000000200000);
-	constexpr feature_t release                = FEATURE_C(0x0000000001C00000);
+	constexpr feature_t unexploded             = FEATURE_C(0x0000000000400000);
 	constexpr feature_t phonation              = FEATURE_C(0x000000000E000000);
 	constexpr feature_t articulation           = FEATURE_C(0x00000000F0000000);
 	constexpr feature_t rounding               = FEATURE_C(0x0000000300000000);
@@ -143,10 +143,6 @@ namespace cainteoir { namespace ipa
 	//                                = front
 	constexpr feature_t center         = front | back;
 	//                                = back
-
-	// diacritics -- release
-
-	constexpr feature_t unexploded      = FEATURE_C(0x0000000000800000);
 
 	// diacritics -- phonation
 
