@@ -29,10 +29,10 @@ syn keyword	cainteoirFeatSuprasegmental	ts1 ts2 ts3 ts4 ts5
 syn keyword	cainteoirFeatSuprasegmental	tm1 tm2 tm3 tm4 tm5
 syn keyword	cainteoirFeatSuprasegmental	te1 te2 te3 te4 te5
 syn keyword	cainteoirFeatDiacritic		syl nsy
-syn keyword	cainteoirFeatDiacritic		unx nzr
+syn keyword	cainteoirFeatDiacritic		unx
 syn keyword	cainteoirFeatDiacritic		brv slv stv crv
 syn keyword	cainteoirFeatDiacritic		dcz dzd apc lmn lgl adv ret czd mcz rsd lwr
-syn keyword	cainteoirFeatDiacritic		mrd lrd vfz rzd atr rtr
+syn keyword	cainteoirFeatDiacritic		mrd lrd vfz nzd rzd atr rtr
 
 syn match	cainteoirEscape			'\\.'
 syn match	cainteoirUnicodeEscape		'\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]'
