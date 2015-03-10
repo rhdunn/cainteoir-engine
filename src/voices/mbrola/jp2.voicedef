@@ -26,9 +26,21 @@ phoneme /p/
 	unit "p"
 end
 
+phoneme /pʲ/
+	duration 75ms
+	unit  0 "p"
+	unit 60 "j"
+end
+
 phoneme /b/
 	duration 80ms
 	unit "b"
+end
+
+phoneme /bʲ/
+	duration 95ms
+	unit  0 "b"
+	unit 60 "j"
 end
 
 phoneme /t/
@@ -46,9 +58,21 @@ phoneme /k/
 	unit "k"
 end
 
+phoneme /kʲ/
+	duration 75ms
+	unit  0 "k"
+	unit 60 "j"
+end
+
 phoneme /ɡ/
 	duration 80ms
 	unit "g"
+end
+
+phoneme /ɡʲ/
+	duration 95ms
+	unit  0 "g"
+	unit 60 "j"
 end
 
 # Fricatives ##################################################################
@@ -100,6 +124,12 @@ phoneme /m/
 	unit "m"
 end
 
+phoneme /mʲ/
+	duration 90ms
+	unit  0 "m"
+	unit 60 "j"
+end
+
 phoneme /mː/
 	duration 130ms
 	unit "m:"
@@ -146,6 +176,12 @@ end
 phoneme /ɽ/
 	duration 55ms
 	unit "r"
+end
+
+phoneme /ɽʲ/
+	duration 80ms
+	unit  0 "r"
+	unit 60 "j"
 end
 
 phoneme /j/
