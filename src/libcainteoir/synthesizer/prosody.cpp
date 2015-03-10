@@ -68,6 +68,11 @@ bool phonemes_to_prosody::read()
 			first.phoneme2 = *mPhonemes;
 			mNeedPhoneme = true;
 		}
+		else if (mPhonemes->get(ipa::diacritized) == ipa::diacritized)
+		{
+			first.phoneme2 = *mPhonemes;
+			mNeedPhoneme = true;
+		}
 		else if (mPhonemes->get(ipa::syllabicity) == ipa::non_syllabic)
 		{
 			first.phoneme2 = *mPhonemes;
