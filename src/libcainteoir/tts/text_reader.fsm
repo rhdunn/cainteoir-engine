@@ -439,6 +439,6 @@ groups:
         value: tts::word_script
     transitions:
       L7:
-        L7: [ "Lo" ]
+        L7: [ "Lo", "Lm" ]
 
 # vim: ft=yaml
