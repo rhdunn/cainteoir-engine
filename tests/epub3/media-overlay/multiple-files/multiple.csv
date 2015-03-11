@@ -1,7 +1,7 @@
-AudioPath,StartTime,EndTime,FromByte,ToByte,FromChar,ToChar,Text
-OEBPS/text1.mp3,0,3,0,5,0,5,"first"
-OEBPS/text1.mp3,3,8,5,11,5,11,"second"
-OEBPS/text1.mp3,8,22,11,16,11,16,"third"
-OEBPS/text2.mp3,0,4,16,19,16,19,"one"
-OEBPS/text2.mp3,4,7,19,22,19,22,"two"
-OEBPS/text2.mp3,7,14,22,27,22,27,"three"
+AudioPath,StartTime,EndTime,TextRef,FromByte,ToByte,FromChar,ToChar,Text
+OEBPS/text1.mp3,0,3,OEBPS/text1.xhtml#ref1,0,5,0,5,"first"
+OEBPS/text1.mp3,3,8,OEBPS/text1.xhtml#ref2,5,11,5,11,"second"
+OEBPS/text1.mp3,8,22,OEBPS/text1.xhtml#ref3,11,16,11,16,"third"
+OEBPS/text2.mp3,0,4,OEBPS/text2.xhtml#ref1,16,19,16,19,"one"
+OEBPS/text2.mp3,4,7,OEBPS/text2.xhtml#ref2,19,22,19,22,"two"
+OEBPS/text2.mp3,7,14,OEBPS/text2.xhtml#ref3,22,27,22,27,"three"

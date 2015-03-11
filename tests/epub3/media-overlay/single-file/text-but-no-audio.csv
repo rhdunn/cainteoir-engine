@@ -1,2 +1,2 @@
-AudioPath,StartTime,EndTime,FromByte,ToByte,FromChar,ToChar,Text
-OEBPS/text1.mp3,3,8,5,11,5,11,"second"
+AudioPath,StartTime,EndTime,TextRef,FromByte,ToByte,FromChar,ToChar,Text
+OEBPS/text1.mp3,3,8,OEBPS/text1.xhtml#ref2,5,11,5,11,"second"
