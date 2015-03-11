@@ -27,9 +27,20 @@ phoneme /p/
 end
 
 phoneme /pʲ/
-	duration 75ms
+	duration 70ms
 	unit  0 "p"
-	unit 60 "j"
+	unit 80 "j"
+end
+
+phoneme /pː/
+	duration 100ms
+	unit "Qp"
+end
+
+phoneme /pːʲ/
+	duration 140ms
+	unit  0 "Qp"
+	unit 80 "j"
 end
 
 phoneme /b/
@@ -48,9 +59,19 @@ phoneme /t/
 	unit "t"
 end
 
+phoneme /tː/
+	duration 100ms
+	unit "Qt"
+end
+
 phoneme /d/
 	duration 80ms
 	unit "d"
+end
+
+phoneme /dː/
+	duration 160ms
+	unit "Qd"
 end
 
 phoneme /k/
@@ -59,9 +80,20 @@ phoneme /k/
 end
 
 phoneme /kʲ/
-	duration 75ms
+	duration 70ms
 	unit  0 "k"
-	unit 60 "j"
+	unit 80 "j"
+end
+
+phoneme /kː/
+	duration 100ms
+	unit "Qk"
+end
+
+phoneme /kːʲ/
+	duration 140ms
+	unit  0 "Qk"
+	unit 80 "j"
 end
 
 phoneme /ɡ/
@@ -92,6 +124,11 @@ phoneme /s/
 	unit "s"
 end
 
+phoneme /sː/
+	duration 200ms
+	unit "Qs"
+end
+
 phoneme /z/
 	duration 70ms
 	unit "z"
@@ -100,6 +137,11 @@ end
 phoneme /ɕ/
 	duration 100ms
 	unit "S"
+end
+
+phoneme /ɕː/
+	duration 200ms
+	unit "QS"
 end
 
 phoneme /ʑ/
@@ -201,6 +243,11 @@ phoneme /t͡s/
 	unit "ts"
 end
 
+phoneme /t͡ːs/
+	duration 210ms
+	unit "Qts"
+end
+
 phoneme /d͡z/
 	duration 130ms
 	unit "dz"
@@ -209,6 +256,11 @@ end
 phoneme /t͡ɕ/
 	duration 130ms
 	unit "tS"
+end
+
+phoneme /t͡ːɕ/
+	duration 210ms
+	unit "QtS"
 end
 
 phoneme /d͡ʑ/
