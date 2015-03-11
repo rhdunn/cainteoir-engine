@@ -222,13 +222,13 @@ r\u031D\u030A		/{vcd,alv,trl,slv,rsd}/
 \u033B	>	=lmn
 \u033C	>	=lgl
 \u033D	>	=mcz
-\u0361	>	=tie
 
 \u207F			/{vcd,alv,nas,dcz}/
 \u02DE	>	=rzd
 
 \u02D0	>	=lng
 \u02D1	>	=hlg
+\u0361	>	=tie
 
 \u02B0			/{vls,glt,apr,dcz}/
 \u02B1			/{mrm,glt,frc,dcz}/

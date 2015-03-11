@@ -243,7 +243,7 @@ phoneme /t͡s/
 	unit "ts"
 end
 
-phoneme /t͡ːs/
+phoneme /tː͡s/
 	duration 210ms
 	unit "Qts"
 end
@@ -258,7 +258,7 @@ phoneme /t͡ɕ/
 	unit "tS"
 end
 
-phoneme /t͡ːɕ/
+phoneme /tː͡ɕ/
 	duration 210ms
 	unit "QtS"
 end

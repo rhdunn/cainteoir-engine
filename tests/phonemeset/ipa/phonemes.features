@@ -416,12 +416,14 @@
 {vls,alv,stp,tie}{vls,alv,sib,frc}
 {vls,alv,stp,tie}{vls,alv,sib,frc}{vls,glt,apr,dcz}
 {vls,alv,stp,tie}{vls,alv,sib,frc,ejc}
+{vls,alv,stp,lng,tie}{vls,alv,sib,frc}
 {vcd,alv,stp,tie}{vcd,alv,sib,frc}
 {vls,alv,stp,tie}{vls,pla,sib,frc}
 {vls,alv,stp,tie}{vls,pla,sib,frc}{vls,glt,apr,dcz}
 {vls,alv,stp,tie}{vls,pla,sib,frc,ejc}
 {vcd,alv,stp,tie}{vcd,pla,sib,frc}
 {vls,alv,stp,tie}{vls,alp,sib,frc}
+{vls,alv,stp,lng,tie}{vls,alp,sib,frc}
 {vcd,alv,stp,tie}{vcd,alp,sib,frc}
 {vls,rfx,stp,tie}{vls,rfx,sib,frc}
 {vcd,rfx,stp,tie}{vcd,rfx,sib,frc}

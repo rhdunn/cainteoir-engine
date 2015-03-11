@@ -184,8 +184,6 @@ _o	>	=lwr
 _A	>	=atr
 _q	>	=rtr
 
-_	>	=tie
-
 ##### Ejectives and Implosives
 
 _<	>	stp => imp
@@ -205,6 +203,8 @@ _X	>	=est
 \<F>		/{glf}/
 \^		/{ust}/
 !		/{dst}/
+
+_	>	=tie
 
 ##### Tones
 
