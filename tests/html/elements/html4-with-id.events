@@ -59,8 +59,10 @@ text(18): """Lorem ipsum dolor."""
 end-context
 begin-context paragraph +sans-serif
 anchor [#]at
+begin-context span
 anchor [#]au
 text(3): """one"""
+end-context
 text(1): """ """
 anchor [#]av
 text(3): """two"""

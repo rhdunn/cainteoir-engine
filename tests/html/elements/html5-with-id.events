@@ -200,20 +200,26 @@ text(1): """ """
 anchor [#]cn
 text(11): """twenty-five"""
 text(1): """ """
+begin-context span
 anchor [#]co
 text(10): """twenty-six"""
+end-context
 text(1): """ """
+begin-context span
 anchor [#]cp
 text(6): """twenty"""
 begin-context line-break
 end-context
 anchor [#]cq
 text(5): """seven"""
+end-context
 text(1): """ """
+begin-context span
 anchor [#]cr
 text(6): """twenty"""
 anchor [#]cs
 text(5): """eight"""
+end-context
 text(1): """ """
 end-context
 begin-context paragraph +sans-serif

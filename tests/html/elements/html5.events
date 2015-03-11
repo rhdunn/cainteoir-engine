@@ -140,15 +140,21 @@ text(11): """twenty-four"""
 text(1): """ """
 text(11): """twenty-five"""
 text(1): """ """
+begin-context span
 text(10): """twenty-six"""
+end-context
 text(1): """ """
+begin-context span
 text(6): """twenty"""
 begin-context line-break
 end-context
 text(5): """seven"""
+end-context
 text(1): """ """
+begin-context span
 text(6): """twenty"""
 text(5): """eight"""
+end-context
 text(1): """ """
 end-context
 begin-context paragraph +sans-serif

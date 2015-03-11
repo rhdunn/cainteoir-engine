@@ -148,7 +148,7 @@ namespace html
 	static const xml::context::entry select_node     = {};
 	static const xml::context::entry small_node      = {};
 	static const xml::context::entry source_node     = { xml::begin_tag_type::open_close }; // HTML§12.1.2
-	static const xml::context::entry span_node       = {};
+	static const xml::context::entry span_node       = { &cainteoir::span };
 	static const xml::context::entry strike_node     = {};
 	static const xml::context::entry strong_node     = { &cainteoir::strong }; // HTML§14.3.4
 	static const xml::context::entry style_node      = { &cainteoir::hidden }; // HTML§14.3.1
