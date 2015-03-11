@@ -1,0 +1,275 @@
+# MBROLA jp3 Voice Definition File
+#
+# Copyright (C) 2015 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.rdfns		"http://reecedunn.co.uk/tts/synthesizer/mbrola#"
+.id		jp3 # This is also the MBROLA voice data filename.
+.name		jp3
+.synthesizer	MBROLA
+.voice-author	Yoram Meron
+.locale		jp # Japanese
+.gender		female
+.volume-scale	1.25 # Samples default to max. height of 0.4.
+.frequency	16000
+.channels	1
+.sample-format	s16le
+.phonemeset	ipa
+
+pitch 217Hz 14Hz 3.5Hz # min=210Hz max=280Hz
+
+# Plosives ####################################################################
+
+phoneme /p/
+	duration 50ms
+	unit "p"
+end
+
+phoneme /pʲ/
+	duration 70ms
+	unit  0 "p"
+	unit 80 "j"
+end
+
+phoneme /pː/
+	duration 100ms
+	unit "Qp"
+end
+
+phoneme /pːʲ/
+	duration 140ms
+	unit  0 "Qp"
+	unit 80 "j"
+end
+
+phoneme /b/
+	duration 80ms
+	unit "b"
+end
+
+phoneme /bʲ/
+	duration 95ms
+	unit  0 "b"
+	unit 60 "j"
+end
+
+phoneme /t/
+	duration 50ms
+	unit "t"
+end
+
+phoneme /tː/
+	duration 100ms
+	unit "Qt"
+end
+
+phoneme /d/
+	duration 80ms
+	unit "d"
+end
+
+phoneme /dː/
+	duration 160ms
+	unit "Qd"
+end
+
+phoneme /k/
+	duration 50ms
+	unit "k"
+end
+
+phoneme /kʲ/
+	duration 70ms
+	unit  0 "k"
+	unit 80 "j"
+end
+
+phoneme /kː/
+	duration 100ms
+	unit "Qk"
+end
+
+phoneme /kːʲ/
+	duration 140ms
+	unit  0 "Qk"
+	unit 80 "j"
+end
+
+phoneme /ɡ/
+	duration 80ms
+	unit "q"
+end
+
+phoneme /ɡʲ/
+	duration 95ms
+	unit  0 "q"
+	unit 60 "j"
+end
+
+# Fricatives ##################################################################
+
+phoneme /ɸ/
+	duration 95ms
+	unit "f"
+end
+
+phoneme /v/
+	duration 50ms
+	unit "v"
+end
+
+phoneme /s/
+	duration 100ms
+	unit "s"
+end
+
+phoneme /sː/
+	duration 200ms
+	unit "Qs"
+end
+
+phoneme /z/
+	duration 70ms
+	unit "z"
+end
+
+phoneme /ɕ/
+	duration 100ms
+	unit "S"
+end
+
+phoneme /ɕː/
+	duration 200ms
+	unit "QS"
+end
+
+phoneme /ç/
+	duration 60ms
+	unit "h"
+end
+
+phoneme /h/
+	duration 60ms
+	unit "h"
+end
+
+# Nasals ######################################################################
+
+phoneme /m/
+	duration  70ms
+	duration 130ms if /mː/
+	unit "m"
+end
+
+phoneme /mʲ/
+	duration 90ms
+	unit  0 "m"
+	unit 60 "j"
+end
+
+phoneme /n/
+	duration  70ms
+	duration 130ms if /nː/
+	unit "n"
+end
+
+phoneme /ɲ/
+	duration  70ms
+	duration 130ms if /ɲː/
+	unit "n"
+end
+
+phoneme /ŋ/
+	duration  70ms
+	duration 130ms if /ŋː/
+	unit "N"
+end
+
+phoneme /ɴ/
+	duration  70ms
+	duration 130ms if /ɴː/
+	unit "N"
+end
+
+# Sonorants ##################################################################
+
+phoneme /ɽ/
+	duration 55ms
+	unit "rr"
+end
+
+phoneme /ɽʲ/
+	duration 80ms
+	unit  0 "rr"
+	unit 60 "j"
+end
+
+phoneme /j/
+	duration 50ms
+	unit "j"
+end
+
+phoneme /w/
+	duration 55ms
+	unit "w"
+end
+
+# Affricates ##################################################################
+
+phoneme /t͡s/
+	duration 130ms
+	unit "ts"
+end
+
+phoneme /tː͡s/
+	duration 210ms
+	unit "Qts"
+end
+
+phoneme /t͡ɕ/
+	duration 130ms
+	unit "tS"
+end
+
+phoneme /tː͡ɕ/
+	duration 210ms
+	unit "QtS"
+end
+
+phoneme /d͡ʑ/
+	duration 130ms
+	unit "dZ"
+end
+
+# Vowels ######################################################################
+
+phoneme /i/
+	duration  60ms
+	duration 120ms if /iː/
+	unit "i"
+end
+
+phoneme /ɯᵝ/
+	duration  60ms
+	duration 120ms if /ɯːᵝ/
+	unit "u"
+end
+
+phoneme /e̞/
+	duration  60ms
+	duration 120ms if /e̞ː/
+	unit "e"
+end
+
+phoneme /o̞/
+	duration  60ms
+	duration 120ms if /o̞ː/
+	unit "o"
+end
+
+phoneme /ä/
+	duration  60ms
+	duration 120ms if /äː/
+	unit "a"
+end

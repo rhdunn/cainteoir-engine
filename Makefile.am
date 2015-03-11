@@ -511,6 +511,7 @@ voices:	data/voices/mbrola/af1.vdb \
 	data/voices/mbrola/fr7.vdb \
 	data/voices/mbrola/jp1.vdb \
 	data/voices/mbrola/jp2.vdb \
+	data/voices/mbrola/jp3.vdb \
 	data/voices/mbrola/us1.vdb \
 	data/voices/mbrola/us2.vdb \
 	data/voices/mbrola/us3.vdb
@@ -596,6 +597,10 @@ data/voices/mbrola/jp1.vdb: src/voices/mbrola/jp1.voicedef src/apps/cainteoir
 	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/jp2.vdb: src/voices/mbrola/jp2.voicedef src/apps/cainteoir
+	mkdir -pv data/voices/mbrola
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
+
+data/voices/mbrola/jp3.vdb: src/voices/mbrola/jp3.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
 	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
