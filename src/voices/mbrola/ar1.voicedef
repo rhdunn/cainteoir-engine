@@ -1,0 +1,206 @@
+# MBROLA ar1 Voice Definition File
+#
+# Copyright (C) 2015 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.rdfns		"http://reecedunn.co.uk/tts/synthesizer/mbrola#"
+.id		ar1 # This is also the MBROLA voice data filename.
+.name		ar1
+.synthesizer	MBROLA
+.voice-author	Nawfal Tounsi
+.locale		ar # Arabic
+.gender		male
+.volume-scale	3.333 # Samples default to max. height of 0.15.
+.frequency	16000
+.channels	1
+.sample-format	s16le
+.phonemeset	ipa
+
+pitch 90Hz 20Hz 5Hz # min=80Hz max=180Hz
+
+# Plosives ####################################################################
+
+phoneme /b/
+	duration 80ms
+	unit "b"
+end
+
+phoneme /t̪ˠ/
+	duration 50ms
+	unit "t."
+end
+
+phoneme /d̪ˠ/
+	duration 80ms
+	unit "d."
+end
+
+phoneme /t/
+	duration 50ms
+	unit "t"
+end
+
+phoneme /d/
+	duration 80ms
+	unit "d"
+end
+
+phoneme /k/
+	duration 50ms
+	unit "k"
+end
+
+phoneme /ɡ/
+	duration 80ms
+	unit "g"
+end
+
+phoneme /q/
+	duration 50ms
+	unit "q"
+end
+
+phoneme /ʔ/
+	duration 50ms
+	unit "?"
+end
+
+# Fricatives ##################################################################
+
+phoneme /f/
+	duration 95ms
+	unit "f"
+end
+
+phoneme /v/
+	duration 50ms
+	unit "v"
+end
+
+phoneme /θ/
+	duration 95ms
+	unit "T"
+end
+
+phoneme /ð/
+	duration 50ms
+	unit "D"
+end
+
+phoneme /s/
+	duration 100ms
+	unit "s"
+end
+
+phoneme /sˠ/
+	duration 100ms
+	unit "s."
+end
+
+phoneme /z/
+	duration 70ms
+	unit "z"
+end
+
+phoneme /z̟/
+	duration 70ms
+	unit "z."
+end
+
+phoneme /ʃ/
+	duration 100ms
+	unit "S"
+end
+
+phoneme /ʒ/
+	duration 70ms
+	unit "Z"
+end
+
+phoneme /x/
+	duration 60ms
+	unit "x"
+end
+
+phoneme /ɣ/
+	duration 90ms
+	unit "G"
+end
+
+phoneme /ħ/
+	duration 100ms
+	unit "H"
+end
+
+phoneme /ʕ/
+	duration 70ms
+	unit "X"
+end
+
+phoneme /h/
+	duration 60ms
+	unit "h"
+end
+
+# Nasals ######################################################################
+
+phoneme /m/
+	duration 70ms
+	unit "m"
+end
+
+phoneme /n/
+	duration 70ms
+	unit "n"
+end
+
+# Sonorants ###################################################################
+
+phoneme /ɾ/
+	duration 55ms
+	unit "r"
+end
+
+phoneme /l/
+	duration 55ms
+	unit "l"
+end
+
+# Vowels ######################################################################
+
+phoneme /i/
+	duration  60ms
+	duration 110ms if /iː/
+	unit "i"
+end
+
+phoneme /iˠ/
+	duration  60ms
+	duration 110ms if /iː/
+	unit "i."
+end
+
+phoneme /u/
+	duration  60ms
+	duration 110ms if /uː/
+	unit "u"
+end
+
+phoneme /uˠ/
+	duration  60ms
+	duration 110ms if /uː/
+	unit "u."
+end
+
+phoneme /a/
+	duration  90ms
+	duration 130ms if /aː/
+	unit "a"
+end
+
+phoneme /aˠ/
+	duration  90ms
+	duration 130ms if /aː/
+	unit "a."
+end

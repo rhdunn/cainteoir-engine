@@ -491,6 +491,7 @@ src_examples_voice_synthesizer_SOURCES = src/examples/voice-synthesizer.cpp
 ############################# voices ##########################################
 
 voices:	data/voices/mbrola/af1.vdb \
+	data/voices/mbrola/ar1.vdb \
 	data/voices/mbrola/ca1.vdb \
 	data/voices/mbrola/ca2.vdb \
 	data/voices/mbrola/de1.vdb \
@@ -515,6 +516,10 @@ voices:	data/voices/mbrola/af1.vdb \
 	data/voices/mbrola/us1.vdb \
 	data/voices/mbrola/us2.vdb \
 	data/voices/mbrola/us3.vdb
+
+data/voices/mbrola/ar1.vdb: src/voices/mbrola/ar1.voicedef src/apps/cainteoir
+	mkdir -pv data/voices/mbrola
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
 data/voices/mbrola/af1.vdb: src/voices/mbrola/af1.voicedef src/apps/cainteoir
 	mkdir -pv data/voices/mbrola
