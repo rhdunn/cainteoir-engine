@@ -177,7 +177,7 @@ end
 
 phoneme /iˠ/
 	duration  60ms
-	duration 110ms if /iː/
+	duration 110ms if /iːˠ/
 	unit "i."
 end
 
@@ -189,7 +189,7 @@ end
 
 phoneme /uˠ/
 	duration  60ms
-	duration 110ms if /uː/
+	duration 110ms if /uːˠ/
 	unit "u."
 end
 
@@ -201,6 +201,6 @@ end
 
 phoneme /aˠ/
 	duration  90ms
-	duration 130ms if /aː/
+	duration 130ms if /aːˠ/
 	unit "a."
 end
