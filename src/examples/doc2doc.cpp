@@ -236,7 +236,7 @@ static void writeMediaOverlays(std::shared_ptr<cainteoir::document_reader> reade
 			for (auto c : *output) switch (c)
 			{
 			case '"':
-				fputc('\\', stdout);
+				fputc('"', stdout);
 				fputc('"', stdout);
 				break;
 			case '\n':
