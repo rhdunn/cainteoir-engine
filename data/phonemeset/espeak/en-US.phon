@@ -61,6 +61,7 @@ a	/{sml,fnt,unr,vwl}/     # /æ/  TRAP
 aa	/{low,fnt,unr,vwl,lng}/ # /aː/ BATH
 0	/{low,bck,rnd,vwl}/     # /ɒ/  LOT-CLOTH
 
+i::	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FLEECE (for <wii>)
 i:	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FLEECE
 u:	/{hgh,bck,rnd,vwl,lng}/ # /uː/ GOOSE
 O:	/{lmd,bck,rnd,vwl,lng}/ # /ɔː/ THOUGHT
