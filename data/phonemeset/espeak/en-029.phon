@@ -57,6 +57,8 @@ E	/{lmd,fnt,unr,vwl}/     # /ɛ/  DRESS
 V	/{lmd,bck,unr,vwl}/     # /ʌ/  STRUT
 O	/{lmd,bck,rnd,vwl}/     # /ɔ/  LONG
 a	/{sml,fnt,unr,vwl}/     # /æ/  TRAP
+aa\#:	/{sml,fnt,unr,vwl}{sml,cnt,unr,vwl,lng}/	# /æɐː/ (for wmids/h-elision)
+aa\#	/{sml,fnt,unr,vwl}{sml,cnt,unr,vwl}/		# /æɐ/  (for wmids/h-elision)
 aa	/{low,fnt,unr,vwl,lng}/ # /aː/ BATH
 0	/{low,bck,rnd,vwl}/     # /ɒ/  LOT-CLOTH
 
