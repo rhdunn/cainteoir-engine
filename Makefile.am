@@ -223,7 +223,7 @@ endif
 	dot -Tsvg $< | sed -n '4,9999p' > $@
 
 %.html: %.md _layouts/webpage.html
-	kramdown --template _layouts/webpage.html $< > $@
+	cat $< | sed -e 's/\.md)/.html)/g' | kramdown --template _layouts/webpage.html > $@
 
 ############################# libcainteoir ####################################
 
