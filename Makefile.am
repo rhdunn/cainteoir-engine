@@ -222,8 +222,8 @@ endif
 .dot.svg: $<
 	dot -Tsvg $< | sed -n '4,9999p' > $@
 
-.md.html:
-	kramdown $< > $@
+%.html: %.md _layouts/webpage.html
+	kramdown --template _layouts/webpage.html $< > $@
 
 ############################# libcainteoir ####################################
 
