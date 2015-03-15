@@ -11,8 +11,8 @@ Version 0.12.1: Wednesday February 12th 2014 \[Feb 2014\]
 ---------------------------------------------------------
 
   *  fix running `make check` on clean machines
-  *  fix dictionary (output order independent) tests [Debian Wheezy]
-  *  fix mimetype alias resolution [shared-mime-info >= 1.1]
+  *  fix dictionary (output order independent) tests \[Debian Wheezy\]
+  *  fix mimetype alias resolution \[shared-mime-info >= 1.1\]
   *  clean up the Vim syntax support files
   *  update the man documentation for the cainteoir and dictionary programs
   *  add a man file for the phoneme-converter program
@@ -45,10 +45,10 @@ Version 0.12: Wednesday February 5th 2014 \[Feb 2014\]
 
 ### document support
 
-  *  epub: support ePub3 Media Overlays [1]
-  *  epub: support ePub3 navigation documents [1]
-  *  html: improved the whitespace normalization logic [1]
-  *  html: improved parsing HTML documents [1]
+  *  epub: support ePub3 Media Overlays \[1\]
+  *  epub: support ePub3 navigation documents \[1\]
+  *  html: improved the whitespace normalization logic \[1\]
+  *  html: improved parsing HTML documents \[1\]
   *  html: fixed handling of unquoted percentage characters in attributes
   *  opf: correctly handle @id attributes on dublin-core elements (dc:*).
   *  zip/epub: support ZIP archives containing data descriptors

@@ -69,7 +69,7 @@ metadata associated with the voice.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[7]  |  0     |
+| magic          | u8\[7\]|  0     |
 | endianness     | u16    |  7     |
 | rdfns          | pstr   |  9     |
 | id             | pstr   | 13     |
@@ -120,7 +120,7 @@ the default speaking pitch of the voice.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[3]  |  0     |
+| magic          | u8\[3\]|  0     |
 | baseline       | f16:16 |  3     |
 | step           | f16:16 |  7     |
 | sdev           | f16:16 | 11     |
@@ -165,7 +165,7 @@ array of entities of the same type.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[3]  |  0     |
+| magic          | u8\[3\]|  0     |
 | num-entries    | u16    |  3     |
 | END OF SECTION |        |  5     |
 
@@ -271,7 +271,7 @@ It has the form:
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[3]  |  0     |
+| magic          | u8\[3\]|  0     |
 | next-section   | u32    |  3     |
 | END OF SECTION |        |  7     |
 

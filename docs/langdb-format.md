@@ -51,7 +51,7 @@ information about the language.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[6]  |  0     |
+| magic          | u8\[6\]|  0     |
 | endianness     | u16    |  6     |
 | locale         | pstr   |  8     |
 | phonemeset     | pstr   | 12     |
@@ -77,7 +77,7 @@ order, with matching rules enabling the associated conditional expression.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[3]  |  0     |
+| magic          | u8\[3\]|  0     |
 | num-entries    | u16    |  3     |
 | END OF SECTION |        |  5     |
 
@@ -123,7 +123,7 @@ match this class.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[3]  |  0     |
+| magic          | u8\[3\]|  0     |
 | num-entries    | u16    |  3     |
 | class          | u8     |  5     |
 | END OF SECTION |        |  6     |
@@ -162,7 +162,7 @@ collection of related rules.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[3]  |  0     |
+| magic          | u8\[3\]|  0     |
 | num-entries    | u16    |  3     |
 | group          | u8     |  5     |
 | END OF SECTION |        |  6     |
@@ -302,7 +302,7 @@ associated with the letter-to-phoneme rules.
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[3]  |  0     |
+| magic          | u8\[3\]|  0     |
 | num-entries    | u16    |  3     |
 | END OF SECTION |        |  5     |
 
@@ -341,7 +341,7 @@ It has the form:
 
 | Field          | Type   | Offset |
 |----------------|--------|--------|
-| magic          | u8[3]  |  0     |
+| magic          | u8\[3\]|  0     |
 | next-section   | u32    |  3     |
 | END OF SECTION |        |  7     |
 
