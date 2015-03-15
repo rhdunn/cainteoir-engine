@@ -1,11 +1,13 @@
-# cainteoir::buffer {: .doc }
+# cainteoir::buffer
+{: .doc }
 
 Represents a data or string buffer.
 
 This class does not manage the lifetime of the data held within it, however
 derived classes may manage the lifetime.
 
-# cainteoir::buffer::buffer {: .doc }
+# cainteoir::buffer::buffer
+{: .doc }
 
 Create a new data buffer from a range.
 
@@ -15,18 +17,21 @@ Create a new data buffer from a range.
 @l
 : The end of the buffer.
 
-# cainteoir::buffer::buffer {: .doc }
+# cainteoir::buffer::buffer
+{: .doc }
 
 Create a new data buffer from a string.
 
 @f
 : The null-terminated string to create the buffer from.
 
-# cainteoir::buffer::~buffer {: .doc }
+# cainteoir::buffer::~buffer
+{: .doc }
 
 Clean up the buffer.
 
-# cainteoir::buffer::match_type {: .doc }
+# cainteoir::buffer::match_type
+{: .doc }
 
 Pointer to a string comparison function.
 
@@ -39,15 +44,18 @@ Pointer to a string comparison function.
 @n
 : The number of characters to compare.
 
-# cainteoir::buffer::match_case {: .doc }
+# cainteoir::buffer::match_case
+{: .doc }
 
 Perform case-sensitive string comparison.
 
-# cainteoir::buffer::ignore_case {: .doc }
+# cainteoir::buffer::ignore_case
+{: .doc }
 
 Perform case-insensitive string comparison.
 
-# cainteoir::buffer::startswith {: .doc }
+# cainteoir::buffer::startswith
+{: .doc }
 
 Does the buffer start with the specified string?
 
@@ -60,7 +68,8 @@ Does the buffer start with the specified string?
 @return
 : `true` if the buffer starts with the specified string, `false` otherwise.
 
-# cainteoir::buffer::compare {: .doc }
+# cainteoir::buffer::compare
+{: .doc }
 
 Compare the buffer with a string.
 
@@ -73,7 +82,8 @@ Compare the buffer with a string.
 @return
 : `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
 
-# cainteoir::buffer::compare {: .doc }
+# cainteoir::buffer::compare
+{: .doc }
 
 Compare the buffer with a string.
 
@@ -86,7 +96,8 @@ Compare the buffer with a string.
 @return
 : `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
 
-# cainteoir::buffer::comparei {: .doc }
+# cainteoir::buffer::comparei
+{: .doc }
 
 Compare the buffer with a string, ignoring case differences.
 
@@ -96,7 +107,8 @@ Compare the buffer with a string, ignoring case differences.
 @return
 : `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
 
-# cainteoir::buffer::comparei {: .doc }
+# cainteoir::buffer::comparei
+{: .doc }
 
 Compare the buffer with a string, ignoring case differences.
 
@@ -106,29 +118,34 @@ Compare the buffer with a string, ignoring case differences.
 @return
 : `0` if the strings match, `<0` if str is less than the buffer or `>0` if greater.
 
-# cainteoir::buffer::str {: .doc }
+# cainteoir::buffer::str
+{: .doc }
 
 Convert the buffer to a C++ string.
 
 @return
 : The buffer as a C++ string.
 
-# cainteoir::data_buffer {: .doc }
+# cainteoir::data_buffer
+{: .doc }
 
 A buffer allocated in memory of a given size.
 
-# cainteoir::data_buffer::data_buffer {: .doc }
+# cainteoir::data_buffer::data_buffer
+{: .doc }
 
 Create a memory buffer of the requested size.
 
 @aSize
 : The size of the buffer to create.
 
-# cainteoir::data_buffer::~data_buffer {: .doc }
+# cainteoir::data_buffer::~data_buffer
+{: .doc }
 
 Clean up the buffer.
 
-# cainteoir::memory_file {: .doc }
+# cainteoir::memory_file
+{: .doc }
 
 Create a file that is stored in memory.
 
@@ -139,29 +156,34 @@ and get a cainteoir::buffer with the contents of that object. For example:
 	fprintf(out, "Hello World!");
 	std::shared_ptr<cainteoir::buffer> text = out.buffer(); // contains "Hello World!"
 
-# cainteoir::memory_file::memory_file {: .doc }
+# cainteoir::memory_file::memory_file
+{: .doc }
 
 Open a new file in memory.
 
 The `open_memstream` POSIX function is used to create the memory file if the
 system supports it, otherwise a temporary file is created.
 
-# cainteoir::memory_file::~memory_file {: .doc }
+# cainteoir::memory_file::~memory_file
+{: .doc }
 
 Clean up the memory file.
 
-# cainteoir::memory_file::operator FILE * {: .doc }
+# cainteoir::memory_file::operator FILE *
+{: .doc }
 
 Return a pointer to the `FILE` object.
 
-# cainteoir::memory_file::buffer {: .doc }
+# cainteoir::memory_file::buffer
+{: .doc }
 
 Create a buffer with the contents of the memory file.
 
 This closes the `FILE` object, so a new `memory_file` needs to be created after
 this call.
 
-# cainteoir::rope {: .doc }
+# cainteoir::rope
+{: .doc }
 
 Manage a list of buffers.
 
@@ -169,29 +191,34 @@ This class is for situations where many buffers are created and concatenated
 together. It only concatenates the buffers when requested, performing the
 operation in one pass.
 
-# cainteoir::rope::rope {: .doc }
+# cainteoir::rope::rope
+{: .doc }
 
 Create an empty rope object.
 
-# cainteoir::rope::size {: .doc }
+# cainteoir::rope::size
+{: .doc }
 
 Get the number of bytes in the rope buffers.
 
 @return
 : The number of bytes in the rope buffers.
 
-# cainteoir::rope::empty {: .doc }
+# cainteoir::rope::empty
+{: .doc }
 
 Is the rope empty?
 
 @return
 : `true` if the rope does not contain any buffer objects, `false` otherwise.
 
-# cainteoir::rope::clear {: .doc }
+# cainteoir::rope::clear
+{: .doc }
 
 Empty the rope.
 
-# cainteoir::rope::operator= {: .doc }
+# cainteoir::rope::operator=
+{: .doc }
 
 Set the rope to the content of the buffer.
 
@@ -201,7 +228,8 @@ Set the rope to the content of the buffer.
 @return
 : This rope object (for method chaining).
 
-# cainteoir::rope::operator+= {: .doc }
+# cainteoir::rope::operator+=
+{: .doc }
 
 Append the content of the buffer to the rope.
 
@@ -211,14 +239,16 @@ Append the content of the buffer to the rope.
 @return
 : This rope object (for method chaining).
 
-# cainteoir::rope::buffer {: .doc }
+# cainteoir::rope::buffer
+{: .doc }
 
 Get a buffer to the entire rope content.
 
 @return
 : The entire rope content.
 
-# cainteoir::rope::content {: .doc }
+# cainteoir::rope::content
+{: .doc }
 
 Get the content of the rope.
 
@@ -228,29 +258,34 @@ then an empty buffer here is returned.
 @return
 : The entire rope content.
 
-# cainteoir::rope::normalize {: .doc }
+# cainteoir::rope::normalize
+{: .doc }
 
 Get the rope buffer in its whitespace-normalized form.
 
 @return
 : The rope buffer in its whitespace-normalized form.
 
-# cainteoir::rope::str {: .doc }
+# cainteoir::rope::str
+{: .doc }
 
 Get the buffer as a C++ string.
 
 @return
 : The buffer as a C++ string.
 
-# cainteoir::whitespace {: .doc }
+# cainteoir::whitespace
+{: .doc }
 
 Specifies how whitespace should be processed.
 
-# cainteoir::whitespace::preserve {: .doc }
+# cainteoir::whitespace::preserve
+{: .doc }
 
 The whitespace is preserved.
 
-# cainteoir::whitespace::collapse {: .doc }
+# cainteoir::whitespace::collapse
+{: .doc }
 
 Consecutive whitespace is collapsed.
 
@@ -260,7 +295,8 @@ single whitespace character remains.
 For trim options, this indicates that the whitespace on the left/right should
 be removed.
 
-# cainteoir::make_buffer {: .doc }
+# cainteoir::make_buffer
+{: .doc }
 
 Create a data buffer with the content of the string.
 
@@ -270,7 +306,8 @@ Create a data buffer with the content of the string.
 @return
 : A new data buffer with the content of `aString`.
 
-# cainteoir::make_buffer {: .doc }
+# cainteoir::make_buffer
+{: .doc }
 
 Create a data buffer with the content of the string.
 
@@ -283,7 +320,8 @@ Create a data buffer with the content of the string.
 @return
 : A new data buffer with the content of `aString`.
 
-# cainteoir::make_file_buffer {: .doc }
+# cainteoir::make_file_buffer
+{: .doc }
 
 Create a buffer from a file.
 
@@ -296,7 +334,8 @@ of file contents.
 @return
 : A buffer containing the content of the specified file.
 
-# cainteoir::make_file_buffer {: .doc }
+# cainteoir::make_file_buffer
+{: .doc }
 
 Create a buffer from a file.
 
@@ -311,7 +350,8 @@ the content in a single memory-mapped block.
 @return
 : A buffer containing the content of the specified file.
 
-# cainteoir::make_file_buffer {: .doc }
+# cainteoir::make_file_buffer
+{: .doc }
 
 Create a buffer from a file descriptor.
 
@@ -326,7 +366,8 @@ the content in a single memory-mapped block.
 @return
 : A buffer containing the content of the specified file descriptor.
 
-# cainteoir::normalize {: .doc }
+# cainteoir::normalize
+{: .doc }
 
 Create a whitespace-normalized buffer.
 
@@ -340,7 +381,8 @@ character is replaced by an ASCII space character.
 @return
 : A new buffer with the whitespace normalized.
 
-# cainteoir::normalize {: .doc }
+# cainteoir::normalize
+{: .doc }
 
 Create a whitespace-normalized buffer.
 
@@ -375,7 +417,8 @@ the whitespace rules for `aWhitespace` and `aNewlines` apply.
 @return
 : A new buffer with the whitespace normalized.
 
-# cainteoir::decoder_ptr {: .doc }
+# cainteoir::decoder_ptr
+{: .doc }
 
 Pointer to a decoding/decompression algorithm.
 
@@ -388,7 +431,8 @@ Pointer to a decoding/decompression algorithm.
 @return
 : The new data buffer.
 
-# cainteoir::copy {: .doc }
+# cainteoir::copy
+{: .doc }
 
 Copy the data in buffer to a memory buffer.
 
@@ -401,7 +445,8 @@ Copy the data in buffer to a memory buffer.
 @return
 : The new data buffer.
 
-# cainteoir::inflate_zlib {: .doc }
+# cainteoir::inflate_zlib
+{: .doc }
 
 Inflate a zlib compressed data buffer.
 
@@ -414,7 +459,8 @@ Inflate a zlib compressed data buffer.
 @return
 : The uncompressed data buffer.
 
-# cainteoir::inflate_gzip {: .doc }
+# cainteoir::inflate_gzip
+{: .doc }
 
 Inflate a gzip compressed data buffer.
 
@@ -427,7 +473,8 @@ Inflate a gzip compressed data buffer.
 @return
 : The uncompressed data buffer.
 
-# cainteoir::decode_quoted_printable {: .doc }
+# cainteoir::decode_quoted_printable
+{: .doc }
 
 Decode a quoted printable encoded data buffer.
 
@@ -440,7 +487,8 @@ Decode a quoted printable encoded data buffer.
 @return
 : The decoded data buffer.
 
-# cainteoir::decode_base64 {: .doc }
+# cainteoir::decode_base64
+{: .doc }
 
 Decode a base64 encoded data buffer.
 
@@ -453,11 +501,13 @@ Decode a base64 encoded data buffer.
 @return
 : The decoded data buffer.
 
-# cainteoir::native_endian_buffer {: .doc }
+# cainteoir::native_endian_buffer
+{: .doc }
 
 Parse a binary file in the native (system) endian format.
 
-# cainteoir::native_endian_buffer::native_endian_buffer {: .doc }
+# cainteoir::native_endian_buffer::native_endian_buffer
+{: .doc }
 
 Create a new native endian data reader.
 
@@ -467,7 +517,8 @@ Create a new native endian data reader.
 @l
 : The end of the binary data.
 
-# cainteoir::native_endian_buffer::native_endian_buffer {: .doc }
+# cainteoir::native_endian_buffer::native_endian_buffer
+{: .doc }
 
 Create a new native endian data reader.
 
@@ -476,35 +527,40 @@ Create a new native endian data reader.
 
 __NOTE:__ This class does not hold a reference to `aData`.
 
-# cainteoir::native_endian_buffer::u8 {: .doc }
+# cainteoir::native_endian_buffer::u8
+{: .doc }
 
 Read the next 8-bit unsigned integer.
 
 @return
 : The next 8-bit unsigned integer.
 
-# cainteoir::native_endian_buffer::u16 {: .doc }
+# cainteoir::native_endian_buffer::u16
+{: .doc }
 
 Read the next 16-bit unsigned integer.
 
 @return
 : The next 16-bit unsigned integer.
 
-# cainteoir::native_endian_buffer::u32 {: .doc }
+# cainteoir::native_endian_buffer::u32
+{: .doc }
 
 Read the next 32-bit unsigned integer.
 
 @return
 : The next 32-bit unsigned integer.
 
-# cainteoir::native_endian_buffer::u64 {: .doc }
+# cainteoir::native_endian_buffer::u64
+{: .doc }
 
 Read the next 64-bit unsigned integer.
 
 @return
 : The next 64-bit unsigned integer.
 
-# cainteoir::native_endian_buffer::f8_8 {: .doc }
+# cainteoir::native_endian_buffer::f8_8
+{: .doc }
 
 Read the next 8:8 encoded floating point number.
 
@@ -516,7 +572,8 @@ part and the second `u8` is the fraction part such that:
 @return
 : The next 8:8 encoded floating point number.
 
-# cainteoir::native_endian_buffer::f16_16 {: .doc }
+# cainteoir::native_endian_buffer::f16_16
+{: .doc }
 
 Read the next 16:16 encoded floating point number.
 
@@ -528,7 +585,8 @@ part and the second `u16` is the fraction part such that:
 @return
 : The next 16:16 encoded floating point number.
 
-# cainteoir::native_endian_buffer::array {: .doc }
+# cainteoir::native_endian_buffer::array
+{: .doc }
 
 Read the next array of the specified type.
 
@@ -540,7 +598,8 @@ This reads an array in the binary file with the specified binary layout:
 @return
 : The array of elements.
 
-# cainteoir::native_endian_buffer::pstr {: .doc }
+# cainteoir::native_endian_buffer::pstr
+{: .doc }
 
 Read the next pointer to a C-style (null terminated) string.
 
@@ -549,28 +608,32 @@ This reads a `u32` pointer to a null terminated string (`char` array).
 @return
 : The C-style (null terminated) string.
 
-# cainteoir::native_endian_buffer::seek {: .doc }
+# cainteoir::native_endian_buffer::seek
+{: .doc }
 
 Read the next item at the specified offset.
 
 @offset
 : The index to move to.
 
-# cainteoir::native_endian_buffer::eof {: .doc }
+# cainteoir::native_endian_buffer::eof
+{: .doc }
 
 Is this the end of the file?
 
 @return
 : `true` if the buffer is at the end of the file, `false` otherwise.
 
-# cainteoir::native_endian_buffer::offset {: .doc }
+# cainteoir::native_endian_buffer::offset
+{: .doc }
 
 Return the current read position.
 
 @return
 : The current read position.
 
-# cainteoir::native_endian_buffer::magic {: .doc }
+# cainteoir::native_endian_buffer::magic
+{: .doc }
 
 Read the next 3-byte magic value.
 

@@ -1,44 +1,55 @@
-# cainteoir {: .doc }
+# cainteoir
+{: .doc }
 
 Cainteoir Text-to-Speech API.
 
-# cainteoir::css {: .doc }
+# cainteoir::css
+{: .doc }
 
 Cascading Style Sheet (CSS) implementation.
 
-# cainteoir::events {: .doc }
+# cainteoir::events
+{: .doc }
 
 Document event types for representing document contents.
 
-# cainteoir::language {: .doc }
+# cainteoir::language
+{: .doc }
 
 BCP 47 / RFC 5646 support for language code processing.
 
-# cainteoir::mime {: .doc }
+# cainteoir::mime
+{: .doc }
 
 MIME type handling for file content identification.
 
-# cainteoir::rdf {: .doc }
+# cainteoir::rdf
+{: .doc }
 
 Support for creating and manipulating RDF metadata.
 
-# cainteoir::rdf::query {: .doc }
+# cainteoir::rdf::query
+{: .doc }
 
 Support for selecting and querying statements in an RDF graph.
 
-# cainteoir::tts {: .doc }
+# cainteoir::tts
+{: .doc }
 
 Text-to-Speech API.
 
-# cainteoir::utf8 {: .doc }
+# cainteoir::utf8
+{: .doc }
 
 Helper functions for manipulating UTF-8 character sequences.
 
-# cainteoir::xml {: .doc }
+# cainteoir::xml
+{: .doc }
 
 Support for parsing XML documents.
 
-# cainteoir::xml::xmlns {: .doc }
+# cainteoir::xml::xmlns
+{: .doc }
 
 Predefined XML namespaces.
 

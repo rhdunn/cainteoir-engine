@@ -1,119 +1,148 @@
-# cainteoir::tts::event_type {: .doc }
+# cainteoir::tts::event_type
+{: .doc }
 
 The matched context for the [text_event](^^cainteoir::tts::text_event) object.
 
-# cainteoir::tts::error {: .doc }
+# cainteoir::tts::error
+{: .doc }
 
 The unicode codepoints are invalid or not recognised.
 
-# cainteoir::tts::word_uppercase {: .doc }
+# cainteoir::tts::word_uppercase
+{: .doc }
 
 A sequence of upper-case letters.
 
-# cainteoir::tts::word_lowercase {: .doc }
+# cainteoir::tts::word_lowercase
+{: .doc }
 
 A sequence of lower-case letters.
 
-# cainteoir::tts::word_capitalized {: .doc }
+# cainteoir::tts::word_capitalized
+{: .doc }
 
 An upper-case or title-case letter followed by a sequence of lower-case letters.
 
-# cainteoir::tts::word_mixedcase {: .doc }
+# cainteoir::tts::word_mixedcase
+{: .doc }
 
 A sequence of lower-case and upper-case letters.
 
-# cainteoir::tts::word_script {: .doc }
+# cainteoir::tts::word_script
+{: .doc }
 
 A sequence of CJK or similar script characters.
 
-# cainteoir::tts::number {: .doc }
+# cainteoir::tts::number
+{: .doc }
 
 A sequence of number characters.
 
-# cainteoir::tts::ordinal_number {: .doc }
+# cainteoir::tts::ordinal_number
+{: .doc }
 
 An ordinal number such as 1st, 2nd or 3rd.
 
-# cainteoir::tts::punctuation {: .doc }
+# cainteoir::tts::punctuation
+{: .doc }
 
 A generic punctuation character.
 
-# cainteoir::tts::comma {: .doc }
+# cainteoir::tts::comma
+{: .doc }
 
 A comma punctuation character.
 
-# cainteoir::tts::semicolon {: .doc }
+# cainteoir::tts::semicolon
+{: .doc }
 
 A semicolon punctuation character.
 
-# cainteoir::tts::colon {: .doc }
+# cainteoir::tts::colon
+{: .doc }
 
 A colon punctuation character.
 
-# cainteoir::tts::ellipsis {: .doc }
+# cainteoir::tts::ellipsis
+{: .doc }
 
 An ellipsis punctuation character.
 
-# cainteoir::tts::full_stop {: .doc }
+# cainteoir::tts::full_stop
+{: .doc }
 
 A full stop (period) punctuation character.
 
-# cainteoir::tts::double_stop {: .doc }
+# cainteoir::tts::double_stop
+{: .doc }
 
 A sequence of two full stop punctuation characters.
 
-# cainteoir::tts::exclamation {: .doc }
+# cainteoir::tts::exclamation
+{: .doc }
 
 An exclamation mark punctuation character.
 
-# cainteoir::tts::question {: .doc }
+# cainteoir::tts::question
+{: .doc }
 
 A question mark punctuation character.
 
-# cainteoir::tts::symbol {: .doc }
+# cainteoir::tts::symbol
+{: .doc }
 
 A generic symbol character.
 
-# cainteoir::tts::paragraph {: .doc }
+# cainteoir::tts::paragraph
+{: .doc }
 
 A separator between two paragraphs.
 
-# cainteoir::tts::en_dash {: .doc }
+# cainteoir::tts::en_dash
+{: .doc }
 
 An en-dash punctuation character.
 
-# cainteoir::tts::em_dash {: .doc }
+# cainteoir::tts::em_dash
+{: .doc }
 
 An em-dash punctuation character.
 
-# cainteoir::tts::text_event {: .doc }
+# cainteoir::tts::text_event
+{: .doc }
 
 Information about a text block match.
 
-# cainteoir::tts::text_event::text {: .doc }
+# cainteoir::tts::text_event::text
+{: .doc }
 
 The Unicode codepoints associated with the event.
 
-# cainteoir::tts::text_event::phonemes {: .doc }
+# cainteoir::tts::text_event::phonemes
+{: .doc }
 
 The sequence of phonemes associated with the event.
 
-# cainteoir::tts::text_event::type {: .doc }
+# cainteoir::tts::text_event::type
+{: .doc }
 
 The classification of the event.
 
-# cainteoir::tts::text_event::range {: .doc }
+# cainteoir::tts::text_event::range
+{: .doc }
 
 The start and end character of the event.
 
 The start and end values are the number of Unicode codepoints from the start of
 the document to the relevant position.
 
-# cainteoir::tts::text_event::codepoint {: .doc }
+# cainteoir::tts::text_event::codepoint
+{: .doc }
 
 The Unicode codepoint of the first character in the event.
 
-# cainteoir::tts::text_event::text_event {: .doc }
+# cainteoir::tts::text_event::text_event
+{: .doc }
 
 Create a text event object.
 
@@ -129,7 +158,8 @@ Create a text event object.
 @aCodePoint
 : The first Unicode codepoint in the event.
 
-# cainteoir::tts::text_event::text_event {: .doc }
+# cainteoir::tts::text_event::text_event
+{: .doc }
 
 Create a text event object.
 
@@ -142,29 +172,34 @@ Create a text event object.
 @aCodePoint
 : The first Unicode codepoint in the event.
 
-# cainteoir::tts::text_event::text_event {: .doc }
+# cainteoir::tts::text_event::text_event
+{: .doc }
 
 Create an empty text event object.
 
-# cainteoir::tts::text_reader {: .doc }
+# cainteoir::tts::text_reader
+{: .doc }
 
 Parse text from a document into a sequence of text events.
 
-# cainteoir::tts::text_reader::event {: .doc }
+# cainteoir::tts::text_reader::event
+{: .doc }
 
 Get the current text event.
 
 @return
 : The current text event.
 
-# cainteoir::tts::text_reader::read {: .doc }
+# cainteoir::tts::text_reader::read
+{: .doc }
 
 Get the next text event.
 
 @return
 : `true` if the next event was read, `false` if there are no more text events.
 
-# cainteoir::tts::create_text_reader {: .doc }
+# cainteoir::tts::create_text_reader
+{: .doc }
 
 Create a text reader object.
 
@@ -174,26 +209,31 @@ Create a text reader object.
 @return
 : The new text reader object.
 
-# cainteoir::tts::context_analysis {: .doc }
+# cainteoir::tts::context_analysis
+{: .doc }
 
 Create a context analysis object.
 
 @return
 : The context analysis object.
 
-# cainteoir::tts::number_scale {: .doc }
+# cainteoir::tts::number_scale
+{: .doc }
 
 How to pronounce large numbers.
 
-# cainteoir::tts::short_scale {: .doc }
+# cainteoir::tts::short_scale
+{: .doc }
 
 The short number scale (`10^6` = million, `10^9` = billion, `10^12` = trillion, etc).
 
-# cainteoir::tts::long_scale {: .doc }
+# cainteoir::tts::long_scale
+{: .doc }
 
 The long number scale (`10^6` = million, `10^9` = milliard, `10^12` = billion, etc).
 
-# cainteoir::tts::numbers_to_words {: .doc }
+# cainteoir::tts::numbers_to_words
+{: .doc }
 
 Create a number to word converter.
 
@@ -206,7 +246,8 @@ Create a number to word converter.
 @return
 : The number to word converter.
 
-# cainteoir::tts::words_to_phonemes {: .doc }
+# cainteoir::tts::words_to_phonemes
+{: .doc }
 
 Create a phoneme stream object.
 
@@ -219,7 +260,8 @@ Create a phoneme stream object.
 @return
 : The phoneme stream object.
 
-# cainteoir::tts::generate_phonemes {: .doc }
+# cainteoir::tts::generate_phonemes
+{: .doc }
 
 Write the phonemes to the specified file.
 

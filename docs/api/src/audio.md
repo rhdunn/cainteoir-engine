@@ -1,45 +1,54 @@
-# cainteoir::audio_info {: .doc }
+# cainteoir::audio_info
+{: .doc }
 
 Provide information about an audio file or device.
 
-# cainteoir::audio_info::~audio_info {: .doc }
+# cainteoir::audio_info::~audio_info
+{: .doc }
 
 Cleanup the audio object.
 
-# cainteoir::audio_info::channels {: .doc }
+# cainteoir::audio_info::channels
+{: .doc }
 
 Get the number of channels the audio object has.
 
 @return
 : The number of channels the audio object has.
 
-# cainteoir::audio_info::format {: .doc }
+# cainteoir::audio_info::format
+{: .doc }
 
 Get the audio sample format of the audio object.
 
 @return
 : The audio sample format of the audio object.
 
-# cainteoir::audio_info::frequency {: .doc }
+# cainteoir::audio_info::frequency
+{: .doc }
 
 Get the audio sample frequency of the audio object.
 
 @return
 : The audio sample frequency of the audio object.
 
-# cainteoir::audio {: .doc }
+# cainteoir::audio
+{: .doc }
 
 Manage an audio device or file.
 
-# cainteoir::audio::open {: .doc }
+# cainteoir::audio::open
+{: .doc }
 
 Opens a connection to the audio device or creates the audio file.
 
-# cainteoir::audio::close {: .doc }
+# cainteoir::audio::close
+{: .doc }
 
 Closes the connection to the audio device or file.
 
-# cainteoir::audio::write {: .doc }
+# cainteoir::audio::write
+{: .doc }
 
 Write the specified audio data to the device or file.
 
@@ -52,19 +61,23 @@ Write the specified audio data to the device or file.
 @return
 : The number of bytes written.
 
-# cainteoir::audio_reader {: .doc }
+# cainteoir::audio_reader
+{: .doc }
 
 Read audio from an audio data object.
 
-# cainteoir::audio_reader::data {: .doc }
+# cainteoir::audio_reader::data
+{: .doc }
 
 The audio data read from the audio object.
 
-# cainteoir::audio_reader::audio_reader {: .doc }
+# cainteoir::audio_reader::audio_reader
+{: .doc }
 
 Initialize the audio reader.
 
-# cainteoir::audio_reader::set_interval {: .doc }
+# cainteoir::audio_reader::set_interval
+{: .doc }
 
 Specify the time range of the audio to read.
 
@@ -74,33 +87,39 @@ Specify the time range of the audio to read.
 @end
 : The point in the audio object to end reading at.
 
-# cainteoir::audio_reader::set_target {: .doc }
+# cainteoir::audio_reader::set_target
+{: .doc }
 
 Specify the target audio format to use.
 
 @info
 : The format to read the data as.
 
-# cainteoir::audio_reader::read {: .doc }
+# cainteoir::audio_reader::read
+{: .doc }
 
 Read the next block of audio.
 
 @return
 : `true` if an audio block was read, `false` otherwise.
 
-# cainteoir::vorbis_comment {: .doc }
+# cainteoir::vorbis_comment
+{: .doc }
 
 A vorbis comment.
 
-# cainteoir::vorbis_comment::label {: .doc }
+# cainteoir::vorbis_comment::label
+{: .doc }
 
 The name of the comment, e.g. TITLE.
 
-# cainteoir::vorbis_comment::value {: .doc }
+# cainteoir::vorbis_comment::value
+{: .doc }
 
 The content of the comment, e.g. "Moonlight Sonata".
 
-# cainteoir::vorbis_comments {: .doc }
+# cainteoir::vorbis_comments
+{: .doc }
 
 Convert an RDF graph to a set of Vorbis Comments.
 
@@ -113,12 +132,14 @@ Convert an RDF graph to a set of Vorbis Comments.
 @return
 : The vorbis comments in (label, value) form for `aDocument`.
 
-# cainteoir::supported_audio_formats {: .doc }
+# cainteoir::supported_audio_formats
+{: .doc }
 
 Get the audio formats that are supported by libcainteoir.
 @metadata The RDF graph to write the format support to.
 
-# cainteoir::create_audio_info {: .doc }
+# cainteoir::create_audio_info
+{: .doc }
 
 Create an [audio_info](^^cainteoir::audio_info) object on its own. This can be
 used to specify a custom audio profile for use as the target for a media
@@ -136,7 +157,8 @@ reader.
 @return
 : An audio information object.
 
-# cainteoir::create_audio_file {: .doc }
+# cainteoir::create_audio_file
+{: .doc }
 
 Create an audio file to write data to.
 
@@ -170,7 +192,8 @@ The document metadata is used to create metadata tags on the audio file
 @return
 : An audio object associated with the file.
 
-# cainteoir::create_audio_file {: .doc }
+# cainteoir::create_audio_file
+{: .doc }
 
 Create an audio file to write data to.
 
@@ -202,7 +225,8 @@ of channels, frequency and sample format of the audio.
 @return
 : An audio object associated with the file.
 
-# cainteoir::open_audio_device {: .doc }
+# cainteoir::open_audio_device
+{: .doc }
 
 Open an audio device to write data to.
 
@@ -230,7 +254,8 @@ The document metadata is used to create metadata tags on the audio device
 @return
 : An audio object associated with the device.
 
-# cainteoir::open_audio_device {: .doc }
+# cainteoir::open_audio_device
+{: .doc }
 
 Open an audio device to write data to.
 
@@ -255,7 +280,8 @@ of channels, frequency and sample format of the audio.
 
 @return An audio object associated with the device.
 
-# cainteoir::create_media_reader {: .doc }
+# cainteoir::create_media_reader
+{: .doc }
 
 Create an object that can read audio data.
 

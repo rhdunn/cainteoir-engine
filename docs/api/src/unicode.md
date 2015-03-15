@@ -1,4 +1,5 @@
-# cainteoir::utf8::write {: .doc }
+# cainteoir::utf8::write
+{: .doc }
 
 Write a UTF-8 character to an output buffer.
 
@@ -14,7 +15,8 @@ enough space in out to write all the UTF-8 characters (up-to 4 characters).
 @return
 : A pointer to the new position within `out` after writing the UTF-8 character.
 
-# cainteoir::utf8::read {: .doc }
+# cainteoir::utf8::read
+{: .doc }
 
 Read a UTF-8 character from an input buffer.
 
@@ -27,7 +29,8 @@ Read a UTF-8 character from an input buffer.
 @return
 : A pointer to the new position within `in` after reading the UTF-8 character.
 
-# cainteoir::utf8::next {: .doc }
+# cainteoir::utf8::next
+{: .doc }
 
 Get the next UTF-8 character in the sequence.
 
@@ -37,7 +40,8 @@ Get the next UTF-8 character in the sequence.
 @return
 : A pointer to the next UTF-8 character.
 
-# cainteoir::utf8::prev {: .doc }
+# cainteoir::utf8::prev
+{: .doc }
 
 Get the previous UTF-8 character in the sequence.
 

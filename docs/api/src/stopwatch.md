@@ -1,12 +1,15 @@
-# cainteoir::stopwatch {: .doc }
+# cainteoir::stopwatch
+{: .doc }
 
 A helper class to time the duration of an action.
 
-# cainteoir::stopwatch::stopwatch {: .doc }
+# cainteoir::stopwatch::stopwatch
+{: .doc }
 
 Create a new stopwatch object.
 
-# cainteoir::stopwatch::elapsed {: .doc }
+# cainteoir::stopwatch::elapsed
+{: .doc }
 
 Get the time elapsed since the stopwatch object was created (in seconds).
 

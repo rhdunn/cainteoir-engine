@@ -1,10 +1,13 @@
-# cainteoir::tts::get_voice_uri {: .doc }
+# cainteoir::tts::get_voice_uri
+{: .doc }
 
-# cainteoir::language::tag {: .doc }
+# cainteoir::language::tag
+{: .doc }
 
 A BCP 47/[RFC 5646](http://www.ietf.org/rfc/rfc5646.txt) language tag.
 
-# cainteoir::language::tag::tag {: .doc }
+# cainteoir::language::tag::tag
+{: .doc }
 
 Create a language tag object.
 
@@ -25,31 +28,38 @@ Create a language tag object.
 @p
 : The private-use code.
 
-# cainteoir::language::tag::lang {: .doc }
+# cainteoir::language::tag::lang
+{: .doc }
 
 ISO 639 language code (primary language).
 
-# cainteoir::language::tag::extlang {: .doc }
+# cainteoir::language::tag::extlang
+{: .doc }
 
 ISO 639 language code (extended language).
 
-# cainteoir::language::tag::script {: .doc }
+# cainteoir::language::tag::script
+{: .doc }
 
 ISO 15924 script code.
 
-# cainteoir::language::tag::region {: .doc }
+# cainteoir::language::tag::region
+{: .doc }
 
 ISO 3166 or UN M.49 region code.
 
-# cainteoir::language::tag::variant {: .doc }
+# cainteoir::language::tag::variant
+{: .doc }
 
 IANA variant subtag.
 
-# cainteoir::language::tag::private_use {: .doc }
+# cainteoir::language::tag::private_use
+{: .doc }
 
 An application-specific custom subtag.
 
-# cainteoir::language::make_lang {: .doc }
+# cainteoir::language::make_lang
+{: .doc }
 
 Extract language tag information from a BCP 47 language id.
 
@@ -59,7 +69,8 @@ Extract language tag information from a BCP 47 language id.
 @return
 : The extracted language, script and country codes.
 
-# cainteoir::language::operator== {: .doc }
+# cainteoir::language::operator==
+{: .doc }
 
 Compare two language tags for equality.
 
@@ -72,7 +83,8 @@ Compare two language tags for equality.
 @return
 : `true` if the language tags match, `false` otherwise.
 
-# cainteoir::language::operator< {: .doc }
+# cainteoir::language::operator<
+{: .doc }
 
 Compare two language tags for ordering.
 
@@ -85,11 +97,13 @@ Compare two language tags for ordering.
 @return
 : `true` if `a` compares less than `b`.
 
-# cainteoir::languages {: .doc }
+# cainteoir::languages
+{: .doc }
 
 Helper for localizing language tags.
 
-# cainteoir::languages::language {: .doc }
+# cainteoir::languages::language
+{: .doc }
 
 Get the translated ISO 639 language code.
 
@@ -99,7 +113,8 @@ Get the translated ISO 639 language code.
 @return
 : The localized name.
 
-# cainteoir::languages::script {: .doc }
+# cainteoir::languages::script
+{: .doc }
 
 Get the localized ISO 15924 script code.
 
@@ -109,7 +124,8 @@ Get the localized ISO 15924 script code.
 @return
 : The localized name.
 
-# cainteoir::languages::region {: .doc }
+# cainteoir::languages::region
+{: .doc }
 
 Get the localized ISO 3166 region code.
 
@@ -119,7 +135,8 @@ Get the localized ISO 3166 region code.
 @return
 : The localized name.
 
-# cainteoir::languages::operator() {: .doc }
+# cainteoir::languages::operator()
+{: .doc }
 
 Get the localized name of the language.
 

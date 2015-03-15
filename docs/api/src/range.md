@@ -1,28 +1,35 @@
-# cainteoir::overlap_status {: .doc }
+# cainteoir::overlap_status
+{: .doc }
 
 The overlapping nature of two ranges.
 
-# cainteoir::no_overlap {: .doc }
+# cainteoir::no_overlap
+{: .doc }
 
 The two ranges do not overlap.
 
-# cainteoir::overlap_inner {: .doc }
+# cainteoir::overlap_inner
+{: .doc }
 
 The second range (other) is completely contained within the first range (this).
 
-# cainteoir::overlap_outer {: .doc }
+# cainteoir::overlap_outer
+{: .doc }
 
 The first range (this) is completely contained within the second range (other).
 
-# cainteoir::overlap_at_start {: .doc }
+# cainteoir::overlap_at_start
+{: .doc }
 
 The second range (other) overlaps the first range (this) at the start of the first range.
 
-# cainteoir::overlap_at_end {: .doc }
+# cainteoir::overlap_at_end
+{: .doc }
 
 The second range (other) overlaps the first range (this) at the end of the first range.
 
-# cainteoir::range {: .doc }
+# cainteoir::range
+{: .doc }
 
 A sequence of items between two iterators or integral values.
 
@@ -40,27 +47,33 @@ It can also be used to define an integral range, for example:
 
 Both these examples display the same output.
 
-# cainteoir::range::first {: .doc }
+# cainteoir::range::first
+{: .doc }
 
 The first item in the range.
 
-# cainteoir::range::last {: .doc }
+# cainteoir::range::last
+{: .doc }
 
 One past the last item in the range.
 
-# cainteoir::range::iterator {: .doc }
+# cainteoir::range::iterator
+{: .doc }
 
 The iterator type for this range object.
 
-# cainteoir::range::const_reverse_iterator {: .doc }
+# cainteoir::range::const_reverse_iterator
+{: .doc }
 
 An iterator for iterating backwards through the range.
 
-# cainteoir::range::size_type {: .doc }
+# cainteoir::range::size_type
+{: .doc }
 
 The type used to represent sizes.
 
-# cainteoir::range::range {: .doc }
+# cainteoir::range::range
+{: .doc }
 
 Create a new range object.
 
@@ -70,53 +83,61 @@ Create a new range object.
 @l
 : One past the last item in the range.
 
-# cainteoir::range::~range {: .doc }
+# cainteoir::range::~range
+{: .doc }
 
 Clean up the range object.
 
-# cainteoir::range::begin {: .doc }
+# cainteoir::range::begin
+{: .doc }
 
 Get the beginning of the range.
 
 @return
 : An iterator at the beginning of the range.
 
-# cainteoir::range::end {: .doc }
+# cainteoir::range::end
+{: .doc }
 
 Get the end of the range.
 
 @return
 : An iterator at one past the end of the range.
 
-# cainteoir::range::rbegin {: .doc }
+# cainteoir::range::rbegin
+{: .doc }
 
 Get the end of the range, iterating backwards.
 
 @return
 : A reverse iterator at the end of the range.
 
-# cainteoir::range::rend {: .doc }
+# cainteoir::range::rend
+{: .doc }
 
 Get the beginning of the range, iterating backwards.
 
 @return
 : A reverse iterator at the start of the range.
 
-# cainteoir::range::size {: .doc }
+# cainteoir::range::size
+{: .doc }
 
 Get the number of items in the range.
 
 @return
 : The number of items in the range.
 
-# cainteoir::range::empty {: .doc }
+# cainteoir::range::empty
+{: .doc }
 
 Is the range empty?
 
 @return
 : `true` if the range is empty, `false` otherwise.
 
-# cainteoir::range::contains {: .doc }
+# cainteoir::range::contains
+{: .doc }
 
 Does the range contain pos?
 
@@ -126,7 +147,8 @@ Does the range contain pos?
 
 @return `true` if `pos` is located within the range, `false` otherwise.
 
-# cainteoir::range::contains {: .doc }
+# cainteoir::range::contains
+{: .doc }
 
 Does the range contain another range, either partially or completely?
 
@@ -137,7 +159,8 @@ Does the range contain another range, either partially or completely?
 : The overlapping nature of the two ranges (see [overlap_status](^^cainteoir::overlap_status)
   for a description of the return values).
 
-# cainteoir::reverse {: .doc }
+# cainteoir::reverse
+{: .doc }
 
 Traverse the container in reverse order.
 
@@ -153,7 +176,8 @@ This is useful in conjunction with the C++11 range-based for loop, for example:
 @return
 : A range object for traversing the container in reverse order.
 
-# cainteoir::minmax {: .doc }
+# cainteoir::minmax
+{: .doc }
 
 Calculate the minimum and maximum values in a container.
 
@@ -163,7 +187,8 @@ Calculate the minimum and maximum values in a container.
 @return
 : The minimum and maximum values in the container as a range.
 
-# cainteoir::scale_factor {: .doc }
+# cainteoir::scale_factor
+{: .doc }
 
 Calculate the value to scale a range to a fraction of the maximum value.
 

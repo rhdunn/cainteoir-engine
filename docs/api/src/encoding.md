@@ -1,22 +1,26 @@
-# cainteoir::encoding {: .doc }
+# cainteoir::encoding
+{: .doc }
 
 Manage the conversion of text in different character encodings to UTF-8.
 
-# cainteoir::encoding::encoding {: .doc }
+# cainteoir::encoding::encoding
+{: .doc }
 
 Initialize the encoder with the specified Windows codepage.
 
 @aCodepage
 : The Windows codepage to use.
 
-# cainteoir::encoding::encoding {: .doc }
+# cainteoir::encoding::encoding
+{: .doc }
 
 Initialize the encoder with the specified character encoding.
 
 @aEncoding
 : The character encoding to use.
 
-# cainteoir::encoding::set_encoding {: .doc }
+# cainteoir::encoding::set_encoding
+{: .doc }
 
 Set the character encoding to the specified Windows codepage.
 
@@ -26,7 +30,8 @@ Set the character encoding to the specified Windows codepage.
 @return
 : `true` if the encoding was changed, `false` otherwise.
 
-# cainteoir::encoding::set_encoding {: .doc }
+# cainteoir::encoding::set_encoding
+{: .doc }
 
 Set the character encoding.
 
@@ -36,7 +41,8 @@ Set the character encoding.
 @return
 : `true` if the encoding was changed, `false` otherwise.
 
-# cainteoir::encoding::lookup {: .doc }
+# cainteoir::encoding::lookup
+{: .doc }
 
 Lookup the single-byte character.
 
@@ -46,7 +52,8 @@ Lookup the single-byte character.
 @return
 : The UTF-8 representation of `c`.
 
-# cainteoir::encoding::decode {: .doc }
+# cainteoir::encoding::decode
+{: .doc }
 
 Convert the data buffer to UTF-8.
 
@@ -56,7 +63,8 @@ Convert the data buffer to UTF-8.
 @return
 : The UTF-8 representation of data.
 
-# cainteoir::encoding::decode {: .doc }
+# cainteoir::encoding::decode
+{: .doc }
 
 Convert the data buffer to UTF-8.
 

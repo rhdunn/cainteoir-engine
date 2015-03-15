@@ -1,15 +1,18 @@
-# cainteoir::trie_node {: .doc }
+# cainteoir::trie_node
+{: .doc }
 
 A node in a trie data structure.
 
-# cainteoir::trie_node::trie_node {: .doc }
+# cainteoir::trie_node::trie_node
+{: .doc }
 
 Create a trie node object.
 
 @ch
 : The character associated with the node.
 
-# cainteoir::trie_node::get {: .doc }
+# cainteoir::trie_node::get
+{: .doc }
 
 Get the child node that is associated with the specified character.
 
@@ -19,34 +22,41 @@ Get the child node that is associated with the specified character.
 @return
 : The node associated with `ch`, or `nullptr` if no matching node was found.
 
-# cainteoir::trie_node::add {: .doc }
+# cainteoir::trie_node::add
+{: .doc }
 
 Add a child node associated with the specified character.
 @ch The character to be associated with the child node.
 
 @return The new node associated with `ch`.
 
-# cainteoir::trie_node::c {: .doc }
+# cainteoir::trie_node::c
+{: .doc }
 
 The character associated with the node.
 
-# cainteoir::trie_node::children {: .doc }
+# cainteoir::trie_node::children
+{: .doc }
 
 The list of child nodes from this node.
 
-# cainteoir::trie_node::item {: .doc }
+# cainteoir::trie_node::item
+{: .doc }
 
 The value associated with the node.
 
-# cainteoir::trie {: .doc }
+# cainteoir::trie
+{: .doc }
 
 A trie data structure.
 
-# cainteoir::trie::trie {: .doc }
+# cainteoir::trie::trie
+{: .doc }
 
 Create a trie object.
 
-# cainteoir::trie::insert {: .doc }
+# cainteoir::trie::insert
+{: .doc }
 
 Insert a new item into the trie object.
 
@@ -56,7 +66,8 @@ Insert a new item into the trie object.
 @return
 : A reference to the inserted item.
 
-# cainteoir::trie::insert {: .doc }
+# cainteoir::trie::insert
+{: .doc }
 
 Insert a new item into the trie object.
 
@@ -66,7 +77,8 @@ Insert a new item into the trie object.
 @value
 : The item to be inserted.
 
-# cainteoir::trie::lookup {: .doc }
+# cainteoir::trie::lookup
+{: .doc }
 
 Lookup an item by its indexed name.
 
@@ -79,7 +91,8 @@ Lookup an item by its indexed name.
 @return
 : The matching entry value.
 
-# cainteoir::trie::root {: .doc }
+# cainteoir::trie::root
+{: .doc }
 
 Get the root node.
 

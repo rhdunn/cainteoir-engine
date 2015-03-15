@@ -1,4 +1,5 @@
-# cainteoir::tts::createPronunciationRules {: .doc }
+# cainteoir::tts::createPronunciationRules
+{: .doc }
 
 Create a letter to phoneme converter.
 
@@ -8,7 +9,8 @@ Create a letter to phoneme converter.
 @return
 : A letter to phoneme converter object.
 
-# cainteoir::tts::compile_language {: .doc }
+# cainteoir::tts::compile_language
+{: .doc }
 
 Compile a language database file.
 

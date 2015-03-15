@@ -1,26 +1,31 @@
-# cainteoir::path {: .doc }
+# cainteoir::path
+{: .doc }
 
 Represents a file-system path.
 
-# cainteoir::path::path {: .doc }
+# cainteoir::path::path
+{: .doc }
 
 Create an empty path object.
 
-# cainteoir::path::path {: .doc }
+# cainteoir::path::path
+{: .doc }
 
 Create a path object.
 
 @aPath
 : The location to set the path object to.
 
-# cainteoir::path::path {: .doc }
+# cainteoir::path::path
+{: .doc }
 
 Create a path object.
 
 @aPath
 : The location to set the path object to.
 
-# cainteoir::path::operator/= {: .doc }
+# cainteoir::path::operator/=
+{: .doc }
 
 Append the path to the end of this path.
 
@@ -30,7 +35,8 @@ Append the path to the end of this path.
 @return
 : This path object.
 
-# cainteoir::path::operator/= {: .doc }
+# cainteoir::path::operator/=
+{: .doc }
 
 Append the path to the end of this path.
 
@@ -40,35 +46,40 @@ Append the path to the end of this path.
 @return
 : This path object.
 
-# cainteoir::path::operator const char * {: .doc }
+# cainteoir::path::operator const char *
+{: .doc }
 
 Get a C-style string representation of the path.
 
 @return
 : A C-style string representation of the path.
 
-# cainteoir::path::str {: .doc }
+# cainteoir::path::str
+{: .doc }
 
 Get a string representation of the path.
 
 @return
 : A string representation of the path.
 
-# cainteoir::path::size {: .doc }
+# cainteoir::path::size
+{: .doc }
 
 Get the number of characters in the path.
 
 @return
 : The number of characters in the path.
 
-# cainteoir::path::empty {: .doc }
+# cainteoir::path::empty
+{: .doc }
 
 Is the path empty?
 
 @return
 : `true` if the path is empty, `false` otherwise.
 
-# cainteoir::path::parent {: .doc }
+# cainteoir::path::parent
+{: .doc }
 
 Get the parent node of the path.
 
@@ -79,21 +90,24 @@ If the path is to a directory, this returns the parent directory.
 @return
 : The parent node of the path.
 
-# cainteoir::path::zip_file {: .doc }
+# cainteoir::path::zip_file
+{: .doc }
 
 Get the path of the zip container.
 
 @return
 : `zip_file` for paths of the form `zip_file!/zip_path`.
 
-# cainteoir::path::zip_path {: .doc }
+# cainteoir::path::zip_path
+{: .doc }
 
 Get the path of the file in a zip container.
 
 @return
 : `zip_path` for paths of the form `zip_file!/zip_path`.
 
-# cainteoir::operator/ {: .doc }
+# cainteoir::operator/
+{: .doc }
 
 Join two paths together.
 
@@ -106,7 +120,8 @@ Join two paths together.
 @return
 : The joined path of the form `a/b`.
 
-# cainteoir::operator/ {: .doc }
+# cainteoir::operator/
+{: .doc }
 
 Join two paths together.
 
@@ -119,14 +134,16 @@ Join two paths together.
 @return
 : The joined path of the form `a/b`.
 
-# cainteoir::get_data_path {: .doc }
+# cainteoir::get_data_path
+{: .doc }
 
 Get the path to the Cainteoir Engine data files.
 
 @return
 : The path to the Cainteoir Engine data files.
 
-# cainteoir::create_temp_file {: .doc }
+# cainteoir::create_temp_file
+{: .doc }
 
 Create a temporary file object.
 

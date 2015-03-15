@@ -1,12 +1,15 @@
-# cainteoir::archive {: .doc }
+# cainteoir::archive
+{: .doc }
 
 An interface for extracting documents from an archive file format.
 
-# cainteoir::archive::~archive {: .doc }
+# cainteoir::archive::~archive
+{: .doc }
 
 Clean up the archive object.
 
-# cainteoir::archive::location {: .doc }
+# cainteoir::archive::location
+{: .doc }
 
 Get the location of the specified file (for use in RDF metadata).
 
@@ -19,7 +22,8 @@ Get the location of the specified file (for use in RDF metadata).
 @return
 : The uri associated with the file.
 
-# cainteoir::archive::read {: .doc }
+# cainteoir::archive::read
+{: .doc }
 
 Get the content of the specified file.
 
@@ -29,14 +33,16 @@ Get the content of the specified file.
 @return
 : The content of the file.
 
-# cainteoir::archive::files {: .doc }
+# cainteoir::archive::files
+{: .doc }
 
 Get the list of files contained in the archive.
 
 @return
 : The filenames of all the files in the archive.
 
-# cainteoir::create_zip_archive {: .doc }
+# cainteoir::create_zip_archive
+{: .doc }
 
 Create an archive for extracting files in a ZIP file.
 

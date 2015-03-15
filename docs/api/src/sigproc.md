@@ -1,4 +1,5 @@
-# cainteoir::complex {: .doc }
+# cainteoir::complex
+{: .doc }
 
 Stores a `float`-based complex number in cartesian coordinate form.
 
@@ -8,23 +9,28 @@ type is not used because there is no guaranteed memory layout and you cannot
 set the real and imaginary parts directly. This makes it difficult to work
 with and prevents using vectorized assembly instructions.
 
-# cainteoir::complex::re {: .doc }
+# cainteoir::complex::re
+{: .doc }
 
 The real part of the complex number.
 
-# cainteoir::complex::im {: .doc }
+# cainteoir::complex::im
+{: .doc }
 
 The imaginary part of the complex number.
 
-# cainteoir::float_array {: .doc }
+# cainteoir::float_array
+{: .doc }
 
 An array of single precision floating-point numbers.
 
-# cainteoir::complex_array {: .doc }
+# cainteoir::complex_array
+{: .doc }
 
 An array of complex numbers.
 
-# cainteoir::abs {: .doc }
+# cainteoir::abs
+{: .doc }
 
 Calculate `|x|` for each value in the array.
 
@@ -36,7 +42,8 @@ of a signal. It is defined as:
 @aData
 : The values to apply `|x|` to.
 
-# cainteoir::abs2 {: .doc }
+# cainteoir::abs2
+{: .doc }
 
 Calculate `|x|^2` for each value in the array.
 
@@ -49,7 +56,8 @@ It is defined as:
 @aData
 : The values to apply `|x|^2` to.
 
-# cainteoir::logr {: .doc }
+# cainteoir::logr
+{: .doc }
 
 Calculate `log` on the real part of each value in the array.
 
@@ -59,33 +67,39 @@ performing `abs` or `abs2` on the data).
 @aData
 : The values to apply `log` to.
 
-# cainteoir::fft {: .doc }
+# cainteoir::fft
+{: .doc }
 
 Calculate the fast fourier transform.
 
 @aData
 : The values to perform the FFT on.
 
-# cainteoir::ifft {: .doc }
+# cainteoir::ifft
+{: .doc }
 
 Calculate the inverse fast fourier transform.
 
 @aData
 : The values to perform the inverse FFT on.
 
-# cainteoir::audio_data {: .doc }
+# cainteoir::audio_data
+{: .doc }
 
 Stores audio sample data.
 
-# cainteoir::audio_data::samples {: .doc }
+# cainteoir::audio_data::samples
+{: .doc }
 
 The samples for the audio.
 
-# cainteoir::audio_data::info {: .doc }
+# cainteoir::audio_data::info
+{: .doc }
 
 Information about the associated audio samples.
 
-# cainteoir::read_s16_samples {: .doc }
+# cainteoir::read_s16_samples
+{: .doc }
 
 Extract the S16 audio samples from an audio data buffer.
 
@@ -107,7 +121,8 @@ Extract the S16 audio samples from an audio data buffer.
 @return
 : The samples associated with the audio data buffer.
 
-# cainteoir::cosine_window {: .doc }
+# cainteoir::cosine_window
+{: .doc }
 
 Create a first-order cosine window function.
 
@@ -130,7 +145,8 @@ where `N` is the window size.
 @return
 : The values of the window function at each point in the window.
 
-# cainteoir::window {: .doc }
+# cainteoir::window
+{: .doc }
 
 Create a window function by name.
 
@@ -154,26 +170,31 @@ The `aName` parameter specifies the window function to create, which can be:
 @return
 : The values of the window function at each point in the window.
 
-# cainteoir::window_enumerator {: .doc }
+# cainteoir::window_enumerator
+{: .doc }
 
 Enumerate over audio samples applying a window function to them.
 
-# cainteoir::window_enumerator::~window_enumerator {: .doc }
+# cainteoir::window_enumerator::~window_enumerator
+{: .doc }
 
 Cleanup the enumerator object.
 
-# cainteoir::window_enumerator::next {: .doc }
+# cainteoir::window_enumerator::next
+{: .doc }
 
 Get the sample data for the next window.
 
 @return
 : `true` if a window was retrieved, `false` otherwise.
 
-# cainteoir::window_enumerator::data {: .doc }
+# cainteoir::window_enumerator::data
+{: .doc }
 
 The data associated with the current window in complex form.
 
-# cainteoir::create_s16_window_enumerator {: .doc }
+# cainteoir::create_s16_window_enumerator
+{: .doc }
 
 Create a window enumerator over S16 samples.
 

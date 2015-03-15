@@ -1,47 +1,58 @@
-# cainteoir::tts::dictionary::entry_type {: .doc }
+# cainteoir::tts::dictionary::entry_type
+{: .doc }
 
 The type of the associated dictionary entry.
 
-# cainteoir::tts::dictionary::no_match {: .doc }
+# cainteoir::tts::dictionary::no_match
+{: .doc }
 
 There is no matching entry for the word in the dictionary.
 
-# cainteoir::tts::dictionary::say_as {: .doc }
+# cainteoir::tts::dictionary::say_as
+{: .doc }
 
 The entry is pronounced as another entry in the dictionary.
 
-# cainteoir::tts::dictionary::phonemes {: .doc }
+# cainteoir::tts::dictionary::phonemes
+{: .doc }
 
 The entry is pronounced by the associated sequence of phonemes.
 
-# cainteoir::tts::dictionary::entry {: .doc }
+# cainteoir::tts::dictionary::entry
+{: .doc }
 
 Provides information about a dictionary entry.
 
-# cainteoir::tts::dictionary::entry::type {: .doc }
+# cainteoir::tts::dictionary::entry::type
+{: .doc }
 
 The type of the dictionary entry.
 
-# cainteoir::tts::dictionary::entry::text {: .doc }
+# cainteoir::tts::dictionary::entry::text
+{: .doc }
 
 The word to lookup for a [say_as](^^cainteoir::tts::dictionary::say_as) entry.
 
-# cainteoir::tts::dictionary::entry::phonemes {: .doc }
+# cainteoir::tts::dictionary::entry::phonemes
+{: .doc }
 
 The phonemes for a [phonemes](^^cainteoir::tts::dictionary::phonemes) entry.
 
-# cainteoir::tts::dictionary::entry::entry {: .doc }
+# cainteoir::tts::dictionary::entry::entry
+{: .doc }
 
 Create a [no_match](^^cainteoir::tts::dictionary::no_match) entry.
 
-# cainteoir::tts::dictionary::entry::entry {: .doc }
+# cainteoir::tts::dictionary::entry::entry
+{: .doc }
 
 Create a [say_as](^^cainteoir::tts::dictionary::say_as) entry.
 
 @aSayAs
 : The text of the word to pronounce this entry as.
 
-# cainteoir::tts::dictionary::entry::entry {: .doc }
+# cainteoir::tts::dictionary::entry::entry
+{: .doc }
 
 Create a cainteoir::tts::dictionary::phonemes entry.
 
@@ -51,11 +62,13 @@ Create a cainteoir::tts::dictionary::phonemes entry.
 @aPhonemeSet
 : The phonemeset used to read `aPhonemes`.
 
-# cainteoir::tts::dictionary::key_hash {: .doc }
+# cainteoir::tts::dictionary::key_hash
+{: .doc }
 
 Generate the hash of a [key_type](^^cainteoir::tts::dictionary::key_type) object.
 
-# cainteoir::tts::dictionary::key_hash::operator() {: .doc }
+# cainteoir::tts::dictionary::key_hash::operator()
+{: .doc }
 
 Generate the hash of a [key_type](^^cainteoir::tts::dictionary::key_type) object.
 
@@ -65,11 +78,13 @@ Generate the hash of a [key_type](^^cainteoir::tts::dictionary::key_type) object
 @return
 : The hash of the [key_type](^^cainteoir::tts::dictionary::key_type) object.
 
-# cainteoir::tts::dictionary::key_equals {: .doc }
+# cainteoir::tts::dictionary::key_equals
+{: .doc }
 
 Compare two [key_type](^^cainteoir::tts::dictionary::key_type) objects for equality.
 
-# cainteoir::tts::dictionary::key_equals::operator() {: .doc }
+# cainteoir::tts::dictionary::key_equals::operator()
+{: .doc }
 
 Compare two [key_type](^^cainteoir::tts::dictionary::key_type) objects for equality.
 
@@ -82,23 +97,28 @@ Compare two [key_type](^^cainteoir::tts::dictionary::key_type) objects for equal
 @return
 : `true` if the key values are equal, `false` otherwise.
 
-# cainteoir::tts::dictionary {: .doc }
+# cainteoir::tts::dictionary
+{: .doc }
 
 Manages a pronunciation dictionary.
 
-# cainteoir::tts::dictionary::key_type {: .doc }
+# cainteoir::tts::dictionary::key_type
+{: .doc }
 
 The index type of entries in the dictionary.
 
-# cainteoir::tts::dictionary::storage_type {: .doc }
+# cainteoir::tts::dictionary::storage_type
+{: .doc }
 
 The type used to store the entries in the dictionary.
 
-# cainteoir::tts::dictionary::const_iterator {: .doc }
+# cainteoir::tts::dictionary::const_iterator
+{: .doc }
 
 Iterate over entries in the dictionary.
 
-# cainteoir::tts::dictionary::add_entry {: .doc }
+# cainteoir::tts::dictionary::add_entry
+{: .doc }
 
 Add or update a dictionary entry.
 
@@ -108,7 +128,8 @@ Add or update a dictionary entry.
 @aEntry
 : The pronunciation information for the word to be added.
 
-# cainteoir::tts::dictionary::lookup {: .doc }
+# cainteoir::tts::dictionary::lookup
+{: .doc }
 
 Get the pronunciation entry associated with the word.
 
@@ -121,35 +142,40 @@ If `aWord` does not exist in the dictionary, the returned entry type is
 @return
 : The pronunciation entry associated with the word.
 
-# cainteoir::tts::dictionary::size {: .doc }
+# cainteoir::tts::dictionary::size
+{: .doc }
 
 Get the number of entries in the dictionary.
 
 @return
 : The number of entries in the dictionary.
 
-# cainteoir::tts::dictionary::empty {: .doc }
+# cainteoir::tts::dictionary::empty
+{: .doc }
 
 Is the dictionary true  If the dictionary is empty.
 
 @return
 : `true` if the dictionary is empty, `false` otherwise.
 
-# cainteoir::tts::dictionary::begin {: .doc }
+# cainteoir::tts::dictionary::begin
+{: .doc }
 
 Get an iterator to the first entry in the dictionary.
 
 @return
 : An iterator to the first entry in the dictionary.
 
-# cainteoir::tts::dictionary::end {: .doc }
+# cainteoir::tts::dictionary::end
+{: .doc }
 
 Get an iterator to one past the last entry in the dictionary.
 
 @return
 : An iterator to one past the last entry in the dictionary.
 
-# cainteoir::tts::dictionary::pronounce {: .doc }
+# cainteoir::tts::dictionary::pronounce
+{: .doc }
 
 Get the pronunciation for the word in the dictionary.
 
@@ -165,38 +191,46 @@ Get the pronunciation for the word in the dictionary.
 @return
 : `true` if the word was pronounced, `false` otherwise.
 
-# cainteoir::tts::dictionary_reader {: .doc }
+# cainteoir::tts::dictionary_reader
+{: .doc }
 
 Parse a pronunciation dictionary file.
 
-# cainteoir::tts::dictionary_reader::~dictionary_reader {: .doc }
+# cainteoir::tts::dictionary_reader::~dictionary_reader
+{: .doc }
 
 Clean up the dictionary reader object.
 
-# cainteoir::tts::dictionary_reader::read {: .doc }
+# cainteoir::tts::dictionary_reader::read
+{: .doc }
 
 Read the next entry in the dictionary file.
 
 @return
 : `true` if the next entry was read from the file, `false` otherwise.
 
-# cainteoir::tts::dictionary_reader::word {: .doc }
+# cainteoir::tts::dictionary_reader::word
+{: .doc }
 
 The word of the current entry.
 
-# cainteoir::tts::dictionary_reader::entry {: .doc }
+# cainteoir::tts::dictionary_reader::entry
+{: .doc }
 
 The pronunciation information for the current entry.
 
-# cainteoir::tts::dictionary_formatter {: .doc }
+# cainteoir::tts::dictionary_formatter
+{: .doc }
 
 Format dictionary entries in a given file format.
 
-# cainteoir::tts::dictionary_formatter::~dictionary_formatter {: .doc }
+# cainteoir::tts::dictionary_formatter::~dictionary_formatter
+{: .doc }
 
 Clean up the dictionary formatter object.
 
-# cainteoir::tts::dictionary_formatter::write_phoneme_entry {: .doc }
+# cainteoir::tts::dictionary_formatter::write_phoneme_entry
+{: .doc }
 
 Write a phoneme entry in the given phonemeset.
 
@@ -212,7 +246,8 @@ Write a phoneme entry in the given phonemeset.
 @line_separator
 : The character(s) to use at the end of each line.
 
-# cainteoir::tts::dictionary_formatter::write_say_as_entry {: .doc }
+# cainteoir::tts::dictionary_formatter::write_say_as_entry
+{: .doc }
 
 Write a say as entry.
 
@@ -225,7 +260,8 @@ Write a say as entry.
 @line_separator
 : The character(s) to use at the end of each line.
 
-# cainteoir::tts::createCainteoirDictionaryReader {: .doc }
+# cainteoir::tts::createCainteoirDictionaryReader
+{: .doc }
 
 Read entries from a Cainteoir Dictionary file.
 
@@ -236,14 +272,16 @@ Read entries from a Cainteoir Dictionary file.
 : A [dictionary_reader](^^cainteoir::tts::dictionary_reader) object to read
   the entries in the dictionary file.
 
-# cainteoir::tts::createCainteoirDictionaryFormatter {: .doc }
+# cainteoir::tts::createCainteoirDictionaryFormatter
+{: .doc }
 
 Create a formatter to output Cainteoir Dictionary formatted dictionary entries.
 @out The file to write the dictionary to.
 
 @return The formatter to write dictionary entries to.
 
-# cainteoir::tts::createEspeakDictionaryFormatter {: .doc }
+# cainteoir::tts::createEspeakDictionaryFormatter
+{: .doc }
 
 Create a formatter to output eSpeak formatted dictionary entries.
 
@@ -253,7 +291,8 @@ Create a formatter to output eSpeak formatted dictionary entries.
 @return
 : The formatter to write dictionary entries to.
 
-# cainteoir::tts::createDictionaryEntryFormatter {: .doc }
+# cainteoir::tts::createDictionaryEntryFormatter
+{: .doc }
 
 Create a formatter to output dictionary entries to.
 
@@ -267,7 +306,8 @@ This outputs entries in the form:
 
 @return The formatter to write dictionary entries to.
 
-# cainteoir::tts::formatDictionary {: .doc }
+# cainteoir::tts::formatDictionary
+{: .doc }
 
 Serialize the entries in the dictionary.
 

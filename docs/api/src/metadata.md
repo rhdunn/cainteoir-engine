@@ -1,19 +1,23 @@
-# cainteoir::rdf::resource {: .doc }
+# cainteoir::rdf::resource
+{: .doc }
 
 Manages an RDF resource.
 
-# cainteoir::rdf::resource::~resource {: .doc }
+# cainteoir::rdf::resource::~resource
+{: .doc }
 
 Clean up the resource.
 
-# cainteoir::rdf::resource::clone {: .doc }
+# cainteoir::rdf::resource::clone
+{: .doc }
 
 Create a new instance of this resource object.
 
 @return
 : The new copy of the resource.
 
-# cainteoir::rdf::uri {: .doc }
+# cainteoir::rdf::uri
+{: .doc }
 
 Represents an RDF URI resource.
 
@@ -22,15 +26,18 @@ subjects (describing information about the item), predicates (describing
 the type of connection) and objects (connecting two resources together,
 e.g. linking an author to a novel).
 
-# cainteoir::rdf::uri::ns {: .doc }
+# cainteoir::rdf::uri::ns
+{: .doc }
 
 The namespace to which the URI resource belongs.
 
-# cainteoir::rdf::uri::ref {: .doc }
+# cainteoir::rdf::uri::ref
+{: .doc }
 
 The URI reference.
 
-# cainteoir::rdf::uri::uri {: .doc }
+# cainteoir::rdf::uri::uri
+{: .doc }
 
 Create a new URI object.
 
@@ -40,21 +47,24 @@ Create a new URI object.
 @aRef
 : The reference of the URI.
 
-# cainteoir::rdf::uri::empty {: .doc }
+# cainteoir::rdf::uri::empty
+{: .doc }
 
 Is the URI empty?
 
 @return
 : `true` if the namespace and reference of the URI are empty, `false` otherwise.
 
-# cainteoir::rdf::uri::str {: .doc }
+# cainteoir::rdf::uri::str
+{: .doc }
 
 Convert the URI to a string.
 
 @return
 : The combined namespace and reference forming the URI.
 
-# cainteoir::rdf::operator== {: .doc }
+# cainteoir::rdf::operator==
+{: .doc }
 
 Compare two URIs for equlity.
 
@@ -67,7 +77,8 @@ Compare two URIs for equlity.
 @return
 : `true` if the two URIs are equal, `false` otherwise.
 
-# cainteoir::rdf::operator!= {: .doc }
+# cainteoir::rdf::operator!=
+{: .doc }
 
 Compare two URIs for inequlity.
 
@@ -80,11 +91,13 @@ Compare two URIs for inequlity.
 @return
 : `true` if the two URIs are not equal, `false` otherwise.
 
-# cainteoir::rdf::ns {: .doc }
+# cainteoir::rdf::ns
+{: .doc }
 
 Manages RDF namespaces used for creating RDF URIs and CURIEs.
 
-# cainteoir::rdf::ns::ns {: .doc }
+# cainteoir::rdf::ns::ns
+{: .doc }
 
 Create an RDF namespace object.
 
@@ -94,14 +107,16 @@ Create an RDF namespace object.
 @aHref
 : The base URI of the namespace.
 
-# cainteoir::rdf::ns::operator() {: .doc }
+# cainteoir::rdf::ns::operator()
+{: .doc }
 
 Create a URI in the namespace.
 
 @aRef
 : The URI reference relative to the namespace.
 
-# cainteoir::rdf::operator== {: .doc }
+# cainteoir::rdf::operator==
+{: .doc }
 
 Check if a URI is referenced by a namespace.
 
@@ -116,7 +131,8 @@ This comparison will ignore the prefix of the namespace.
 @return
 : `true` if the namespace is for the specified URI, `false` otherwise.
 
-# cainteoir::rdf::operator== {: .doc }
+# cainteoir::rdf::operator==
+{: .doc }
 
 Check if a URI is referenced by a namespace.
 
@@ -131,123 +147,153 @@ This comparison will ignore the prefix of the namespace.
 @return
 : `true` if the namespace is for the specified URI, `false` otherwise.
 
-# cainteoir::rdf::bnode {: .doc }
+# cainteoir::rdf::bnode
+{: .doc }
 
 RDF blank node.
 
-# cainteoir::rdf::dc {: .doc }
+# cainteoir::rdf::dc
+{: .doc }
 
 Dublin Core: Elements namespace.
 
-# cainteoir::rdf::dcam {: .doc }
+# cainteoir::rdf::dcam
+{: .doc }
 
 DCMI Abstract Model namespace.
 
-# cainteoir::rdf::dcterms {: .doc }
+# cainteoir::rdf::dcterms
+{: .doc }
 
 Dublin Core: Terms namespace.
 
-# cainteoir::rdf::dtb {: .doc }
+# cainteoir::rdf::dtb
+{: .doc }
 
 Daisy Talking Book (DTB) namespace.
 
-# cainteoir::rdf::epub {: .doc }
+# cainteoir::rdf::epub
+{: .doc }
 
 ePub 3.0 (OPS) namespace.
 
-# cainteoir::rdf::epv {: .doc }
+# cainteoir::rdf::epv
+{: .doc }
 
 ePub 3.0 vocabulary for epub:type relations.
 
-# cainteoir::rdf::foaf {: .doc }
+# cainteoir::rdf::foaf
+{: .doc }
 
 Friend of a Friend (FOAF) namespace.
 
-# cainteoir::rdf::iana {: .doc }
+# cainteoir::rdf::iana
+{: .doc }
 
 IANA Language Subtag Repository RDF schema namespace.
 
-# cainteoir::rdf::marc {: .doc }
+# cainteoir::rdf::marc
+{: .doc }
 
 MARC namespace.
 
-# cainteoir::rdf::media {: .doc }
+# cainteoir::rdf::media
+{: .doc }
 
 ePub 3.0 media overlay vocabulary namespace.
 
-# cainteoir::rdf::ncx {: .doc }
+# cainteoir::rdf::ncx
+{: .doc }
 
 Navigation Control File (NCX) namespace.
 
-# cainteoir::rdf::ocf {: .doc }
+# cainteoir::rdf::ocf
+{: .doc }
 
 Open Publication Format (OPF) namespace.
 
-# cainteoir::rdf::onix {: .doc }
+# cainteoir::rdf::onix
+{: .doc }
 
 ONIX namespace.
 
-# cainteoir::rdf::opf {: .doc }
+# cainteoir::rdf::opf
+{: .doc }
 
 Open Container Format (OCF) namespace.
 
-# cainteoir::rdf::owl {: .doc }
+# cainteoir::rdf::owl
+{: .doc }
 
 OWL Ontology namespace.
 
-# cainteoir::rdf::pkg {: .doc }
+# cainteoir::rdf::pkg
+{: .doc }
 
 ePub 3.0 package vocabulary namespace.
 
-# cainteoir::rdf::rdf {: .doc }
+# cainteoir::rdf::rdf
+{: .doc }
 
 RDF syntax namespace.
 
-# cainteoir::rdf::rdfa {: .doc }
+# cainteoir::rdf::rdfa
+{: .doc }
 
 RDF attributes (RDFa) namespace.
 
-# cainteoir::rdf::rdfs {: .doc }
+# cainteoir::rdf::rdfs
+{: .doc }
 
 RDF schema namespace.
 
-# cainteoir::rdf::ref {: .doc }
+# cainteoir::rdf::ref
+{: .doc }
 
 Metadata for describing Document References such as table of contents.
 
-# cainteoir::rdf::skos {: .doc }
+# cainteoir::rdf::skos
+{: .doc }
 
 SKOS namespace.
 
-# cainteoir::rdf::smil {: .doc }
+# cainteoir::rdf::smil
+{: .doc }
 
 SMIL namespace.
 
-# cainteoir::rdf::ssml {: .doc }
+# cainteoir::rdf::ssml
+{: .doc }
 
 Speech Synthesis Markup Language (SSML) namespace.
 
-# cainteoir::rdf::subtag {: .doc }
+# cainteoir::rdf::subtag
+{: .doc }
 
 IANA Language Subtag Repository RDF namespace.
 
-# cainteoir::rdf::tts {: .doc }
+# cainteoir::rdf::tts
+{: .doc }
 
 Cainteoir Text-to-Speech RDF namespace.
 
-# cainteoir::rdf::xhtml {: .doc }
+# cainteoir::rdf::xhtml
+{: .doc }
 
 XML-based HyperText Markup Language (XHTML) namespace.
 
-# cainteoir::rdf::xml {: .doc }
+# cainteoir::rdf::xml
+{: .doc }
 
 XML namespace.
 
-# cainteoir::rdf::xsd {: .doc }
+# cainteoir::rdf::xsd
+{: .doc }
 
 XMLSchema namespace.
 
-# cainteoir::rdf::literal {: .doc }
+# cainteoir::rdf::literal
+{: .doc }
 
 Manages an RDF literal resource.
 
@@ -255,30 +301,36 @@ An RDF literal is a string of characters that may also have an associated
 language or datatype. A literal can only be used as the object of an RDF
 triple.
 
-# cainteoir::rdf::literal::value {: .doc }
+# cainteoir::rdf::literal::value
+{: .doc }
 
 The content of the literal.
 
-# cainteoir::rdf::literal::language {: .doc }
+# cainteoir::rdf::literal::language
+{: .doc }
 
 The language the literal is written in.
 
-# cainteoir::rdf::literal::type {: .doc }
+# cainteoir::rdf::literal::type
+{: .doc }
 
 The datatype of the literal.
 
-# cainteoir::rdf::literal::literal {: .doc }
+# cainteoir::rdf::literal::literal
+{: .doc }
 
 Create an empty literal resource.
 
-# cainteoir::rdf::literal::literal {: .doc }
+# cainteoir::rdf::literal::literal
+{: .doc }
 
 Create a value literal resource.
 
 @aValue
 : The value to store in the literal.
 
-# cainteoir::rdf::literal::literal {: .doc }
+# cainteoir::rdf::literal::literal
+{: .doc }
 
 Create a language literal resource.
 
@@ -288,7 +340,8 @@ Create a language literal resource.
 @aLanguage
 : The language `aValue` is written in.
 
-# cainteoir::rdf::literal::literal {: .doc }
+# cainteoir::rdf::literal::literal
+{: .doc }
 
 Create a datatype literal resource.
 
@@ -298,7 +351,8 @@ Create a datatype literal resource.
 @aType
 : The datatype of `aValue`.
 
-# cainteoir::rdf::literal::operator= {: .doc }
+# cainteoir::rdf::literal::operator=
+{: .doc }
 
 Assign a new value to the literal resource.
 
@@ -310,14 +364,16 @@ If the literal has a language or datatype set, this will preserve those values.
 @return
 : The new literal object.
 
-# cainteoir::rdf::literal::as {: .doc }
+# cainteoir::rdf::literal::as
+{: .doc }
 
 Convert the value of the literal to the specified type.
 
 @return
 : The value of the literal.
 
-# cainteoir::rdf::operator== {: .doc }
+# cainteoir::rdf::operator==
+{: .doc }
 
 Compare two literals for equlity.
 
@@ -330,26 +386,31 @@ Compare two literals for equlity.
 @return
 : `true` if the two literals are equal, `false` otherwise.
 
-# cainteoir::rdf::triple {: .doc }
+# cainteoir::rdf::triple
+{: .doc }
 
 An RDF triple.
 
 A triple in RDF is a `(subject, predicate, object)` statement that describes
 a relation in the RDF graph.
 
-# cainteoir::rdf::triple::subject {: .doc }
+# cainteoir::rdf::triple::subject
+{: .doc }
 
 The URI this statement is about.
 
-# cainteoir::rdf::triple::predicate {: .doc }
+# cainteoir::rdf::triple::predicate
+{: .doc }
 
 The URI describing the relationship expressed by this statement.
 
-# cainteoir::rdf::triple::object {: .doc }
+# cainteoir::rdf::triple::object
+{: .doc }
 
 The URI or literal which is the value of this statement.
 
-# cainteoir::rdf::triple::triple {: .doc }
+# cainteoir::rdf::triple::triple
+{: .doc }
 
 Create an RDF triple.
 
@@ -365,19 +426,23 @@ Create an RDF triple.
 A triple in RDF is a `(subject, predicate, object)` statement that describes
 a relation in the RDF graph.
 
-# cainteoir::rdf::query::subject {: .doc }
+# cainteoir::rdf::query::subject
+{: .doc }
 
 Extract the subject of the RDF triple.
 
-# cainteoir::rdf::query::predicate {: .doc }
+# cainteoir::rdf::query::predicate
+{: .doc }
 
 Extract the predicate of the RDF triple.
 
-# cainteoir::rdf::query::object {: .doc }
+# cainteoir::rdf::query::object
+{: .doc }
 
 Extract the object of the RDF triple.
 
-# cainteoir::rdf::query::literal {: .doc }
+# cainteoir::rdf::query::literal
+{: .doc }
 
 Extract the object literal of the RDF triple.
 
@@ -388,7 +453,8 @@ Extract the object literal of the RDF triple.
 : The object literal. If the object is a URI resource, an empty literal is
   returned.
 
-# cainteoir::rdf::query::value {: .doc }
+# cainteoir::rdf::query::value
+{: .doc }
 
 Extract the object literal's value of the RDF triple.
 
@@ -399,22 +465,26 @@ Extract the object literal's value of the RDF triple.
 : The object literal's value. If the object is a URI resource, an empty string
   is returned.
 
-# cainteoir::rdf::query::results {: .doc }
+# cainteoir::rdf::query::results
+{: .doc }
 
 The set of RDF triples matching a select query.
 
-# cainteoir::rdf::triplestore {: .doc }
+# cainteoir::rdf::triplestore
+{: .doc }
 
 Hold a set of RDF triples in an RDF graph.
 
-# cainteoir::rdf::triplestore::push_back {: .doc }
+# cainteoir::rdf::triplestore::push_back
+{: .doc }
 
 Add an RDF triple to the triplestore.
 
 @item
 : The RDF triple to add to the triplestore.
 
-# cainteoir::rdf::triplestore::subject {: .doc }
+# cainteoir::rdf::triplestore::subject
+{: .doc }
 
 Locate the RDF triples for the specified subject.
 
@@ -428,27 +498,33 @@ subjects.
 @return
 : The RDF triples matching the subject.
 
-# cainteoir::rdf::graph {: .doc }
+# cainteoir::rdf::graph
+{: .doc }
 
 Manages an RDF graph.
 
-# cainteoir::rdf::graph::size_type {: .doc }
+# cainteoir::rdf::graph::size_type
+{: .doc }
 
 The type used to hold size values.
 
-# cainteoir::rdf::graph::const_iterator {: .doc }
+# cainteoir::rdf::graph::const_iterator
+{: .doc }
 
 An iterator over RDF triples.
 
-# cainteoir::rdf::graph::const_reference {: .doc }
+# cainteoir::rdf::graph::const_reference
+{: .doc }
 
 A reference to an RDF triple.
 
-# cainteoir::rdf::graph::graph {: .doc }
+# cainteoir::rdf::graph::graph
+{: .doc }
 
 Create a new RDF graph object.
 
-# cainteoir::rdf::graph::graph {: .doc }
+# cainteoir::rdf::graph::graph
+{: .doc }
 
 Create a new RDF graph object suitable for merging with the parent graph.
 
@@ -460,49 +536,56 @@ allowing the statements of the two graphs to be merged.
 
 This does not copy the statements of `aGraph` into the new graph.
 
-# cainteoir::rdf::graph::size {: .doc }
+# cainteoir::rdf::graph::size
+{: .doc }
 
 Get the number of triples in the graph.
 
 @return
 : The number of triples in the graph.
 
-# cainteoir::rdf::graph::empty {: .doc }
+# cainteoir::rdf::graph::empty
+{: .doc }
 
 Is the graph empty?
 
 @return
 : `true` if the graph does not contain any triple statements, `false` otherwise.
 
-# cainteoir::rdf::graph::begin {: .doc }
+# cainteoir::rdf::graph::begin
+{: .doc }
 
 Get the iterator to the first triple in the graph's triplestore.
 
 @return
 : The iterator to the first triple in the graph's triplestore.
 
-# cainteoir::rdf::graph::end {: .doc }
+# cainteoir::rdf::graph::end
+{: .doc }
 
 Get the iterator to the last triple in the graph's triplestore.
 
 @return
 : The iterator to the last triple in the graph's triplestore.
 
-# cainteoir::rdf::graph::front {: .doc }
+# cainteoir::rdf::graph::front
+{: .doc }
 
 Get the first triple in the graph's triplestore.
 
 @return
 : The first triple in the graph's triplestore.
 
-# cainteoir::rdf::graph::back {: .doc }
+# cainteoir::rdf::graph::back
+{: .doc }
 
 Get the last triple in the graph's triplestore.
 
 @return
 : The last triple in the graph's triplestore.
 
-# cainteoir::rdf::graph::subject {: .doc }
+# cainteoir::rdf::graph::subject
+{: .doc }
 
 Locate the RDF triples for the specified subject.
 
@@ -516,7 +599,8 @@ subjects.
 @return
 : The RDF triples matching the subject.
 
-# cainteoir::rdf::graph::contains {: .doc }
+# cainteoir::rdf::graph::contains
+{: .doc }
 
 Does the graph contain a URI in the specified namespace?
 
@@ -526,7 +610,8 @@ Does the graph contain a URI in the specified namespace?
 @return
 : `true` if the graph contains a URI in the specified namespace, `false` otherwise.
 
-# cainteoir::rdf::graph::set_base {: .doc }
+# cainteoir::rdf::graph::set_base
+{: .doc }
 
 Set the base URI for the graph.
 
@@ -536,14 +621,16 @@ Set the base URI for the graph.
 @return
 : This graph object (to support method chaining).
 
-# cainteoir::rdf::graph::get_base {: .doc }
+# cainteoir::rdf::graph::get_base
+{: .doc }
 
 Get the base URI for the graph.
 
 @return
 : The base URI of the graph.
 
-# cainteoir::rdf::graph::add_namespace {: .doc }
+# cainteoir::rdf::graph::add_namespace
+{: .doc }
 
 Add a namespace to the graph.
 
@@ -558,7 +645,8 @@ This is used for generating `@prefix` entries in turtle/n3 documents.
 @return
 : This graph object (to support method chaining).
 
-# cainteoir::rdf::graph::add_namespace {: .doc }
+# cainteoir::rdf::graph::add_namespace
+{: .doc }
 
 Add a namespace to the graph.
 
@@ -570,7 +658,8 @@ This is used for generating `@prefix` entries in turtle/n3 documents.
 @return
 : This graph object (to support method chaining).
 
-# cainteoir::rdf::graph::operator<< {: .doc }
+# cainteoir::rdf::graph::operator<<
+{: .doc }
 
 Add a namespace to the graph.
 
@@ -582,7 +671,8 @@ This is used for generating `@prefix` entries in turtle/n3 documents.
 @return
 : This graph to support method chaining.
 
-# cainteoir::rdf::graph::add_prefix {: .doc }
+# cainteoir::rdf::graph::add_prefix
+{: .doc }
 
 Add namespaces in an RDFa `@prefix` attribute.
 
@@ -594,7 +684,8 @@ This is used for generating `@prefix` entries in turtle/n3 documents.
 @return
 : This graph object (to support method chaining).
 
-# cainteoir::rdf::href {: .doc }
+# cainteoir::rdf::href
+{: .doc }
 
 Convert a href into a URI object.
 
@@ -604,14 +695,16 @@ Convert a href into a URI object.
 @return
 : The href as a URI object.
 
-# cainteoir::rdf::graph::genid {: .doc }
+# cainteoir::rdf::graph::genid
+{: .doc }
 
 Generate a new blank node.
 
 @return
 : A blank node that is unique for this graph.
 
-# cainteoir::rdf::graph::curie {: .doc }
+# cainteoir::rdf::graph::curie
+{: .doc }
 
 Convert a CURIE into a URI object.
 
@@ -621,7 +714,8 @@ Convert a CURIE into a URI object.
 @return
 : The CURIE as a URI object.
 
-# cainteoir::rdf::graph::curie_list {: .doc }
+# cainteoir::rdf::graph::curie_list
+{: .doc }
 
 Convert a space-separated CURIE-list into a sequence of URI objects.
 
@@ -631,7 +725,8 @@ Convert a space-separated CURIE-list into a sequence of URI objects.
 @onuri
 : The callback to be called when a URI is parsed from the CURIE list.
 
-# cainteoir::rdf::query::rdf_list_items {: .doc }
+# cainteoir::rdf::query::rdf_list_items
+{: .doc }
 
 Iterate over the items of an RDF list.
 
@@ -674,7 +769,8 @@ print:
 	http://example.org/apple
 	http://example.org/pear
 
-# cainteoir::rdf::graph::statement {: .doc }
+# cainteoir::rdf::graph::statement
+{: .doc }
 
 Add an RDF statement to the graph.
 
@@ -692,7 +788,8 @@ This enforces the RDF requirement that a predicate cannot be a blank node.
 @return
 : `true` if the statement was added to the graph, `false` otherwise.
 
-# cainteoir::rdf::graph::statement {: .doc }
+# cainteoir::rdf::graph::statement
+{: .doc }
 
 Add an RDF statement to the graph.
 
@@ -710,7 +807,8 @@ This enforces the RDF requirement that a predicate cannot be a blank node.
 @return
 : `true` if the statement was added to the graph, `false` otherwise.
 
-# cainteoir::rdf::query::matches {: .doc }
+# cainteoir::rdf::query::matches
+{: .doc }
 
 Match statements whos selector matches the value.
 
@@ -723,7 +821,8 @@ Match statements whos selector matches the value.
 @return
 : A function object for matching triples where `aSelector` returns `aValue`.
 
-# cainteoir::rdf::query::both {: .doc }
+# cainteoir::rdf::query::both
+{: .doc }
 
 Match statements that match both selectors.
 
@@ -736,7 +835,8 @@ Match statements that match both selectors.
 @return
 : A function object for matching triples that match both `a` and `b` selectors.
 
-# cainteoir::rdf::query::select {: .doc }
+# cainteoir::rdf::query::select
+{: .doc }
 
 Select statements matching the selector.
 
@@ -749,7 +849,8 @@ Select statements matching the selector.
 @return
 : A subgraph containing all matching statements.
 
-# cainteoir::rdf::query::contains {: .doc }
+# cainteoir::rdf::query::contains
+{: .doc }
 
 Check if the graph contains any of the specified statements.
 
@@ -762,7 +863,8 @@ Check if the graph contains any of the specified statements.
 @return
 : `true` if the graph contains a statement matching the selector, `false` otherwise.
 
-# cainteoir::rdf::query::select_value {: .doc }
+# cainteoir::rdf::query::select_value
+{: .doc }
 
 Select a value matching the selector.
 
@@ -775,7 +877,8 @@ Select a value matching the selector.
 @return
 : The first literal value matching the selector.
 
-# cainteoir::rdf::create_formatter {: .doc }
+# cainteoir::rdf::create_formatter
+{: .doc }
 
 Create an RDF serializer.
 
@@ -788,15 +891,18 @@ Create an RDF serializer.
 @return
 : The formatter object.
 
-# cainteoir::rdf::formatter {: .doc }
+# cainteoir::rdf::formatter
+{: .doc }
 
 An interface for serializing RDF graphs.
 
-# cainteoir::rdf::formatter::~formatter {: .doc }
+# cainteoir::rdf::formatter::~formatter
+{: .doc }
 
 Clean up the formatter object.
 
-# cainteoir::rdf::formatter::operator<< {: .doc }
+# cainteoir::rdf::formatter::operator<<
+{: .doc }
 
 Serialize a namespace.
 
@@ -806,7 +912,8 @@ Serialize a namespace.
 @return
 : The formatter object (to support method chaining).
 
-# cainteoir::rdf::formatter::operator<< {: .doc }
+# cainteoir::rdf::formatter::operator<<
+{: .doc }
 
 Serialize a URI resource.
 
@@ -816,7 +923,8 @@ Serialize a URI resource.
 @return
 : The formatter object (to support method chaining).
 
-# cainteoir::rdf::formatter::operator<< {: .doc }
+# cainteoir::rdf::formatter::operator<<
+{: .doc }
 
 Serialize a literal resource.
 
@@ -826,7 +934,8 @@ Serialize a literal resource.
 @return
 : The formatter object (to support method chaining).
 
-# cainteoir::rdf::formatter::operator<< {: .doc }
+# cainteoir::rdf::formatter::operator<<
+{: .doc }
 
 Serialize an RDF statement.
 
@@ -836,7 +945,8 @@ Serialize an RDF statement.
 @return
 : The formatter object (to support method chaining).
 
-# cainteoir::rdf::formatter::operator<< {: .doc }
+# cainteoir::rdf::formatter::operator<<
+{: .doc }
 
 Serialize an RDF graph.
 
@@ -846,15 +956,18 @@ Serialize an RDF graph.
 @return
 : The formatter object (to support method chaining).
 
-# cainteoir::rdf::formatter::format_type {: .doc }
+# cainteoir::rdf::formatter::format_type
+{: .doc }
 
 The format used to serialize the RDF statements as.
 
-# cainteoir::rdf::formatter::ntriple {: .doc }
+# cainteoir::rdf::formatter::ntriple
+{: .doc }
 
 N-Triple serialization format.
 
-# cainteoir::rdf::formatter::turtle {: .doc }
+# cainteoir::rdf::formatter::turtle
+{: .doc }
 
 Turtle serialization format.
 
