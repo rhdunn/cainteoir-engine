@@ -66,6 +66,7 @@ tests/xmlreader
 tests/parsetext
 tests/mimetype
 tests/styles
+tests/rewrite
 
 # docs/phonemes output:
 

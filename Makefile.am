@@ -830,6 +830,11 @@ noinst_bin_PROGRAMS += tests/pho_file.test
 tests_pho_file_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_pho_file_test_SOURCES = tests/pho_file.cpp
 
+noinst_bin_PROGRAMS += tests/rewrite
+
+tests_rewrite_LDADD   = src/libcainteoir/libcainteoir.la
+tests_rewrite_SOURCES = tests/rewrite.cpp
+
 tests/events.check: tests/events data/css ${DOCUMENT_TEST_FILES}
 
 tests/xmlreader.check: tests/xmlreader ${XMLPARSER_TEST_FILES}
