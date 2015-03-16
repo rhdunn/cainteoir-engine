@@ -127,7 +127,7 @@ void espeak_reader::initialize()
 
 bool espeak_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme &aPhoneme)
 {
-	char language[4] = { 0 };
+	char language[10] = { 0 };
 	char *lang_current = language;
 	decltype(mActivePhonemes->root()) match = nullptr;
 	while (true) switch (mState)
@@ -268,6 +268,10 @@ bool espeak_reader::parse(const char * &mCurrent, const char *mEnd, ipa::phoneme
 			++mCurrent;
 			mPosition = mActivePhonemes->root();
 			mState = state::need_phoneme;
+			break;
+		case '-':
+			*lang_current++ = 0;
+			++mCurrent;
 			break;
 		default:
 			*lang_current++ = *mCurrent++;
