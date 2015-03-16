@@ -25,6 +25,39 @@
 #include <cainteoir/language.hpp>
 #include "../synthesizer/synth.hpp"
 
+enum class type : uint8_t
+{
+	unknown,
+	space,
+};
+
+#define _ type::unknown
+#define s type::space
+
+static const type classification[256] = {
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+	/* 0x */ _, _, _, _, _, _, _, _, _, s, s, _, _, s, _, _,
+	/* 1x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 2x */ s, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 3x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 4x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 5x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 6x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 7x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 8x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* 9x */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ax */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Bx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Cx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Dx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Ex */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	/* Fx */ _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	//////// x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
+};
+
+#undef _
+#undef s
+
 namespace tts = cainteoir::tts;
 
 struct rewrite_rules : public tts::rewriter
@@ -195,7 +228,7 @@ const uint8_t *rewrite_rules::next_match(const uint8_t *current, FILE *out)
 		switch (state)
 		{
 		case left_match:
-			if (left != mStart - 1)
+			if (left != mStart - 1 && classification[*left] != type::space)
 			{
 				state = in_rule_group;
 				rule = null_rule;
@@ -204,7 +237,7 @@ const uint8_t *rewrite_rules::next_match(const uint8_t *current, FILE *out)
 				++rule;
 			break;
 		case right_match:
-			if (right != mEnd)
+			if (right != mEnd && classification[*right] != type::space)
 			{
 				state = in_rule_group;
 				rule = null_rule;
