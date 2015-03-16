@@ -141,6 +141,14 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData,
 			mRuleGroups[id] = offset;
 		}
 		break;
+	case tts::LEXICAL_REWRITE_RULE_TABLE_MAGIC:
+		{
+			uint16_t entries = mRules.u16();
+			uint8_t  id = mRules.u8();
+			uint32_t offset = mRules.offset();
+			mRules.seek(offset + (entries * tts::LEXICAL_REWRITE_RULES_TABLE_ENTRY_SIZE));
+		}
+		break;
 	case tts::DICTIONARY_TABLE_MAGIC:
 		{
 			uint16_t entries = mRules.u16();

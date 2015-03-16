@@ -12,6 +12,8 @@
   - [Left Context Match](#left-context-match)
   - [Phoneme Look Ahead](#phoneme-look-ahead)
   - [Class Definition Matching](#class-definition-matching)
+- [Lexical Rewrite Rules](#lexical-rewrite-rules)
+  - [Pattern](#pattern-1)
 - [Dictionary](#dictionary)
 - [String Table](#string-table)
 - [Magic Values](#magic-values)
@@ -295,6 +297,70 @@ previous context position.
 If a string fails to match, the current context is reset to its starting
 position from applying the classdef logic.
 
+## Lexical Rewrite Rules
+
+This is the representation of the letter-to-phoneme rule group, which holds a
+collection of related rules.
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| magic          | u8\[3\]|  0     |
+| num-entries    | u16    |  3     |
+| group          | u8     |  5     |
+| END OF SECTION |        |  6     |
+
+The `magic` field identifies the section as a letter-to-phoneme rules group.
+This is the string "LRR".
+
+The `num-entries` field is the number of entries there are in this table.
+
+The `group` field is the initial character of the context match for the rules
+within this set of rules.
+
+After the section block, `num-entries` entry blocks are written out in order.
+An associated String Table section occurs after the last entry, with the `pstr`
+strings from all the entry blocks included.
+
+Each entry block has the form:
+
+| Field          | Type   | Offset |
+|----------------|--------|--------|
+| pattern        | pstr   |  0     |
+| replacement    | pstr   |  4     |
+| END OF ENTRY   |        |  8     |
+
+The `pattern` field defines how this lexical rewrite rule entry matches a string
+from the current position within that string.
+
+The `replacement` field is the text to use if the pattern is matched.
+
+### Pattern
+
+The lexical rewrite rule pattern describes how the rule should be matched.
+
+The rule pattern is a sequence of characters with the following meaning:
+
+| Character    | Description                                         |
+|--------------|-----------------------------------------------------|
+| `\x0`        | The end of the rule pattern.                        |
+| `[a-z]`      | Match the specified character in the given context. |
+| `[\80-\xFF]` | Match the specified character in the given context. |
+| `(`          | Switch to the right context.                        |
+| `)`          | Switch to the left context.                         |
+
+If the end of the rule pattern is reached, the default context location is
+where the current match ends. Instead of emitting phonemes, the replacement
+text is emitted.
+
+If any of the pattern characters fail to match, there is no match. The current
+utf-8 character is emmitted instead and the default context location is advanced
+to the start of the next character.
+
+The match logic works in the same way as the letter-to-phoneme rules.
+
+The result of applying the lexical replacement rules over the text is used as
+the input for the letter-to-phoneme rules.
+
 ## Dictionary
 
 This is the representation of dictionary entries in an exception dictionary
@@ -362,6 +428,7 @@ creating a new section type to avoid collisions in the magic values.
 | CND   | Rule Condition Expressions   |
 | DIC   | Dictionary                   |
 | L2P   | Letter To Phoneme Rules      |
+| LRR   | Letter Rewrite Rules         |
 | STR   | String Table                 |
 
 Copyright (C) 2014 Reece H. Dunn

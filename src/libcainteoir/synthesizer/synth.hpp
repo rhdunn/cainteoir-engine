@@ -57,6 +57,8 @@ namespace cainteoir { namespace tts
 	static constexpr uint16_t LANGDB_HEADER_SIZE = 16;
 	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_SIZE = 6;
 	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_ENTRY_SIZE = 8;
+	static constexpr uint16_t LEXICAL_REWRITE_RULES_TABLE_SIZE = 6;
+	static constexpr uint16_t LEXICAL_REWRITE_RULES_TABLE_ENTRY_SIZE = 8;
 	static constexpr uint16_t DICTIONARY_TABLE_SIZE = 5;
 	static constexpr uint16_t DICTIONARY_TABLE_ENTRY_SIZE = 8;
 	static constexpr uint16_t CLASSDEF_TABLE_SIZE = 6;
@@ -65,6 +67,7 @@ namespace cainteoir { namespace tts
 	static constexpr uint16_t CONDRULE_TABLE_ENTRY_SIZE = 6;
 
 	static constexpr uint32_t LETTER_TO_PHONEME_TABLE_MAGIC = make_magic32('L', '2', 'P');
+	static constexpr uint32_t LEXICAL_REWRITE_RULE_TABLE_MAGIC = make_magic32('L', 'R', 'R');
 	static constexpr uint32_t DICTIONARY_TABLE_MAGIC = make_magic32('D', 'I', 'C');
 	static constexpr uint32_t CLASSDEF_TABLE_MAGIC = make_magic32('C', 'L', 'S');
 	static constexpr uint32_t CONDRULE_TABLE_MAGIC = make_magic32('C', 'N', 'D');

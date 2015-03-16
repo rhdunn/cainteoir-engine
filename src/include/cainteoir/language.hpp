@@ -26,6 +26,17 @@
 
 namespace cainteoir { namespace tts
 {
+	struct rewriter
+	{
+		virtual std::shared_ptr<buffer>
+		rewrite(const std::shared_ptr<buffer> &aBuffer) = 0;
+
+		virtual ~rewriter() {}
+	};
+
+	std::shared_ptr<rewriter>
+	createLexicalRewriteRules(const char *aLanguageFile);
+
 	std::shared_ptr<phoneme_reader>
 	createPronunciationRules(const char *aRuleSetPath,
 	                         const cainteoir::language::tag &aLocale);
