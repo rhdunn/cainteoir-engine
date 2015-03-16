@@ -491,6 +491,47 @@ tts::compile_voice(const char *aFileName, FILE *aOutput)
 }
 
 void
+parse_rewrite(cainteoir_file_reader &reader,
+              std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> &rewrite_rules)
+{
+	cainteoir::buffer context{ nullptr, nullptr };
+	cainteoir::buffer left{ nullptr, nullptr };
+	cainteoir::buffer right{ nullptr, nullptr };
+	while (reader.read()) switch (reader.type())
+	{
+	case cainteoir_file_reader::text:
+		{
+			if (reader.match().compare("end") == 0)
+				return;
+
+			auto last = reader.match().end();
+			if (*--last == ')')
+				left = reader.match();
+			else if (*reader.match().begin() == '(')
+				right = reader.match();
+			else if (context.empty())
+				context = reader.match();
+			else
+			{
+				auto &group = rewrite_rules[*context.begin()];
+
+				std::string pattern = context.str();
+				for (auto c : cainteoir::reverse(left))
+					pattern.push_back(c);
+				for (auto c : right)
+					pattern.push_back(c);
+
+				group.push_back({ pattern, reader.match() });
+				context = { nullptr, nullptr };
+				left = { nullptr, nullptr };
+				right = { nullptr, nullptr };
+			}
+		}
+		break;
+	}
+}
+
+void
 parse_rules(cainteoir_file_reader &reader,
             std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> &l2p_rules)
 {
@@ -621,6 +662,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	cainteoir::buffer locale{ nullptr, nullptr };
 	cainteoir::buffer phonemeset{ nullptr, nullptr };
 	std::map<uint8_t, std::list<cainteoir::buffer>> classdefs;
+	std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> rewrite_rules;
 	std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> l2p_rules;
 	std::list<conditional_t> conditionals;
 	tts::dictionary dict;
@@ -664,6 +706,10 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 				while (dict_reader->read())
 					dict.add_entry(dict_reader->word, dict_reader->entry);
 			}
+			else if (reader.match().compare("rewrite") == 0)
+			{
+				parse_rewrite(reader, rewrite_rules);
+			}
 		}
 	}
 
@@ -699,6 +745,22 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 		for (const auto &entry : classdef.second)
 			out.pstr(entry);
 		out.u32(0); // end of classdef
+		out.end_section();
+	}
+
+	for (auto &group : rewrite_rules)
+	{
+		group.second.push_back({ {}, { nullptr, nullptr }});
+
+		uint16_t entries = group.second.size() * tts::LEXICAL_REWRITE_RULES_TABLE_ENTRY_SIZE;
+		out.begin_section("LRR", tts::LEXICAL_REWRITE_RULES_TABLE_SIZE + entries, true);
+		out.u16(group.second.size());
+		out.u8(group.first);
+		for (const auto &entry : group.second)
+		{
+			out.pstr(entry.first);
+			out.pstr(entry.second);
+		}
 		out.end_section();
 	}
 
