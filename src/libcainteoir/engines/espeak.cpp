@@ -216,10 +216,17 @@ void espeak_pronunciation::reset(const std::shared_ptr<cainteoir::buffer> &aBuff
 	while (data != nullptr)
 	{
 		const char *buffer = espeak_TextToPhonemes(&data, espeakCHARS_UTF8, PHONEME_MODE);
-		// NOTE: phoneme output starts with a space, so remove that ...
 		int len = strlen(buffer);
-		if (len > 1)
-			ret += cainteoir::make_buffer(buffer+1, len-1);
+
+		// NOTE: phoneme output can start with a space, so remove that ...
+		while (len > 0 && *buffer == ' ')
+		{
+			++buffer;
+			--len;
+		}
+
+		if (len > 0)
+			ret += cainteoir::make_buffer(buffer, len);
 	}
 	mReader->reset(ret.buffer());
 #else
