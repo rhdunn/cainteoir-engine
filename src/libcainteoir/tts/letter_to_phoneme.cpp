@@ -70,6 +70,8 @@ private:
 
 	ipa::phoneme mPreviousPhoneme;
 
+	std::shared_ptr<tts::rewriter> mRewriter;
+
 	bool match_phoneme_next(const char *phonemes, const uint8_t *&rules);
 	bool match_phoneme_prev(const uint8_t *&rules);
 
@@ -91,6 +93,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData,
                  const cainteoir::language::tag &aLocale)
 	: mData(aData)
 	, mRules((const uint8_t *)aData->begin(), (const uint8_t *)aData->end())
+	, mRewriter(tts::createLexicalRewriteRules(aData))
 {
 	memset(mRuleGroups, 0, sizeof(mRuleGroups));
 	memset(mClassDefs, 0, sizeof(mClassDefs));
@@ -163,7 +166,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData,
 
 void ruleset::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
-	mBuffer = aBuffer;
+	mBuffer = mRewriter->rewrite(aBuffer);
 	if (mBuffer.get())
 	{
 		mStart = mCurrent = (const uint8_t *)mBuffer->begin();

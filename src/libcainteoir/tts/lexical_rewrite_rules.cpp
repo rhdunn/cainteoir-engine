@@ -263,17 +263,21 @@ const uint8_t *rewrite_rules::next_match(const uint8_t *current, FILE *out)
 }
 
 std::shared_ptr<tts::rewriter>
-tts::createLexicalRewriteRules(const char *aLanguageFile)
+tts::createLexicalRewriteRules(const std::shared_ptr<cainteoir::buffer> &aData)
 {
-	if (!aLanguageFile) return {};
+	if (!aData) return {};
 
-	auto data = cainteoir::make_file_buffer(aLanguageFile);
-	if (!data) return {};
-
-	const char *header = data->begin();
+	const char *header = aData->begin();
 
 	if (strncmp(header, "LANGDB", 6) != 0 || *(const uint16_t *)(header + 6) != 0x3031)
 		return {};
 
-	return std::make_shared<rewrite_rules>(data);
+	return std::make_shared<rewrite_rules>(aData);
+}
+
+std::shared_ptr<tts::rewriter>
+tts::createLexicalRewriteRules(const char *aLanguageFile)
+{
+	if (!aLanguageFile) return {};
+	return createLexicalRewriteRules(cainteoir::make_file_buffer(aLanguageFile));
 }

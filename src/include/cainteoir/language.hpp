@@ -37,6 +37,9 @@ namespace cainteoir { namespace tts
 	std::shared_ptr<rewriter>
 	createLexicalRewriteRules(const char *aLanguageFile);
 
+	std::shared_ptr<rewriter>
+	createLexicalRewriteRules(const std::shared_ptr<buffer> &aData);
+
 	std::shared_ptr<phoneme_reader>
 	createPronunciationRules(const char *aRuleSetPath,
 	                         const cainteoir::language::tag &aLocale);
