@@ -34,14 +34,23 @@ struct rewrite_rules : public tts::rewriter
 	std::shared_ptr<cainteoir::buffer>
 	rewrite(const std::shared_ptr<cainteoir::buffer> &aBuffer);
 private:
+	const uint8_t *next_match(const uint8_t *current, FILE *out);
+
+	std::shared_ptr<cainteoir::buffer> mData;
 	cainteoir::native_endian_buffer mRules;
 	uint32_t mRuleGroups[256];
 	bool mHaveRules;
+
+	const uint8_t *mStart;
+	const uint8_t *mEnd;
 };
 
 rewrite_rules::rewrite_rules(const std::shared_ptr<cainteoir::buffer> &aData)
-	: mRules((const uint8_t *)aData->begin(), (const uint8_t *)aData->end())
+	: mData(aData)
+	, mRules((const uint8_t *)aData->begin(), (const uint8_t *)aData->end())
 	, mHaveRules(false)
+	, mStart(nullptr)
+	, mEnd(nullptr)
 {
 	memset(mRuleGroups, 0, sizeof(mRuleGroups));
 
@@ -103,7 +112,154 @@ rewrite_rules::rewrite_rules(const std::shared_ptr<cainteoir::buffer> &aData)
 std::shared_ptr<cainteoir::buffer>
 rewrite_rules::rewrite(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 {
-	return aBuffer;
+	if (!mHaveRules)
+		return aBuffer;
+
+	mStart = (const uint8_t *)aBuffer->begin();
+	mEnd   = (const uint8_t *)aBuffer->end();
+
+	const uint8_t *current = mStart;
+	cainteoir::memory_file out;
+	while (true)
+	{
+		auto match = next_match(current, out);
+		if (!match)
+			return out.buffer();
+
+		current = match;
+	}
+}
+
+const uint8_t *rewrite_rules::next_match(const uint8_t *current, FILE *out)
+{
+	if (current == mEnd) return nullptr;
+
+	uint32_t offset = mRuleGroups[*current];
+	if (offset == 0)
+	{
+		fputc(*current++, out);
+		return current;
+	}
+
+	mRules.seek(offset);
+
+	static const uint8_t null_rule[] = { 0 };
+
+	enum state_t
+	{
+		in_rule_group,
+		context_match,
+		left_match,
+		right_match,
+	};
+
+	state_t state = in_rule_group;
+	const uint8_t *rule        = null_rule;
+	const uint8_t *context     = nullptr;
+	const uint8_t *left        = nullptr;
+	const uint8_t *right       = nullptr;
+	const char    *replacement = nullptr;
+	while (true) switch (*rule)
+	{
+	case 0:
+		switch (state)
+		{
+		case in_rule_group:
+			rule = (const uint8_t *)mRules.pstr();
+			if (*rule == 0)
+			{
+				fputc(*current++, out);
+				return current;
+			}
+
+			replacement = mRules.pstr();
+			context = left = right = current;
+			state = context_match;
+			break;
+		default:
+			fputs(replacement, out);
+			return context;
+		}
+		break;
+	case '(':
+		right = context;
+		state = right_match;
+		++rule;
+		break;
+	case ')':
+		state = left_match;
+		++rule;
+		--left;
+		break;
+	case '_':
+		switch (state)
+		{
+		case left_match:
+			if (left != mStart - 1)
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			else
+				++rule;
+			break;
+		case right_match:
+			if (right != mEnd)
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			else
+				++rule;
+			break;
+		default:
+			state = in_rule_group;
+			rule = null_rule;
+			break;
+		}
+		break;
+	default:
+		switch (state)
+		{
+		case context_match:
+			if (context < mEnd && *context == *rule)
+			{
+				++rule;
+				++context;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		case left_match:
+			if (left >= mStart && *left == *rule)
+			{
+				++rule;
+				--left;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		case right_match:
+			if (right < mEnd && *right == *rule)
+			{
+				++rule;
+				++right;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		}
+		break;
+	}
 }
 
 std::shared_ptr<tts::rewriter>
