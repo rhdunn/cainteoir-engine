@@ -129,7 +129,7 @@ The following file formats are supported by Cainteoir Text-to-Speech:
   *  [Voice Database](docs/voicedb-format.md) (`*.vdb`) -- This is the compiled
      format used to define voices used by Cainteoir Text-to-Speech.
 
-  *  [Language Database](docs/voicedb-format.md) (`*.ldb`) -- This is the
+  *  [Language Database](docs/langdb-format.md) (`*.ldb`) -- This is the
      compiled format used to define languages used by Cainteoir Text-to-Speech.
 
 ## Bugs
