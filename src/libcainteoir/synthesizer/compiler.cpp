@@ -528,6 +528,23 @@ parse_rewrite(cainteoir_file_reader &reader,
 			}
 		}
 		break;
+	case cainteoir_file_reader::string:
+		if (!context.empty())
+		{
+			auto &group = rewrite_rules[*context.begin()];
+
+			std::string pattern = context.str();
+			for (auto c : cainteoir::reverse(left))
+				pattern.push_back(c);
+			for (auto c : right)
+				pattern.push_back(c);
+
+			group.push_back({ pattern, reader.match() });
+			context = { nullptr, nullptr };
+			left = { nullptr, nullptr };
+			right = { nullptr, nullptr };
+		}
+		break;
 	}
 }
 
