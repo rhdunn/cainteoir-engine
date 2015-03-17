@@ -7,15 +7,15 @@
 .locale		en
 .phonemeset	cxs
 
-boundary	@
+boundary	:
 
 classdef H h x end
 
 rewrite
 
-	'l	@'l
-	l	@l
-	il	@il
+	'l	:'l
+	l	:l
+	il	:il
 
 end
 
