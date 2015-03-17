@@ -30,5 +30,8 @@ if __name__ == '__main__':
 		{'name': 'Syllabary', 'type': 'rewrite', 'tests': [
 			{'test': 'letter2phoneme/japanese.txt', 'result': 'letter2phoneme/japanese.rewrite', 'ruleset': 'letter2phoneme/japanese.ldb'},
 		]},
+		{'name': 'Morpheme', 'type': 'rewrite', 'tests': [
+			{'test': 'letter2phoneme/morpheme.txt', 'result': 'letter2phoneme/morpheme.rewrite', 'ruleset': 'letter2phoneme/context.ldb'},
+		]},
 	]})
 	test.summary()
