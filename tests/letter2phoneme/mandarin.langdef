@@ -16,4 +16,12 @@ end
 
 rules
 
+		x	/s\/
+		i	/j_^/
+		è	/E_T_B/
+
+		d	/t/
+		u	/u_^/
+	u)	ō	/O_T/
+
 end

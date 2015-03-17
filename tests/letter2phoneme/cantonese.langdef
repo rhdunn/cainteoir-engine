@@ -16,4 +16,10 @@ end
 
 rules
 
+	z	/Z/
+	e6	/E_L/
+
+	d	/d/
+	o1	/o_T/
+
 end

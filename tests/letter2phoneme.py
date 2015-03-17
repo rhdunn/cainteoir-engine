@@ -28,5 +28,9 @@ if __name__ == '__main__':
 			{'test': 'letter2phoneme/right.txt', 'result': 'letter2phoneme/right.ps', 'ruleset': 'letter2phoneme/context.ldb'},
 			{'test': 'letter2phoneme/left.txt', 'result': 'letter2phoneme/left.ps', 'ruleset': 'letter2phoneme/context.ldb'},
 		]},
+		{'name': 'Rewrite', 'type': 'phonemestream', 'tests': [
+			{'test': 'letter2phoneme/cantonese.txt', 'result': 'letter2phoneme/cantonese.ps', 'ruleset': 'letter2phoneme/cantonese.ldb'},
+			{'test': 'letter2phoneme/mandarin.txt', 'result': 'letter2phoneme/mandarin.ps', 'ruleset': 'letter2phoneme/mandarin.ldb'},
+		]},
 	]})
 	test.summary()
