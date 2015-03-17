@@ -666,6 +666,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> l2p_rules;
 	std::list<conditional_t> conditionals;
 	tts::dictionary dict;
+	uint8_t boundary = ' ';
 
 	auto reader = cainteoir_file_reader(cainteoir::path(aFileName));
 	while (reader.read())
@@ -710,6 +711,11 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 			{
 				parse_rewrite(reader, rewrite_rules);
 			}
+			else if (reader.match().compare("boundary") == 0)
+			{
+				if (reader.read() && reader.type() == cainteoir_file_reader::text)
+					boundary = *reader.match().begin();
+			}
 		}
 	}
 
@@ -720,6 +726,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	out.u16(0x3031); // endianness
 	out.pstr(locale);
 	out.pstr(phonemeset);
+	out.u8(boundary);
 	out.end_section();
 
 	if (!conditionals.empty())

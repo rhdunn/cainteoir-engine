@@ -57,7 +57,8 @@ information about the language.
 | endianness     | u16    |  6     |
 | locale         | pstr   |  8     |
 | phonemeset     | pstr   | 12     |
-| END OF HEADER  |        | 16     |
+| boundary       | u8     | 16     |
+| END OF HEADER  |        | 17     |
 
 The `magic` field identifies the file as a voice database file. This is the
 string "LANGDB".
@@ -71,6 +72,10 @@ file.
 
 The `phonemeset` field identifies the format in which the phonemes are
 transcribed.
+
+The `boundary` field specifies the character to use as a boundary separator
+for use in the letter-to-phoneme rules. This is typically emitted by the
+lexical rewrite rules to denote affix boundaries.
 
 ## Rule Condition Expressions
 

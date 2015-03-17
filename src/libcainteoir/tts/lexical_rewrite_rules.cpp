@@ -90,6 +90,7 @@ rewrite_rules::rewrite_rules(const std::shared_ptr<cainteoir::buffer> &aData)
 	mRules.seek(tts::LANGDB_HEADER_ID);
 	const char *locale = mRules.pstr();
 	const char *phonemeset = mRules.pstr();
+	uint8_t boundary = mRules.u8();
 
 	while (!mRules.eof()) switch (mRules.magic())
 	{

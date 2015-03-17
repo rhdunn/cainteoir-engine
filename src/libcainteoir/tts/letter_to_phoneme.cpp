@@ -67,6 +67,7 @@ private:
 	uint32_t mRuleGroups[256];
 	uint32_t mClassDefs[256];
 	uint8_t  mConditionalFlags[256];
+	uint8_t  mBoundary;
 
 	ipa::phoneme mPreviousPhoneme;
 
@@ -102,6 +103,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData,
 	mRules.seek(tts::LANGDB_HEADER_ID);
 	const char *locale = mRules.pstr();
 	const char *phonemeset = mRules.pstr();
+	mBoundary = mRules.u8();
 
 	mPhonemeSet = tts::createPhonemeParser(phonemeset);
 
@@ -327,6 +329,9 @@ bool ruleset::match_classdef_back(uint32_t offset, const uint8_t *&current)
 std::pair<const uint8_t *, const char *>
 ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 {
+	while (current != mEnd && *current == mBoundary)
+		++current;
+
 	if (current == mEnd) return { nullptr, nullptr };
 
 	uint32_t offset = mRuleGroups[*current];
@@ -402,7 +407,7 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 		switch (state)
 		{
 		case left_match:
-			if (left != mStart - 1)
+			if (left != mStart - 1 && *left != mBoundary)
 			{
 				state = in_rule_group;
 				rule = null_rule;
@@ -411,7 +416,7 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 				++rule;
 			break;
 		case right_match:
-			if (right != mEnd)
+			if (right != mEnd && *right != mBoundary)
 			{
 				state = in_rule_group;
 				rule = null_rule;

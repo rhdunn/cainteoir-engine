@@ -54,7 +54,7 @@ namespace cainteoir { namespace tts
 	// LangDB Data Parser Helpers //////////////////////////////////////////////////////////
 
 	static constexpr uint16_t LANGDB_HEADER_ID = 8; // magic + endianness
-	static constexpr uint16_t LANGDB_HEADER_SIZE = 16;
+	static constexpr uint16_t LANGDB_HEADER_SIZE = 17;
 	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_SIZE = 6;
 	static constexpr uint16_t LETTER_TO_PHONEME_TABLE_ENTRY_SIZE = 8;
 	static constexpr uint16_t LEXICAL_REWRITE_RULES_TABLE_SIZE = 6;
