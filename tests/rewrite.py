@@ -27,5 +27,8 @@ if __name__ == '__main__':
 			{'test': 'letter2phoneme/cantonese.txt', 'result': 'letter2phoneme/cantonese.rewrite', 'ruleset': 'letter2phoneme/cantonese.ldb'},
 			{'test': 'letter2phoneme/mandarin.txt', 'result': 'letter2phoneme/mandarin.rewrite', 'ruleset': 'letter2phoneme/mandarin.ldb'},
 		]},
+		{'name': 'Syllabary', 'type': 'rewrite', 'tests': [
+			{'test': 'letter2phoneme/japanese.txt', 'result': 'letter2phoneme/japanese.rewrite', 'ruleset': 'letter2phoneme/japanese.ldb'},
+		]},
 	]})
 	test.summary()

@@ -634,6 +634,9 @@ data/voices/mbrola/us3.vdb: src/voices/mbrola/us3.voicedef src/apps/cainteoir
 tests/letter2phoneme/context.ldb: tests/letter2phoneme/context.langdef src/apps/cainteoir
 	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
+tests/letter2phoneme/japanese.ldb: tests/letter2phoneme/japanese.langdef src/apps/cainteoir
+	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
+
 tests/letter2phoneme/cantonese.ldb: tests/letter2phoneme/cantonese.langdef src/apps/cainteoir
 	CAINTEOIR_DATA_DIR=`pwd`/data src/apps/cainteoir --compile $< -o $@
 
@@ -851,11 +854,13 @@ tests/parsetext.check: tests/parsetext ${PARSETEXT_TEST_FILES}
 
 tests/rewrite.check: tests/rewrite ${LETTER2PHONEME_TEST_FILES} \
 	tests/letter2phoneme/context.ldb \
+	tests/letter2phoneme/japanese.ldb \
 	tests/letter2phoneme/cantonese.ldb \
 	tests/letter2phoneme/mandarin.ldb
 
 tests/letter2phoneme.check: tests/parsetext ${LETTER2PHONEME_TEST_FILES} \
 	tests/letter2phoneme/context.ldb \
+	tests/letter2phoneme/japanese.ldb \
 	tests/letter2phoneme/cantonese.ldb \
 	tests/letter2phoneme/mandarin.ldb
 

@@ -31,6 +31,7 @@ if __name__ == '__main__':
 		{'name': 'Rewrite', 'type': 'phonemestream', 'tests': [
 			{'test': 'letter2phoneme/cantonese.txt', 'result': 'letter2phoneme/cantonese.ps', 'ruleset': 'letter2phoneme/cantonese.ldb'},
 			{'test': 'letter2phoneme/mandarin.txt', 'result': 'letter2phoneme/mandarin.ps', 'ruleset': 'letter2phoneme/mandarin.ldb'},
+			{'test': 'letter2phoneme/japanese.txt', 'result': 'letter2phoneme/japanese.ps', 'ruleset': 'letter2phoneme/japanese.ldb'},
 		]},
 	]})
 	test.summary()
