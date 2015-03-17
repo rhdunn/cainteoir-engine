@@ -1,0 +1,19 @@
+# Letter-to-Phoneme : Basic Mandarin (rewrite rule) test file
+#
+# Copyright (C) 2015 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.locale		en
+.phonemeset	cxs
+
+rewrite
+
+	謝	"xiè "
+	多	"duō "
+
+end
+
+rules
+
+end

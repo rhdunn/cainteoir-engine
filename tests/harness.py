@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (C) 2010-2013 Reece H. Dunn
+# Copyright (C) 2010-2015 Reece H. Dunn
 #
 # This file is part of cainteoir-engine.
 #
@@ -169,6 +169,16 @@ class DictionaryCommand(Command):
 			return Command.run(self, args, '--dictionary %s' % filename, data)
 		return Command.run(self, args, filename, data)
 
+class RewriteCommand(Command):
+	def __init__(self):
+		Command.__init__(self, 'rewrite')
+
+	def run(self, args, filename, data):
+		params = [x for x in args]
+		if 'ruleset' in data:
+			params.extend(['--ruleset', os.path.join(sys.path[0], data['ruleset'])])
+		return Command.run(self, params, filename, data)
+
 class ParseTextCommand(Command):
 	def __init__(self, test_type):
 		Command.__init__(self, 'parsetext --%s' % test_type)
@@ -240,6 +250,8 @@ def create_command(test_type):
 		return Command('xmlreader --html')
 	if test_type == 'media-stream':
 		return Command('../src/examples/doc2doc --media-overlays')
+	if test_type == 'rewrite':
+		return RewriteCommand()
 	if test_type in ['parsetext', 'clauses', 'contextanalysis', 'wordstream', 'phonemestream', 'prosodystream']:
 		return ParseTextCommand(test_type)
 	if test_type == 'diphones':
