@@ -407,22 +407,32 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 		switch (state)
 		{
 		case left_match:
-			if (left != mStart - 1 && *left != mBoundary)
+			if (left == mStart - 1)
+				++rule;
+			else if (*left == mBoundary)
+			{
+				++rule;
+				--left;
+			}
+			else
 			{
 				state = in_rule_group;
 				rule = null_rule;
 			}
-			else
-				++rule;
 			break;
 		case right_match:
-			if (right != mEnd && *right != mBoundary)
+			if (right == mEnd)
+				++rule;
+			else if (*right == mBoundary)
+			{
+				++rule;
+				++right;
+			}
+			else
 			{
 				state = in_rule_group;
 				rule = null_rule;
 			}
-			else
-				++rule;
 			break;
 		default:
 			state = in_rule_group;
