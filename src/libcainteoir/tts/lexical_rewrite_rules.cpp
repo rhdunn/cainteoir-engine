@@ -69,9 +69,13 @@ struct rewrite_rules : public tts::rewriter
 private:
 	const uint8_t *next_match(const uint8_t *current, FILE *out);
 
+	bool match_classdef(uint32_t offset, const uint8_t *&current);
+	bool match_classdef_back(uint32_t offset, const uint8_t *&current);
+
 	std::shared_ptr<cainteoir::buffer> mData;
 	cainteoir::native_endian_buffer mRules;
 	uint32_t mRuleGroups[256];
+	uint32_t mClassDefs[256];
 	bool mHaveRules;
 
 	const uint8_t *mStart;
@@ -110,6 +114,7 @@ rewrite_rules::rewrite_rules(const std::shared_ptr<cainteoir::buffer> &aData)
 			uint8_t  id = mRules.u8();
 			uint32_t offset = mRules.offset();
 			mRules.seek(offset + (entries * tts::CLASSDEF_TABLE_ENTRY_SIZE));
+			mClassDefs[id] = offset;
 		}
 		break;
 	case tts::LETTER_TO_PHONEME_TABLE_MAGIC:
@@ -252,6 +257,53 @@ const uint8_t *rewrite_rules::next_match(const uint8_t *current, FILE *out)
 			break;
 		}
 		break;
+	case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+	case 'G': case 'H': case 'I': case 'J': case 'K': case 'L': case 'M':
+	case 'N': case 'O': case 'P': case 'Q': case 'R': case 'S':
+	case 'T': case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z':
+		offset = mClassDefs[*rule];
+		if (offset == 0)
+		{
+			state = in_rule_group;
+			rule = null_rule;
+		}
+		else switch (state)
+		{
+		case context_match:
+			if (match_classdef(offset, context))
+			{
+				++rule;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		case left_match:
+			if (match_classdef_back(offset, left))
+			{
+				++rule;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		case right_match:
+			if (match_classdef(offset, right))
+			{
+				++rule;
+			}
+			else
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		}
+		break;
 	default:
 		switch (state)
 		{
@@ -293,6 +345,72 @@ const uint8_t *rewrite_rules::next_match(const uint8_t *current, FILE *out)
 			break;
 		}
 		break;
+	}
+}
+
+bool rewrite_rules::match_classdef(uint32_t offset, const uint8_t *&current)
+{
+	uint32_t prev_offset = mRules.offset();
+	mRules.seek(offset);
+
+	while (true)
+	{
+		offset = mRules.u32();
+		if (offset == 0)
+		{
+			mRules.seek(prev_offset);
+			return false;
+		}
+
+		const uint8_t *match = (const uint8_t *)mRules.pstr(offset);
+		const uint8_t *check = current;
+		while (*match && check < mEnd && *check == *match)
+		{
+			++match;
+			++check;
+		}
+
+		if (!*match)
+		{
+			current = check;
+			mRules.seek(prev_offset);
+			return true;
+		}
+	}
+}
+
+bool rewrite_rules::match_classdef_back(uint32_t offset, const uint8_t *&current)
+{
+	uint32_t prev_offset = mRules.offset();
+	mRules.seek(offset);
+
+	while (true)
+	{
+		offset = mRules.u32();
+		if (offset == 0)
+		{
+			mRules.seek(prev_offset);
+			return false;
+		}
+
+		const uint8_t *start = (const uint8_t *)mRules.pstr(offset);
+		const uint8_t *match = start;
+		while (*match) ++match;
+		--match;
+
+		const uint8_t *check = current;
+		while (match >= start && check >= mStart && *check == *match)
+		{
+			--match;
+			--check;
+		}
+
+		if (match < start)
+		{
+			current = check;
+			mRules.seek(prev_offset);
+			return true;
+		}
 	}
 }
 
