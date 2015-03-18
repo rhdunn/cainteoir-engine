@@ -369,6 +369,8 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 			rule = (const uint8_t *)mRules.pstr();
 			if (*rule == 0)
 			{
+				if (elision == ignore_elision_rules)
+					return { nullptr, nullptr };
 				++current;
 				throw tts::phoneme_error(i18n("unable to pronounce the text"));
 			}
