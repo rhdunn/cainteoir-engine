@@ -639,7 +639,7 @@ parse_conditional(cainteoir_file_reader &reader,
 	if (expression.find("locale=") == 0)
 	{
 		std::string locale = expression.substr(7);
-		conditionals.push_back({ c, tts::LANGDB_CONDRULE_LOCALE | set, locale });
+		conditionals.push_back({ c, (uint8_t)(tts::LANGDB_CONDRULE_LOCALE | set), locale });
 	}
 	else
 		throw std::runtime_error("unsupported conditional expression");
