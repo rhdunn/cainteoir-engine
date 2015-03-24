@@ -395,6 +395,14 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 			rule = null_rule;
 		}
 		break;
+	case '!':
+		++rule;
+		if (mConditionalFlags[*rule++])
+		{
+			state = in_rule_group;
+			rule = null_rule;
+		}
+		break;
 	case '(':
 		right = context;
 		state = right_match;

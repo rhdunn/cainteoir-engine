@@ -563,7 +563,7 @@ parse_rules(cainteoir_file_reader &reader,
 			if (reader.match().compare("end") == 0)
 				return;
 
-			if (*reader.match().begin() == '@' && rule)
+			if ((*reader.match().begin() == '@' || *reader.match().begin() == '!') && rule)
 			{
 				if (reader.match().size() != 2)
 					throw std::runtime_error("invalid rule conditional");

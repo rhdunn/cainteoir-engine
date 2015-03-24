@@ -215,10 +215,12 @@ The rule pattern is a sequence of characters with the following meaning:
 | `)`          | Switch to the left context.                         |
 | `{ccc}`      | Match a phoneme feature; `c=[a-z0-9]`.              |
 | `@c`         | Specify a conditional rule `c`; `c=[\x21-\x7E]`.    |
+| `!c`         | Specify a conditional rule `c`; `c=[\x21-\x7E]`.    |
 
-Conditional rule patterns occur at the start of the pattern string. If the
-conditional rule `c` is not set to true this rule is skipped. Conditional
-rules are set on matching [Rule Condition Expressions](#rule-condition-expressions).
+Conditional rule patterns occur at the start of the pattern string. An `@c`
+rule is applied if the conditional rule `c` is true, a `!c` rule is applied
+if it is false, otherwise the rule is skipped. Conditional rules are set on
+matching [Rule Condition Expressions](#rule-condition-expressions).
 
 If the end of the rule pattern is reached, the default context location is
 where the current match ends.
