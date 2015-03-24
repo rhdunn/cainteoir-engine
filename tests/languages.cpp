@@ -1,6 +1,6 @@
-/* Test for language tag decoding.
+/* BCP 47 Locale Support tests.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -48,6 +48,9 @@ void compare(const lang::tag &a, const lang::tag &b)
 
 #define lang_less(a, b)     assert(      lang::make_lang(a) < lang::make_lang(b))
 #define lang_not_less(a, b) assert_false(lang::make_lang(a) < lang::make_lang(b))
+
+#define lang_subtag(a, b)     assert(      lang::issubtag(lang::make_lang(a), lang::make_lang(b)))
+#define lang_not_subtag(a, b) assert_false(lang::issubtag(lang::make_lang(a), lang::make_lang(b)))
 
 bool use_locale(const char *locale)
 {
@@ -252,6 +255,25 @@ TEST_CASE("language tag ordering")
 	lang_not_less("nl", "af");
 }
 
+TEST_CASE("language tag subtag")
+{
+	lang_subtag("en", "en");
+	lang_subtag("en-GB", "en");
+	lang_subtag("en-GB-scotland", "en");
+	lang_subtag("en-GB-scotland-x-arch", "en");
+	lang_subtag("en-GB-x-rp", "en");
+	lang_subtag("en-Latn-GB", "en");
+	lang_subtag("en-Latn-GB-scotland", "en");
+	lang_subtag("en-Latn-GB-scotland-x-arch", "en");
+	lang_subtag("en-*-GB", "en");
+	lang_subtag("en-*-GB-scotland", "en");
+	lang_subtag("en-*-GB-scotland-x-arch", "en");
+	lang_subtag("en-*-GB-x-rp", "en");
+
+	lang_subtag(    "fr", "fr");
+	lang_not_subtag("nb", "nn");
+}
+
 TEST_CASE("language-region tag equality")
 {
 	lang_match(   "en-GB", "en-GB");
@@ -277,6 +299,22 @@ TEST_CASE("language-region tag ordering")
 	lang_less(    "en-GB", "es");
 }
 
+TEST_CASE("language-region tag subtag")
+{
+	lang_not_subtag("en", "en-GB");
+	lang_subtag(    "en-GB", "en-GB");
+	lang_subtag(    "en-GB-scotland", "en-GB");
+	lang_subtag(    "en-GB-scotland-x-arch", "en-GB");
+	lang_subtag(    "en-GB-x-rp", "en-GB");
+	lang_not_subtag("en-Latn-GB", "en-GB");
+	lang_not_subtag("en-Latn-GB-scotland", "en-GB");
+	lang_not_subtag("en-Latn-GB-scotland-x-arch", "en-GB");
+	lang_not_subtag("en-*-GB", "en-GB");
+	lang_not_subtag("en-*-GB-scotland", "en-GB");
+	lang_not_subtag("en-*-GB-scotland-x-arch", "en-GB");
+	lang_not_subtag("en-*-GB-x-rp", "en-GB");
+}
+
 TEST_CASE("language-script tag equality")
 {
 	lang_match(   "el-Grek", "el-Grek");
@@ -300,6 +338,22 @@ TEST_CASE("language-script tag ordering")
 
 	lang_not_less("fr", "el-Grek");
 	lang_less(    "el-Grek", "fr");
+}
+
+TEST_CASE("language-script tag subtag")
+{
+	lang_not_subtag("en", "en-Latn");
+	lang_not_subtag("en-GB", "en-Latn");
+	lang_not_subtag("en-GB-scotland", "en-Latn");
+	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn");
+	lang_not_subtag("en-GB-x-rp", "en-Latn");
+	lang_subtag(    "en-Latn-GB", "en-Latn");
+	lang_subtag(    "en-Latn-GB-scotland", "en-Latn");
+	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn");
+	lang_not_subtag("en-*-GB", "en-Latn");
+	lang_not_subtag("en-*-GB-scotland", "en-Latn");
+	lang_not_subtag("en-*-GB-scotland-x-arch", "en-Latn");
+	lang_not_subtag("en-*-GB-x-rp", "en-Latn");
 }
 
 TEST_CASE("language-script-region tag equality")
@@ -328,6 +382,22 @@ TEST_CASE("language-script-region tag ordering")
 
 	lang_not_less("zh-Hans-HK", "zh");
 	lang_less(    "zh", "zh-Hans-HK");
+}
+
+TEST_CASE("language-script-region tag subtag")
+{
+	lang_not_subtag("en", "en-Latn-GB");
+	lang_not_subtag("en-GB", "en-Latn-GB");
+	lang_not_subtag("en-GB-scotland", "en-Latn-GB");
+	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn-GB");
+	lang_not_subtag("en-GB-x-rp", "en-Latn-GB");
+	lang_subtag(    "en-Latn-GB", "en-Latn-GB");
+	lang_subtag(    "en-Latn-GB-scotland", "en-Latn-GB");
+	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn-GB");
+	lang_not_subtag("en-*-GB", "en-Latn-GB");
+	lang_not_subtag("en-*-GB-scotland", "en-Latn-GB");
+	lang_not_subtag("en-*-GB-scotland-x-arch", "en-Latn-GB");
+	lang_not_subtag("en-*-GB-x-rp", "en-Latn-GB");
 }
 
 TEST_CASE("language-script-region-variant tag equality")
@@ -374,6 +444,86 @@ TEST_CASE("language-script-region-variant tag ordering")
 	lang_less(    "de", "de-Latn-CH-1901");
 }
 
+TEST_CASE("language-script-region-variant tag subtag")
+{
+	lang_not_subtag("en", "en-Latn-GB-scotland");
+	lang_not_subtag("en-GB", "en-Latn-GB-scotland");
+	lang_not_subtag("en-GB-scotland", "en-Latn-GB-scotland");
+	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn-GB-scotland");
+	lang_not_subtag("en-GB-x-rp", "en-Latn-GB-scotland");
+	lang_not_subtag("en-Latn-GB", "en-Latn-GB-scotland");
+	lang_subtag(    "en-Latn-GB-scotland", "en-Latn-GB-scotland");
+	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn-GB-scotland");
+	lang_not_subtag("en-*-GB", "en-Latn-GB-scotland");
+	lang_not_subtag("en-*-GB-scotland", "en-Latn-GB-scotland");
+	lang_not_subtag("en-*-GB-scotland-x-arch", "en-Latn-GB-scotland");
+	lang_not_subtag("en-*-GB-x-rp", "en-Latn-GB-scotland");
+}
+
+TEST_CASE("language-script-region-variant-private_use tag subtag")
+{
+	lang_not_subtag("en", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-GB", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-GB-scotland", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-GB-x-rp", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-Latn-GB", "en-Latn-GB-scotland-x-arch");
+	lang_subtag(    "en-Latn-GB-scotland", "en-Latn-GB-scotland-x-arch");
+	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-*-GB", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-*-GB-scotland", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-*-GB-scotland-x-arch", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-*-GB-x-rp", "en-Latn-GB-scotland-x-arch");
+}
+
+TEST_CASE("language-script-region-private_use tag subtag")
+{
+	lang_not_subtag("en", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-GB", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-GB-scotland", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-GB-x-rp", "en-Latn-GB-x-arch");
+	lang_subtag(    "en-Latn-GB", "en-Latn-GB-x-arch");
+	lang_subtag(    "en-Latn-GB-scotland", "en-Latn-GB-x-arch");
+	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-*-GB", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-*-GB-scotland", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-*-GB-scotland-x-arch", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-*-GB-x-rp", "en-Latn-GB-x-arch");
+}
+
+TEST_CASE("language-region-private_use tag subtag")
+{
+	lang_not_subtag("en", "en-GB-x-rp");
+	lang_subtag(    "en-GB", "en-GB-x-rp");
+	lang_subtag(    "en-GB-scotland", "en-GB-x-rp");
+	lang_subtag(    "en-GB-scotland-x-arch", "en-GB-x-rp");
+	lang_subtag(    "en-GB-x-rp", "en-GB-x-rp");
+	lang_not_subtag("en-Latn-GB", "en-GB-x-rp");
+	lang_not_subtag("en-Latn-GB-scotland", "en-GB-x-rp");
+	lang_not_subtag("en-Latn-GB-scotland-x-arch", "en-GB-x-rp");
+	lang_not_subtag("en-*-GB", "en-GB-x-rp");
+	lang_not_subtag("en-*-GB-scotland", "en-GB-x-rp");
+	lang_not_subtag("en-*-GB-scotland-x-arch", "en-GB-x-rp");
+	lang_not_subtag("en-*-GB-x-rp", "en-GB-x-rp");
+}
+
+TEST_CASE("language-region-variant-private_use tag subtag")
+{
+	lang_not_subtag("en", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-GB", "en-GB-scotland-x-arch");
+	lang_subtag(    "en-GB-scotland", "en-GB-scotland-x-arch");
+	lang_subtag(    "en-GB-scotland-x-arch", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-GB-x-rp", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-Latn-GB", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-Latn-GB-scotland", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-Latn-GB-scotland-x-arch", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-*-GB", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-*-GB-scotland", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-*-GB-scotland-x-arch", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-*-GB-x-rp", "en-GB-scotland-x-arch");
+}
+
 TEST_CASE("language-*-region filter")
 {
 	compare(lang::make_lang("en-*-US"), { "en", "", "*", "US" });
@@ -385,6 +535,19 @@ TEST_CASE("language-*-region filter")
 
 	lang_less(    "en-*-US", "en-Latn-US");
 	lang_not_less("en-Latn-US", "en-*-US");
+
+	lang_not_subtag("en", "en-*-GB");
+	lang_subtag(    "en-GB", "en-*-GB");
+	lang_subtag(    "en-GB-scotland", "en-*-GB");
+	lang_subtag(    "en-GB-scotland-x-arch", "en-*-GB");
+	lang_subtag(    "en-GB-x-rp", "en-*-GB");
+	lang_subtag(    "en-Latn-GB", "en-*-GB");
+	lang_subtag(    "en-Latn-GB-scotland", "en-*-GB");
+	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-*-GB");
+	lang_subtag(    "en-*-GB", "en-*-GB");
+	lang_subtag(    "en-*-GB-scotland", "en-*-GB");
+	lang_subtag(    "en-*-GB-scotland-x-arch", "en-*-GB");
+	lang_subtag(    "en-*-GB-x-rp", "en-*-GB");
 }
 
 TEST_CASE("localization [locale=C]")
