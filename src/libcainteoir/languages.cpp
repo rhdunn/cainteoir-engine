@@ -1,6 +1,6 @@
-/* Cainteoir Engine.
+/* BCP 47 Locale Support.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -296,6 +296,23 @@ bool lang::operator<(const tag &a, const tag &b)
 	if (a.region < b.region) return true;
 
 	return a.variant < b.variant;
+}
+
+bool lang::issubtag(const tag &a, const tag &b)
+{
+	if (b.variant.empty())
+	{
+		if (b.region.empty())
+		{
+			if (b.script.empty())
+				return a.lang == b.lang;
+			return a.lang == b.lang && a.script == b.script;
+		}
+		else if (b.script == "*")
+			return a.lang == b.lang && a.region == b.region;
+		return a.lang == b.lang && a.script == b.script && a.region == b.region;
+	}
+	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
 }
 
 std::string cainteoir::languages::language(const lang::tag &id) const

@@ -28,23 +28,6 @@
 namespace tts = cainteoir::tts;
 namespace ipa = cainteoir::ipa;
 
-static bool match_locale(const cainteoir::language::tag &a, const cainteoir::language::tag &b)
-{
-	if (b.variant.empty())
-	{
-		if (b.region.empty())
-		{
-			if (b.script.empty())
-				return a.lang == b.lang;
-			return a.lang == b.lang && a.script == b.script;
-		}
-		else if (b.script == "*")
-			return a.lang == b.lang && a.region == b.region;
-		return a.lang == b.lang && a.script == b.script && a.region == b.region;
-	}
-	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
-}
-
 struct ruleset : public tts::phoneme_reader
 {
 	ruleset(const std::shared_ptr<cainteoir::buffer> &aData,
@@ -122,7 +105,7 @@ ruleset::ruleset(const std::shared_ptr<cainteoir::buffer> &aData,
 			switch (type & ~tts::LANGDB_CONDRULE_SET_MASK)
 			{
 			case tts::LANGDB_CONDRULE_LOCALE:
-				if (match_locale(aLocale, cainteoir::language::make_lang(value)))
+				if (cainteoir::language::issubtag(aLocale, cainteoir::language::make_lang(value)))
 					mConditionalFlags[c] = set;
 				break;
 			}

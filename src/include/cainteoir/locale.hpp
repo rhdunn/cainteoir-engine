@@ -1,6 +1,6 @@
 /* BCP 47 Locale Support.
  *
- * Copyright (C) 2011-2012 Reece H. Dunn
+ * Copyright (C) 2011-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -53,6 +53,8 @@ namespace cainteoir { namespace language
 	bool operator==(const tag &a, const tag &b);
 
 	bool operator<(const tag &a, const tag &b);
+
+	bool issubtag(const tag &a, const tag &b);
 
 	tag make_lang(const std::string &lang);
 }}
