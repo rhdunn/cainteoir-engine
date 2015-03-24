@@ -308,9 +308,11 @@ bool lang::issubtag(const tag &a, const tag &b)
 				return a.lang == b.lang;
 			return a.lang == b.lang && a.script == b.script;
 		}
-		else if (b.script == "*")
+		if (b.script == "*")
 			return a.lang == b.lang && a.region == b.region;
-		return a.lang == b.lang && a.script == b.script && a.region == b.region;
+		if (b.private_use.empty())
+			return a.lang == b.lang && a.script == b.script && a.region == b.region;
+		return a.lang == b.lang && a.script == b.script && a.region == b.region && a.private_use == b.private_use;
 	}
 	return a.lang == b.lang && a.script == b.script && a.region == b.region && a.variant == b.variant;
 }

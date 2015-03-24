@@ -262,6 +262,7 @@ TEST_CASE("language tag subtag")
 	lang_subtag("en-GB-scotland", "en");
 	lang_subtag("en-GB-scotland-x-arch", "en");
 	lang_subtag("en-GB-x-rp", "en");
+	lang_subtag("en-GB-x-arch", "en");
 	lang_subtag("en-Latn-GB", "en");
 	lang_subtag("en-Latn-GB-scotland", "en");
 	lang_subtag("en-Latn-GB-scotland-x-arch", "en");
@@ -306,6 +307,7 @@ TEST_CASE("language-region tag subtag")
 	lang_subtag(    "en-GB-scotland", "en-GB");
 	lang_subtag(    "en-GB-scotland-x-arch", "en-GB");
 	lang_subtag(    "en-GB-x-rp", "en-GB");
+	lang_subtag(    "en-GB-x-arch", "en-GB");
 	lang_not_subtag("en-Latn-GB", "en-GB");
 	lang_not_subtag("en-Latn-GB-scotland", "en-GB");
 	lang_not_subtag("en-Latn-GB-scotland-x-arch", "en-GB");
@@ -347,6 +349,7 @@ TEST_CASE("language-script tag subtag")
 	lang_not_subtag("en-GB-scotland", "en-Latn");
 	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn");
 	lang_not_subtag("en-GB-x-rp", "en-Latn");
+	lang_not_subtag("en-GB-x-arch", "en-Latn");
 	lang_subtag(    "en-Latn-GB", "en-Latn");
 	lang_subtag(    "en-Latn-GB-scotland", "en-Latn");
 	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn");
@@ -391,6 +394,7 @@ TEST_CASE("language-script-region tag subtag")
 	lang_not_subtag("en-GB-scotland", "en-Latn-GB");
 	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn-GB");
 	lang_not_subtag("en-GB-x-rp", "en-Latn-GB");
+	lang_not_subtag("en-GB-x-arch", "en-Latn-GB");
 	lang_subtag(    "en-Latn-GB", "en-Latn-GB");
 	lang_subtag(    "en-Latn-GB-scotland", "en-Latn-GB");
 	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn-GB");
@@ -451,6 +455,7 @@ TEST_CASE("language-script-region-variant tag subtag")
 	lang_not_subtag("en-GB-scotland", "en-Latn-GB-scotland");
 	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn-GB-scotland");
 	lang_not_subtag("en-GB-x-rp", "en-Latn-GB-scotland");
+	lang_not_subtag("en-GB-x-arch", "en-Latn-GB-scotland");
 	lang_not_subtag("en-Latn-GB", "en-Latn-GB-scotland");
 	lang_subtag(    "en-Latn-GB-scotland", "en-Latn-GB-scotland");
 	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn-GB-scotland");
@@ -467,6 +472,7 @@ TEST_CASE("language-script-region-variant-private_use tag subtag")
 	lang_not_subtag("en-GB-scotland", "en-Latn-GB-scotland-x-arch");
 	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn-GB-scotland-x-arch");
 	lang_not_subtag("en-GB-x-rp", "en-Latn-GB-scotland-x-arch");
+	lang_not_subtag("en-GB-x-arch", "en-Latn-GB-scotland-x-arch");
 	lang_not_subtag("en-Latn-GB", "en-Latn-GB-scotland-x-arch");
 	lang_subtag(    "en-Latn-GB-scotland", "en-Latn-GB-scotland-x-arch");
 	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn-GB-scotland-x-arch");
@@ -483,8 +489,9 @@ TEST_CASE("language-script-region-private_use tag subtag")
 	lang_not_subtag("en-GB-scotland", "en-Latn-GB-x-arch");
 	lang_not_subtag("en-GB-scotland-x-arch", "en-Latn-GB-x-arch");
 	lang_not_subtag("en-GB-x-rp", "en-Latn-GB-x-arch");
-	lang_subtag(    "en-Latn-GB", "en-Latn-GB-x-arch");
-	lang_subtag(    "en-Latn-GB-scotland", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-GB-x-arch", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-Latn-GB", "en-Latn-GB-x-arch");
+	lang_not_subtag("en-Latn-GB-scotland", "en-Latn-GB-x-arch");
 	lang_subtag(    "en-Latn-GB-scotland-x-arch", "en-Latn-GB-x-arch");
 	lang_not_subtag("en-*-GB", "en-Latn-GB-x-arch");
 	lang_not_subtag("en-*-GB-scotland", "en-Latn-GB-x-arch");
@@ -495,10 +502,11 @@ TEST_CASE("language-script-region-private_use tag subtag")
 TEST_CASE("language-region-private_use tag subtag")
 {
 	lang_not_subtag("en", "en-GB-x-rp");
-	lang_subtag(    "en-GB", "en-GB-x-rp");
-	lang_subtag(    "en-GB-scotland", "en-GB-x-rp");
-	lang_subtag(    "en-GB-scotland-x-arch", "en-GB-x-rp");
+	lang_not_subtag("en-GB", "en-GB-x-rp");
+	lang_not_subtag("en-GB-scotland", "en-GB-x-rp");
+	lang_not_subtag("en-GB-scotland-x-arch", "en-GB-x-rp");
 	lang_subtag(    "en-GB-x-rp", "en-GB-x-rp");
+	lang_not_subtag("en-GB-x-arch", "en-GB-x-rp");
 	lang_not_subtag("en-Latn-GB", "en-GB-x-rp");
 	lang_not_subtag("en-Latn-GB-scotland", "en-GB-x-rp");
 	lang_not_subtag("en-Latn-GB-scotland-x-arch", "en-GB-x-rp");
@@ -515,6 +523,7 @@ TEST_CASE("language-region-variant-private_use tag subtag")
 	lang_subtag(    "en-GB-scotland", "en-GB-scotland-x-arch");
 	lang_subtag(    "en-GB-scotland-x-arch", "en-GB-scotland-x-arch");
 	lang_not_subtag("en-GB-x-rp", "en-GB-scotland-x-arch");
+	lang_not_subtag("en-GB-x-arch", "en-GB-scotland-x-arch");
 	lang_not_subtag("en-Latn-GB", "en-GB-scotland-x-arch");
 	lang_not_subtag("en-Latn-GB-scotland", "en-GB-scotland-x-arch");
 	lang_not_subtag("en-Latn-GB-scotland-x-arch", "en-GB-scotland-x-arch");
