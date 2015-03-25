@@ -6,10 +6,13 @@
 
 .phonemeset	ipa
 
+/ɹ/		/ɾ/
+
 # Short Vowels
 
 /æ/		/ɐ̟/ # TRAP
 /ʊ/		/ʉ/ # FOOT (PUT)
+/ɒ/		/ɔ/ # LOT
 
 # Long Vowels
 
@@ -41,7 +44,7 @@
 /ɛə̯/		/eɾ/ # SQUARE
 /ɔɪ̯/		/oi̯/ # CHOICE
 /aɪ̯/		/əi̯/ # PRICE
-/aʊ̯/		/ɘʉ̯/ # MOUTH
+/aʊ̯/		/əʉ̯/ # MOUTH
 
 # Reduced Vowels
 

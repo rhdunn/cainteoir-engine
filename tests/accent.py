@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
 	en = {'name': 'English', 'groups': []} #                   English
 	#                                                          ... British English
-	en['groups'].append(accent('english', 'en-GB-scotland',   '... ... Scottish English (ScE)', consonants='ipa'))
+	en['groups'].append(accent('english', 'en-GB-scotland',   '... ... Scottish English (ScE)'))
 	#                                                          ... ... England
 	#                                                          ... ... ... Northern England
 	#                                                          ... ... ... ... North West England
