@@ -1,0 +1,9 @@
+@prefix tts: <http://reecedunn.co.uk/schema/2014/tts#> .
+@prefix pkg: <http://www.idpf.org/epub/vocab/package/#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<> pkg:belongs-to-collection <#col> .
+<#col> rdf:value "Loren Ipsum" .
+<#col> pkg:collection-type "series" .
+<#col> pkg:group-position "3" .
+<> tts:mimetype "application/oebps-package+xml" .

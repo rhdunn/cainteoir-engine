@@ -356,6 +356,8 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/identifier.opf', 'result': 'opf/metadata30/identifier.n3'},
 		]},
 		{'name': '3.0 metadata properties', 'type': ['turtle', 'turtle-all'], 'tests': [
+			{'test': 'opf/metadata30/collection-series.opf', 'result': 'opf/metadata30/collection-series.n3'},
+			{'test': 'opf/metadata30/collection-set.opf', 'result': 'opf/metadata30/collection-set.n3'},
 			{'test': 'opf/metadata30/meta-auth.opf', 'result': 'opf/metadata30/meta-auth.n3'},
 			{'test': 'opf/metadata30/publication-type.opf', 'result': 'opf/metadata30/publication-type.n3'},
 			{'test': 'opf/metadata30/source-identifier.opf', 'result': 'opf/metadata30/source-identifier.n3'},
