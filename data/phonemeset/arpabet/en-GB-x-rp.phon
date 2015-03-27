@@ -55,6 +55,7 @@ UH	/{smh,bck,rnd,vwl}/ # /ʊ/
 UW	/{hgh,bck,rnd,vwl,lng}/ # /uː/
 V	/{vcd,lbd,frc}/ # /v/
 W	/{vcd,lbv,apr}/ # /w/
+X	/{vls,vel,frc}/ # /x/
 Y	/{vcd,pal,apr}/ # /j/
 Z	/{vcd,alv,sib,frc}/ # /z/
 ZH	/{vcd,pla,sib,frc}/ # /ʒ/
