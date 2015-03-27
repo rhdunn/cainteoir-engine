@@ -371,6 +371,10 @@ if __name__ == '__main__':
 			{'test': 'opf/metadata30/xml-signature.opf', 'result': 'opf/metadata30/xml-signature.n3'},
 			{'test': 'opf/metadata30/xmp-record.opf', 'result': 'opf/metadata30/xmp-record.n3'},
 		]},
+		{'name': 'calibre metadata', 'type': 'turtle', 'tests': [
+			{'test': 'opf/meta/calibre-series.opf', 'result': 'opf/meta/calibre-series.n3'},
+			{'test': 'opf/meta/calibre-series-float_index.opf', 'result': 'opf/meta/calibre-series.n3'},
+		]},
 		{'name': 'manifest', 'type': 'turtle', 'tests': [
 			{'test': 'opf/spine/no-toc-ncx-in-manifest.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},
 			{'test': 'opf/spine/single-html-file-and-toc.opf', 'result': 'opf/spine/single-html-file-and-toc.n3'},

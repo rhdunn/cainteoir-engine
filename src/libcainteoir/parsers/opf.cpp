@@ -138,8 +138,9 @@ static const std::initializer_list<const xml::context::entry_ref> opf_attrs =
 	{ "version",       &opf::version_attr },
 };
 
-static void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph)
+static void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, rdf::uri &aCalibreSeries, rdf::graph &aGraph)
 {
+	std::string custom;
 	std::string value;
 	std::string content;
 	std::string id;
@@ -153,9 +154,12 @@ static void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, rdf::gra
 	case xml::reader::attribute:
 		if (reader.context() == &opf::name_attr)
 		{
-			std::shared_ptr<const rdf::uri> uri = aGraph.curie(reader.nodeValue().str());
+			auto meta = reader.nodeValue().str();
+			std::shared_ptr<const rdf::uri> uri = aGraph.curie(meta);
 			if (uri.get() && !uri->ns.empty())
 				name = *uri;
+			else if (meta.find("calibre:") == 0)
+				custom = meta;
 		}
 		else if (reader.context() == &opf::content_attr)
 			content = reader.nodeValue().str();
@@ -188,7 +192,9 @@ static void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, rdf::gra
 		if (reader.context() == &opf::meta_node)
 		{
 			if (!name.empty() && !content.empty())
+			{
 				aGraph.statement(aSubject, name, rdf::literal(content));
+			}
 			else if (!property.empty())
 			{
 				rdf::literal object = rdf::literal(value, datatype);
@@ -200,6 +206,24 @@ static void parseOpfMeta(xml::reader &reader, const rdf::uri &aSubject, rdf::gra
 				}
 				else
 					aGraph.statement(about, property, object);
+			}
+			else if (!custom.empty() && !content.empty())
+			{
+				if (custom == "calibre:series")
+				{
+					if (aCalibreSeries.empty())
+						aCalibreSeries = aGraph.genid();
+					aGraph.statement(aSubject, rdf::pkg("belongs-to-collection"), aCalibreSeries);
+					aGraph.statement(aCalibreSeries, rdf::rdf("value"), rdf::literal(content));
+					aGraph.statement(aCalibreSeries, rdf::pkg("collection-type"), rdf::literal("series"));
+				}
+				else if (custom == "calibre:series_index")
+				{
+					if (aCalibreSeries.empty())
+						aCalibreSeries = aGraph.genid();
+					int index = (int)strtof(content.c_str(), nullptr);
+					aGraph.statement(aCalibreSeries, rdf::pkg("group-position"), rdf::literal(index));
+				}
 			}
 			return;
 		}
@@ -387,6 +411,7 @@ static void parseOpfDublinCore(xml::reader &reader, const rdf::uri &aSubject, rd
 
 static void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, rdf::graph &aGraph, const xml::context::entry *ctx)
 {
+	rdf::uri aCalibreSeries;
 	while (reader.read()) switch (reader.nodeType())
 	{
 	case xml::reader::attribute:
@@ -399,7 +424,7 @@ static void parseOpfMetadata(xml::reader &reader, const rdf::uri &aSubject, rdf:
 			if (reader.context() == &opf::dcmetadata_node)
 				parseOpfMetadata(reader, aSubject, aGraph, reader.context());
 			else if (reader.context() == &opf::meta_node)
-				parseOpfMeta(reader, aSubject, aGraph);
+				parseOpfMeta(reader, aSubject, aCalibreSeries, aGraph);
 			else if (reader.context() == &opf::link_node)
 				parseOpfLink(reader, aSubject, aGraph);
 			else if (reader.namespaceUri() == xmlns::dc.href && reader.context() != &xml::unknown_context)
