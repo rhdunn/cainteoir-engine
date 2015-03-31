@@ -321,6 +321,8 @@ int main(int argc, char ** argv)
 		if (!parse_command_line({ general_options, toc_options }, usage, argc, argv))
 			return 0;
 
+		if (nav_range.second != -1) ++nav_range.second;
+
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
 		rdf::uri subject(filename ? filename : std::string(), std::string());
 
