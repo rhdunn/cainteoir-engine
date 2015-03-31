@@ -59,6 +59,7 @@ static void writeTextDocument(std::shared_ptr<cainteoir::document_reader> reader
 				break;
 			case css::display::table_cell:
 			case css::display::list_item:
+			case css::display::line_break:
 				if (need_linebreak)
 				{
 					fwrite("\n", 1, 1, stdout);
@@ -140,6 +141,17 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 			case css::display::list_item:
 				context = { "li", false };
 				break;
+			case css::display::line_break:
+				if (!text.empty())
+				{
+					auto norm = text.normalize();
+					text.clear();
+
+					if (!norm->empty())
+						fwrite(norm->begin(), 1, norm->size(), stdout);
+				}
+				fprintf(stdout, "<br>");
+				continue;
 			default:
 				break;
 			}
@@ -160,6 +172,9 @@ static void writeHtmlDocument(std::shared_ptr<cainteoir::document_reader> reader
 
 		if (reader->type & cainteoir::events::end_context)
 		{
+			if (reader->styles && reader->styles->display == css::display::line_break)
+				continue;
+
 			if (!text.empty())
 			{
 				auto norm = text.normalize();
