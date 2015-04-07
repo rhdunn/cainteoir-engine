@@ -59,6 +59,8 @@ private:
 	bool match_features_next(const char *phonemes, const uint8_t *&rules);
 	bool match_features_prev(const uint8_t *&rules);
 
+	bool match_phonemes_next(const char *phonemes, const uint8_t *&rules);
+
 	bool match_classdef(uint32_t offset, const uint8_t *&current);
 
 	bool match_classdef_back(uint32_t offset, const uint8_t *&current);
@@ -242,6 +244,37 @@ bool ruleset::match_features_prev(const uint8_t *&rules)
 		++feature_pos;
 		break;
 	}
+	return false;
+}
+
+bool ruleset::match_phonemes_next(const char *phonemes, const uint8_t *&rules)
+{
+	constexpr auto mask = ipa::main | ipa::diacritics | ipa::length;
+
+	auto *phonemes_end = phonemes + strlen(phonemes);
+
+	++rules;
+	auto *end = rules;
+	while (*end && *end != '/')
+		++end;
+
+	ipa::phoneme p1;
+	ipa::phoneme p2;
+	while (mPhonemeSet->parse((const char *&)rules, (const char *)end, p1))
+	{
+		if (!mPhonemeSet->parse(phonemes, phonemes_end, p2))
+			return false;
+
+		if (p1.get(mask) != p2.get(mask))
+			return false;
+	}
+
+	if (rules == end && phonemes == phonemes_end)
+	{
+		++rules;
+		return true;
+	}
+
 	return false;
 }
 
@@ -463,6 +496,29 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 		{
 		case left_match:
 			if (!match_features_prev(rule))
+			{
+				state = in_rule_group;
+				rule = null_rule;
+			}
+			break;
+		default:
+			state = in_rule_group;
+			rule = null_rule;
+			break;
+		}
+		break;
+	case '/':
+		switch (state)
+		{
+		case right_match:
+			offset = mRules.offset();
+			ctx = next_match(right, ignore_elision_rules);
+			mRules.seek(offset);
+			if (ctx.first != nullptr && match_phonemes_next(ctx.second, rule))
+			{
+				right = ctx.first;
+			}
+			else
 			{
 				state = in_rule_group;
 				rule = null_rule;

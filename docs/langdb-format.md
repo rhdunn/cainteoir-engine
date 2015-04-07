@@ -214,8 +214,11 @@ The rule pattern is a sequence of characters with the following meaning:
 | `(`          | Switch to the right context.                        |
 | `)`          | Switch to the left context.                         |
 | `{ccc}`      | Match a phoneme feature; `c=[a-z0-9]`.              |
+| `/.../`      | Match a phoneme.                                    |
 | `@c`         | Specify a conditional rule `c`; `c=[\x21-\x7E]`.    |
 | `!c`         | Specify a conditional rule `c`; `c=[\x21-\x7E]`.    |
+
+__NOTE:__ The `/.../` syntax specifies phonemes in the langdb phonemeset.
 
 Conditional rule patterns occur at the start of the pattern string. An `@c`
 rule is applied if the conditional rule `c` is true, a `!c` rule is applied
