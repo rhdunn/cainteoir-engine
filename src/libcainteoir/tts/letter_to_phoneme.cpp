@@ -56,8 +56,8 @@ private:
 
 	std::shared_ptr<tts::rewriter> mRewriter;
 
-	bool match_phoneme_next(const char *phonemes, const uint8_t *&rules);
-	bool match_phoneme_prev(const uint8_t *&rules);
+	bool match_features_next(const char *phonemes, const uint8_t *&rules);
+	bool match_features_prev(const uint8_t *&rules);
 
 	bool match_classdef(uint32_t offset, const uint8_t *&current);
 
@@ -178,7 +178,7 @@ bool ruleset::read()
 	return true;
 }
 
-bool ruleset::match_phoneme_next(const char *phonemes, const uint8_t *&rules)
+bool ruleset::match_features_next(const char *phonemes, const uint8_t *&rules)
 {
 	const char *phonemes_end = phonemes + strlen(phonemes);
 	ipa::phoneme p;
@@ -213,7 +213,7 @@ bool ruleset::match_phoneme_next(const char *phonemes, const uint8_t *&rules)
 	}
 }
 
-bool ruleset::match_phoneme_prev(const uint8_t *&rules)
+bool ruleset::match_features_prev(const uint8_t *&rules)
 {
 	char feature[4] = { 0, 0, 0, 0 };
 	uint8_t feature_pos = 0xFF;
@@ -442,7 +442,7 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 			offset = mRules.offset();
 			ctx = next_match(right, ignore_elision_rules);
 			mRules.seek(offset);
-			if (ctx.first != nullptr && match_phoneme_next(ctx.second, rule))
+			if (ctx.first != nullptr && match_features_next(ctx.second, rule))
 			{
 				right = ctx.first;
 			}
@@ -462,7 +462,7 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 		switch (state)
 		{
 		case left_match:
-			if (!match_phoneme_prev(rule))
+			if (!match_features_prev(rule))
 			{
 				state = in_rule_group;
 				rule = null_rule;
