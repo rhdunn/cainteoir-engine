@@ -195,12 +195,13 @@ bool ruleset::match_phoneme_next(const char *phonemes, const uint8_t *&rules)
 		++rules;
 		break;
 	case '}':
+	case ',':
 		if (feature_pos != 3)
 			return false;
 		if (!p.get(feature))
 			return false;
 		++rules;
-		feature_pos = 0xFF;
+		feature_pos = (*rules == '}') ? 0xFF : 0;
 		break;
 	default:
 		if (feature_pos == 0xFF)
@@ -226,11 +227,12 @@ bool ruleset::match_phoneme_prev(const uint8_t *&rules)
 		++rules;
 		break;
 	case '{':
+	case ',':
 		if (feature_pos != 3)
 			return false;
 		if (!mPreviousPhoneme.get(feature))
 			return false;
-		feature_pos = 0xFF;
+		feature_pos = (*rules == '{') ? 0xFF : 0;
 		++rules;
 		break;
 	default:
