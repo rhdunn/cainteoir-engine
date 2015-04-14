@@ -162,6 +162,7 @@ void ruleset::reset(const std::shared_ptr<cainteoir::buffer> &aBuffer)
 	else
 		mStart = mCurrent = mEnd = nullptr;
 	mPhonemeCurrent = mPhonemeEnd = nullptr;
+	(ipa::phoneme &)*this = ipa::unspecified;
 }
 
 bool ruleset::read()
