@@ -190,7 +190,7 @@ bool ruleset::match_features_next(const char *phonemes, const uint8_t *&rules)
 	while (true) switch (*rules)
 	{
 	case 0:
-		return !mPhonemeSet->parse(phonemes, phonemes_end, p);
+		return true;
 	case '{':
 		if (!mPhonemeSet->parse(phonemes, phonemes_end, p))
 			return true;
