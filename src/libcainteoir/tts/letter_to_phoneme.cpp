@@ -392,7 +392,7 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 			if (*rule == 0)
 			{
 				if (elision == ignore_elision_rules)
-					return { nullptr, nullptr };
+					return next_match(context, elision);
 				++current;
 				throw tts::phoneme_error(i18n("unable to pronounce the text"));
 			}
@@ -404,7 +404,7 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 			break;
 		default:
 			if (elision == ignore_elision_rules && *phonemes == 0)
-				state = in_rule_group;
+				return next_match(context, elision);
 			else
 				return { context, phonemes };
 			break;
