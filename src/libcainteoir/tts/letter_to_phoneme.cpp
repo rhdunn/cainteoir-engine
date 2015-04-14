@@ -372,12 +372,15 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 		right_match,
 	};
 
+	ipa::phoneme prev_phoneme;
 	state_t state = in_rule_group;
 	const uint8_t *rule     = null_rule;
 	const uint8_t *context  = nullptr;
 	const uint8_t *left     = nullptr;
 	const uint8_t *right    = nullptr;
 	const char    *phonemes = nullptr;
+	const char    *phonemes_ctx = nullptr;
+	const char    *phonemes_end = nullptr;
 	std::pair<const uint8_t *, const char *> ctx;
 	while (true) switch (*rule)
 	{
@@ -395,6 +398,7 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 			}
 
 			phonemes = mRules.pstr();
+			phonemes_end = phonemes + strlen(phonemes);
 			context = left = right = current;
 			state = context_match;
 			break;
@@ -473,9 +477,13 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 		switch (state)
 		{
 		case right_match:
+			prev_phoneme = mPreviousPhoneme;
+			phonemes_ctx = phonemes;
+			mPhonemeSet->parse(phonemes_ctx, phonemes_end, mPreviousPhoneme);
 			offset = mRules.offset();
 			ctx = next_match(right, ignore_elision_rules);
 			mRules.seek(offset);
+			mPreviousPhoneme = prev_phoneme;
 			if (ctx.first != nullptr && match_features_next(ctx.second, rule))
 			{
 				right = ctx.first;
@@ -512,9 +520,13 @@ ruleset::next_match(const uint8_t *current, elision_rules_t elision)
 		switch (state)
 		{
 		case right_match:
+			prev_phoneme = mPreviousPhoneme;
+			phonemes_ctx = phonemes;
+			mPhonemeSet->parse(phonemes_ctx, phonemes_end, mPreviousPhoneme);
 			offset = mRules.offset();
 			ctx = next_match(right, ignore_elision_rules);
 			mRules.seek(offset);
+			mPreviousPhoneme = prev_phoneme;
 			if (ctx.first != nullptr && match_phonemes_next(ctx.second, rule))
 			{
 				right = ctx.first;
