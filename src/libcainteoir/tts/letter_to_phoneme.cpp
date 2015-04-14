@@ -202,8 +202,8 @@ bool ruleset::match_features_next(const char *phonemes, const uint8_t *&rules)
 			return false;
 		if (!p.get(feature))
 			return false;
-		++rules;
 		feature_pos = (*rules == '}') ? 0xFF : 0;
+		++rules;
 		break;
 	default:
 		if (feature_pos == 0xFF)
