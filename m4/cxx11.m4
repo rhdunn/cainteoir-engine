@@ -1,5 +1,5 @@
 # cxx11.m4 serial 6
-dnl Copyright (C) 2012 Reece H. Dunn
+dnl Copyright (C) 2012-2015 Reece H. Dunn
 dnl
 dnl This file is free software; Reece H. Dunn
 dnl gives unlimited permission to copy and/or distribute it,
@@ -117,7 +117,8 @@ AC_DEFUN([CXX11_NULLPTR], [
 	AC_COMPILE_IFELSE(
 		[AC_LANG_PROGRAM(
 			[[]],
-			[[const char *ptr = nullptr;]])],
+			[[const char *ptr = nullptr;]
+                         [(void)ptr;]])],
 		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
 		 AC_MSG_ERROR([C++11 nullptr not supported by $CXX.])])
@@ -133,8 +134,9 @@ AC_DEFUN([CXX11_DECLTYPE], [
 	AC_COMPILE_IFELSE(
 		[AC_LANG_PROGRAM(
 			[[]],
-			[[int a;]
-			 [decltype(a) b = a;]])],
+			[[int a = 4;]
+			 [decltype(a) b = a;]
+                         [(void)b;]])],
 		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
 		 AC_MSG_ERROR([C++11 decltype not supported by $CXX.])])
@@ -151,7 +153,8 @@ AC_DEFUN([CXX11_AUTO], [
 		[AC_LANG_PROGRAM(
 			[[]],
 			[[class A {} a;]
-			 [auto b = a;]])],
+			 [auto b = a;]
+                         [(void)b;]])],
 		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
 		 AC_MSG_ERROR([C++11 auto not supported by $CXX.])])
@@ -194,7 +197,8 @@ AC_DEFUN([CXX11_BRACE_INITIALIZATION], [
 		[AC_LANG_PROGRAM(
 			[[#include <complex>]],
 			[[struct A { std::complex<float> c; };]
-			 [A a { { 0.1, 0.2 } };]])],
+			 [A a { { 0.1, 0.2 } };]
+                         [(void)a;]])],
 		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
 		 AC_MSG_ERROR([C++11 brace initialization of a class in a struct not supported by $CXX.])])
@@ -231,7 +235,8 @@ AC_DEFUN([CXX11_CONSTEXPR], [
 	AC_MSG_CHECKING([if $CXX supports C++11 constexpr])
 	AC_COMPILE_IFELSE(
 		[AC_LANG_PROGRAM(
-			[[constexpr float value = 1.25;]])],
+			[[constexpr float value = 1.25;]
+                         [float f = value;]])],
 		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
 		 AC_MSG_ERROR([C++11 constexpr not supported by $CXX.])])
@@ -246,7 +251,10 @@ AC_DEFUN([CXX11_LAMBDA], [
 	AC_MSG_CHECKING([if $CXX supports C++11 lambda])
 	AC_COMPILE_IFELSE(
 		[AC_LANG_PROGRAM(
-			[[auto f = [](int x) -> int { return x; };]])],
+                        [[]],
+			[[auto f = [](int x) -> int { return x; };]
+                         [int val = f(3);]
+                         [(void)val;]])],
 		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
 		 AC_MSG_ERROR([C++11 lambda not supported by $CXX.])])
@@ -257,8 +265,10 @@ AC_DEFUN([CXX11_LAMBDA_CAPTURE], [
 	AC_MSG_CHECKING([if $CXX supports C++11 lambda captures])
 	AC_COMPILE_IFELSE(
 		[AC_LANG_PROGRAM(
+                        [[]],
 			[[int val = 0;]
-			 [auto f = [&val](int x) { val = x; };]])],
+			 [auto f = [&val](int x) { val = x; };]
+                         [f(3);]])],
 		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
 		 AC_MSG_ERROR([C++11 lambda captures not supported by $CXX.])])
@@ -333,7 +343,8 @@ AC_DEFUN([CXX11_HAVE_STD_BEGIN], [
 		[AC_LANG_PROGRAM(
 			[[#include <iterator>]],
 			[[int data[] = { 1, 2, 3, 4, 5 };]
-			 [int *first = std::begin(data);]])],
+			 [int *first = std::begin(data);]
+                         [(void)first;]])],
 		[AC_MSG_RESULT([yes])
 		 AC_DEFINE([HAVE_CXX11_STD_BEGIN],[1],[Define to 1 if std::begin is supported.])],
 		[AC_MSG_RESULT([no])])
@@ -346,7 +357,8 @@ AC_DEFUN([CXX11_REQUIRE_STD_BEGIN], [
 		[AC_LANG_PROGRAM(
 			[[#include <iterator>]],
 			[[int data[] = { 1, 2, 3, 4, 5 };]
-			 [int *first = std::begin(data);]])],
+			 [int *first = std::begin(data);]
+                         [(void)first;]])],
 		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
 		 AC_MSG_ERROR([C++11 std::begin not supported by $CXX.])])
@@ -363,7 +375,8 @@ AC_DEFUN([CXX11_HAVE_STD_END], [
 		[AC_LANG_PROGRAM(
 			[[#include <iterator>]],
 			[[int data[] = { 1, 2, 3, 4, 5 };]
-			 [int *last  = std::end(data);]])],
+			 [int *last  = std::end(data);]
+                         [(void)last;]])],
 		[AC_MSG_RESULT([yes])
 		 AC_DEFINE([HAVE_CXX11_STD_END],[1],[Define to 1 if std::end is supported.])],
 		[AC_MSG_RESULT([no])])
@@ -376,7 +389,8 @@ AC_DEFUN([CXX11_REQUIRE_STD_END], [
 		[AC_LANG_PROGRAM(
 			[[#include <iterator>]],
 			[[int data[] = { 1, 2, 3, 4, 5 };]
-			 [int *last  = std::end(data);]])],
+			 [int *last  = std::end(data);]
+                         [(void)last;]])],
 		[AC_MSG_RESULT([yes])],
 		[AC_MSG_RESULT([no])
 		 AC_MSG_ERROR([C++11 std::end not supported by $CXX.])])
