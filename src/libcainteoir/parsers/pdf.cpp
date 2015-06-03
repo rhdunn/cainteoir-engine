@@ -102,6 +102,7 @@ struct pdf_document_reader : public cainteoir::document_reader
 
 	rdf::uri mSubject;
 	rdf::uri mCurrentReference;
+	rdf::uri mCurrentPageReference;
 	state mState;
 	std::string mTitle;
 };
@@ -221,6 +222,34 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 			content = std::make_shared<cainteoir::buffer>("\n");
 			anchor  = rdf::uri(mSubject.str(), pagenum);
 			mState  = state_page_text;
+
+			if (aMetadata)
+			{
+				if (mCurrentPageReference.empty())
+				{
+					const rdf::uri listing = aMetadata->genid();
+					aMetadata->statement(mSubject, rdf::ref("listing"), listing);
+
+					mCurrentPageReference = aMetadata->genid();
+					aMetadata->statement(listing, rdf::rdf("type"), rdf::ref("Listing"));
+					aMetadata->statement(listing, rdf::ref("type"), rdf::epv("page-list"));
+					aMetadata->statement(listing, rdf::ref("entries"), mCurrentPageReference);
+				}
+				else
+				{
+					const rdf::uri next = aMetadata->genid();
+					aMetadata->statement(mCurrentPageReference, rdf::rdf("rest"), next);
+					mCurrentPageReference = next;
+				}
+
+				const rdf::uri entry = aMetadata->genid();
+				aMetadata->statement(mCurrentPageReference, rdf::rdf("first"), entry);
+
+				aMetadata->statement(entry, rdf::rdf("type"), rdf::ref("Entry"));
+				aMetadata->statement(entry, rdf::ref("level"), rdf::literal(1, rdf::xsd("integer")));
+				aMetadata->statement(entry, rdf::ref("target"), anchor);
+				aMetadata->statement(entry, rdf::dc("title"), rdf::literal(mCurrentPage + 1));
+			}
 		}
 		return true;
 	case state_page_text:
@@ -234,7 +263,10 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 		return true;
 	}
 	if (aMetadata)
+	{
 		aMetadata->statement(mCurrentReference, rdf::rdf("rest"), rdf::rdf("nil"));
+		aMetadata->statement(mCurrentPageReference, rdf::rdf("rest"), rdf::rdf("nil"));
+	}
 	return false;
 }
 
