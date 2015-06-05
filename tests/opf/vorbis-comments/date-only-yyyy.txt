@@ -1,5 +1,2 @@
 GENRE=Vocal
 DATE=2001
-PERFORMER=Cainteoir(TM) Text-to-Speech
-LICENSE=http://creativecommons.org/licenses/by-sa/3.0/
-CONTACT=http://rhdunn.github.com/cainteoir/

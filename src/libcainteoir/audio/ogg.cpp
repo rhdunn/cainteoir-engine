@@ -144,10 +144,6 @@ cainteoir::add_document_metadata(std::list<cainteoir::vorbis_comment> &aComments
 
 	aComments.push_back({ "GENRE", "Vocal" });
 	aComments.push_back({ "DATE",  year });
-
-	aComments.push_back({ "PERFORMER", i18n("Cainteoir(TM) Text-to-Speech") });
-	aComments.push_back({ "LICENSE",   "http://creativecommons.org/licenses/by-sa/3.0/" });
-	aComments.push_back({ "CONTACT",   "http://rhdunn.github.com/cainteoir/" });
 }
 
 #if defined(HAVE_VORBISENC)
