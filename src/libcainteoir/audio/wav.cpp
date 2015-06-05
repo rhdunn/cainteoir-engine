@@ -28,6 +28,7 @@
 #include <stdio.h>
 
 namespace rdf = cainteoir::rdf;
+namespace rql = cainteoir::rdf::query;
 
 struct WaveHeader
 {
@@ -135,10 +136,25 @@ public:
 };
 
 std::shared_ptr<cainteoir::audio>
-create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency)
+cainteoir::create_wav_file(const char *aFileName,
+                           const rdf::uri &aFormat,
+                           int aChannels,
+                           int aFrequency)
 {
-	FILE *file = filename ? fopen(filename, "wb") : stdout;
+	FILE *file = aFileName ? fopen(aFileName, "wb") : stdout;
 	if (!file) throw std::runtime_error(strerror(errno));
-	return std::make_shared<wav_audio>(file, format, channels, frequency);
+	return std::make_shared<wav_audio>(file, aFormat, aChannels, aFrequency);
 }
 
+std::shared_ptr<cainteoir::audio>
+cainteoir::create_wav_file(const char *aFileName,
+                           const rdf::graph &aVoiceMetadata,
+                           const rdf::uri &aVoice)
+{
+	rql::results data = rql::select(aVoiceMetadata, rql::subject == aVoice);
+	int channels  = rql::select_value<int>(data, rql::predicate == rdf::tts("channels"));
+	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
+	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
+
+	return create_wav_file(aFileName, format, channels, frequency);
+}

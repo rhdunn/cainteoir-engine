@@ -1,6 +1,6 @@
 /* Example program for interacting with voice synthesizers.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -173,10 +173,21 @@ synthesize(const std::shared_ptr<tts::synthesizer> &voice,
 	rdf::uri   doc;
 	std::shared_ptr<cainteoir::audio> out;
 	if (outformat || outfile)
-		out = cainteoir::create_audio_file(outfile, outformat ? outformat : "wav", 0.3, metadata, doc,
-			voice->format(),
-			voice->channels(),
-			voice->frequency());
+	{
+		if (!outformat || !strcmp(outformat, "wave") || !strcmp(outformat, "wav"))
+			out = cainteoir::create_wav_file(outfile,
+				voice->format(),
+				voice->channels(),
+				voice->frequency());
+		else if (!strcmp(outformat, "ogg"))
+		{
+			auto comments = cainteoir::vorbis_comments(metadata, doc);
+			out = cainteoir::create_ogg_file(outfile, comments, 0.3,
+				voice->format(),
+				voice->channels(),
+				voice->frequency());
+		}
+	}
 	else
 		out = cainteoir::open_audio_device(device_name, metadata, doc,
 			voice->format(),

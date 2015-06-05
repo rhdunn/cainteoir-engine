@@ -31,12 +31,6 @@ namespace rql = cainteoir::rdf::query;
 namespace mime = cainteoir::mime;
 
 std::shared_ptr<cainteoir::audio>
-create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency);
-
-std::shared_ptr<cainteoir::audio>
-create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
-
-std::shared_ptr<cainteoir::audio>
 create_alsa_device(const char *device, const rdf::uri &format, int channels, int frequency, const rdf::graph &aMetadata, const rdf::uri &aDocument);
 
 std::shared_ptr<cainteoir::audio>
@@ -79,46 +73,6 @@ cainteoir::create_audio_info(
 	int aFrequency)
 {
 	return std::make_shared<audio_info_t>(aFormat, aChannels, aFrequency);
-}
-
-std::shared_ptr<cainteoir::audio>
-cainteoir::create_audio_file(
-	const char *filename,
-	const char *type,
-	float quality,
-	const rdf::graph &aDocMetadata,
-	const rdf::uri &aDocument,
-	const rdf::graph &aVoiceMetadata,
-	const rdf::uri &aVoice)
-{
-	rql::results data = rql::select(aVoiceMetadata, rql::subject == aVoice);
-	int channels  = rql::select_value<int>(data, rql::predicate == rdf::tts("channels"));
-	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
-	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
-
-	return create_audio_file(filename, type, quality, aDocMetadata, aDocument, format, channels, frequency);
-}
-
-std::shared_ptr<cainteoir::audio>
-cainteoir::create_audio_file(
-	const char *filename,
-	const char *type,
-	float quality,
-	const rdf::graph &aDocMetadata,
-	const rdf::uri &aDocument,
-	const rdf::uri &aFormat,
-	int aChannels,
-	int aFrequency)
-{
-	if (filename && !strcmp(filename, "-"))
-		filename = nullptr;
-
-	if (!strcmp(type, "wav"))
-		return create_wav_file(filename, aFormat, aChannels, aFrequency);
-	if (!strcmp(type, "ogg"))
-		return create_ogg_file(filename, aFormat, aChannels, aFrequency, quality, aDocMetadata, aDocument);
-
-	return std::shared_ptr<cainteoir::audio>();
 }
 
 std::shared_ptr<cainteoir::audio>

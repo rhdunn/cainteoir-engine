@@ -157,25 +157,13 @@ reader.
 @return
 : An audio information object.
 
-# cainteoir::create_audio_file
+# cainteoir::create_wav_file
 {: .doc }
 
-Create an audio file to write data to.
+Create a Microsoft WAVE audio file to write data to.
 
-@filename
+@aFileName
 : The name of the audio file.
-
-@type
-: The file type (currently either 'wav' or 'ogg').
-
-@quality
-: The encoding quality to use (for lossy encodings).
-
-@aDocMetadata
-: The RDF graph containing the document metadata.
-
-@aDocument
-: The subject to use to extract the document metadata.
 
 @aFormat
 : The sample format for the file.
@@ -186,8 +174,51 @@ Create an audio file to write data to.
 @aFrequency
 : The sample frequency for the file.
 
-The document metadata is used to create metadata tags on the audio file
-(title, author, etc.).
+@return
+: An audio object associated with the file.
+
+# cainteoir::create_wav_file
+{: .doc }
+
+Create a Microsoft WAVE audio file to write data to.
+
+@aFileName
+: The name of the audio file.
+
+@aVoiceMetadata
+: The RDF graph containing the voice metadata.
+
+@aVoice
+: The subject to use to extract the voice metadata.
+
+The voice metadata is used to determine the number of channels, frequency and
+sample format of the audio.
+
+@return
+: An audio object associated with the file.
+
+# cainteoir::create_ogg_file
+{: .doc }
+
+Create an Ogg/Vorbis audio file to write data to.
+
+@aFileName
+: The name of the audio file.
+
+@aMetadata
+: The vorbis comment metadata to add to the file.
+
+@aQuality
+: The encoding quality to use.
+
+@aFormat
+: The sample format for the file.
+
+@aChannels
+: The number of channels the audio file will have.
+
+@aFrequency
+: The sample frequency for the file.
 
 @return
 : An audio object associated with the file.
@@ -197,30 +228,20 @@ The document metadata is used to create metadata tags on the audio file
 
 Create an audio file to write data to.
 
-@filename
+@aFileName
 : The name of the audio file.
 
-@type
-: The file type (currently either 'wav' or 'ogg').
+@aMetadata
+: The vorbis comment metadata to add to the file.
 
-@quality
-: The encoding quality to use (for lossy encodings).
-
-@aDocMetadata
-: The RDF graph containing the document metadata.
-
-@aDocument
-: The subject to use to extract the document metadata.
+@aQuality
+: The encoding quality to use.
 
 @aVoiceMetadata
 : The RDF graph containing the voice metadata.
 
 @aVoice
 : The subject to use to extract the voice metadata.
-
-The document metadata is used to create metadata tags on the audio file
-(title, author, etc.). The voice metadata is used to determine the number
-of channels, frequency and sample format of the audio.
 
 @return
 : An audio object associated with the file.
@@ -323,4 +344,4 @@ For example, to play the test.ogg file you can use:
 
 This API documentation is licensed under the CC BY-SA 2.0 UK License.
 
-Copyright (C) 2012-2014 Reece H. Dunn
+Copyright (C) 2012-2015 Reece H. Dunn

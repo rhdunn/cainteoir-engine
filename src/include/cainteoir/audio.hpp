@@ -1,6 +1,6 @@
 /* Audio API.
  *
- * Copyright (C) 2010-2014 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -79,25 +79,30 @@ namespace cainteoir
 		int aFrequency);
 
 	std::shared_ptr<audio>
-	create_audio_file(
-		const char *filename,
-		const char *type,
-		float quality,
-		const rdf::graph &aDocMetadata,
-		const rdf::uri &aDocument,
-		const rdf::graph &aVoiceMetadata,
-		const rdf::uri &aVoice);
+	create_wav_file(const char *filename,
+	                const rdf::uri &format,
+	                int channels,
+	                int frequency);
 
 	std::shared_ptr<audio>
-	create_audio_file(
-		const char *filename,
-		const char *type,
-		float quality,
-		const rdf::graph &aDocMetadata,
-		const rdf::uri &aDocument,
-		const rdf::uri &aFormat,
-		int aChannels,
-		int aFrequency);
+	create_wav_file(const char *aFileName,
+	                const rdf::graph &aVoiceMetadata,
+	                const rdf::uri &aVoice);
+
+	std::shared_ptr<audio>
+	create_ogg_file(const char *aFileName,
+	                const std::list<vorbis_comment> &aMetadata,
+	                float aQuality,
+	                const rdf::uri &aFormat,
+	                int aChannels,
+	                int aFrequency);
+
+	std::shared_ptr<audio>
+	create_ogg_file(const char *aFileName,
+	                const std::list<vorbis_comment> &aMetadata,
+	                float aQuality,
+	                const rdf::graph &aVoiceMetadata,
+	                const rdf::uri &aVoice);
 
 	std::shared_ptr<audio>
 	open_audio_device(

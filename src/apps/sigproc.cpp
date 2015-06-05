@@ -121,7 +121,7 @@ int main(int argc, char ** argv)
 
 			rdf::graph metadata;
 			rdf::uri   subject(argv[1], std::string());
-			auto out = cainteoir::create_audio_file(argv[2], "wav", 0.3, metadata, subject,
+			auto out = cainteoir::create_wav_file(argv[2],
 				data.info->format(),
 				1,
 				data.info->frequency());

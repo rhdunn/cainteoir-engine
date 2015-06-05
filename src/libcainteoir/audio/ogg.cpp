@@ -1,6 +1,6 @@
 /* Ogg+Vorbis Audio File.
  *
- * Copyright (C) 2010-2014 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -320,25 +320,49 @@ struct ogg_audio_float32le : public ogg_audio
 };
 
 std::shared_ptr<cainteoir::audio>
-create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+cainteoir::create_ogg_file(const char *aFileName,
+                           const std::list<cainteoir::vorbis_comment> &aMetadata,
+                           float aQuality,
+                           const rdf::uri &aFormat,
+                           int aChannels,
+                           int aFrequency)
 {
-	FILE *file = filename ? fopen(filename, "wb") : stdout;
+	FILE *file = aFileName ? fopen(aFileName, "wb") : stdout;
 	if (!file) throw std::runtime_error(strerror(errno));
 
-	auto comments = cainteoir::vorbis_comments(aMetadata, aDocument);
-	if (format == rdf::tts("s16le"))
-		return std::make_shared<ogg_audio_s16le>(file, channels, frequency, format, quality, comments);
-	if (format == rdf::tts("float32le"))
-		return std::make_shared<ogg_audio_float32le>(file, channels, frequency, format, quality, comments);
+	if (aFormat == rdf::tts("s16le"))
+		return std::make_shared<ogg_audio_s16le>(file, aChannels, aFrequency, aFormat, aQuality, aMetadata);
+	if (aFormat == rdf::tts("float32le"))
+		return std::make_shared<ogg_audio_float32le>(file, aChannels, aFrequency, aFormat, aQuality, aMetadata);
 	throw std::runtime_error(i18n("unsupported audio format."));
 }
 
 #else
 
 std::shared_ptr<cainteoir::audio>
-create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+cainteoir::create_ogg_file(const char *aFileName,
+                           const std::list<cainteoir::vorbis_comment> &aMetadata,
+                           float aQuality,
+                           const rdf::uri &aFormat,
+                           int aChannels,
+                           int aFrequency)
 {
 	return std::shared_ptr<cainteoir::audio>();
 }
 
 #endif
+
+std::shared_ptr<cainteoir::audio>
+cainteoir::create_ogg_file(const char *aFileName,
+                           const std::list<cainteoir::vorbis_comment> &aMetadata,
+                           float aQuality,
+                           const rdf::graph &aVoiceMetadata,
+                           const rdf::uri &aVoice)
+{
+	rql::results data = rql::select(aVoiceMetadata, rql::subject == aVoice);
+	int channels  = rql::select_value<int>(data, rql::predicate == rdf::tts("channels"));
+	int frequency = rql::select_value<int>(data, rql::predicate == rdf::tts("frequency"));
+	const rdf::uri &format = rql::object(rql::select(data, rql::predicate == rdf::tts("audio-format")).front());
+
+	return create_ogg_file(aFileName, aMetadata, aQuality, format, channels, frequency);
+}

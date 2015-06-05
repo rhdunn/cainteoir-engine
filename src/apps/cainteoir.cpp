@@ -1,6 +1,6 @@
 /* Cainteoir Command-Line Application.
  *
- * Copyright (C) 2010-2014 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -199,8 +199,6 @@ int main(int argc, char ** argv)
 			return 0;
 
 		if (nav_range.second != -1) ++nav_range.second;
-		if (outformat && !strcmp(outformat, "wave"))
-			outformat = "wav";
 
 		auto mode = tts::media_overlays_mode::tts_only;
 		if (use_narrator)
@@ -375,10 +373,14 @@ int main(int argc, char ** argv)
 
 			std::string outfile = file.str();
 
-			if (!outformat)
-				outformat = "wav";
+			if (!outformat || !strcmp(outformat, "wave") || !strcmp(outformat, "wav"))
+				out = cainteoir::create_wav_file(outfile.c_str(), metadata, tts.voice());
+			else if (!strcmp(outformat, "ogg"))
+			{
+				auto comments = cainteoir::vorbis_comments(metadata, subject);
+				out = cainteoir::create_ogg_file(outfile.c_str(), comments, 0.3, metadata, tts.voice());
+			}
 
-			out = cainteoir::create_audio_file(outfile.c_str(), outformat, 0.3, metadata, subject, metadata, tts.voice());
 			if (!out.get())
 				throw std::runtime_error(i18n("unsupported audio file format"));
 
