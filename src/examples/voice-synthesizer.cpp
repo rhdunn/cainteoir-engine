@@ -181,7 +181,7 @@ synthesize(const std::shared_ptr<tts::synthesizer> &voice,
 				voice->frequency());
 		else if (!strcmp(outformat, "ogg"))
 		{
-			auto comments = cainteoir::vorbis_comments(metadata, doc);
+			std::list<cainteoir::vorbis_comment> comments;
 			out = cainteoir::create_ogg_file(outfile, comments, 0.3,
 				voice->format(),
 				voice->channels(),

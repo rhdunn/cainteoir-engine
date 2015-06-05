@@ -43,10 +43,11 @@ static std::string now()
 	return date;
 }
 
-std::list<cainteoir::vorbis_comment>
-cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument)
+void
+cainteoir::add_document_metadata(std::list<cainteoir::vorbis_comment> &aComments,
+                                 const rdf::graph &aMetadata,
+                                 const rdf::uri &aDocument)
 {
-	std::list<vorbis_comment> comments;
 	std::string year;
 	std::string created;
 	std::string published;
@@ -57,13 +58,13 @@ cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocumen
 		if (!object.empty())
 		{
 			if (rql::predicate(query) == rdf::dc("creator"))
-				comments.push_back({ "ARTIST", object });
+				aComments.push_back({ "ARTIST", object });
 			else if (rql::predicate(query) == rdf::dc("title"))
-				comments.push_back({ "ALBUM", object });
+				aComments.push_back({ "ALBUM", object });
 			else if (rql::predicate(query) == rdf::dc("description"))
 			{
-				comments.push_back({ "DESCRIPTION", object });
-				comments.push_back({ "COMMENT",     object });
+				aComments.push_back({ "DESCRIPTION", object });
+				aComments.push_back({ "COMMENT",     object });
 			}
 			else if (rql::predicate(query) == rdf::dc("date") && year.empty())
 				year = object;
@@ -88,7 +89,7 @@ cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocumen
 			}
 
 			if (!author.empty() && (role == "aut" || role.empty()))
-				comments.push_back({ "ARTIST", author });
+				aComments.push_back({ "ARTIST", author });
 		}
 		else if (rql::predicate(query) == rdf::dc("date"))
 		{
@@ -124,7 +125,7 @@ cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocumen
 			if (!value.empty())
 			{
 				if (rql::predicate(query) == rdf::dcterms("title"))
-					comments.push_back({ "ALBUM", value });
+					aComments.push_back({ "ALBUM", value });
 			}
 		}
 	}
@@ -141,13 +142,12 @@ cainteoir::vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocumen
 	if (ym != std::string::npos)
 		year = year.substr(0, ym);
 
-	comments.push_back({ "GENRE", "Vocal" });
-	comments.push_back({ "DATE",  year });
+	aComments.push_back({ "GENRE", "Vocal" });
+	aComments.push_back({ "DATE",  year });
 
-	comments.push_back({ "PERFORMER", i18n("Cainteoir(TM) Text-to-Speech") });
-	comments.push_back({ "LICENSE",   "http://creativecommons.org/licenses/by-sa/3.0/" });
-	comments.push_back({ "CONTACT",   "http://rhdunn.github.com/cainteoir/" });
-	return comments;
+	aComments.push_back({ "PERFORMER", i18n("Cainteoir(TM) Text-to-Speech") });
+	aComments.push_back({ "LICENSE",   "http://creativecommons.org/licenses/by-sa/3.0/" });
+	aComments.push_back({ "CONTACT",   "http://rhdunn.github.com/cainteoir/" });
 }
 
 #if defined(HAVE_VORBISENC)

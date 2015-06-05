@@ -258,7 +258,9 @@ int main(int argc, char ** argv)
 		case vorbis_comments:
 			{
 				const rdf::uri subject = rdf::uri(argv[0], std::string());
-				for (auto &comment : cainteoir::vorbis_comments(metadata, subject))
+				std::list<cainteoir::vorbis_comment> comments;
+				cainteoir::add_document_metadata(comments, metadata, subject);
+				for (auto &comment : comments)
 					std::cout << comment.label << "=" << comment.value << std::endl;
 			}
 			break;

@@ -377,7 +377,8 @@ int main(int argc, char ** argv)
 				out = cainteoir::create_wav_file(outfile.c_str(), metadata, tts.voice());
 			else if (!strcmp(outformat, "ogg"))
 			{
-				auto comments = cainteoir::vorbis_comments(metadata, subject);
+				std::list<cainteoir::vorbis_comment> comments;
+				cainteoir::add_document_metadata(comments, metadata, subject);
 				out = cainteoir::create_ogg_file(outfile.c_str(), comments, 0.3, metadata, tts.voice());
 			}
 

@@ -67,8 +67,9 @@ namespace cainteoir
 		const std::string value;
 	};
 
-	std::list<vorbis_comment>
-	vorbis_comments(const rdf::graph &aMetadata, const rdf::uri &aDocument);
+	void add_document_metadata(std::list<cainteoir::vorbis_comment> &aComments,
+	                           const rdf::graph &aMetadata,
+	                           const rdf::uri &aDocument);
 
 	void supported_audio_formats(rdf::graph &metadata);
 

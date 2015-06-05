@@ -118,19 +118,19 @@ The name of the comment, e.g. TITLE.
 
 The content of the comment, e.g. "Moonlight Sonata".
 
-# cainteoir::vorbis_comments
+# cainteoir::add_document_metadata
 {: .doc }
 
-Convert an RDF graph to a set of Vorbis Comments.
+Convert document-based RDF metadata to Vorbis comments.
+
+@aComments
+: The vorbis comments to append the metadata to.
 
 @aMetadata
 : The RDF metadata used to create the vorbis comments.
 
 @aDocument
 : The URI of the document in the RDF graph to convert to vorbis comments.
-
-@return
-: The vorbis comments in (label, value) form for `aDocument`.
 
 # cainteoir::supported_audio_formats
 {: .doc }
