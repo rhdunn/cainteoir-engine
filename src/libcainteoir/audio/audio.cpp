@@ -1,6 +1,6 @@
 /* Audio Output.
  *
- * Copyright (C) 2011-2013 Reece H. Dunn
+ * Copyright (C) 2011-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -31,7 +31,7 @@ namespace rql = cainteoir::rdf::query;
 namespace mime = cainteoir::mime;
 
 std::shared_ptr<cainteoir::audio>
-create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
+create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency);
 
 std::shared_ptr<cainteoir::audio>
 create_ogg_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument);
@@ -114,7 +114,7 @@ cainteoir::create_audio_file(
 		filename = nullptr;
 
 	if (!strcmp(type, "wav"))
-		return create_wav_file(filename, aFormat, aChannels, aFrequency, quality, aDocMetadata, aDocument);
+		return create_wav_file(filename, aFormat, aChannels, aFrequency);
 	if (!strcmp(type, "ogg"))
 		return create_ogg_file(filename, aFormat, aChannels, aFrequency, quality, aDocMetadata, aDocument);
 

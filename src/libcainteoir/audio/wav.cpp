@@ -1,6 +1,6 @@
 /* WAVE Audio File.
  *
- * Copyright (C) 2010-2014 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -135,7 +135,7 @@ public:
 };
 
 std::shared_ptr<cainteoir::audio>
-create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency, float quality, const rdf::graph &aMetadata, const rdf::uri &aDocument)
+create_wav_file(const char *filename, const rdf::uri &format, int channels, int frequency)
 {
 	FILE *file = filename ? fopen(filename, "wb") : stdout;
 	if (!file) throw std::runtime_error(strerror(errno));
