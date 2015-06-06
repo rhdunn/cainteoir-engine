@@ -24,6 +24,7 @@
 #include "audio.hpp"
 #include "document.hpp"
 #include "phoneme.hpp"
+#include "synthesizer.hpp"
 
 namespace cainteoir { namespace tts
 {
@@ -99,7 +100,8 @@ namespace cainteoir { namespace tts
 		speak(std::shared_ptr<audio> out,
 		      const std::vector<cainteoir::ref_entry> &aListing,
 		      const cainteoir::document::range_type &aRange,
-		      media_overlays_mode aMediaOverlays = media_overlays_mode::tts_only);
+		      media_overlays_mode aMediaOverlays = media_overlays_mode::tts_only,
+		      synthesis_callback *callback = nullptr);
 
 		std::shared_ptr<phoneme_reader>
 		pronunciation();
