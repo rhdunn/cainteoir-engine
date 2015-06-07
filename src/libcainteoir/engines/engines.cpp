@@ -116,6 +116,8 @@ struct speech_impl : public tts::speech , public tts::synthesis_callback
 	void onaudiodata(short *data, int nsamples);
 
 	void ontextrange(const cainteoir::range<uint32_t> &range);
+
+	void onevent(const cainteoir::document_item &item);
 };
 
 static void * speak_tts_thread(void *data)
@@ -132,6 +134,8 @@ static void * speak_tts_thread(void *data)
 		int media_overlay_depth = -1;
 		for (auto &node : *speak)
 		{
+			speak->onevent(node);
+
 			if (node.type & cainteoir::events::begin_context)
 			{
 				++depth;
@@ -343,6 +347,12 @@ void speech_impl::ontextrange(const cainteoir::range<uint32_t> &range)
 
 	if (mCallback)
 		mCallback->ontextrange({ (uint32_t)actualPos, (uint32_t)(actualPos + speakingLen) });
+}
+
+void speech_impl::onevent(const cainteoir::document_item &item)
+{
+	if (mCallback)
+		mCallback->onevent(item);
 }
 
 tts::engines::engines(rdf::graph &metadata)
