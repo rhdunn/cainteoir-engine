@@ -1,6 +1,6 @@
 /* UTF-8 Unicode Encoding Support.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -91,4 +91,21 @@ const char *utf8::prev(const char *c)
 	while ((uint8_t(*--c) & 0xC0) == 0x80)
 		;
 	return c;
+}
+
+int32_t utf8::codepoints(const char *first, const char *last)
+{
+	int32_t count = 0;
+	while (first < last)
+	{
+		if (uint8_t(*first) < 0x80) ++first;
+		else switch (uint8_t(*first) & 0xF0)
+		{
+		default:   first += 2; break;
+		case 0xE0: first += 3; break;
+		case 0xF0: first += 4; break;
+		}
+		++count;
+	}
+	return count;
 }

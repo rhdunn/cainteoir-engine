@@ -1,6 +1,6 @@
 /* Unicode Support.
  *
- * Copyright (C) 2012 Reece H. Dunn
+ * Copyright (C) 2012-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -32,6 +32,8 @@ namespace cainteoir { namespace utf8
 	const char *next(const char *c);
 
 	const char *prev(const char *c);
+
+	int32_t codepoints(const char *first, const char *last);
 }}
 
 #endif

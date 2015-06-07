@@ -1,6 +1,6 @@
 /* Espeak Text-to-Speech Engine.
  *
- * Copyright (C) 2010-2014 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -24,6 +24,7 @@
 
 #include <cainteoir/engines.hpp>
 #include <cainteoir/stopwatch.hpp>
+#include <cainteoir/unicode.hpp>
 #include "tts_engine.hpp"
 #include <stdexcept>
 
@@ -33,6 +34,7 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 namespace css = cainteoir::css;
+namespace utf8 = cainteoir::utf8;
 
 static const decltype(tts::create_espeak_engine) *create_engines[] =
 {
@@ -177,7 +179,7 @@ static void * speak_tts_thread(void *data)
 						speak->engine->speak(node.content.get(), 0, speak);
 					break;
 				}
-				n += node.content->size();
+				n += utf8::codepoints(node.content->begin(), node.content->end());
 				speak->progress(n);
 			}
 
@@ -230,7 +232,7 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	for (auto &node : *this)
 	{
 		if (node.type & cainteoir::events::text)
-			textLen += node.content->size();
+			textLen += utf8::codepoints(node.content->begin(), node.content->end());
 	}
 
 	if (mRefEntryFrom != mRefEntryTo)
