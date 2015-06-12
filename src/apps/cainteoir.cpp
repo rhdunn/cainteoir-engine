@@ -407,7 +407,7 @@ int main(int argc, char ** argv)
 			fprintf(stdout, i18n("Title  : %s\n\n"), title.c_str());
 		}
 
-		auto speech = tts.speak(out, listing, doc.children(listing, nav_range), mode);
+		auto speech = tts.speak(out, listing, doc, doc.children(listing, nav_range), mode);
 		while (speech->is_speaking())
 		{
 			if (show_progress)

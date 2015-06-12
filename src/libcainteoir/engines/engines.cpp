@@ -79,11 +79,14 @@ struct speech_impl : public tts::speech , public tts::synthesis_callback
 	speech_impl(tts::engine *aEngine,
 	            std::shared_ptr<cainteoir::audio> aAudio,
 	            const std::vector<cainteoir::ref_entry> &aListing,
+	            const cainteoir::document &aDocument,
 	            const cainteoir::document::range_type &aRange,
 	            std::shared_ptr<tts::parameter> aRate,
 	            tts::media_overlays_mode aMediaOverlays,
 	            tts::synthesis_callback *callback);
 	~speech_impl();
+
+	void preprocess_events(const cainteoir::document::range_type &aDocument);
 
 	cainteoir::document::const_iterator begin() const { return mFrom; }
 	cainteoir::document::const_iterator end()   const { return mTo; }
@@ -207,6 +210,7 @@ static void * speak_tts_thread(void *data)
 speech_impl::speech_impl(tts::engine *aEngine,
                          std::shared_ptr<cainteoir::audio> aAudio,
                          const std::vector<cainteoir::ref_entry> &aListing,
+                         const cainteoir::document &aDocument,
                          const cainteoir::document::range_type &aRange,
                          std::shared_ptr<tts::parameter> aRate,
                          tts::media_overlays_mode aMediaOverlays,
@@ -227,15 +231,7 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, mMediaOverlays(aMediaOverlays)
 	, mCallback(callback)
 {
-	for (auto &node : *this)
-	{
-		if (node.type & cainteoir::events::text)
-		{
-			if (textOffset == -1)
-				textOffset = node.range.begin();
-			textLen = node.range.end();
-		}
-	}
+	preprocess_events(aDocument.children());
 
 	if (mRefEntryFrom != mRefEntryTo)
 	{
@@ -250,6 +246,34 @@ speech_impl::speech_impl(tts::engine *aEngine,
 
 speech_impl::~speech_impl()
 {
+}
+
+void speech_impl::preprocess_events(const cainteoir::document::range_type &aDocument)
+{
+	bool in_range = false;
+	for (auto &node : aDocument)
+	{
+		if (in_range)
+		{
+			if (node.type & cainteoir::events::text)
+			{
+				if (textOffset == -1)
+					textOffset = node.range.begin();
+				textLen = node.range.end();
+			}
+
+			if (&node == &*mTo)
+				return;
+		}
+		else
+		{
+			if (mCallback)
+				mCallback->onevent(node);
+
+			if (&node == &*mFrom)
+				in_range = true;
+		}
+	}
 }
 
 void speech_impl::started()
@@ -426,11 +450,12 @@ bool tts::engines::select_voice(const rdf::graph &aMetadata, const rdf::uri &aVo
 std::shared_ptr<tts::speech>
 tts::engines::speak(std::shared_ptr<audio> out,
                     const std::vector<cainteoir::ref_entry> &aListing,
+                    const cainteoir::document &aDocument,
                     const cainteoir::document::range_type &aRange,
                     media_overlays_mode aMediaOverlays,
                     tts::synthesis_callback *aCallback)
 {
-	return std::make_shared<speech_impl>(active, out, aListing, aRange, parameter(tts::parameter::rate), aMediaOverlays, aCallback);
+	return std::make_shared<speech_impl>(active, out, aListing, aDocument, aRange, parameter(tts::parameter::rate), aMediaOverlays, aCallback);
 }
 
 std::shared_ptr<tts::phoneme_reader>
