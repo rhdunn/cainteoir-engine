@@ -1,6 +1,6 @@
 /* RichText Document Parser.
  *
- * Copyright (C) 2011-2014 Reece H. Dunn
+ * Copyright (C) 2011-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -325,8 +325,7 @@ bool rtf_document_reader::read(rdf::graph *aGraph)
 			aGraph->statement(currentReference, rdf::rdf("rest"), rdf::rdf("nil"));
 		}
 
-		type   = events::anchor;
-		anchor = mSubject;
+		clear().anchor_event(mSubject);
 		mState = state_text;
 		return true;
 	}
@@ -428,16 +427,13 @@ bool rtf_document_reader::read(rdf::graph *aGraph)
 
 	if (rtf_text.empty())
 	{
-		type = 0;
-		content.reset();
+		clear();
 		return false;
 	}
 
 text_event:
-	type    = events::text | events::begin_context | events::end_context;
-	styles  = &cainteoir::paragraph;
-	content = rtf_text.buffer();
-	anchor  = rdf::uri();
+	clear().text_event(rtf_text.buffer())
+	       .begin_end_context_event(&cainteoir::paragraph);
 	if (mClearText)
 		rtf_text.clear();
 	return true;

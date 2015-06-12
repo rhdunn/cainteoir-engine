@@ -1,6 +1,6 @@
 /* Document.
  *
- * Copyright (C) 2010-2014 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -36,6 +36,89 @@ get_child(const cainteoir::document::list_type &children, size_t index)
 	cainteoir::document::const_iterator pos = children.begin();
 	std::advance(pos, index);
 	return pos;
+}
+
+cainteoir::document_item &
+cainteoir::document_item::clear()
+{
+	type = 0;
+	return *this;
+}
+
+cainteoir::document_item &
+cainteoir::document_item::copy(const document_item &aItem)
+{
+	type = aItem.type;
+	styles = aItem.styles;
+	content = aItem.content;
+	anchor = aItem.anchor;
+	media_begin = aItem.media_begin;
+	media_end = aItem.media_end;
+	return *this;
+}
+
+cainteoir::document_item &
+cainteoir::document_item::begin_context_event(const cainteoir::css::styles *aStyles)
+{
+	type |= cainteoir::events::begin_context;
+	styles = aStyles;
+	return *this;
+}
+
+cainteoir::document_item &
+cainteoir::document_item::end_context_event(const cainteoir::css::styles *aStyles)
+{
+	type |= cainteoir::events::end_context;
+	styles = aStyles;
+	return *this;
+}
+
+cainteoir::document_item &
+cainteoir::document_item::begin_end_context_event(const cainteoir::css::styles *aStyles)
+{
+	type |= (cainteoir::events::begin_context | cainteoir::events::end_context);
+	styles = aStyles;
+	return *this;
+}
+
+cainteoir::document_item &
+cainteoir::document_item::text_event(const std::shared_ptr<buffer> &aText)
+{
+	if (!aText) return *this;
+
+	type |= cainteoir::events::text;
+	content = aText;
+	return *this;
+}
+
+cainteoir::document_item &
+cainteoir::document_item::anchor_event(const rdf::uri &aAnchor)
+{
+	type |= cainteoir::events::anchor;
+	anchor = aAnchor;
+	return *this;
+}
+
+cainteoir::document_item &
+cainteoir::document_item::text_ref_event(const rdf::uri &aTextRef)
+{
+	type |= cainteoir::events::text_ref;
+	anchor = aTextRef;
+	return *this;
+}
+
+cainteoir::document_item &
+cainteoir::document_item::media_ref_event(const rdf::uri &aMediaFilePath,
+                                          const std::shared_ptr<buffer> &aAudioData,
+                                          const cainteoir::css::time &aMediaBegin,
+                                          const cainteoir::css::time &aMediaEnd)
+{
+	type |= cainteoir::events::media_ref;
+	anchor = aMediaFilePath;
+	content = aAudioData;
+	media_begin = aMediaBegin;
+	media_end = aMediaEnd;
+	return *this;
 }
 
 cainteoir::ref_entry::ref_entry(const rql::results &aEntry)

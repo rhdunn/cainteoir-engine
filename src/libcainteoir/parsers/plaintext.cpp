@@ -1,6 +1,6 @@
 /* Plain Text Document Reader.
  *
- * Copyright (C) 2012-2014 Reece H. Dunn
+ * Copyright (C) 2012-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -82,21 +82,15 @@ bool plaintext_document_reader::read(rdf::graph *aMetadata)
 
 			aMetadata->statement(currentReference, rdf::rdf("rest"), rdf::rdf("nil"));
 		}
-		type    = events::anchor;
-//		styles  = &cainteoir::heading0;
-//		content = cainteoir::make_buffer(mTitle);
-		anchor  = mSubject;
-		mState  = mData->empty() ? state_eof : state_text;
+		clear().anchor_event(mSubject);
+		mState = mData->empty() ? state_eof : state_text;
 		return true;
 	case state_text:
-		type    = events::text;
-		content = mData;
-		anchor  = rdf::uri();
-		mState  = state_eof;
+		clear().text_event(mData);
+		mState = state_eof;
 		break;
 	case state_eof:
-		type = 0;
-		content.reset();
+		clear();
 		return false;
 	}
 	return true;

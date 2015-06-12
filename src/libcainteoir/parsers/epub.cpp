@@ -1,6 +1,6 @@
 /* ePub Document Parser.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -123,9 +123,8 @@ bool epub_document_reader::read(rdf::graph *aMetadata)
 	while (true) switch (mState)
 	{
 	case state::title:
-		type    = events::anchor;
-		anchor  = mSubject;
-		mState  = state::publication_toc;
+		clear().anchor_event(mSubject);
+		mState = state::publication_toc;
 		return true;
 	case state::toc:
 		while (child->read(aMetadata))
@@ -140,24 +139,24 @@ bool epub_document_reader::read(rdf::graph *aMetadata)
 			{
 				auto audiofile = cainteoir::path(mMediaItem.anchor.str()).zip_path();
 
-				type        = mMediaItem.type;
-				styles      = mMediaItem.styles;
-				content     = mData->read(audiofile);
-				anchor      = mMediaItem.anchor;
-				media_begin = mMediaItem.media_begin;
-				media_end   = mMediaItem.media_end;
+				if (!mMediaItem.anchor.empty())
+				{
+					clear().media_ref_event(mMediaItem.anchor,
+					                        mData->read(audiofile),
+					                        mMediaItem.media_begin,
+					                        mMediaItem.media_end);
 
-				next_media_overlay_entry();
-				return true;
+					next_media_overlay_entry();
+					return true;
+				}
+				else
+					next_media_overlay_entry();
 			}
 		}
 
 		while (child->read())
 		{
-			type    = child->type;
-			styles  = child->styles;
-			content = child->content;
-			anchor  = child->anchor;
+			copy(*child);
 			return true;
 		}
 		child.reset();

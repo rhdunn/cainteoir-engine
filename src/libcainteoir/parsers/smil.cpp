@@ -1,6 +1,6 @@
 /* SMIL Document Parser.
  *
- * Copyright (C) 2010-2013 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -117,8 +117,7 @@ bool smil_document_reader::read(rdf::graph *aMetadata)
 		current = reader->context();
 		if (reader->context()->styles)
 		{
-			type   = events::begin_context;
-			styles = reader->context()->styles;
+			clear().begin_context_event(reader->context()->styles);
 			return true;
 		}
 		break;
@@ -141,22 +140,17 @@ bool smil_document_reader::read(rdf::graph *aMetadata)
 	case xml::reader::endTagNode:
 		if (reader->context()->styles)
 		{
-			type   = events::end_context;
-			styles = reader->context()->styles;
+			clear().end_context_event(reader->context()->styles);
 			return true;
 		}
 		else if (current == &smil::text_node)
 		{
-			type = events::text_ref;
-			anchor = rdf::href(src.str());
+			clear().text_ref_event(rdf::href(src.str()));
 			return true;
 		}
 		else if (current == &smil::audio_node)
 		{
-			type = events::media_ref;
-			anchor = rdf::href(src.str());
-			media_begin = clipBegin;
-			media_end = clipEnd;
+			clear().media_ref_event(rdf::href(src.str()), {}, clipBegin, clipEnd);
 			return true;
 		}
 		break;

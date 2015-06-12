@@ -866,7 +866,7 @@ private:
 
 	bool generate_title_event(rdf::graph *aMetadata);
 
-	void parse_text_node();
+	bool parse_text_node();
 	void reset_block_scope();
 
 	struct context_data
@@ -1120,8 +1120,7 @@ bool html_document_reader::parse_section_node(rdf::graph *aMetadata)
 	case xml::reader::attribute:
 		if (reader.context() == &xml::id_attr)
 		{
-			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
-			type   = events::anchor;
+			clear().anchor_event({ mSubject.str(), reader.nodeValue().str() });
 			return true;
 		}
 		else if (reader.context() == &epub::type_attr && aMetadata)
@@ -1145,9 +1144,8 @@ bool html_document_reader::parse_section_node(rdf::graph *aMetadata)
 		reset_block_scope();
 		if (styles->display == css::display::list_item)
 		{
-			content = std::make_shared<cainteoir::buffer>(" ");
-			type    = events::begin_context | events::text;
-			styles  = reader.context()->styles;
+			clear().text_event(std::make_shared<cainteoir::buffer>(" "))
+			       .begin_context_event(reader.context()->styles);
 			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 			return true;
 		}
@@ -1172,9 +1170,7 @@ bool html_document_reader::parse_section_node(rdf::graph *aMetadata)
 		if (reader.context() == ctx.top().ctx &&
 		    reader.context() != &html::body_node)
 		{
-			type   = events::end_context;
-			styles = reader.context()->styles;
-			anchor = rdf::uri();
+			clear().end_context_event(reader.context()->styles);
 			ctx.pop();
 			reset_block_scope();
 			return true;
@@ -1192,13 +1188,12 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 	case xml::reader::attribute:
 		if (reader.context() == &xml::id_attr)
 		{
-			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
-			type   = events::anchor;
+			clear().anchor_event({ mSubject.str(), reader.nodeValue().str() });
 			return true;
 		}
 		break;
 	case xml::reader::beginTagNode:
-		styles = reader.context()->styles;
+		clear().begin_context_event(reader.context()->styles);
 		if (styles && styles->display == css::display::list_item)
 		{
 			if (aMetadata && !mListing.empty())
@@ -1228,11 +1223,10 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 			{
 				int i = ctx.top().parameter++;
 				std::string marker = counter->marker(i);
-				content = cainteoir::make_buffer(marker.c_str(), marker.size());
+				text_event(cainteoir::make_buffer(marker.c_str(), marker.size()));
 			}
 			else
-				content = std::make_shared<cainteoir::buffer>(" ");
-			type    = events::begin_context | events::text;
+				text_event(std::make_shared<cainteoir::buffer>(" "));
 			reset_block_scope();
 			ctx.push({ reader.context(), &html_document_reader::parse_node, 0, true });
 			return true;
@@ -1245,9 +1239,7 @@ bool html_document_reader::parse_list_node(rdf::graph *aMetadata)
 			{
 				aMetadata->statement(mCurrentReference, rdf::rdf("rest"), rdf::rdf("nil"));
 			}
-			type   = events::end_context;
-			styles = reader.context()->styles;
-			anchor = rdf::uri();
+			clear().end_context_event(reader.context()->styles);
 			ctx.pop();
 			reset_block_scope();
 			--mDepth;
@@ -1268,8 +1260,7 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 	case xml::reader::attribute:
 		if (reader.context() == &xml::id_attr)
 		{
-			anchor = rdf::uri(mSubject.str(), reader.nodeValue().str());
-			type   = events::anchor;
+			clear().anchor_event({ mSubject.str(), reader.nodeValue().str() });
 			return true;
 		}
 		else if (reader.context() == &html::href_attr && aMetadata && !mEntry.empty())
@@ -1284,13 +1275,8 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			mEntryText += reader.nodeValue().buffer();
 		if (data.visible)
 		{
-			parse_text_node();
-			if (content && !content->empty())
-			{
-				type   = events::text;
-				anchor = rdf::uri();
+			if (parse_text_node())
 				return true;
-			}
 		}
 		break;
 	case xml::reader::beginTagNode:
@@ -1302,13 +1288,10 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 		if (reader.context() == &html::br_node)
 		{
 			trim_left = cainteoir::whitespace::collapse;
-			content = {};
-			styles = reader.context()->styles;
-			type   = events::begin_context | events::end_context;
-			anchor = rdf::uri();
+			clear().begin_end_context_event(reader.context()->styles);
 			return true;
 		}
-		styles = reader.context()->styles;
+		clear().begin_context_event(reader.context()->styles);
 		if (styles)
 		{
 			if (styles->display == css::display::none)
@@ -1316,8 +1299,6 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 				ctx.push({ reader.context(), &html_document_reader::parse_node, 0, false });
 				return false;
 			}
-			type   = events::begin_context;
-			anchor = rdf::uri();
 			reset_block_scope();
 			if (!styles->list_style_type.empty())
 			{
@@ -1342,9 +1323,7 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 			ctx.pop();
 			if (!data.visible)
 				return false;
-			type   = events::end_context;
-			styles = reader.context()->styles;
-			anchor = rdf::uri();
+			clear().end_context_event(reader.context()->styles);
 			reset_block_scope();
 			if (reader.context() == &html::li_node && aMetadata && !mEntry.empty() && !mEntryText.empty())
 			{
@@ -1363,17 +1342,14 @@ bool html_document_reader::parse_node(rdf::graph *aMetadata)
 
 bool html_document_reader::generate_title_event(rdf::graph *aMetadata)
 {
-	type    = events::anchor;
-	styles  = &cainteoir::heading0;
-	content = cainteoir::make_buffer(mTitle);
-	anchor  = mSubject;
+	clear().anchor_event(mSubject);
 	ctx.pop();
 	return true;
 }
 
-void html_document_reader::parse_text_node()
+bool html_document_reader::parse_text_node()
 {
-	content = reader.nodeValue().buffer();
+	clear().text_event(reader.nodeValue().buffer());
 	if (content)
 	{
 		css::whitespace space = css::whitespace::normal;
@@ -1418,7 +1394,9 @@ void html_document_reader::parse_text_node()
 			content = std::make_shared<cainteoir::buffer>(" ");
 			trim_left = cainteoir::whitespace::collapse;
 		}
+		return content && !content->empty();
 	}
+	return false;
 }
 
 void html_document_reader::reset_block_scope()

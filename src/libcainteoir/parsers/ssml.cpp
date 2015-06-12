@@ -1,6 +1,6 @@
 /* SSML Document Parser.
  *
- * Copyright (C) 2011-2013 Reece H. Dunn
+ * Copyright (C) 2011-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -147,19 +147,14 @@ bool ssml_document_reader::read(rdf::graph *aMetadata)
 		break;
 	case xml::reader::textNode:
 	case xml::reader::cdataNode:
-		this->content = reader->nodeValue().content();
-		type = 0;
-		if (this->content)
-			type |= events::text;
+		clear().text_event(reader->nodeValue().content());
 		if (current != nullptr && current->styles)
 		{
-			type   |= events::begin_context;
-			styles  = current->styles;
+			begin_context_event(current->styles);
 			current = nullptr;
 		}
 		if (type != 0)
 		{
-			anchor = rdf::uri();
 			reader->read();
 			return true;
 		}
@@ -171,8 +166,7 @@ bool ssml_document_reader::read(rdf::graph *aMetadata)
 		current = nullptr;
 		if (reader->context()->styles)
 		{
-			type   = events::end_context;
-			styles = reader->context()->styles;
+			clear().end_context_event(reader->context()->styles);
 			reader->read();
 			return true;
 		}

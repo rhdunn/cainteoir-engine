@@ -1,6 +1,6 @@
 /* Document Parser API.
  *
- * Copyright (C) 2010-2014 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -52,6 +52,27 @@ namespace cainteoir
 		rdf::uri anchor;
 		cainteoir::css::time media_begin;
 		cainteoir::css::time media_end;
+
+		document_item &clear();
+
+		document_item &copy(const document_item &aItem);
+
+		document_item &begin_context_event(const cainteoir::css::styles *aStyles);
+
+		document_item &end_context_event(const cainteoir::css::styles *aStyles);
+
+		document_item &begin_end_context_event(const cainteoir::css::styles *aStyles);
+
+		document_item &text_event(const std::shared_ptr<buffer> &aText);
+
+		document_item &anchor_event(const rdf::uri &aAnchor);
+
+		document_item &text_ref_event(const rdf::uri &aTextRef);
+
+		document_item &media_ref_event(const rdf::uri &aMediaFilePath,
+		                               const std::shared_ptr<buffer> &aAudioData,
+		                               const cainteoir::css::time &aMediaBegin,
+		                               const cainteoir::css::time &aMediaEnd);
 	};
 
 	struct document_reader : public document_item

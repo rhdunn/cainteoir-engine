@@ -1,6 +1,6 @@
 /* Portable Document Format Reader.
  *
- * Copyright (C) 2012-2014 Reece H. Dunn
+ * Copyright (C) 2012-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -218,10 +218,9 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 			int len = snprintf(pagenum, sizeof(pagenum), "page%05d", (mCurrentPage + 1));
 			pagenum[len] = '\0';
 
-			type    = events::text | events::anchor;
-			content = std::make_shared<cainteoir::buffer>("\n");
-			anchor  = rdf::uri(mSubject.str(), pagenum);
-			mState  = state_page_text;
+			clear().anchor_event({ mSubject.str(), pagenum })
+			       .text_event(std::make_shared<cainteoir::buffer>("\n"));
+			mState = state_page_text;
 
 			if (aMetadata)
 			{
@@ -255,9 +254,8 @@ bool pdf_document_reader::read(rdf::graph *aMetadata)
 	case state_page_text:
 		{
 			PopplerPage *page = poppler_document_get_page(mDoc, mCurrentPage++);
-			type    = events::text;
-			content = std::make_shared<glib_buffer>(poppler_page_get_text(page));
-			mState  = state_page;
+			clear().text_event(std::make_shared<glib_buffer>(poppler_page_get_text(page)));
+			mState = state_page;
 			g_object_unref(page);
 		}
 		return true;

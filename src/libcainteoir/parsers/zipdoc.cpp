@@ -1,6 +1,6 @@
 /* Zip Document Parser.
  *
- * Copyright (C) 2012-2013 Reece H. Dunn
+ * Copyright (C) 2012-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -52,10 +52,7 @@ bool zip_document_reader::read(rdf::graph *aMetadata)
 	{
 		if (child->read())
 		{
-			type    = child->type;
-			styles  = child->styles;
-			content = child->content;
-			anchor  = child->anchor;
+			copy(*child);
 			return true;
 		}
 		child.reset();
