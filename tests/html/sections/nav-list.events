@@ -1,25 +1,25 @@
 anchor []
 begin-context block
 begin-context heading 2
-text(10): """Navigation"""
+text(10) [0..10]: """Navigation"""
 end-context
 begin-context block +list=disc
 begin-context list-item +sans-serif
-text(4): """• """
+text(4) [10..12]: """• """
 begin-context span
-text(5): """Lorem"""
+text(5) [12..17]: """Lorem"""
 end-context
 end-context
 begin-context list-item +sans-serif
-text(4): """• """
+text(4) [17..19]: """• """
 begin-context span
-text(5): """Ipsum"""
+text(5) [19..24]: """Ipsum"""
 end-context
 end-context
 begin-context list-item +sans-serif
-text(4): """• """
+text(4) [24..26]: """• """
 begin-context span
-text(5): """Dolor"""
+text(5) [26..31]: """Dolor"""
 end-context
 end-context
 end-context

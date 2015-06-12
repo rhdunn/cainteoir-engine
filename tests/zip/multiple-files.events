@@ -1,8 +1,8 @@
 anchor [!/test.xhtml]
 begin-context paragraph +sans-serif
-text(15): """This is a test."""
+text(15) [0..15]: """This is a test."""
 end-context
 anchor [!/test.html]
 begin-context paragraph +sans-serif
-text(15): """This is a test."""
+text(15) [15..30]: """This is a test."""
 end-context

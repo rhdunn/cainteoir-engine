@@ -1,39 +1,39 @@
 begin-context paragraph +sans-serif
-text(8): """This is """
+text(8) [0..8]: """This is """
 begin-context span +emphasized
-text(10): """emphasized"""
+text(10) [8..18]: """emphasized"""
 end-context
-text(13): """ text, as is """
+text(13) [18..31]: """ text, as is """
 begin-context span +emphasized
-text(4): """this"""
+text(4) [31..35]: """this"""
 end-context
-text(1): """."""
+text(1) [35..36]: """."""
 end-context
 begin-context paragraph +sans-serif
-text(8): """This is """
+text(8) [36..44]: """This is """
 begin-context span +strong
-text(6): """strong"""
+text(6) [44..50]: """strong"""
 end-context
-text(6): """ text."""
+text(6) [50..56]: """ text."""
 end-context
 begin-context paragraph +sans-serif
-text(8): """This is """
+text(8) [56..64]: """This is """
 begin-context span +normal-weight
-text(7): """reduced"""
+text(7) [64..71]: """reduced"""
 end-context
-text(6): """ text."""
+text(6) [71..77]: """ text."""
 end-context
 begin-context paragraph +sans-serif
-text(13): """This text is """
+text(13) [77..90]: """This text is """
 begin-context span
-text(14): """not emphasized"""
+text(14) [90..104]: """not emphasized"""
 end-context
-text(1): """."""
+text(1) [104..105]: """."""
 end-context
 begin-context paragraph +sans-serif
-text(13): """This text is """
+text(13) [105..118]: """This text is """
 begin-context span +emphasized
-text(10): """emphasized"""
+text(10) [118..128]: """emphasized"""
 end-context
-text(48): """ despite having an unrecognised level attribute."""
+text(48) [128..176]: """ despite having an unrecognised level attribute."""
 end-context

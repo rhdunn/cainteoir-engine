@@ -2,16 +2,16 @@ anchor []
 begin-context block
 begin-context paragraph +sans-serif
 begin-context span
-text(5): """Lorem"""
+text(5) [0..5]: """Lorem"""
 end-context
-text(4): """ » """
+text(4) [5..8]: """ » """
 begin-context span
-text(5): """Ipsum"""
+text(5) [8..13]: """Ipsum"""
 end-context
-text(4): """ » """
+text(4) [13..16]: """ » """
 begin-context span
-text(5): """Dolor"""
+text(5) [16..21]: """Dolor"""
 end-context
-text(1): """ """
+text(1) [21..22]: """ """
 end-context
 end-context

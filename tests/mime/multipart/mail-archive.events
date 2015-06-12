@@ -1,5 +1,5 @@
 anchor []
-text(21): """This is a test file.
+text(21) [0..21]: """This is a test file.
 """
-text(28): """This is the same test file.
+text(28) [21..49]: """This is the same test file.
 """

@@ -1,29 +1,29 @@
 anchor []
 begin-context block +list=disc
 begin-context list-item +sans-serif
-text(4): """• """
-text(5): """Lorem"""
+text(4) [0..2]: """• """
+text(5) [2..7]: """Lorem"""
 end-context
 begin-context list-item +sans-serif
-text(4): """• """
-text(6): """ipsum """
+text(4) [7..9]: """• """
+text(6) [9..15]: """ipsum """
 begin-context block +list=disc
 begin-context list-item +sans-serif
-text(4): """• """
-text(3): """one"""
+text(4) [15..17]: """• """
+text(3) [17..20]: """one"""
 end-context
 begin-context list-item +sans-serif
-text(4): """• """
-text(3): """two"""
+text(4) [20..22]: """• """
+text(3) [22..25]: """two"""
 end-context
 begin-context list-item +sans-serif
-text(4): """• """
-text(5): """three"""
+text(4) [25..27]: """• """
+text(5) [27..32]: """three"""
 end-context
 end-context
 end-context
 begin-context list-item +sans-serif
-text(4): """• """
-text(5): """dolor"""
+text(4) [32..34]: """• """
+text(5) [34..39]: """dolor"""
 end-context
 end-context

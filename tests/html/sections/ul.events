@@ -1,15 +1,15 @@
 anchor []
 begin-context block +list=disc
 begin-context list-item +sans-serif
-text(4): """• """
-text(5): """Lorem"""
+text(4) [0..2]: """• """
+text(5) [2..7]: """Lorem"""
 end-context
 begin-context list-item +sans-serif
-text(4): """• """
-text(5): """ipsum"""
+text(4) [7..9]: """• """
+text(5) [9..14]: """ipsum"""
 end-context
 begin-context list-item +sans-serif
-text(4): """• """
-text(5): """dolor"""
+text(4) [14..16]: """• """
+text(5) [16..21]: """dolor"""
 end-context
 end-context

@@ -1,21 +1,21 @@
 anchor []
 begin-context heading 1
-text(9): """Heading 1"""
+text(9) [0..9]: """Heading 1"""
 end-context
 begin-context heading 2
-text(9): """Heading 2"""
+text(9) [9..18]: """Heading 2"""
 end-context
 begin-context heading 3
-text(9): """Heading 3"""
+text(9) [18..27]: """Heading 3"""
 end-context
 begin-context heading 4
-text(9): """Heading 4"""
+text(9) [27..36]: """Heading 4"""
 end-context
 begin-context heading 5
-text(9): """Heading 5"""
+text(9) [36..45]: """Heading 5"""
 end-context
 begin-context heading 6
-text(9): """Heading 6"""
+text(9) [45..54]: """Heading 6"""
 end-context
 begin-context heading 1
 end-context

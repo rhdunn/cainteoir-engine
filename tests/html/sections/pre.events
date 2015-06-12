@@ -1,6 +1,6 @@
 anchor []
 begin-context block +monospace
-text(26): """
+text(26) [0..26]: """
 
 Lorem
    ipsum 

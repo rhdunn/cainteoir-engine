@@ -1,8 +1,8 @@
 begin-context paragraph +sans-serif
 begin-context sentence
-text(10): """sentence 1"""
+text(10) [0..10]: """sentence 1"""
 end-context
 begin-context sentence
-text(10): """sentence 2"""
+text(10) [10..20]: """sentence 2"""
 end-context
 end-context

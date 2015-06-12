@@ -1,13 +1,13 @@
 anchor []
 begin-context list-item +sans-serif
-text(1): """ """
-text(5): """Lorem"""
+text(1) [0..1]: """ """
+text(5) [1..6]: """Lorem"""
 end-context
 begin-context list-item +sans-serif
-text(1): """ """
-text(5): """ipsum"""
+text(1) [6..7]: """ """
+text(5) [7..12]: """ipsum"""
 end-context
 begin-context list-item +sans-serif
-text(1): """ """
-text(5): """dolor"""
+text(1) [12..13]: """ """
+text(5) [13..18]: """dolor"""
 end-context

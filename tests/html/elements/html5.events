@@ -1,203 +1,203 @@
 anchor []
 begin-context block
 begin-context heading 1
-text(4): """Test"""
+text(4) [0..4]: """Test"""
 end-context
 end-context
 begin-context block
 begin-context heading 2
-text(4): """Test"""
+text(4) [4..8]: """Test"""
 end-context
 end-context
 begin-context block
 begin-context heading 3
-text(4): """Test"""
+text(4) [8..12]: """Test"""
 end-context
 end-context
 begin-context block
 begin-context heading 4
-text(4): """Test"""
+text(4) [12..16]: """Test"""
 end-context
 end-context
 begin-context block
 begin-context heading 5
-text(4): """Test"""
+text(4) [16..20]: """Test"""
 end-context
 end-context
 begin-context block
 begin-context heading 6
-text(4): """Test"""
+text(4) [20..24]: """Test"""
 end-context
 end-context
 begin-context block
 begin-context paragraph +emphasized
-text(18): """Lorem ipsum dolor."""
+text(18) [24..42]: """Lorem ipsum dolor."""
 end-context
 end-context
 begin-context block
 begin-context paragraph +sans-serif
-text(18): """Lorem ipsum dolor."""
+text(18) [42..60]: """Lorem ipsum dolor."""
 end-context
 end-context
 begin-context block +monospace
-text(18): """Lorem ipsum dolor."""
+text(18) [60..78]: """Lorem ipsum dolor."""
 end-context
 begin-context block +list=decimal
 begin-context list-item +sans-serif
-text(3): """1. """
-text(3): """one"""
+text(3) [78..81]: """1. """
+text(3) [81..84]: """one"""
 end-context
 begin-context list-item +sans-serif
-text(3): """2. """
-text(3): """two"""
+text(3) [84..87]: """2. """
+text(3) [87..90]: """two"""
 end-context
 end-context
 begin-context block +list=disc
 begin-context list-item +sans-serif
-text(4): """• """
-text(3): """one"""
+text(4) [90..92]: """• """
+text(3) [92..95]: """one"""
 end-context
 begin-context list-item +sans-serif
-text(4): """• """
-text(3): """two"""
+text(4) [95..97]: """• """
+text(3) [97..100]: """two"""
 end-context
 end-context
 begin-context paragraph +sans-serif
-text(18): """Lorem ipsum dolor."""
+text(18) [100..118]: """Lorem ipsum dolor."""
 end-context
 begin-context paragraph +sans-serif
 begin-context span
-text(3): """one"""
+text(3) [118..121]: """one"""
 end-context
-text(1): """ """
+text(1) [121..122]: """ """
 begin-context span +emphasized
-text(3): """two"""
+text(3) [122..125]: """two"""
 end-context
-text(1): """ """
+text(1) [125..126]: """ """
 begin-context span +strong
-text(5): """three"""
+text(5) [126..131]: """three"""
 end-context
-text(1): """ """
-text(4): """four"""
-text(1): """ """
-text(4): """five"""
-text(1): """ """
+text(1) [131..132]: """ """
+text(4) [132..136]: """four"""
+text(1) [136..137]: """ """
+text(4) [137..141]: """five"""
+text(1) [141..142]: """ """
 begin-context span +emphasized
-text(3): """six"""
+text(3) [142..145]: """six"""
 end-context
-text(1): """ """
-text(5): """seven"""
-text(1): """ """
+text(1) [145..146]: """ """
+text(5) [146..151]: """seven"""
+text(1) [151..152]: """ """
 begin-context span +emphasized
-text(5): """eight"""
+text(5) [152..157]: """eight"""
 end-context
-text(1): """ """
-text(4): """nine"""
-text(1): """ """
-text(3): """ten"""
-text(1): """ """
-text(7): """2014-01"""
-text(1): """ """
+text(1) [157..158]: """ """
+text(4) [158..162]: """nine"""
+text(1) [162..163]: """ """
+text(3) [163..166]: """ten"""
+text(1) [166..167]: """ """
+text(7) [167..174]: """2014-01"""
+text(1) [174..175]: """ """
 begin-context span +monospace
-text(6): """twelve"""
+text(6) [175..181]: """twelve"""
 end-context
-text(1): """ """
+text(1) [181..182]: """ """
 begin-context span +emphasized
-text(8): """thirteen"""
+text(8) [182..190]: """thirteen"""
 end-context
-text(1): """ """
-text(8): """fourteen"""
-text(1): """ """
-text(7): """fifteen"""
-text(1): """ """
+text(1) [190..191]: """ """
+text(8) [191..199]: """fourteen"""
+text(1) [199..200]: """ """
+text(7) [200..207]: """fifteen"""
+text(1) [207..208]: """ """
 begin-context span +subscript
-text(9): """sixteen-a"""
+text(9) [208..217]: """sixteen-a"""
 end-context
-text(1): """ """
+text(1) [217..218]: """ """
 begin-context span +superscript
-text(9): """sixteen-b"""
+text(9) [218..227]: """sixteen-b"""
 end-context
-text(1): """ """
+text(1) [227..228]: """ """
 begin-context span +emphasized
-text(9): """seventeen"""
+text(9) [228..237]: """seventeen"""
 end-context
-text(1): """ """
+text(1) [237..238]: """ """
 begin-context span +strong
-text(8): """eighteen"""
+text(8) [238..246]: """eighteen"""
 end-context
-text(1): """ """
+text(1) [246..247]: """ """
 begin-context span +underline
-text(8): """nineteen"""
+text(8) [247..255]: """nineteen"""
 end-context
-text(1): """ """
-text(6): """twenty"""
-text(1): """ """
-text(10): """twenty-one"""
-text(10): """twenty-two"""
-text(12): """twenty-three"""
-text(1): """ """
-text(11): """twenty-four"""
-text(1): """ """
-text(11): """twenty-five"""
-text(1): """ """
+text(1) [255..256]: """ """
+text(6) [256..262]: """twenty"""
+text(1) [262..263]: """ """
+text(10) [263..273]: """twenty-one"""
+text(10) [273..283]: """twenty-two"""
+text(12) [283..295]: """twenty-three"""
+text(1) [295..296]: """ """
+text(11) [296..307]: """twenty-four"""
+text(1) [307..308]: """ """
+text(11) [308..319]: """twenty-five"""
+text(1) [319..320]: """ """
 begin-context span
-text(10): """twenty-six"""
+text(10) [320..330]: """twenty-six"""
 end-context
-text(1): """ """
+text(1) [330..331]: """ """
 begin-context span
-text(6): """twenty"""
+text(6) [331..337]: """twenty"""
 begin-context line-break
 end-context
-text(5): """seven"""
+text(5) [337..342]: """seven"""
 end-context
-text(1): """ """
+text(1) [342..343]: """ """
 begin-context span
-text(6): """twenty"""
-text(5): """eight"""
+text(6) [343..349]: """twenty"""
+text(5) [349..354]: """eight"""
 end-context
-text(1): """ """
+text(1) [354..355]: """ """
 end-context
 begin-context paragraph +sans-serif
-text(5): """lorem"""
-text(1): """ """
-text(5): """ipsum"""
-text(1): """ """
+text(5) [355..360]: """lorem"""
+text(1) [360..361]: """ """
+text(5) [361..366]: """ipsum"""
+text(1) [366..367]: """ """
 end-context
 begin-context paragraph +sans-serif
 end-context
 begin-context table
-text(4): """Test"""
-text(1): """ """
+text(4) [367..371]: """Test"""
+text(1) [371..372]: """ """
 begin-context row
 begin-context cell
-text(4): """test"""
-end-context
-end-context
-begin-context row
-begin-context cell
-text(4): """test"""
+text(4) [372..376]: """test"""
 end-context
 end-context
 begin-context row
 begin-context cell
-text(4): """test"""
+text(4) [376..380]: """test"""
+end-context
+end-context
+begin-context row
+begin-context cell
+text(4) [380..384]: """test"""
 end-context
 end-context
 end-context
 begin-context paragraph +sans-serif
-text(17): """Lorem ipsum dolor"""
+text(17) [384..401]: """Lorem ipsum dolor"""
 end-context
 begin-context block +list=disc
 begin-context list-item +sans-serif
-text(4): """• """
-text(3): """two"""
+text(4) [401..403]: """• """
+text(3) [403..406]: """two"""
 end-context
 end-context
 begin-context paragraph +sans-serif
-text(4): """Test"""
+text(4) [406..410]: """Test"""
 end-context
 begin-context paragraph +sans-serif
-text(4): """Test"""
+text(4) [410..414]: """Test"""
 end-context
 begin-context paragraph +sans-serif
 end-context

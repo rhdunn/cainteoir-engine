@@ -1,5 +1,5 @@
 anchor []
-text(92): """This is not ignored!
+text(92) [0..92]: """This is not ignored!
 --mimetest
 Content-Type: text/plain
 

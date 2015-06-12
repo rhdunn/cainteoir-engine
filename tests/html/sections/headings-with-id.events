@@ -1,29 +1,29 @@
 anchor []
 begin-context heading 1
 anchor [#]h1
-text(9): """Heading 1"""
+text(9) [0..9]: """Heading 1"""
 end-context
 begin-context paragraph +sans-serif
-text(4): """Text"""
+text(4) [9..13]: """Text"""
 end-context
 begin-context heading 2
 anchor [#]h11
-text(11): """Heading 1.1"""
+text(11) [13..24]: """Heading 1.1"""
 end-context
 begin-context paragraph +sans-serif
-text(4): """Text"""
+text(4) [24..28]: """Text"""
 end-context
 begin-context heading 2
 anchor [#]h12
-text(11): """Heading 1.2"""
+text(11) [28..39]: """Heading 1.2"""
 end-context
 begin-context paragraph +sans-serif
-text(4): """Text"""
+text(4) [39..43]: """Text"""
 end-context
 begin-context heading 1
 anchor [#]h2
-text(9): """Heading 2"""
+text(9) [43..52]: """Heading 2"""
 end-context
 begin-context paragraph +sans-serif
-text(4): """Text"""
+text(4) [52..56]: """Text"""
 end-context

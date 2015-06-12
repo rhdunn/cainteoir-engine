@@ -1,7 +1,7 @@
 anchor []
 begin-context paragraph +sans-serif
-text(49): """RTF can escape characters with the "'" character."""
+text(49) [0..49]: """RTF can escape characters with the "'" character."""
 end-context
 begin-context paragraph +sans-serif
-text(18): """This … and that."""
+text(18) [49..65]: """This … and that."""
 end-context

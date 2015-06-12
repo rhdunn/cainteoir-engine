@@ -1,4 +1,4 @@
 anchor []
 begin-context paragraph +sans-serif
-text(20): """This is a test file."""
+text(20) [0..20]: """This is a test file."""
 end-context

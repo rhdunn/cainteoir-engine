@@ -1,6 +1,6 @@
 anchor []
 begin-context block +monospace
-text(8342): """
+text(8342) [0..4344]: """
 Æ
 &
 Á

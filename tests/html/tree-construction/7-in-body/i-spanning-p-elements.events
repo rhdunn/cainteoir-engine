@@ -1,9 +1,9 @@
 anchor []
 begin-context paragraph +sans-serif
 begin-context span +emphasized
-text(4): """Test"""
+text(4) [0..4]: """Test"""
 end-context
 end-context
 begin-context paragraph +sans-serif
-text(4): """case"""
+text(4) [4..8]: """case"""
 end-context

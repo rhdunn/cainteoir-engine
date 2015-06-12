@@ -1349,8 +1349,8 @@ bool html_document_reader::generate_title_event(rdf::graph *aMetadata)
 
 bool html_document_reader::parse_text_node()
 {
-	clear().text_event(reader.nodeValue().buffer());
-	if (content)
+	auto text = reader.nodeValue().buffer();
+	if (text)
 	{
 		css::whitespace space = css::whitespace::normal;
 		if (styles)
@@ -1377,23 +1377,24 @@ bool html_document_reader::parse_text_node()
 		}
 
 		uint32_t c;
-		utf8::read(content->begin(), c);
+		utf8::read(text->begin(), c);
 
-		content = cainteoir::normalize(content, whitespace, newlines,
-		                               trim_left,
-		                               cainteoir::whitespace::preserve);
-		if (content && content->size() >= 1)
+		text = cainteoir::normalize(text, whitespace, newlines,
+		                            trim_left,
+		                            cainteoir::whitespace::preserve);
+		if (text && text->size() >= 1)
 		{
-			const char *str = utf8::prev(content->end());
+			const char *str = utf8::prev(text->end());
 			uint32_t ch;
 			utf8::read(str, ch);
 			trim_left = ucd::isspace(ch) ? cainteoir::whitespace::collapse : cainteoir::whitespace::preserve;
 		}
 		else if (ucd::isspace(c) && trim_left == cainteoir::whitespace::preserve)
 		{
-			content = std::make_shared<cainteoir::buffer>(" ");
+			text = std::make_shared<cainteoir::buffer>(" ");
 			trim_left = cainteoir::whitespace::collapse;
 		}
+		clear().text_event(text);
 		return content && !content->empty();
 	}
 	return false;

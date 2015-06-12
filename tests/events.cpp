@@ -1,6 +1,6 @@
 /* Test for generated speech events.
  *
- * Copyright (C) 2010-2014 Reece H. Dunn
+ * Copyright (C) 2010-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -169,7 +169,10 @@ void print_events(const std::shared_ptr<cainteoir::document_reader> &reader)
 		}
 		if (reader->type & cainteoir::events::text)
 		{
-			fprintf(stdout, "text(%zu): \"\"\"", reader->content->size());
+			fprintf(stdout, "text(%zu) [%u..%u]: \"\"\"",
+				reader->content->size(),
+				*reader->range.begin(),
+				*reader->range.end());
 			fwrite(reader->content->begin(), 1, reader->content->size(), stdout);
 			fwrite("\"\"\"\n", 1, 4, stdout);
 		}

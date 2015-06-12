@@ -3,15 +3,15 @@ anchor [!/OEBPS/text1.xhtml]
 begin-context paragraph +sans-serif
 anchor [!/OEBPS/text1.xhtml#]ref1
 media-ref [!/OEBPS/]text1.mp3 [from=0s ; to=3s]
-text(5): """first"""
+text(5) [0..5]: """first"""
 end-context
 begin-context paragraph +sans-serif
 anchor [!/OEBPS/text1.xhtml#]ref2
 media-ref [!/OEBPS/]text1.mp3 [from=3s ; to=8s]
-text(6): """second"""
+text(6) [5..11]: """second"""
 end-context
 begin-context paragraph +sans-serif
 anchor [!/OEBPS/text1.xhtml#]ref3
 media-ref [!/OEBPS/]text1.mp3 [from=8s ; to=22s]
-text(5): """third"""
+text(5) [11..16]: """third"""
 end-context

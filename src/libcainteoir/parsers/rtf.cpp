@@ -288,7 +288,10 @@ rtf_document_reader::rtf_document_reader(std::shared_ptr<cainteoir::buffer> &aDa
 	, mClearText(false)
 {
 	if (rtf.read() && read(&aPrimaryMetadata))
+	{
+		range = { 0, 0 };
 		mState = state_title;
+	}
 	aPrimaryMetadata.statement(aSubject, rdf::tts("mimetype"), rdf::literal("application/rtf"));
 }
 

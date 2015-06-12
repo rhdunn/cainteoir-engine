@@ -43,12 +43,14 @@ namespace cainteoir
 		document_item()
 			: type(0)
 			, styles(nullptr)
+			, range(0, 0)
 		{
 		}
 
 		uint32_t type;
 		const cainteoir::css::styles *styles;
 		std::shared_ptr<buffer> content;
+		cainteoir::range<uint32_t> range;
 		rdf::uri anchor;
 		cainteoir::css::time media_begin;
 		cainteoir::css::time media_end;

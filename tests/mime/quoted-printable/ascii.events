@@ -1,4 +1,4 @@
 anchor []
-text(55): """This is basic ascii text
+text(55) [0..55]: """This is basic ascii text
 without any escape sequences.
 """

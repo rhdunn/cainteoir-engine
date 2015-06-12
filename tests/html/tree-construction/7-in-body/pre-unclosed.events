@@ -1,6 +1,6 @@
 anchor []
 begin-context block +monospace
-text(6): """
+text(6) [0..6]: """
 Test
 """
 end-context

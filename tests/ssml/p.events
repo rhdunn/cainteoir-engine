@@ -1,6 +1,6 @@
 begin-context paragraph +sans-serif
-text(11): """paragraph 1"""
+text(11) [0..11]: """paragraph 1"""
 end-context
 begin-context paragraph +sans-serif
-text(11): """paragraph 2"""
+text(11) [11..22]: """paragraph 2"""
 end-context

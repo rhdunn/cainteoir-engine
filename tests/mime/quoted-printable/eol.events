@@ -1,5 +1,5 @@
 anchor []
-text(99): """This is a line spanning multiple quoted printable lines.
+text(99) [0..99]: """This is a line spanning multiple quoted printable lines.
 
 These are normal lines with
 line breaks.

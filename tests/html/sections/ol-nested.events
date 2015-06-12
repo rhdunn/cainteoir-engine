@@ -1,29 +1,29 @@
 anchor []
 begin-context block +list=decimal
 begin-context list-item +sans-serif
-text(3): """1. """
-text(5): """Lorem"""
+text(3) [0..3]: """1. """
+text(5) [3..8]: """Lorem"""
 end-context
 begin-context list-item +sans-serif
-text(3): """2. """
-text(6): """ipsum """
+text(3) [8..11]: """2. """
+text(6) [11..17]: """ipsum """
 begin-context block +list=decimal
 begin-context list-item +sans-serif
-text(3): """1. """
-text(3): """one"""
+text(3) [17..20]: """1. """
+text(3) [20..23]: """one"""
 end-context
 begin-context list-item +sans-serif
-text(3): """2. """
-text(3): """two"""
+text(3) [23..26]: """2. """
+text(3) [26..29]: """two"""
 end-context
 begin-context list-item +sans-serif
-text(3): """3. """
-text(5): """three"""
+text(3) [29..32]: """3. """
+text(5) [32..37]: """three"""
 end-context
 end-context
 end-context
 begin-context list-item +sans-serif
-text(3): """3. """
-text(5): """dolor"""
+text(3) [37..40]: """3. """
+text(5) [40..45]: """dolor"""
 end-context
 end-context

@@ -1,4 +1,4 @@
 anchor []
 begin-context paragraph +sans-serif
-text(10): """“test”"""
+text(10) [0..6]: """“test”"""
 end-context

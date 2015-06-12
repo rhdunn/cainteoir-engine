@@ -1,4 +1,4 @@
 anchor []
 begin-context paragraph +sans-serif
-text(18): """Lorem ipsum dolor."""
+text(18) [0..18]: """Lorem ipsum dolor."""
 end-context

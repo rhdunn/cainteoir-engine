@@ -22,11 +22,13 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/document.hpp>
+#include <cainteoir/unicode.hpp>
 
 #include <iostream>
 
-namespace rdf = cainteoir::rdf;
-namespace rql = cainteoir::rdf::query;
+namespace rdf  = cainteoir::rdf;
+namespace rql  = cainteoir::rdf::query;
+namespace utf8 = cainteoir::utf8;
 
 static inline cainteoir::document::const_iterator
 get_child(const cainteoir::document::list_type &children, size_t index)
@@ -48,12 +50,33 @@ cainteoir::document_item::clear()
 cainteoir::document_item &
 cainteoir::document_item::copy(const document_item &aItem)
 {
-	type = aItem.type;
-	styles = aItem.styles;
-	content = aItem.content;
-	anchor = aItem.anchor;
-	media_begin = aItem.media_begin;
-	media_end = aItem.media_end;
+	clear();
+
+	switch (aItem.type & (cainteoir::events::begin_context | cainteoir::events::end_context))
+	{
+	case cainteoir::events::begin_context | cainteoir::events::end_context:
+		begin_end_context_event(aItem.styles);
+		break;
+	case cainteoir::events::begin_context:
+		begin_context_event(aItem.styles);
+		break;
+	case cainteoir::events::end_context:
+		end_context_event(aItem.styles);
+		break;
+	}
+
+	if (aItem.type & cainteoir::events::text)
+		text_event(aItem.content);
+
+	if (aItem.type & cainteoir::events::anchor)
+		anchor_event(aItem.anchor);
+
+	if (aItem.type & cainteoir::events::text_ref)
+		text_ref_event(aItem.anchor);
+
+	if (aItem.type & cainteoir::events::media_ref)
+		media_ref_event(aItem.anchor, aItem.content, aItem.media_begin, aItem.media_end);
+
 	return *this;
 }
 
@@ -86,8 +109,12 @@ cainteoir::document_item::text_event(const std::shared_ptr<buffer> &aText)
 {
 	if (!aText) return *this;
 
+	uint32_t length = utf8::codepoints(aText->begin(), aText->end());
+	uint32_t start  = range.end();
+
 	type |= cainteoir::events::text;
 	content = aText;
+	range = { start, start + length };
 	return *this;
 }
 

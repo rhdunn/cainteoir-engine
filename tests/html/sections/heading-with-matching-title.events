@@ -1,13 +1,13 @@
 anchor []
 begin-context heading 1
-text(9): """Heading 1"""
+text(9) [0..9]: """Heading 1"""
 end-context
 begin-context heading 2
-text(11): """Heading 1.1"""
+text(11) [9..20]: """Heading 1.1"""
 end-context
 begin-context heading 1
-text(9): """Heading 2"""
+text(9) [20..29]: """Heading 2"""
 end-context
 begin-context heading 2
-text(11): """Heading 2.1"""
+text(11) [29..40]: """Heading 2.1"""
 end-context

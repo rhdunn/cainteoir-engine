@@ -2,30 +2,30 @@ anchor []
 anchor [!/OEBPS/toc.xhtml]
 begin-context block
 begin-context heading 2
-text(17): """Table of Contents"""
+text(17) [0..17]: """Table of Contents"""
 end-context
 begin-context block +list=decimal
 begin-context list-item +sans-serif
-text(3): """1. """
+text(3) [17..20]: """1. """
 begin-context span
-text(9): """Chapter 1"""
+text(9) [20..29]: """Chapter 1"""
 end-context
 end-context
 begin-context list-item +sans-serif
-text(3): """2. """
+text(3) [29..32]: """2. """
 begin-context span
-text(9): """Chapter 2"""
+text(9) [32..41]: """Chapter 2"""
 end-context
 end-context
 begin-context list-item +sans-serif
-text(3): """3. """
+text(3) [41..44]: """3. """
 begin-context span
-text(9): """Chapter 3"""
+text(9) [44..53]: """Chapter 3"""
 end-context
 end-context
 end-context
 end-context
 anchor [!/OEBPS/test.xhtml]
 begin-context paragraph +sans-serif
-text(15): """This is a test."""
+text(15) [53..68]: """This is a test."""
 end-context

@@ -1,47 +1,47 @@
 anchor []
 begin-context block +list=decimal
 begin-context list-item +sans-serif
-text(3): """1. """
-text(3): """one"""
+text(3) [0..3]: """1. """
+text(3) [3..6]: """one"""
 end-context
 begin-context list-item +sans-serif
-text(3): """2. """
-text(3): """two"""
+text(3) [6..9]: """2. """
+text(3) [9..12]: """two"""
 end-context
 begin-context list-item +sans-serif
-text(3): """3. """
-text(5): """three"""
+text(3) [12..15]: """3. """
+text(5) [15..20]: """three"""
 end-context
 begin-context list-item +sans-serif
-text(3): """4. """
-text(4): """four"""
+text(3) [20..23]: """4. """
+text(4) [23..27]: """four"""
 end-context
 begin-context list-item +sans-serif
-text(3): """5. """
-text(4): """five"""
+text(3) [27..30]: """5. """
+text(4) [30..34]: """five"""
 end-context
 begin-context list-item +sans-serif
-text(3): """6. """
-text(3): """six"""
+text(3) [34..37]: """6. """
+text(3) [37..40]: """six"""
 end-context
 begin-context list-item +sans-serif
-text(3): """7. """
-text(5): """seven"""
+text(3) [40..43]: """7. """
+text(5) [43..48]: """seven"""
 end-context
 begin-context list-item +sans-serif
-text(3): """8. """
-text(5): """eight"""
+text(3) [48..51]: """8. """
+text(5) [51..56]: """eight"""
 end-context
 begin-context list-item +sans-serif
-text(3): """9. """
-text(4): """nine"""
+text(3) [56..59]: """9. """
+text(4) [59..63]: """nine"""
 end-context
 begin-context list-item +sans-serif
-text(4): """10. """
-text(3): """ten"""
+text(4) [63..67]: """10. """
+text(3) [67..70]: """ten"""
 end-context
 begin-context list-item +sans-serif
-text(4): """11. """
-text(6): """eleven"""
+text(4) [70..74]: """11. """
+text(6) [74..80]: """eleven"""
 end-context
 end-context
