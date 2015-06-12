@@ -72,6 +72,7 @@ struct speech_impl : public tts::speech , public tts::synthesis_callback
 	size_t currentOffset; /* The current offset from the beginning to the current block being read. */
 	size_t speakingPos;   /* The position within the block where the speaking is upto. */
 	size_t speakingLen;   /* The length of the word/fragment being spoken. */
+	size_t textOffset;    /* The starting offset of the text in the document item events. */
 	size_t textLen;       /* The length of the text range being read. */
 	int wordsPerMinute;   /* The speech rate of the current voice. */
 
@@ -129,7 +130,6 @@ static void * speak_tts_thread(void *data)
 	{
 		speak->started();
 
-		size_t n = 0;
 		int depth = 0;
 		int media_overlay_depth = -1;
 		for (auto &node : *speak)
@@ -177,8 +177,7 @@ static void * speak_tts_thread(void *data)
 						speak->engine->speak(node.content.get(), 0, speak);
 					break;
 				}
-				n += node.range.size();
-				speak->progress(n);
+				speak->progress(node.range.end());
 			}
 
 			if (node.type & cainteoir::events::anchor && speak->mRefEntryFrom != speak->mRefEntryTo)
@@ -217,6 +216,7 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	, speechState(cainteoir::tts::speaking)
 	, speakingPos(0)
 	, speakingLen(0)
+	, textOffset(-1)
 	, textLen(0)
 	, wordsPerMinute(aRate ? aRate->value() : 170)
 	, mFrom(aRange.begin())
@@ -230,7 +230,11 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	for (auto &node : *this)
 	{
 		if (node.type & cainteoir::events::text)
-			textLen += node.range.size();
+		{
+			if (textOffset == -1)
+				textOffset = node.range.begin();
+			textLen = node.range.end();
+		}
 	}
 
 	if (mRefEntryFrom != mRefEntryTo)
@@ -255,7 +259,7 @@ void speech_impl::started()
 	mElapsedTime = 0.0;
 	mTotalTime = (double(textLen) / CHARACTERS_PER_WORD / wordsPerMinute * 60.0);
 	mProgress = 0.0;
-	currentOffset = 0;
+	currentOffset = textOffset;
 }
 
 void speech_impl::progress(size_t n)
@@ -338,7 +342,7 @@ void speech_impl::ontextrange(const cainteoir::range<uint32_t> &range)
 	size_t actualPos = currentOffset + speakingPos;
 
 	mElapsedTime = mTimer.elapsed();
-	mProgress = percentageof(actualPos, textLen);
+	mProgress = percentageof(actualPos - textOffset, textLen - textOffset);
 
 	if (mElapsedTime > 0.1 && mProgress > 0.1)
 	{
