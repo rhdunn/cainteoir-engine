@@ -24,7 +24,6 @@
 
 #include <cainteoir/engines.hpp>
 #include <cainteoir/stopwatch.hpp>
-#include <cainteoir/unicode.hpp>
 #include "tts_engine.hpp"
 #include <stdexcept>
 
@@ -34,7 +33,6 @@ namespace rdf = cainteoir::rdf;
 namespace rql = cainteoir::rdf::query;
 namespace tts = cainteoir::tts;
 namespace css = cainteoir::css;
-namespace utf8 = cainteoir::utf8;
 
 static const decltype(tts::create_espeak_engine) *create_engines[] =
 {
@@ -179,7 +177,7 @@ static void * speak_tts_thread(void *data)
 						speak->engine->speak(node.content.get(), 0, speak);
 					break;
 				}
-				n += utf8::codepoints(node.content->begin(), node.content->end());
+				n += node.range.size();
 				speak->progress(n);
 			}
 
@@ -232,7 +230,7 @@ speech_impl::speech_impl(tts::engine *aEngine,
 	for (auto &node : *this)
 	{
 		if (node.type & cainteoir::events::text)
-			textLen += utf8::codepoints(node.content->begin(), node.content->end());
+			textLen += node.range.size();
 	}
 
 	if (mRefEntryFrom != mRefEntryTo)
