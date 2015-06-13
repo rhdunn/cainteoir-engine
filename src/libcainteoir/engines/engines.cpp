@@ -281,7 +281,7 @@ void speech_impl::started()
 	audio->open();
 
 	mElapsedTime = 0.0;
-	mTotalTime = (double(textLen) / CHARACTERS_PER_WORD / wordsPerMinute * 60.0);
+	mTotalTime = (double(textLen - textOffset) / CHARACTERS_PER_WORD / wordsPerMinute * 60.0);
 	mProgress = 0.0;
 	currentOffset = textOffset;
 }
