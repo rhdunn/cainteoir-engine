@@ -171,7 +171,7 @@ cainteoir::document::document(const std::shared_ptr<document_reader> &aReader, r
 		if (aReader->type & cainteoir::events::anchor)
 			mAnchors[aReader->anchor.str()] = mChildren.size();
 		if (aReader->type & cainteoir::events::text)
-			mLength += aReader->content->size();
+			mLength = aReader->range.end();
 	}
 }
 
