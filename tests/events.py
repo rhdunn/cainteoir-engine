@@ -188,6 +188,9 @@ if __name__ == '__main__':
 	test.run({'name': 'MIME', 'replace': ['title'], 'groups': [
 		{'name': 'headers', 'type': 'events', 'tests': [
 			{'test': 'mime/headers/basic.txt', 'result': 'mime/headers/basic.events', 'title': 'basic.txt'},
+			{'test': 'mime/headers/first-content-type.txt', 'result': 'mime/headers/basic.events', 'title': 'first-content-type.txt'},
+			{'test': 'mime/headers/first-content-transfer-encoding.txt', 'result': 'mime/headers/basic.events', 'title': 'first-content-transfer-encoding.txt'},
+			{'test': 'mime/headers/first-content-location.txt', 'result': 'mime/headers/basic.events', 'title': 'first-content-location.txt'},
 			{'test': 'mime/headers/leading-whitespace.txt', 'result': 'mime/headers/basic.events', 'title': 'leading-whitespace.txt'},
 			{'test': 'mime/headers/wrapped-header-item.txt', 'result': 'mime/headers/basic.events', 'title': 'wrapped-header-item.txt'},
 			# some editors will convert the CR LF to LF, so LF only line endings need to be supported ...
@@ -241,15 +244,18 @@ if __name__ == '__main__':
 		{'name': 'multipart', 'type': 'events', 'tests': [
 			{'test': 'mime/multipart/mixed-1.txt', 'result': 'mime/multipart/mixed.events', 'title': 'mixed-1.txt'},
 			{'test': 'mime/multipart/mixed-2.txt', 'result': 'mime/multipart/mixed.events', 'title': 'mixed-2.txt'},
+			{'test': 'mime/multipart/mixed-3.txt', 'result': 'mime/multipart/mixed.events', 'title': 'mixed-3.txt'},
 			{'test': 'mime/multipart/related-1.txt', 'result': 'mime/multipart/related.events', 'title': 'related-1.txt'},
 			{'test': 'mime/multipart/related-2.txt', 'result': 'mime/multipart/related.events', 'title': 'related-2.txt'},
 			{'test': 'mime/multipart/related-3.txt', 'result': 'mime/multipart/related.events', 'title': 'related-3.txt'},
 			{'test': 'mime/multipart/related-4.txt', 'result': 'mime/multipart/related.events', 'title': 'related-4.txt'},
 			{'test': 'mime/multipart/related-5.txt', 'result': 'mime/multipart/related-html.events', 'title': 'related-5.txt'},
 			{'test': 'mime/multipart/related-6.txt', 'result': 'mime/multipart/related-html.events', 'title': 'related-6.txt'},
+			{'test': 'mime/multipart/related-7.txt', 'result': 'mime/multipart/related.events', 'title': 'related-7.txt'},
 			{'test': 'mime/multipart/alternative-1.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-1.txt'},
 			{'test': 'mime/multipart/alternative-2.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-2.txt'},
 			{'test': 'mime/multipart/alternative-3.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-3.txt'},
+			{'test': 'mime/multipart/alternative-4.txt', 'result': 'mime/multipart/mixed.events', 'title': 'alternative-4.txt'},
 			{'test': 'mime/multipart/no-boundary-1.txt', 'result': 'mime/multipart/no-boundary.events', 'title': 'no-boundary-1.txt'},
 			{'test': 'mime/multipart/no-boundary-2.txt', 'result': 'mime/multipart/no-boundary.events', 'title': 'no-boundary-2.txt'},
 			{'test': 'mime/multipart/mail-archive.txt', 'result': 'mime/multipart/mail-archive.events', 'title': 'mail-archive.txt', 'expect': 'fail'},

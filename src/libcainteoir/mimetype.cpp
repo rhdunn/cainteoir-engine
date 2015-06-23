@@ -396,9 +396,9 @@ static const std::initializer_list<m::matchlet> http_pattern2 = { { 0,  1, "HTTP
 
 // for multipart mime documents (e.g. mhtml documents) ...
 static const std::initializer_list<m::matchlet> mime_pattern1 = { { 0, 81, "MIME-Version: 1.0" }, { 16, 81, "\nContent-Type:" } };
-static const std::initializer_list<m::matchlet> mime_pattern2 = { { 0,  2, "\nContent-Type:" } };
-static const std::initializer_list<m::matchlet> mime_pattern3 = { { 0,  2, "\nContent-Transfer-Encoding:" } };
-static const std::initializer_list<m::matchlet> mime_pattern4 = { { 0,  2, "\nContent-Location:" } };
+static const std::initializer_list<m::matchlet> mime_pattern2 = { { 0,  2, "Content-Type:" } };
+static const std::initializer_list<m::matchlet> mime_pattern3 = { { 0,  2, "Content-Transfer-Encoding:" } };
+static const std::initializer_list<m::matchlet> mime_pattern4 = { { 0,  2, "Content-Location:" } };
 
 // for newsgroup archives ...
 static const std::initializer_list<m::matchlet> news_pattern1 = { { 0,  1, "Article " }, { 10, 15, " of " } };

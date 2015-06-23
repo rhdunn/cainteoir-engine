@@ -1,0 +1,12 @@
+Content-Type: multipart/related; boundary="splithere"
+
+This should be ignored!
+--splithere
+Content-Type: text/plain
+
+This is a test file.
+--splithere
+Content-Type: text/plain
+
+This is related.
+--splithere--
