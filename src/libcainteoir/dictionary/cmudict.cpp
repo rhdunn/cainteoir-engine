@@ -22,8 +22,12 @@
 #include "compatibility.hpp"
 #include "dictionary_format.hpp"
 
-namespace tts = cainteoir::tts;
-namespace ipa = cainteoir::ipa;
+#include <cainteoir/unicode.hpp>
+#include <ucd/ucd.h>
+
+namespace tts  = cainteoir::tts;
+namespace ipa  = cainteoir::ipa;
+namespace utf8 = cainteoir::utf8;
 
 struct cmudict_parser
 {
@@ -333,10 +337,15 @@ bool cmudict_dictionary_reader::read()
 		{
 			char data[512] = { 0 };
 			char *ptr = data;
-			for (auto c : entry_word)
+
+			uint32_t c = 0;
+			const char *next = entry_word.begin();
+			const char *last = entry_word.end();
+			while ((next = utf8::read(next, c)) <= last)
 			{
-				*ptr++ = tolower(c);
+				ptr = utf8::write(ptr, ucd::tolower(c));
 			}
+
 			if (!context.empty())
 			{
 				*ptr++ = '@';
