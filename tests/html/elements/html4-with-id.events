@@ -1,7 +1,4 @@
 anchor []
-anchor [#]ab
-anchor [#]ac
-anchor [#]ad
 begin-context heading 1
 anchor [#]ae
 text(4) [0..4]: """Test"""

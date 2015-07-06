@@ -24,19 +24,13 @@
 |end-tag| meta
 |text| """
 		"""
-|end-tag| head
-|begin-tag| body
 |begin-tag| style
 |attribute| type="""text/css"""
 |text| """body { display: block; }"""
 |end-tag| style
 |text| """
 	"""
-|text| """
-	"""
-|comment| """ sections """
-|text| """
-	"""
+|end-tag| head
 |begin-tag| body
 |text| """
 		"""

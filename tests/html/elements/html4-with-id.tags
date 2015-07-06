@@ -29,20 +29,16 @@
 |end-tag| link
 |text| """
 		"""
-|end-tag| head
-|begin-tag| body
 |begin-tag| style
 |attribute| type="""text/css"""
 |text| """body { display: block; }"""
 |end-tag| style
 |text| """ """
-|comment| """ @id not allowed here in HTML 4.01 """
 |text| """
 		"""
 |begin-tag| script
 |end-tag| script
 |text| """ """
-|comment| """ @id not allowed here in HTML 4.01 """
 |text| """
 		"""
 |begin-tag| noscript
@@ -57,8 +53,7 @@
 |end-tag| basefont
 |text| """
 	"""
-|text| """
-	"""
+|end-tag| head
 |begin-tag| body
 |attribute| id="""ad"""
 |text| """

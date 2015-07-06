@@ -1,6 +1,4 @@
 anchor []
-anchor [#]ag
-anchor [#]ah
 begin-context block
 anchor [#]ai
 begin-context heading 1

@@ -30,8 +30,6 @@
 |end-tag| meta
 |text| """
 		"""
-|end-tag| head
-|begin-tag| body
 |begin-tag| style
 |attribute| type="""text/css"""
 |attribute| id="""ag"""
@@ -39,11 +37,7 @@
 |end-tag| style
 |text| """
 	"""
-|text| """
-	"""
-|comment| """ sections """
-|text| """
-	"""
+|end-tag| head
 |begin-tag| body
 |attribute| id="""ah"""
 |text| """

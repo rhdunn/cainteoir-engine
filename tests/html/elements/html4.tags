@@ -24,8 +24,6 @@
 |end-tag| link
 |text| """
 		"""
-|end-tag| head
-|begin-tag| body
 |begin-tag| style
 |attribute| type="""text/css"""
 |text| """body { display: block; }"""
@@ -46,8 +44,7 @@
 |end-tag| basefont
 |text| """
 	"""
-|text| """
-	"""
+|end-tag| head
 |begin-tag| body
 |text| """
 		"""

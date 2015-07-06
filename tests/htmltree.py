@@ -64,6 +64,11 @@ if __name__ == '__main__':
 			{'test': 'html/tree-construction/4-in-head~meta/self-closed-title.html', 'result': 'html/tree-construction/4-in-head~meta/self-closing-title.tags'},
 		]},
 		{'name': '12.2.5.4.4: in head', 'type': 'htmlreader', 'tests': [
+			{'test': 'html/tree-construction/4-in-head/noscript.html', 'result': 'html/tree-construction/4-in-head/noscript.tags'},
+			{'test': 'html/tree-construction/4-in-head/noframes.html', 'result': 'html/tree-construction/4-in-head/noframes.tags'},
+			{'test': 'html/tree-construction/4-in-head/style.html', 'result': 'html/tree-construction/4-in-head/style.tags'},
+			{'test': 'html/tree-construction/4-in-head/script.html', 'result': 'html/tree-construction/4-in-head/script.tags'},
+			{'test': 'html/tree-construction/4-in-head/template.html', 'result': 'html/tree-construction/4-in-head/template.tags'},
 			{'test': 'html/tree-construction/4-in-head/anything-else.html', 'result': 'html/tree-construction/simple.tags'},
 			{'test': 'html/tree-construction/4-in-head/anything-else-2.html', 'result': 'html/tree-construction/simple.tags'},
 			{'test': 'html/tree-construction/4-in-head/end-of-file.html', 'result': 'html/tree-construction/4-in-head/end-of-file.tags'},

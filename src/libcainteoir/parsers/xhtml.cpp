@@ -627,6 +627,11 @@ bool html_tree_builder::in_head()
 		    context() == &html::bgsound_node ||
 		    context() == &html::link_node ||
 		    context() == &html::meta_node ||
+		    context() == &html::noframes_node ||
+		    context() == &html::noscript_node ||
+		    context() == &html::script_node ||
+		    context() == &html::style_node ||
+		    context() == &html::template_node ||
 		    context() == &html::title_node)
 			return true;
 		else
