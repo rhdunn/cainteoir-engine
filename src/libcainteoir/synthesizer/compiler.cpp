@@ -560,7 +560,7 @@ parse_rules(cainteoir_file_reader &reader,
 	{
 	case cainteoir_file_reader::text:
 		{
-			if (reader.match().compare("end") == 0)
+			if (reader.match().compare("end") == 0 && left.empty())
 				return;
 
 			if ((*reader.match().begin() == '@' || *reader.match().begin() == '!') && rule)
