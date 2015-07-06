@@ -61,7 +61,7 @@ struct binary_file_writer
 	{
 	}
 
-	void begin_section(const char *magic, uint16_t section_size, bool has_pstr_fields);
+	void begin_section(const char *magic, uint32_t section_size, bool has_pstr_fields);
 	void end_section();
 
 	void u8(uint8_t u)   { fputc(u, mOutput); }
@@ -84,7 +84,7 @@ private:
 	std::map<std::string, uint32_t> mStringTable;
 };
 
-void binary_file_writer::begin_section(const char *magic, uint16_t section_size, bool has_pstr_fields)
+void binary_file_writer::begin_section(const char *magic, uint32_t section_size, bool has_pstr_fields)
 {
 	mOffset += section_size;
 	if (has_pstr_fields)
@@ -748,7 +748,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 
 	if (!conditionals.empty())
 	{
-		uint16_t entries = conditionals.size() * tts::CONDRULE_TABLE_ENTRY_SIZE;
+		uint32_t entries = conditionals.size() * tts::CONDRULE_TABLE_ENTRY_SIZE;
 		out.begin_section("CND", tts::CONDRULE_TABLE_SIZE + entries, true);
 		out.u16(conditionals.size());
 		for (const auto &entry : conditionals)
@@ -762,7 +762,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 
 	for (auto &classdef : classdefs)
 	{
-		uint16_t entries = (classdef.second.size() + 1) * tts::CLASSDEF_TABLE_ENTRY_SIZE;
+		uint32_t entries = (classdef.second.size() + 1) * tts::CLASSDEF_TABLE_ENTRY_SIZE;
 		out.begin_section("CLS", tts::CLASSDEF_TABLE_SIZE + entries, true);
 		out.u16(classdef.second.size() + 1);
 		out.u8(classdef.first);
@@ -776,7 +776,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	{
 		group.second.push_back({ {}, { nullptr, nullptr }});
 
-		uint16_t entries = group.second.size() * tts::LEXICAL_REWRITE_RULES_TABLE_ENTRY_SIZE;
+		uint32_t entries = group.second.size() * tts::LEXICAL_REWRITE_RULES_TABLE_ENTRY_SIZE;
 		out.begin_section("LRR", tts::LEXICAL_REWRITE_RULES_TABLE_SIZE + entries, true);
 		out.u16(group.second.size());
 		out.u8(group.first);
@@ -792,7 +792,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	{
 		group.second.push_back({ {}, { nullptr, nullptr }});
 
-		uint16_t entries = group.second.size() * tts::LETTER_TO_PHONEME_TABLE_ENTRY_SIZE;
+		uint32_t entries = group.second.size() * tts::LETTER_TO_PHONEME_TABLE_ENTRY_SIZE;
 		out.begin_section("L2P", tts::LETTER_TO_PHONEME_TABLE_SIZE + entries, true);
 		out.u16(group.second.size());
 		out.u8(group.first);
@@ -822,7 +822,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 
 	if (!words.empty())
 	{
-		uint16_t entries = words.size() * tts::DICTIONARY_TABLE_ENTRY_SIZE;
+		uint32_t entries = words.size() * tts::DICTIONARY_TABLE_ENTRY_SIZE;
 		out.begin_section("DIC", tts::DICTIONARY_TABLE_SIZE + entries, true);
 		out.u16(words.size());
 		for (const auto &entry : words)
