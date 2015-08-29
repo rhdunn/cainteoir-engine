@@ -243,6 +243,7 @@ libcainteoir_include_HEADERS = \
 	src/include/cainteoir/locale.hpp \
 	src/include/cainteoir/metadata.hpp \
 	src/include/cainteoir/mimetype.hpp \
+	src/include/cainteoir/object.hpp \
 	src/include/cainteoir/path.hpp \
 	src/include/cainteoir/phoneme.hpp \
 	src/include/cainteoir/range.hpp \
@@ -729,6 +730,11 @@ noinst_bin_PROGRAMS += tests/buffer.test
 tests_buffer_test_LDADD   = src/libcainteoir/libcainteoir.la
 tests_buffer_test_SOURCES = tests/buffer.cpp tests/tester.hpp
 
+noinst_bin_PROGRAMS += tests/object.test
+
+tests_object_test_LDADD   = src/libcainteoir/libcainteoir.la
+tests_object_test_SOURCES = tests/object.cpp tests/tester.hpp
+
 noinst_bin_PROGRAMS += tests/path.test
 
 tests_path_test_LDADD   = src/libcainteoir/libcainteoir.la
@@ -888,6 +894,7 @@ check: \
 	tests/complex.check \
 	tests/range.check \
 	tests/buffer.check \
+	tests/object.check \
 	tests/path.check \
 	tests/multiword_entry.check \
 	tests/utf8.check \
