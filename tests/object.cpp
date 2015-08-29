@@ -53,3 +53,19 @@ TEST_CASE("integer (64-bit)")
 	assert(i.integer() == 5);
 }
 #endif
+
+TEST_CASE("real (32-bit)")
+{
+	cainteoir::object r(2.63f);
+	assert(r.type() == cainteoir::object_type::real);
+	assert(r.real() == 2.63f);
+}
+
+#if (INTPTR_MAX == INT64_MAX) // 64-bit
+TEST_CASE("real (64-bit)")
+{
+	cainteoir::object r(2.63);
+	assert(r.type() == cainteoir::object_type::real);
+	assert(r.real() == 2.63);
+}
+#endif

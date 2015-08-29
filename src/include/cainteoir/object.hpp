@@ -26,14 +26,17 @@ namespace cainteoir
 	enum object_type : uint16_t
 	{
 		integer,
+		real,
 	};
 
 	struct object
 	{
 #if (INTPTR_MAX == INT64_MAX) // 64-bit
 		typedef int64_t intval_t;
+		typedef double  floatval_t;
 #else // 32-bit
 		typedef int32_t intval_t;
+		typedef float   floatval_t;
 #endif
 
 		object(int32_t aValue)
@@ -50,14 +53,31 @@ namespace cainteoir
 		}
 #endif
 
+		object(float aValue)
+			: mType(object_type::real)
+			, mFloatVal(aValue)
+		{
+		}
+
+#if (INTPTR_MAX == INT64_MAX) // 64-bit
+		object(double aValue)
+			: mType(object_type::real)
+			, mFloatVal(aValue)
+		{
+		}
+#endif
+
 		const object_type type() const { return mType; }
 
 		intval_t integer() const { return mIntVal; }
+
+		floatval_t real() const { return mFloatVal; }
 	private:
 		object_type mType;
 		union
 		{
 			intval_t mIntVal;
+			floatval_t mFloatVal;
 		};
 	};
 }
