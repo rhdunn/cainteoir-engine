@@ -25,6 +25,7 @@ namespace cainteoir
 {
 	enum object_type : uint16_t
 	{
+		null,
 		integer,
 		real,
 	};
@@ -38,6 +39,12 @@ namespace cainteoir
 		typedef int32_t intval_t;
 		typedef float   floatval_t;
 #endif
+
+		object()
+			: mType(object_type::null)
+			, mIntVal(0)
+		{
+		}
 
 		object(int32_t aValue)
 			: mType(object_type::integer)

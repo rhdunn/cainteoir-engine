@@ -24,6 +24,13 @@
 
 REGISTER_TESTSUITE("object");
 
+TEST_CASE("null")
+{
+	cainteoir::object o;
+	assert(o.type() == cainteoir::object_type::null);
+	assert(o.integer() == 0);
+}
+
 TEST_CASE("integer  (8-bit)")
 {
 	cainteoir::object i((int8_t)5);
