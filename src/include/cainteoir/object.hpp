@@ -29,6 +29,7 @@ namespace cainteoir
 		boolean,
 		integer,
 		real,
+		string,
 	};
 
 	struct object
@@ -81,6 +82,12 @@ namespace cainteoir
 		}
 #endif
 
+		object(const char *aValue)
+			: mType(object_type::string)
+			, mPtrVal((void *)aValue)
+		{
+		}
+
 		const object_type type() const { return mType; }
 
 		bool boolean() const { return mBoolVal; }
@@ -88,6 +95,8 @@ namespace cainteoir
 		intval_t integer() const { return mIntVal; }
 
 		floatval_t real() const { return mFloatVal; }
+
+		const char *string() const { return (const char *)mPtrVal; }
 	private:
 		object_type mType;
 		union
@@ -95,6 +104,7 @@ namespace cainteoir
 			bool mBoolVal;
 			intval_t mIntVal;
 			floatval_t mFloatVal;
+			void *mPtrVal;
 		};
 	};
 }

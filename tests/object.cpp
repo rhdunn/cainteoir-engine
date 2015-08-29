@@ -21,6 +21,7 @@
 #include "tester.hpp"
 
 #include <cainteoir/object.hpp>
+#include <cstring>
 
 REGISTER_TESTSUITE("object");
 
@@ -83,3 +84,10 @@ TEST_CASE("real (64-bit)")
 	assert(r.real() == 2.63);
 }
 #endif
+
+TEST_CASE("string")
+{
+	cainteoir::object s("hello");
+	assert(s.type() == cainteoir::object_type::string);
+	assert(strcmp(s.string(), "hello") == 0);
+}
