@@ -31,6 +31,13 @@ TEST_CASE("null")
 	assert(o.integer() == 0);
 }
 
+TEST_CASE("boolean")
+{
+	cainteoir::object b(true);
+	assert(b.type() == cainteoir::object_type::boolean);
+	assert(b.boolean());
+}
+
 TEST_CASE("integer  (8-bit)")
 {
 	cainteoir::object i((int8_t)5);

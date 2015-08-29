@@ -26,6 +26,7 @@ namespace cainteoir
 	enum object_type : uint16_t
 	{
 		null,
+		boolean,
 		integer,
 		real,
 	};
@@ -43,6 +44,12 @@ namespace cainteoir
 		object()
 			: mType(object_type::null)
 			, mIntVal(0)
+		{
+		}
+
+		object(bool aValue)
+			: mType(object_type::boolean)
+			, mBoolVal(aValue)
 		{
 		}
 
@@ -76,6 +83,8 @@ namespace cainteoir
 
 		const object_type type() const { return mType; }
 
+		bool boolean() const { return mBoolVal; }
+
 		intval_t integer() const { return mIntVal; }
 
 		floatval_t real() const { return mFloatVal; }
@@ -83,6 +92,7 @@ namespace cainteoir
 		object_type mType;
 		union
 		{
+			bool mBoolVal;
 			intval_t mIntVal;
 			floatval_t mFloatVal;
 		};
