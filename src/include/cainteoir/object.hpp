@@ -84,7 +84,7 @@ namespace cainteoir
 
 		object(const char *aValue)
 			: mType(object_type::string)
-			, mPtrVal((void *)aValue)
+			, mStringVal(aValue)
 		{
 		}
 
@@ -96,7 +96,7 @@ namespace cainteoir
 
 		floatval_t real() const { return mFloatVal; }
 
-		const char *string() const { return (const char *)mPtrVal; }
+		const char *string() const { return mStringVal; }
 	private:
 		object_type mType;
 		union
@@ -104,7 +104,7 @@ namespace cainteoir
 			bool mBoolVal;
 			intval_t mIntVal;
 			floatval_t mFloatVal;
-			void *mPtrVal;
+			const char *mStringVal;
 		};
 	};
 }
