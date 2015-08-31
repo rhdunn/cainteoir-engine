@@ -23,6 +23,8 @@
 #include <cainteoir/object.hpp>
 #include <cstring>
 
+namespace ipa = cainteoir::ipa;
+
 REGISTER_TESTSUITE("object");
 
 TEST_CASE("null")
@@ -205,4 +207,20 @@ TEST_CASE("buffer")
 	u = s;
 	assert(u.type() == cainteoir::object_type::buffer);
 	assert(u.buffer()->compare("hello") == 0);
+}
+
+TEST_CASE("phoneme")
+{
+	cainteoir::object p(ipa::phoneme(ipa::voiced | ipa::alveolar | ipa::plosive));
+	assert(p.type() == cainteoir::object_type::phoneme);
+	assert(p.phoneme() == (ipa::voiced | ipa::alveolar | ipa::plosive));
+
+	cainteoir::object q(p);
+	assert(q.type() == cainteoir::object_type::phoneme);
+	assert(q.phoneme() == (ipa::voiced | ipa::alveolar | ipa::plosive));
+
+	cainteoir::object r;
+	r = p;
+	assert(r.type() == cainteoir::object_type::phoneme);
+	assert(r.phoneme() == (ipa::voiced | ipa::alveolar | ipa::plosive));
 }

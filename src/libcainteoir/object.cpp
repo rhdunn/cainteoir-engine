@@ -37,6 +37,9 @@ cainteoir::object::object(const object &o)
 	case object_type::buffer:
 		new (&mBufferVal)buffer_t(o.mBufferVal);
 		break;
+	case object_type::phoneme:
+		mPhonemeVal = o.mPhonemeVal;
+		break;
 	default:
 		mStringVal = o.mStringVal;
 		break;
@@ -72,6 +75,9 @@ cainteoir::object::operator=(const object &o)
 	{
 	case object_type::buffer:
 		new (&mBufferVal)buffer_t(o.mBufferVal);
+		break;
+	case object_type::phoneme:
+		mPhonemeVal = o.mPhonemeVal;
 		break;
 	default:
 		mStringVal = o.mStringVal;

@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_OBJECT_HPP
 
 #include "buffer.hpp"
+#include "phoneme.hpp"
 
 namespace cainteoir
 {
@@ -33,6 +34,7 @@ namespace cainteoir
 		real,
 		string,
 		buffer,
+		phoneme,
 	};
 
 	struct object
@@ -94,6 +96,12 @@ namespace cainteoir
 
 		object(const std::shared_ptr<cainteoir::buffer> &o);
 
+		object(const ipa::phoneme &aValue)
+			: mType(object_type::phoneme)
+			, mPhonemeVal(aValue)
+		{
+		}
+
 		object(const object &o);
 
 		~object();
@@ -111,6 +119,8 @@ namespace cainteoir
 		const char *string() const { return mStringVal; }
 
 		const buffer_t &buffer() const { return mBufferVal; }
+
+		const ipa::phoneme &phoneme() const { return mPhonemeVal; }
 	private:
 		object_type mType;
 		union
@@ -120,6 +130,7 @@ namespace cainteoir
 			floatval_t mFloatVal;
 			const char *mStringVal;
 			buffer_t mBufferVal;
+			ipa::phoneme mPhonemeVal;
 		};
 	};
 }
