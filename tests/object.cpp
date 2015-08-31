@@ -172,3 +172,21 @@ TEST_CASE("string")
 	assert(u.type() == cainteoir::object_type::string);
 	assert(strcmp(u.string(), "hello") == 0);
 }
+
+TEST_CASE("string does not create a copy")
+{
+	const char *test = "test";
+
+	cainteoir::object s(test);
+	assert(s.type() == cainteoir::object_type::string);
+	assert(s.string() == test);
+
+	cainteoir::object t(s);
+	assert(t.type() == cainteoir::object_type::string);
+	assert(t.string() == test);
+
+	cainteoir::object u;
+	u = s;
+	assert(u.type() == cainteoir::object_type::string);
+	assert(u.string() == test);
+}
