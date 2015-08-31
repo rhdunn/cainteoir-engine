@@ -34,6 +34,11 @@ TEST_CASE("null")
 	cainteoir::object p(o);
 	assert(p.type() == cainteoir::object_type::null);
 	assert(p.integer() == 0);
+
+	cainteoir::object q(4);
+	q = o;
+	assert(q.type() == cainteoir::object_type::null);
+	assert(q.integer() == 0);
 }
 
 TEST_CASE("boolean")
@@ -45,6 +50,11 @@ TEST_CASE("boolean")
 	cainteoir::object c(b);
 	assert(c.type() == cainteoir::object_type::boolean);
 	assert(c.boolean());
+
+	cainteoir::object d;
+	d = b;
+	assert(d.type() == cainteoir::object_type::boolean);
+	assert(d.boolean());
 }
 
 TEST_CASE("integer  (8-bit)")
@@ -56,6 +66,11 @@ TEST_CASE("integer  (8-bit)")
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
+
+	cainteoir::object k;
+	k = i;
+	assert(k.type() == cainteoir::object_type::integer);
+	assert(k.integer() == 5);
 }
 
 TEST_CASE("integer (16-bit)")
@@ -67,6 +82,11 @@ TEST_CASE("integer (16-bit)")
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
+
+	cainteoir::object k;
+	k = i;
+	assert(k.type() == cainteoir::object_type::integer);
+	assert(k.integer() == 5);
 }
 
 TEST_CASE("integer (32-bit)")
@@ -78,6 +98,11 @@ TEST_CASE("integer (32-bit)")
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
+
+	cainteoir::object k;
+	k = i;
+	assert(k.type() == cainteoir::object_type::integer);
+	assert(k.integer() == 5);
 }
 
 #if (INTPTR_MAX == INT64_MAX) // 64-bit
@@ -90,6 +115,11 @@ TEST_CASE("integer (64-bit)")
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
+
+	cainteoir::object k;
+	k = i;
+	assert(k.type() == cainteoir::object_type::integer);
+	assert(k.integer() == 5);
 }
 #endif
 
@@ -102,6 +132,11 @@ TEST_CASE("real (32-bit)")
 	cainteoir::object s(r);
 	assert(s.type() == cainteoir::object_type::real);
 	assert(s.real() == 2.63f);
+
+	cainteoir::object t;
+	t = r;
+	assert(t.type() == cainteoir::object_type::real);
+	assert(t.real() == 2.63f);
 }
 
 #if (INTPTR_MAX == INT64_MAX) // 64-bit
@@ -114,6 +149,11 @@ TEST_CASE("real (64-bit)")
 	cainteoir::object s(r);
 	assert(s.type() == cainteoir::object_type::real);
 	assert(s.real() == 2.63);
+
+	cainteoir::object t;
+	t = r;
+	assert(t.type() == cainteoir::object_type::real);
+	assert(t.real() == 2.63);
 }
 #endif
 
@@ -126,4 +166,9 @@ TEST_CASE("string")
 	cainteoir::object t(s);
 	assert(t.type() == cainteoir::object_type::string);
 	assert(strcmp(t.string(), "hello") == 0);
+
+	cainteoir::object u;
+	u = s;
+	assert(u.type() == cainteoir::object_type::string);
+	assert(strcmp(u.string(), "hello") == 0);
 }
