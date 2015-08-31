@@ -35,6 +35,7 @@ namespace cainteoir
 		string,
 		buffer,
 		phoneme,
+		range,
 	};
 
 	struct object
@@ -47,6 +48,7 @@ namespace cainteoir
 		typedef float   floatval_t;
 #endif
 		typedef std::shared_ptr<cainteoir::buffer> buffer_t;
+		typedef cainteoir::range<uint32_t> range_t;
 
 		object()
 			: mType(object_type::null)
@@ -94,13 +96,15 @@ namespace cainteoir
 		{
 		}
 
-		object(const std::shared_ptr<cainteoir::buffer> &o);
+		object(const std::shared_ptr<cainteoir::buffer> &aValue);
 
 		object(const ipa::phoneme &aValue)
 			: mType(object_type::phoneme)
 			, mPhonemeVal(aValue)
 		{
 		}
+
+		object(const cainteoir::range<uint32_t> &aValue);
 
 		object(const object &o);
 
@@ -121,6 +125,8 @@ namespace cainteoir
 		const buffer_t &buffer() const { return mBufferVal; }
 
 		const ipa::phoneme &phoneme() const { return mPhonemeVal; }
+
+		const range_t &range() const { return mRangeVal; }
 	private:
 		object_type mType;
 		union
@@ -131,6 +137,7 @@ namespace cainteoir
 			const char *mStringVal;
 			buffer_t mBufferVal;
 			ipa::phoneme mPhonemeVal;
+			range_t mRangeVal;
 		};
 	};
 }

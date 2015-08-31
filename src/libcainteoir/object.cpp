@@ -23,10 +23,16 @@
 
 #include <cainteoir/object.hpp>
 
-cainteoir::object::object(const std::shared_ptr<cainteoir::buffer> &aBuffer)
+cainteoir::object::object(const std::shared_ptr<cainteoir::buffer> &aValue)
 	: mType(cainteoir::object_type::buffer)
 {
-	new (&mBufferVal)buffer_t(aBuffer);
+	new (&mBufferVal)buffer_t(aValue);
+}
+
+cainteoir::object::object(const cainteoir::range<uint32_t> &aValue)
+	: mType(cainteoir::object_type::range)
+{
+	new (&mRangeVal)range_t(aValue);
 }
 
 cainteoir::object::object(const object &o)
@@ -36,6 +42,9 @@ cainteoir::object::object(const object &o)
 	{
 	case object_type::buffer:
 		new (&mBufferVal)buffer_t(o.mBufferVal);
+		break;
+	case object_type::range:
+		new (&mRangeVal)range_t(o.mRangeVal);
 		break;
 	case object_type::phoneme:
 		mPhonemeVal = o.mPhonemeVal;
@@ -53,6 +62,9 @@ cainteoir::object::~object()
 	case object_type::buffer:
 		(&mBufferVal)->~buffer_t();
 		break;
+	case object_type::range:
+		(&mRangeVal)->~range_t();
+		break;
 	default:
 		break;
 	}
@@ -66,6 +78,9 @@ cainteoir::object::operator=(const object &o)
 	case object_type::buffer:
 		(&mBufferVal)->~buffer_t();
 		break;
+	case object_type::range:
+		(&mRangeVal)->~range_t();
+		break;
 	default:
 		break;
 	}
@@ -75,6 +90,9 @@ cainteoir::object::operator=(const object &o)
 	{
 	case object_type::buffer:
 		new (&mBufferVal)buffer_t(o.mBufferVal);
+		break;
+	case object_type::range:
+		new (&mRangeVal)range_t(o.mRangeVal);
 		break;
 	case object_type::phoneme:
 		mPhonemeVal = o.mPhonemeVal;

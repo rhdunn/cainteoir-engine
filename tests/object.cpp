@@ -224,3 +224,22 @@ TEST_CASE("phoneme")
 	assert(r.type() == cainteoir::object_type::phoneme);
 	assert(r.phoneme() == (ipa::voiced | ipa::alveolar | ipa::plosive));
 }
+
+TEST_CASE("range")
+{
+	cainteoir::object p(cainteoir::range<uint32_t>(3, 6));
+	assert(p.type() == cainteoir::object_type::range);
+	assert(*p.range().begin() == 3);
+	assert(*p.range().end() == 6);
+
+	cainteoir::object q(p);
+	assert(q.type() == cainteoir::object_type::range);
+	assert(*q.range().begin() == 3);
+	assert(*q.range().end() == 6);
+
+	cainteoir::object r;
+	r = p;
+	assert(r.type() == cainteoir::object_type::range);
+	assert(*r.range().begin() == 3);
+	assert(*r.range().end() == 6);
+}
