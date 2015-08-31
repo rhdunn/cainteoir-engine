@@ -21,15 +21,18 @@
 #ifndef CAINTEOIR_ENGINE_OBJECT_HPP
 #define CAINTEOIR_ENGINE_OBJECT_HPP
 
+#include "buffer.hpp"
+
 namespace cainteoir
 {
-	enum object_type : uint16_t
+	enum class object_type : uint16_t
 	{
 		null,
 		boolean,
 		integer,
 		real,
 		string,
+		buffer,
 	};
 
 	struct object
@@ -41,6 +44,7 @@ namespace cainteoir
 		typedef int32_t intval_t;
 		typedef float   floatval_t;
 #endif
+		typedef std::shared_ptr<cainteoir::buffer> buffer_t;
 
 		object()
 			: mType(object_type::null)
@@ -88,6 +92,14 @@ namespace cainteoir
 		{
 		}
 
+		object(const std::shared_ptr<cainteoir::buffer> &o);
+
+		object(const object &o);
+
+		~object();
+
+		object &operator=(const object &o);
+
 		const object_type type() const { return mType; }
 
 		bool boolean() const { return mBoolVal; }
@@ -97,6 +109,8 @@ namespace cainteoir
 		floatval_t real() const { return mFloatVal; }
 
 		const char *string() const { return mStringVal; }
+
+		const buffer_t &buffer() const { return mBufferVal; }
 	private:
 		object_type mType;
 		union
@@ -105,6 +119,7 @@ namespace cainteoir
 			intval_t mIntVal;
 			floatval_t mFloatVal;
 			const char *mStringVal;
+			buffer_t mBufferVal;
 		};
 	};
 }

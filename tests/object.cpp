@@ -190,3 +190,19 @@ TEST_CASE("string does not create a copy")
 	assert(u.type() == cainteoir::object_type::string);
 	assert(u.string() == test);
 }
+
+TEST_CASE("buffer")
+{
+	cainteoir::object s(cainteoir::make_buffer("hello", 5));
+	assert(s.type() == cainteoir::object_type::buffer);
+	assert(s.buffer()->compare("hello") == 0);
+
+	cainteoir::object t(s);
+	assert(t.type() == cainteoir::object_type::buffer);
+	assert(t.buffer()->compare("hello") == 0);
+
+	cainteoir::object u;
+	u = s;
+	assert(u.type() == cainteoir::object_type::buffer);
+	assert(u.buffer()->compare("hello") == 0);
+}
