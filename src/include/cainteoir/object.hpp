@@ -104,7 +104,7 @@ namespace cainteoir
 #endif
 
 		object(const char *aValue)
-			: mType(object_type::string)
+			: mType(aValue ? object_type::string : object_type::null)
 			, mStringVal(aValue)
 		{
 		}

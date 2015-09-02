@@ -342,8 +342,39 @@ TEST_CASE("string")
 	assert(strcmp(u.string(), "hello") == 0);
 
 	cainteoir::object o(cainteoir::object_type::string);
-	assert(o.type() == cainteoir::object_type::string);
+	assert(o.type() == cainteoir::object_type::null);
 	assert(!o.string());
+
+	assert(s.get("test") == nullptr);
+	assert(!s.put("test", 24));
+	assert(s.get("test") == nullptr);
+}
+
+TEST_CASE("string (null)")
+{
+	cainteoir::object s(nullptr);
+	assert(s.type() == cainteoir::object_type::null);
+	assert(!s.string());
+
+	assert(s.is_null());
+	assert(!s.is_boolean());
+	assert(!s.is_integer());
+	assert(!s.is_real());
+	assert(!s.is_number());
+	assert(!s.is_string());
+	assert(!s.is_buffer());
+	assert(!s.is_phoneme());
+	assert(!s.is_range());
+	assert(!s.is_dictionary());
+
+	cainteoir::object t(s);
+	assert(t.type() == cainteoir::object_type::null);
+	assert(!t.string());
+
+	cainteoir::object u;
+	u = s;
+	assert(u.type() == cainteoir::object_type::null);
+	assert(!u.string());
 
 	assert(s.get("test") == nullptr);
 	assert(!s.put("test", 24));

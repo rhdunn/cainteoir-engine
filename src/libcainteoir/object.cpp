@@ -52,6 +52,10 @@ cainteoir::object::object(const object_type aType)
 	case object_type::phoneme:
 		mPhonemeVal = {};
 		break;
+	case object_type::string: // set an empty string to the null object type
+		mType = object_type::null;
+		mStringVal = {};
+		break;
 	default:
 		mStringVal = {};
 		break;
