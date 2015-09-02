@@ -37,6 +37,7 @@ TEST_CASE("null")
 	assert(!o.is_boolean());
 	assert(!o.is_integer());
 	assert(!o.is_real());
+	assert(!o.is_number());
 	assert(!o.is_string());
 	assert(!o.is_buffer());
 	assert(!o.is_phoneme());
@@ -71,6 +72,7 @@ TEST_CASE("boolean")
 	assert(b.is_boolean());
 	assert(!b.is_integer());
 	assert(!b.is_real());
+	assert(!b.is_number());
 	assert(!b.is_string());
 	assert(!b.is_buffer());
 	assert(!b.is_phoneme());
@@ -100,11 +102,13 @@ TEST_CASE("integer  (8-bit)")
 	cainteoir::object i((int8_t)5);
 	assert(i.type() == cainteoir::object_type::integer);
 	assert(i.integer() == 5);
+	assert(i.number() == 5.0);
 
 	assert(!i.is_null());
 	assert(!i.is_boolean());
 	assert(i.is_integer());
 	assert(!i.is_real());
+	assert(i.is_number());
 	assert(!i.is_string());
 	assert(!i.is_buffer());
 	assert(!i.is_phoneme());
@@ -114,15 +118,18 @@ TEST_CASE("integer  (8-bit)")
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
+	assert(j.number() == 5.0);
 
 	cainteoir::object k;
 	k = i;
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
+	assert(k.number() == 5.0);
 
 	cainteoir::object o(cainteoir::object_type::integer);
 	assert(o.type() == cainteoir::object_type::integer);
 	assert(o.integer() == 0);
+	assert(o.number() == 0.0);
 
 	assert(i.get("test") == nullptr);
 	assert(!i.put("test", 24));
@@ -134,11 +141,13 @@ TEST_CASE("integer (16-bit)")
 	cainteoir::object i((int16_t)5);
 	assert(i.type() == cainteoir::object_type::integer);
 	assert(i.integer() == 5);
+	assert(i.number() == 5.0);
 
 	assert(!i.is_null());
 	assert(!i.is_boolean());
 	assert(i.is_integer());
 	assert(!i.is_real());
+	assert(i.is_number());
 	assert(!i.is_string());
 	assert(!i.is_buffer());
 	assert(!i.is_phoneme());
@@ -148,11 +157,13 @@ TEST_CASE("integer (16-bit)")
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
+	assert(j.number() == 5.0);
 
 	cainteoir::object k;
 	k = i;
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
+	assert(k.number() == 5.0);
 
 	assert(i.get("test") == nullptr);
 	assert(!i.put("test", 24));
@@ -164,11 +175,13 @@ TEST_CASE("integer (32-bit)")
 	cainteoir::object i((int32_t)5);
 	assert(i.type() == cainteoir::object_type::integer);
 	assert(i.integer() == 5);
+	assert(i.number() == 5.0);
 
 	assert(!i.is_null());
 	assert(!i.is_boolean());
 	assert(i.is_integer());
 	assert(!i.is_real());
+	assert(i.is_number());
 	assert(!i.is_string());
 	assert(!i.is_buffer());
 	assert(!i.is_phoneme());
@@ -178,11 +191,13 @@ TEST_CASE("integer (32-bit)")
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
+	assert(j.number() == 5.0);
 
 	cainteoir::object k;
 	k = i;
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
+	assert(k.number() == 5.0);
 
 	assert(i.get("test") == nullptr);
 	assert(!i.put("test", 24));
@@ -195,11 +210,13 @@ TEST_CASE("integer (64-bit)")
 	cainteoir::object i((int64_t)5);
 	assert(i.type() == cainteoir::object_type::integer);
 	assert(i.integer() == 5);
+	assert(i.number() == 5.0);
 
 	assert(!i.is_null());
 	assert(!i.is_boolean());
 	assert(i.is_integer());
 	assert(!i.is_real());
+	assert(i.is_number());
 	assert(!i.is_string());
 	assert(!i.is_buffer());
 	assert(!i.is_phoneme());
@@ -209,11 +226,13 @@ TEST_CASE("integer (64-bit)")
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
+	assert(j.number() == 5.0);
 
 	cainteoir::object k;
 	k = i;
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
+	assert(k.number() == 5.0);
 
 	assert(i.get("test") == nullptr);
 	assert(!i.put("test", 24));
@@ -226,11 +245,13 @@ TEST_CASE("real (32-bit)")
 	cainteoir::object r(2.63f);
 	assert(r.type() == cainteoir::object_type::real);
 	assert(r.real() == 2.63f);
+	assert(r.number() == 2.63);
 
 	assert(!r.is_null());
 	assert(!r.is_boolean());
 	assert(!r.is_integer());
 	assert(r.is_real());
+	assert(r.is_number());
 	assert(!r.is_string());
 	assert(!r.is_buffer());
 	assert(!r.is_phoneme());
@@ -240,15 +261,18 @@ TEST_CASE("real (32-bit)")
 	cainteoir::object s(r);
 	assert(s.type() == cainteoir::object_type::real);
 	assert(s.real() == 2.63f);
+	assert(s.number() == 2.63);
 
 	cainteoir::object t;
 	t = r;
 	assert(t.type() == cainteoir::object_type::real);
 	assert(t.real() == 2.63f);
+	assert(t.number() == 2.63);
 
 	cainteoir::object o(cainteoir::object_type::real);
 	assert(o.type() == cainteoir::object_type::real);
 	assert(o.real() == 0.0);
+	assert(o.number() == 0.0);
 
 	assert(r.get("test") == nullptr);
 	assert(!r.put("test", 24));
@@ -261,11 +285,13 @@ TEST_CASE("real (64-bit)")
 	cainteoir::object r(2.63);
 	assert(r.type() == cainteoir::object_type::real);
 	assert(r.real() == 2.63);
+	assert(r.number() == 2.63);
 
 	assert(!r.is_null());
 	assert(!r.is_boolean());
 	assert(!r.is_integer());
 	assert(r.is_real());
+	assert(r.is_number());
 	assert(!r.is_string());
 	assert(!r.is_buffer());
 	assert(!r.is_phoneme());
@@ -275,11 +301,13 @@ TEST_CASE("real (64-bit)")
 	cainteoir::object s(r);
 	assert(s.type() == cainteoir::object_type::real);
 	assert(s.real() == 2.63);
+	assert(s.number() == 2.63);
 
 	cainteoir::object t;
 	t = r;
 	assert(t.type() == cainteoir::object_type::real);
 	assert(t.real() == 2.63);
+	assert(t.number() == 2.63);
 
 	assert(r.get("test") == nullptr);
 	assert(!r.put("test", 24));
@@ -297,6 +325,7 @@ TEST_CASE("string")
 	assert(!s.is_boolean());
 	assert(!s.is_integer());
 	assert(!s.is_real());
+	assert(!s.is_number());
 	assert(s.is_string());
 	assert(!s.is_buffer());
 	assert(!s.is_phoneme());
@@ -349,6 +378,7 @@ TEST_CASE("buffer")
 	assert(!s.is_boolean());
 	assert(!s.is_integer());
 	assert(!s.is_real());
+	assert(!s.is_number());
 	assert(!s.is_string());
 	assert(s.is_buffer());
 	assert(!s.is_phoneme());
@@ -383,6 +413,7 @@ TEST_CASE("phoneme")
 	assert(!p.is_boolean());
 	assert(!p.is_integer());
 	assert(!p.is_real());
+	assert(!p.is_number());
 	assert(!p.is_string());
 	assert(!p.is_buffer());
 	assert(p.is_phoneme());
@@ -418,6 +449,7 @@ TEST_CASE("range")
 	assert(!p.is_boolean());
 	assert(!p.is_integer());
 	assert(!p.is_real());
+	assert(!p.is_number());
 	assert(!p.is_string());
 	assert(!p.is_buffer());
 	assert(!p.is_phoneme());
@@ -454,6 +486,7 @@ TEST_CASE("dictionary")
 	assert(!d.is_boolean());
 	assert(!d.is_integer());
 	assert(!d.is_real());
+	assert(!d.is_number());
 	assert(!d.is_string());
 	assert(!d.is_buffer());
 	assert(!d.is_phoneme());

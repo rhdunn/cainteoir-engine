@@ -133,6 +133,7 @@ namespace cainteoir
 		bool is_boolean() const { return type() == object_type::boolean; }
 		bool is_integer() const { return type() == object_type::integer; }
 		bool is_real() const { return type() == object_type::real; }
+		bool is_number() const { return type() == object_type::integer || type() == object_type::real; }
 		bool is_string() const { return type() == object_type::string; }
 		bool is_buffer() const { return type() == object_type::buffer; }
 		bool is_phoneme() const { return type() == object_type::phoneme; }
@@ -144,6 +145,8 @@ namespace cainteoir
 		intval_t integer() const { return mIntVal; }
 
 		floatval_t real() const { return mFloatVal; }
+
+		floatval_t number() const { return is_integer() ? (floatval_t)mIntVal : mFloatVal; }
 
 		const char *string() const { return mStringVal; }
 
