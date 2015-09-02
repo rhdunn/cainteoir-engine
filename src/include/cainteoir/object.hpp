@@ -24,6 +24,8 @@
 #include "buffer.hpp"
 #include "phoneme.hpp"
 
+#include <map>
+
 namespace cainteoir
 {
 	enum class object_type : uint16_t
@@ -36,6 +38,7 @@ namespace cainteoir
 		buffer,
 		phoneme,
 		range,
+		dictionary,
 	};
 
 	struct object
@@ -47,8 +50,18 @@ namespace cainteoir
 		typedef int32_t intval_t;
 		typedef float   floatval_t;
 #endif
+
+		struct string_compare
+		{
+			bool operator()(const char *a, const char *b) const
+			{
+				return strcmp(a, b) < 0;
+			}
+		};
+
 		typedef std::shared_ptr<cainteoir::buffer> buffer_t;
 		typedef cainteoir::range<uint32_t> range_t;
+		typedef std::shared_ptr<std::map<const char *, object, string_compare>> dictionary_t;
 
 		object()
 			: mType(object_type::null)
@@ -106,6 +119,8 @@ namespace cainteoir
 
 		object(const cainteoir::range<uint32_t> &aValue);
 
+		object(const object_type aType);
+
 		object(const object &o);
 
 		~object();
@@ -127,6 +142,10 @@ namespace cainteoir
 		const ipa::phoneme &phoneme() const { return mPhonemeVal; }
 
 		const range_t &range() const { return mRangeVal; }
+
+		const object *get(const char *aKey) const;
+
+		bool put(const char *aKey, const object &aValue);
 	private:
 		object_type mType;
 		union
@@ -138,6 +157,7 @@ namespace cainteoir
 			buffer_t mBufferVal;
 			ipa::phoneme mPhonemeVal;
 			range_t mRangeVal;
+			dictionary_t mDictionaryVal;
 		};
 	};
 }

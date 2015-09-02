@@ -41,6 +41,14 @@ TEST_CASE("null")
 	q = o;
 	assert(q.type() == cainteoir::object_type::null);
 	assert(q.integer() == 0);
+
+	cainteoir::object r(cainteoir::object_type::null);
+	assert(r.type() == cainteoir::object_type::null);
+	assert(r.integer() == 0);
+
+	assert(o.get("test") == nullptr);
+	assert(!o.put("test", 24));
+	assert(o.get("test") == nullptr);
 }
 
 TEST_CASE("boolean")
@@ -57,6 +65,14 @@ TEST_CASE("boolean")
 	d = b;
 	assert(d.type() == cainteoir::object_type::boolean);
 	assert(d.boolean());
+
+	cainteoir::object o(cainteoir::object_type::boolean);
+	assert(o.type() == cainteoir::object_type::boolean);
+	assert(!o.boolean());
+
+	assert(b.get("test") == nullptr);
+	assert(!b.put("test", 24));
+	assert(b.get("test") == nullptr);
 }
 
 TEST_CASE("integer  (8-bit)")
@@ -73,6 +89,14 @@ TEST_CASE("integer  (8-bit)")
 	k = i;
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
+
+	cainteoir::object o(cainteoir::object_type::integer);
+	assert(o.type() == cainteoir::object_type::integer);
+	assert(o.integer() == 0);
+
+	assert(i.get("test") == nullptr);
+	assert(!i.put("test", 24));
+	assert(i.get("test") == nullptr);
 }
 
 TEST_CASE("integer (16-bit)")
@@ -89,6 +113,10 @@ TEST_CASE("integer (16-bit)")
 	k = i;
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
+
+	assert(i.get("test") == nullptr);
+	assert(!i.put("test", 24));
+	assert(i.get("test") == nullptr);
 }
 
 TEST_CASE("integer (32-bit)")
@@ -105,6 +133,10 @@ TEST_CASE("integer (32-bit)")
 	k = i;
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
+
+	assert(i.get("test") == nullptr);
+	assert(!i.put("test", 24));
+	assert(i.get("test") == nullptr);
 }
 
 #if (INTPTR_MAX == INT64_MAX) // 64-bit
@@ -122,6 +154,10 @@ TEST_CASE("integer (64-bit)")
 	k = i;
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
+
+	assert(i.get("test") == nullptr);
+	assert(!i.put("test", 24));
+	assert(i.get("test") == nullptr);
 }
 #endif
 
@@ -139,6 +175,14 @@ TEST_CASE("real (32-bit)")
 	t = r;
 	assert(t.type() == cainteoir::object_type::real);
 	assert(t.real() == 2.63f);
+
+	cainteoir::object o(cainteoir::object_type::real);
+	assert(o.type() == cainteoir::object_type::real);
+	assert(o.real() == 0.0);
+
+	assert(r.get("test") == nullptr);
+	assert(!r.put("test", 24));
+	assert(r.get("test") == nullptr);
 }
 
 #if (INTPTR_MAX == INT64_MAX) // 64-bit
@@ -156,6 +200,10 @@ TEST_CASE("real (64-bit)")
 	t = r;
 	assert(t.type() == cainteoir::object_type::real);
 	assert(t.real() == 2.63);
+
+	assert(r.get("test") == nullptr);
+	assert(!r.put("test", 24));
+	assert(r.get("test") == nullptr);
 }
 #endif
 
@@ -173,6 +221,14 @@ TEST_CASE("string")
 	u = s;
 	assert(u.type() == cainteoir::object_type::string);
 	assert(strcmp(u.string(), "hello") == 0);
+
+	cainteoir::object o(cainteoir::object_type::string);
+	assert(o.type() == cainteoir::object_type::string);
+	assert(!o.string());
+
+	assert(s.get("test") == nullptr);
+	assert(!s.put("test", 24));
+	assert(s.get("test") == nullptr);
 }
 
 TEST_CASE("string does not create a copy")
@@ -207,6 +263,14 @@ TEST_CASE("buffer")
 	u = s;
 	assert(u.type() == cainteoir::object_type::buffer);
 	assert(u.buffer()->compare("hello") == 0);
+
+	cainteoir::object o(cainteoir::object_type::buffer);
+	assert(o.type() == cainteoir::object_type::buffer);
+	assert(!o.buffer());
+
+	assert(s.get("test") == nullptr);
+	assert(!s.put("test", 24));
+	assert(s.get("test") == nullptr);
 }
 
 TEST_CASE("phoneme")
@@ -223,6 +287,14 @@ TEST_CASE("phoneme")
 	r = p;
 	assert(r.type() == cainteoir::object_type::phoneme);
 	assert(r.phoneme() == (ipa::voiced | ipa::alveolar | ipa::plosive));
+
+	cainteoir::object o(cainteoir::object_type::phoneme);
+	assert(o.type() == cainteoir::object_type::phoneme);
+	assert(o.phoneme() == 0);
+
+	assert(p.get("test") == nullptr);
+	assert(!p.put("test", 24));
+	assert(p.get("test") == nullptr);
 }
 
 TEST_CASE("range")
@@ -242,4 +314,30 @@ TEST_CASE("range")
 	assert(r.type() == cainteoir::object_type::range);
 	assert(*r.range().begin() == 3);
 	assert(*r.range().end() == 6);
+
+	cainteoir::object o(cainteoir::object_type::range);
+	assert(o.type() == cainteoir::object_type::range);
+	assert(*o.range().begin() == 0);
+	assert(*o.range().end() == 0);
+
+	assert(p.get("test") == nullptr);
+	assert(!p.put("test", 24));
+	assert(p.get("test") == nullptr);
+}
+
+TEST_CASE("dictionary")
+{
+	cainteoir::object d(cainteoir::object_type::dictionary);
+	assert(d.type() == cainteoir::object_type::dictionary);
+
+	assert(d.get("test") == nullptr);
+	assert(d.get("tester") == nullptr);
+
+	assert(d.put("test", 24));
+
+	assert(d.get("test") != nullptr);
+	assert(d.get("tester") == nullptr);
+
+	assert(d.get("test")->type() == cainteoir::object_type::integer);
+	assert(d.get("test")->integer() == 24);
 }

@@ -35,6 +35,29 @@ cainteoir::object::object(const cainteoir::range<uint32_t> &aValue)
 	new (&mRangeVal)range_t(aValue);
 }
 
+cainteoir::object::object(const object_type aType)
+	: mType(aType)
+{
+	switch (aType)
+	{
+	case object_type::buffer:
+		new (&mBufferVal)buffer_t();
+		break;
+	case object_type::range:
+		new (&mRangeVal)range_t(0, 0);
+		break;
+	case object_type::dictionary:
+		new (&mDictionaryVal)dictionary_t(std::make_shared<dictionary_t::element_type>());
+		break;
+	case object_type::phoneme:
+		mPhonemeVal = {};
+		break;
+	default:
+		mStringVal = {};
+		break;
+	}
+}
+
 cainteoir::object::object(const object &o)
 	: mType(o.mType)
 {
@@ -45,6 +68,9 @@ cainteoir::object::object(const object &o)
 		break;
 	case object_type::range:
 		new (&mRangeVal)range_t(o.mRangeVal);
+		break;
+	case object_type::dictionary:
+		new (&mDictionaryVal)dictionary_t(o.mDictionaryVal);
 		break;
 	case object_type::phoneme:
 		mPhonemeVal = o.mPhonemeVal;
@@ -65,6 +91,9 @@ cainteoir::object::~object()
 	case object_type::range:
 		(&mRangeVal)->~range_t();
 		break;
+	case object_type::dictionary:
+		(&mDictionaryVal)->~dictionary_t();
+		break;
 	default:
 		break;
 	}
@@ -81,6 +110,9 @@ cainteoir::object::operator=(const object &o)
 	case object_type::range:
 		(&mRangeVal)->~range_t();
 		break;
+	case object_type::dictionary:
+		(&mDictionaryVal)->~dictionary_t();
+		break;
 	default:
 		break;
 	}
@@ -94,6 +126,9 @@ cainteoir::object::operator=(const object &o)
 	case object_type::range:
 		new (&mRangeVal)range_t(o.mRangeVal);
 		break;
+	case object_type::dictionary:
+		new (&mDictionaryVal)dictionary_t(o.mDictionaryVal);
+		break;
 	case object_type::phoneme:
 		mPhonemeVal = o.mPhonemeVal;
 		break;
@@ -102,4 +137,27 @@ cainteoir::object::operator=(const object &o)
 		break;
 	}
 	return *this;
+}
+
+const cainteoir::object *
+cainteoir::object::get(const char *aKey) const
+{
+	if (mType == object_type::dictionary)
+	{
+		auto match = mDictionaryVal->find(aKey);
+		if (match != mDictionaryVal->end())
+			return &(*match).second;
+	}
+	return nullptr;
+}
+
+bool
+cainteoir::object::put(const char *aKey, const object &aValue)
+{
+	if (mType == object_type::dictionary)
+	{
+		(*mDictionaryVal)[aKey] = aValue;
+		return true;
+	}
+	return false;
 }
