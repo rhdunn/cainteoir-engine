@@ -24,9 +24,17 @@
 #include <cainteoir/object.hpp>
 
 cainteoir::object::object(const std::shared_ptr<cainteoir::buffer> &aValue)
-	: mType(cainteoir::object_type::buffer)
 {
-	new (&mBufferVal)buffer_t(aValue);
+	if (aValue)
+	{
+		mType = cainteoir::object_type::buffer;
+		new (&mBufferVal)buffer_t(aValue);
+	}
+	else
+	{
+		mType = cainteoir::object_type::null;
+		mStringVal = {};
+	}
 }
 
 cainteoir::object::object(const cainteoir::range<uint32_t> &aValue)
@@ -40,9 +48,6 @@ cainteoir::object::object(const object_type aType)
 {
 	switch (aType)
 	{
-	case object_type::buffer:
-		new (&mBufferVal)buffer_t();
-		break;
 	case object_type::range:
 		new (&mRangeVal)range_t(0, 0);
 		break;
@@ -53,6 +58,7 @@ cainteoir::object::object(const object_type aType)
 		mPhonemeVal = {};
 		break;
 	case object_type::string: // set an empty string to the null object type
+	case object_type::buffer: // set an empty buffer to the null object type
 		mType = object_type::null;
 		mStringVal = {};
 		break;
