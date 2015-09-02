@@ -59,26 +59,8 @@ cainteoir::object::object(const object_type aType)
 }
 
 cainteoir::object::object(const object &o)
-	: mType(o.mType)
 {
-	switch (o.mType)
-	{
-	case object_type::buffer:
-		new (&mBufferVal)buffer_t(o.mBufferVal);
-		break;
-	case object_type::range:
-		new (&mRangeVal)range_t(o.mRangeVal);
-		break;
-	case object_type::dictionary:
-		new (&mDictionaryVal)dictionary_t(o.mDictionaryVal);
-		break;
-	case object_type::phoneme:
-		mPhonemeVal = o.mPhonemeVal;
-		break;
-	default:
-		mStringVal = o.mStringVal;
-		break;
-	}
+	copy(o);
 }
 
 cainteoir::object::~object()
@@ -90,26 +72,7 @@ cainteoir::object &
 cainteoir::object::operator=(const object &o)
 {
 	clear();
-
-	mType = o.mType;
-	switch (o.mType)
-	{
-	case object_type::buffer:
-		new (&mBufferVal)buffer_t(o.mBufferVal);
-		break;
-	case object_type::range:
-		new (&mRangeVal)range_t(o.mRangeVal);
-		break;
-	case object_type::dictionary:
-		new (&mDictionaryVal)dictionary_t(o.mDictionaryVal);
-		break;
-	case object_type::phoneme:
-		mPhonemeVal = o.mPhonemeVal;
-		break;
-	default:
-		mStringVal = o.mStringVal;
-		break;
-	}
+	copy(o);
 	return *this;
 }
 
@@ -151,6 +114,30 @@ cainteoir::object::clear()
 		(&mDictionaryVal)->~dictionary_t();
 		break;
 	default:
+		break;
+	}
+}
+
+void
+cainteoir::object::copy(const object &o)
+{
+	mType = o.mType;
+	switch (o.mType)
+	{
+	case object_type::buffer:
+		new (&mBufferVal)buffer_t(o.mBufferVal);
+		break;
+	case object_type::range:
+		new (&mRangeVal)range_t(o.mRangeVal);
+		break;
+	case object_type::dictionary:
+		new (&mDictionaryVal)dictionary_t(o.mDictionaryVal);
+		break;
+	case object_type::phoneme:
+		mPhonemeVal = o.mPhonemeVal;
+		break;
+	default:
+		mStringVal = o.mStringVal;
 		break;
 	}
 }

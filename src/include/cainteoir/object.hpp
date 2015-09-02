@@ -161,6 +161,8 @@ namespace cainteoir
 		};
 
 		void clear();
+
+		void copy(const object &o);
 	};
 }
 
