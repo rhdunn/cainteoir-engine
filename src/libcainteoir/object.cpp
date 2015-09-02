@@ -83,39 +83,13 @@ cainteoir::object::object(const object &o)
 
 cainteoir::object::~object()
 {
-	switch (mType)
-	{
-	case object_type::buffer:
-		(&mBufferVal)->~buffer_t();
-		break;
-	case object_type::range:
-		(&mRangeVal)->~range_t();
-		break;
-	case object_type::dictionary:
-		(&mDictionaryVal)->~dictionary_t();
-		break;
-	default:
-		break;
-	}
+	clear();
 }
 
 cainteoir::object &
 cainteoir::object::operator=(const object &o)
 {
-	switch (mType)
-	{
-	case object_type::buffer:
-		(&mBufferVal)->~buffer_t();
-		break;
-	case object_type::range:
-		(&mRangeVal)->~range_t();
-		break;
-	case object_type::dictionary:
-		(&mDictionaryVal)->~dictionary_t();
-		break;
-	default:
-		break;
-	}
+	clear();
 
 	mType = o.mType;
 	switch (o.mType)
@@ -160,4 +134,23 @@ cainteoir::object::put(const char *aKey, const object &aValue)
 		return true;
 	}
 	return false;
+}
+
+void
+cainteoir::object::clear()
+{
+	switch (mType)
+	{
+	case object_type::buffer:
+		(&mBufferVal)->~buffer_t();
+		break;
+	case object_type::range:
+		(&mRangeVal)->~range_t();
+		break;
+	case object_type::dictionary:
+		(&mDictionaryVal)->~dictionary_t();
+		break;
+	default:
+		break;
+	}
 }

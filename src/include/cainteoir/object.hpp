@@ -159,6 +159,8 @@ namespace cainteoir
 			range_t mRangeVal;
 			dictionary_t mDictionaryVal;
 		};
+
+		void clear();
 	};
 }
 
