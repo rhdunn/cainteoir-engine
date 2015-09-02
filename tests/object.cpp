@@ -33,6 +33,16 @@ TEST_CASE("null")
 	assert(o.type() == cainteoir::object_type::null);
 	assert(o.integer() == 0);
 
+	assert(o.is_null());
+	assert(!o.is_boolean());
+	assert(!o.is_integer());
+	assert(!o.is_real());
+	assert(!o.is_string());
+	assert(!o.is_buffer());
+	assert(!o.is_phoneme());
+	assert(!o.is_range());
+	assert(!o.is_dictionary());
+
 	cainteoir::object p(o);
 	assert(p.type() == cainteoir::object_type::null);
 	assert(p.integer() == 0);
@@ -56,6 +66,16 @@ TEST_CASE("boolean")
 	cainteoir::object b(true);
 	assert(b.type() == cainteoir::object_type::boolean);
 	assert(b.boolean());
+
+	assert(!b.is_null());
+	assert(b.is_boolean());
+	assert(!b.is_integer());
+	assert(!b.is_real());
+	assert(!b.is_string());
+	assert(!b.is_buffer());
+	assert(!b.is_phoneme());
+	assert(!b.is_range());
+	assert(!b.is_dictionary());
 
 	cainteoir::object c(b);
 	assert(c.type() == cainteoir::object_type::boolean);
@@ -81,6 +101,16 @@ TEST_CASE("integer  (8-bit)")
 	assert(i.type() == cainteoir::object_type::integer);
 	assert(i.integer() == 5);
 
+	assert(!i.is_null());
+	assert(!i.is_boolean());
+	assert(i.is_integer());
+	assert(!i.is_real());
+	assert(!i.is_string());
+	assert(!i.is_buffer());
+	assert(!i.is_phoneme());
+	assert(!i.is_range());
+	assert(!i.is_dictionary());
+
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
@@ -105,6 +135,16 @@ TEST_CASE("integer (16-bit)")
 	assert(i.type() == cainteoir::object_type::integer);
 	assert(i.integer() == 5);
 
+	assert(!i.is_null());
+	assert(!i.is_boolean());
+	assert(i.is_integer());
+	assert(!i.is_real());
+	assert(!i.is_string());
+	assert(!i.is_buffer());
+	assert(!i.is_phoneme());
+	assert(!i.is_range());
+	assert(!i.is_dictionary());
+
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
@@ -124,6 +164,16 @@ TEST_CASE("integer (32-bit)")
 	cainteoir::object i((int32_t)5);
 	assert(i.type() == cainteoir::object_type::integer);
 	assert(i.integer() == 5);
+
+	assert(!i.is_null());
+	assert(!i.is_boolean());
+	assert(i.is_integer());
+	assert(!i.is_real());
+	assert(!i.is_string());
+	assert(!i.is_buffer());
+	assert(!i.is_phoneme());
+	assert(!i.is_range());
+	assert(!i.is_dictionary());
 
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
@@ -146,6 +196,16 @@ TEST_CASE("integer (64-bit)")
 	assert(i.type() == cainteoir::object_type::integer);
 	assert(i.integer() == 5);
 
+	assert(!i.is_null());
+	assert(!i.is_boolean());
+	assert(i.is_integer());
+	assert(!i.is_real());
+	assert(!i.is_string());
+	assert(!i.is_buffer());
+	assert(!i.is_phoneme());
+	assert(!i.is_range());
+	assert(!i.is_dictionary());
+
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
 	assert(j.integer() == 5);
@@ -166,6 +226,16 @@ TEST_CASE("real (32-bit)")
 	cainteoir::object r(2.63f);
 	assert(r.type() == cainteoir::object_type::real);
 	assert(r.real() == 2.63f);
+
+	assert(!r.is_null());
+	assert(!r.is_boolean());
+	assert(!r.is_integer());
+	assert(r.is_real());
+	assert(!r.is_string());
+	assert(!r.is_buffer());
+	assert(!r.is_phoneme());
+	assert(!r.is_range());
+	assert(!r.is_dictionary());
 
 	cainteoir::object s(r);
 	assert(s.type() == cainteoir::object_type::real);
@@ -192,6 +262,16 @@ TEST_CASE("real (64-bit)")
 	assert(r.type() == cainteoir::object_type::real);
 	assert(r.real() == 2.63);
 
+	assert(!r.is_null());
+	assert(!r.is_boolean());
+	assert(!r.is_integer());
+	assert(r.is_real());
+	assert(!r.is_string());
+	assert(!r.is_buffer());
+	assert(!r.is_phoneme());
+	assert(!r.is_range());
+	assert(!r.is_dictionary());
+
 	cainteoir::object s(r);
 	assert(s.type() == cainteoir::object_type::real);
 	assert(s.real() == 2.63);
@@ -212,6 +292,16 @@ TEST_CASE("string")
 	cainteoir::object s("hello");
 	assert(s.type() == cainteoir::object_type::string);
 	assert(strcmp(s.string(), "hello") == 0);
+
+	assert(!s.is_null());
+	assert(!s.is_boolean());
+	assert(!s.is_integer());
+	assert(!s.is_real());
+	assert(s.is_string());
+	assert(!s.is_buffer());
+	assert(!s.is_phoneme());
+	assert(!s.is_range());
+	assert(!s.is_dictionary());
 
 	cainteoir::object t(s);
 	assert(t.type() == cainteoir::object_type::string);
@@ -255,6 +345,16 @@ TEST_CASE("buffer")
 	assert(s.type() == cainteoir::object_type::buffer);
 	assert(s.buffer()->compare("hello") == 0);
 
+	assert(!s.is_null());
+	assert(!s.is_boolean());
+	assert(!s.is_integer());
+	assert(!s.is_real());
+	assert(!s.is_string());
+	assert(s.is_buffer());
+	assert(!s.is_phoneme());
+	assert(!s.is_range());
+	assert(!s.is_dictionary());
+
 	cainteoir::object t(s);
 	assert(t.type() == cainteoir::object_type::buffer);
 	assert(t.buffer()->compare("hello") == 0);
@@ -278,6 +378,16 @@ TEST_CASE("phoneme")
 	cainteoir::object p(ipa::phoneme(ipa::voiced | ipa::alveolar | ipa::plosive));
 	assert(p.type() == cainteoir::object_type::phoneme);
 	assert(p.phoneme() == (ipa::voiced | ipa::alveolar | ipa::plosive));
+
+	assert(!p.is_null());
+	assert(!p.is_boolean());
+	assert(!p.is_integer());
+	assert(!p.is_real());
+	assert(!p.is_string());
+	assert(!p.is_buffer());
+	assert(p.is_phoneme());
+	assert(!p.is_range());
+	assert(!p.is_dictionary());
 
 	cainteoir::object q(p);
 	assert(q.type() == cainteoir::object_type::phoneme);
@@ -304,6 +414,16 @@ TEST_CASE("range")
 	assert(*p.range().begin() == 3);
 	assert(*p.range().end() == 6);
 
+	assert(!p.is_null());
+	assert(!p.is_boolean());
+	assert(!p.is_integer());
+	assert(!p.is_real());
+	assert(!p.is_string());
+	assert(!p.is_buffer());
+	assert(!p.is_phoneme());
+	assert(p.is_range());
+	assert(!p.is_dictionary());
+
 	cainteoir::object q(p);
 	assert(q.type() == cainteoir::object_type::range);
 	assert(*q.range().begin() == 3);
@@ -329,6 +449,16 @@ TEST_CASE("dictionary")
 {
 	cainteoir::object d(cainteoir::object_type::dictionary);
 	assert(d.type() == cainteoir::object_type::dictionary);
+
+	assert(!d.is_null());
+	assert(!d.is_boolean());
+	assert(!d.is_integer());
+	assert(!d.is_real());
+	assert(!d.is_string());
+	assert(!d.is_buffer());
+	assert(!d.is_phoneme());
+	assert(!d.is_range());
+	assert(d.is_dictionary());
 
 	assert(d.get("test") == nullptr);
 	assert(d.get("tester") == nullptr);

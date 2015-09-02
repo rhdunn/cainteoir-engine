@@ -129,6 +129,16 @@ namespace cainteoir
 
 		const object_type type() const { return mType; }
 
+		bool is_null() const { return type() == object_type::null; }
+		bool is_boolean() const { return type() == object_type::boolean; }
+		bool is_integer() const { return type() == object_type::integer; }
+		bool is_real() const { return type() == object_type::real; }
+		bool is_string() const { return type() == object_type::string; }
+		bool is_buffer() const { return type() == object_type::buffer; }
+		bool is_phoneme() const { return type() == object_type::phoneme; }
+		bool is_range() const { return type() == object_type::range; }
+		bool is_dictionary() const { return type() == object_type::dictionary; }
+
 		bool boolean() const { return mBoolVal; }
 
 		intval_t integer() const { return mIntVal; }
