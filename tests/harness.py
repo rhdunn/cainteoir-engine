@@ -215,12 +215,6 @@ class ProsodyCommand(Command):
 		params = [x for x in args]
 		if self.input_format:
 			params.append('--as-%s' % self.input_format)
-		if 'locale' in data:
-			params.extend(['--locale', data['locale']])
-		if 'scale' in data:
-			params.append('--%s-scale' % data['scale'])
-		if 'dictionary' in data:
-			params.extend(['--dictionary', os.path.join(sys.path[0], data['dictionary'])])
 		if 'phonemeset' in data:
 			params.extend(['--phonemeset', data['phonemeset']])
 		if 'voice' in data:
