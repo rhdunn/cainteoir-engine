@@ -865,7 +865,7 @@ tests/rewrite.check: tests/rewrite ${LETTER2PHONEME_TEST_FILES} \
 	tests/letter2phoneme/cantonese.ldb \
 	tests/letter2phoneme/mandarin.ldb
 
-tests/letter2phoneme.check: tests/parsetext ${LETTER2PHONEME_TEST_FILES} \
+tests/letter2phoneme.check: tests/rewrite ${LETTER2PHONEME_TEST_FILES} \
 	tests/letter2phoneme/context.ldb \
 	tests/letter2phoneme/japanese.ldb \
 	tests/letter2phoneme/cantonese.ldb \
