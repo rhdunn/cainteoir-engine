@@ -159,6 +159,10 @@ namespace cainteoir
 		const object *get(const char *aKey) const;
 
 		bool put(const char *aKey, const object &aValue);
+
+		std::size_t size() const;
+
+		bool empty() const { return size() == 0; }
 	private:
 		object_type mType;
 		union

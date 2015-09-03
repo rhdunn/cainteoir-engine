@@ -109,6 +109,14 @@ cainteoir::object::put(const char *aKey, const object &aValue)
 	return false;
 }
 
+std::size_t
+cainteoir::object::size() const
+{
+	if (mType == object_type::dictionary)
+		return mDictionaryVal->size();
+	return 0;
+}
+
 void
 cainteoir::object::clear()
 {
