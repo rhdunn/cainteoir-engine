@@ -21,9 +21,9 @@
 #ifndef CAINTEOIR_ENGINE_SYNTHESIZER_HPP
 #define CAINTEOIR_ENGINE_SYNTHESIZER_HPP
 
+#include "document.hpp"
 #include "phoneme.hpp"
 #include "content.hpp"
-#include "text.hpp"
 #include "audio.hpp"
 
 namespace cainteoir { namespace tts

@@ -22,6 +22,7 @@
 #include "compatibility.hpp"
 
 #include <cainteoir/synthesizer.hpp>
+#include <cainteoir/dictionary.hpp>
 #include <cainteoir/language.hpp>
 #include "../cainteoir_file_reader.hpp"
 

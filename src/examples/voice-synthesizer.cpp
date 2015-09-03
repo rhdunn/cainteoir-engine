@@ -26,6 +26,7 @@
 #include <cainteoir/synthesizer.hpp>
 #include <cainteoir/language.hpp>
 #include <cainteoir/engines.hpp>
+#include <cainteoir/text.hpp>
 #include <stdexcept>
 #include <iostream>
 
