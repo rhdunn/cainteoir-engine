@@ -43,6 +43,7 @@ namespace cainteoir
 
 	struct object
 	{
+	private:
 #if (INTPTR_MAX == INT64_MAX) // 64-bit
 		typedef int64_t intval_t;
 		typedef double  floatval_t;
@@ -62,7 +63,7 @@ namespace cainteoir
 		typedef std::shared_ptr<cainteoir::buffer> buffer_t;
 		typedef cainteoir::range<uint32_t> range_t;
 		typedef std::shared_ptr<std::map<const char *, object, string_compare>> dictionary_t;
-
+	public:
 		object()
 			: mType(object_type::null)
 			, mIntVal(0)
