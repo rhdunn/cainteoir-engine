@@ -63,7 +63,11 @@ namespace cainteoir
 		typedef std::shared_ptr<cainteoir::buffer> buffer_t;
 		typedef cainteoir::range<uint32_t> range_t;
 		typedef std::shared_ptr<std::map<const char *, object, string_compare>> dictionary_t;
+
+		struct reference_t {};
 	public:
+		static const reference_t reference;
+
 		object()
 			: mType(object_type::null)
 			, mIntVal(0)
@@ -124,6 +128,8 @@ namespace cainteoir
 
 		object(const object &o);
 
+		object(const object &o, const reference_t &ref);
+
 		~object();
 
 		object &operator=(const object &o);
@@ -180,7 +186,7 @@ namespace cainteoir
 
 		void clear();
 
-		void copy(const object &o);
+		void copy(const object &o, const reference_t *ref);
 	};
 }
 

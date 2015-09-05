@@ -23,6 +23,8 @@
 
 #include <cainteoir/object.hpp>
 
+const cainteoir::object::reference_t cainteoir::object::reference;
+
 cainteoir::object::object(const std::shared_ptr<cainteoir::buffer> &aValue)
 {
 	if (aValue)
@@ -70,7 +72,12 @@ cainteoir::object::object(const object_type aType)
 
 cainteoir::object::object(const object &o)
 {
-	copy(o);
+	copy(o, nullptr);
+}
+
+cainteoir::object::object(const object &o, const reference_t &ref)
+{
+	copy(o, &ref);
 }
 
 cainteoir::object::~object()
@@ -82,7 +89,7 @@ cainteoir::object &
 cainteoir::object::operator=(const object &o)
 {
 	clear();
-	copy(o);
+	copy(o, nullptr);
 	return *this;
 }
 
@@ -137,7 +144,7 @@ cainteoir::object::clear()
 }
 
 void
-cainteoir::object::copy(const object &o)
+cainteoir::object::copy(const object &o, const reference_t *ref)
 {
 	mType = o.mType;
 	switch (o.mType)

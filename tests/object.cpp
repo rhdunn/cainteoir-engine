@@ -57,6 +57,10 @@ TEST_CASE("null")
 	assert(r.type() == cainteoir::object_type::null);
 	assert(r.integer() == 0);
 
+	cainteoir::object s(o, cainteoir::object::reference);
+	assert(s.type() == cainteoir::object_type::null);
+	assert(s.integer() == 0);
+
 	assert(o.size() == 0);
 	assert(o.empty());
 
@@ -97,6 +101,10 @@ TEST_CASE("boolean")
 	cainteoir::object o(cainteoir::object_type::boolean);
 	assert(o.type() == cainteoir::object_type::boolean);
 	assert(!o.boolean());
+
+	cainteoir::object e(b, cainteoir::object::reference);
+	assert(c.type() == cainteoir::object_type::boolean);
+	assert(c.boolean());
 
 	assert(b.size() == 0);
 	assert(b.empty());
@@ -146,6 +154,11 @@ TEST_CASE("integer  (8-bit)")
 	assert(o.integer() == 0);
 	assert(o.number() == 0.0);
 
+	cainteoir::object l(i, cainteoir::object::reference);
+	assert(l.type() == cainteoir::object_type::integer);
+	assert(l.integer() == 5);
+	assert(l.number() == 5.0);
+
 	assert(i.size() == 0);
 	assert(i.empty());
 
@@ -185,6 +198,11 @@ TEST_CASE("integer (16-bit)")
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
 	assert(k.number() == 5.0);
+
+	cainteoir::object l(i, cainteoir::object::reference);
+	assert(l.type() == cainteoir::object_type::integer);
+	assert(l.integer() == 5);
+	assert(l.number() == 5.0);
 
 	assert(i.size() == 0);
 	assert(i.empty());
@@ -226,6 +244,11 @@ TEST_CASE("integer (32-bit)")
 	assert(k.integer() == 5);
 	assert(k.number() == 5.0);
 
+	cainteoir::object l(i, cainteoir::object::reference);
+	assert(l.type() == cainteoir::object_type::integer);
+	assert(l.integer() == 5);
+	assert(l.number() == 5.0);
+
 	assert(i.size() == 0);
 	assert(i.empty());
 
@@ -266,6 +289,11 @@ TEST_CASE("integer (64-bit)")
 	assert(k.type() == cainteoir::object_type::integer);
 	assert(k.integer() == 5);
 	assert(k.number() == 5.0);
+
+	cainteoir::object l(i, cainteoir::object::reference);
+	assert(l.type() == cainteoir::object_type::integer);
+	assert(l.integer() == 5);
+	assert(l.number() == 5.0);
 
 	assert(i.size() == 0);
 	assert(i.empty());
@@ -313,6 +341,11 @@ TEST_CASE("real (32-bit)")
 	assert(o.real() == 0.0);
 	assert(o.number() == 0.0);
 
+	cainteoir::object u(r, cainteoir::object::reference);
+	assert(u.type() == cainteoir::object_type::real);
+	assert(u.real() == 2.63f);
+	assert(u.number() == 2.63);
+
 	assert(r.size() == 0);
 	assert(r.empty());
 
@@ -353,6 +386,11 @@ TEST_CASE("real (64-bit)")
 	assert(t.type() == cainteoir::object_type::real);
 	assert(t.real() == 2.63);
 	assert(t.number() == 2.63);
+
+	cainteoir::object u(r, cainteoir::object::reference);
+	assert(u.type() == cainteoir::object_type::real);
+	assert(u.real() == 2.63);
+	assert(u.number() == 2.63);
 
 	assert(r.size() == 0);
 	assert(r.empty());
@@ -395,6 +433,10 @@ TEST_CASE("string")
 	cainteoir::object o(cainteoir::object_type::string);
 	assert(o.type() == cainteoir::object_type::null);
 	assert(!o.string());
+
+	cainteoir::object v(s, cainteoir::object::reference);
+	assert(v.type() == cainteoir::object_type::string);
+	assert(strcmp(v.string(), "hello") == 0);
 
 	assert(s.size() == 0);
 	assert(s.empty());
@@ -486,6 +528,10 @@ TEST_CASE("buffer")
 	assert(o.type() == cainteoir::object_type::null);
 	assert(!o.buffer());
 
+	cainteoir::object v(s, cainteoir::object::reference);
+	assert(v.type() == cainteoir::object_type::buffer);
+	assert(v.buffer()->compare("hello") == 0);
+
 	assert(s.size() == 0);
 	assert(s.empty());
 
@@ -558,6 +604,10 @@ TEST_CASE("phoneme")
 	assert(o.type() == cainteoir::object_type::phoneme);
 	assert(o.phoneme() == 0);
 
+	cainteoir::object s(p, cainteoir::object::reference);
+	assert(s.type() == cainteoir::object_type::phoneme);
+	assert(s.phoneme() == (ipa::voiced | ipa::alveolar | ipa::plosive));
+
 	assert(p.size() == 0);
 	assert(p.empty());
 
@@ -602,6 +652,11 @@ TEST_CASE("range")
 	assert(o.type() == cainteoir::object_type::range);
 	assert(*o.range().begin() == 0);
 	assert(*o.range().end() == 0);
+
+	cainteoir::object s(p, cainteoir::object::reference);
+	assert(s.type() == cainteoir::object_type::range);
+	assert(*s.range().begin() == 3);
+	assert(*s.range().end() == 6);
 
 	assert(p.size() == 0);
 	assert(p.empty());
