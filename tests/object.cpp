@@ -771,9 +771,74 @@ TEST_CASE("dictionary")
 	assert(f.get("test")->integer() == 24);
 
 	cainteoir::object g(d, cainteoir::object::reference);
-	assert(g.type() == cainteoir::object_type::dictionary);
+	assert(g.type() == cainteoir::object_type::dictionary_ref);
 	assert(g.size() == 1);
 	assert(!g.empty());
 	assert(g.get("test")->type() == cainteoir::object_type::integer);
 	assert(g.get("test")->integer() == 24);
+}
+
+TEST_CASE("dictionary ref")
+{
+	cainteoir::object test(cainteoir::object_type::dictionary);
+	assert(test.put("test", 24));
+
+	cainteoir::object d(test, cainteoir::object::reference);
+	assert(d.type() == cainteoir::object_type::dictionary_ref);
+	assert(d.size() == 1);
+	assert(!d.empty());
+	assert(d.get("test")->type() == cainteoir::object_type::integer);
+	assert(d.get("test")->integer() == 24);
+	assert(d.get("tester") == nullptr);
+
+	assert(d.put("testing", true));
+
+	assert(d.size() == 2);
+	assert(!d.empty());
+
+	assert(!d.is_null());
+	assert(!d.is_boolean());
+	assert(!d.is_integer());
+	assert(!d.is_real());
+	assert(!d.is_number());
+	assert(!d.is_string());
+	assert(!d.is_buffer());
+	assert(!d.is_phoneme());
+	assert(!d.is_range());
+	assert(d.is_dictionary());
+
+	assert(d.size() == 2);
+	assert(!d.empty());
+
+	cainteoir::object e(d);
+	assert(e.type() == cainteoir::object_type::dictionary_ref);
+	assert(e.size() == 2);
+	assert(!e.empty());
+	assert(e.get("test")->type() == cainteoir::object_type::integer);
+	assert(e.get("test")->integer() == 24);
+	assert(e.get("testing")->boolean());
+	assert(e.get("tester") == nullptr);
+
+	cainteoir::object f;
+	f = d;
+	assert(f.type() == cainteoir::object_type::dictionary_ref);
+	assert(f.size() == 2);
+	assert(!f.empty());
+	assert(f.get("test")->type() == cainteoir::object_type::integer);
+	assert(f.get("test")->integer() == 24);
+	assert(f.get("testing")->boolean());
+	assert(f.get("tester") == nullptr);
+
+	cainteoir::object o(cainteoir::object_type::dictionary_ref);
+	assert(o.type() == cainteoir::object_type::null);
+	assert(o.number() == 0);
+
+	cainteoir::object g(d, cainteoir::object::reference);
+	assert(g.type() == cainteoir::object_type::dictionary_ref);
+	assert(g.size() == 2);
+	assert(!g.empty());
+	assert(g.get("test")->type() == cainteoir::object_type::integer);
+	assert(g.get("test")->integer() == 24);
+	assert(g.get("testing")->boolean());
+	assert(g.get("tester") == nullptr);
 }

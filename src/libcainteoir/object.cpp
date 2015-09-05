@@ -62,6 +62,7 @@ cainteoir::object::object(const object_type aType)
 	case object_type::string: // set an empty string to the null object type
 	case object_type::buffer: // set an empty buffer to the null object type
 	case object_type::buffer_ref: // set an empty buffer reference to the null object type
+	case object_type::dictionary_ref: // set an empty dictionary reference to the null object type
 		mType = object_type::null;
 		mStringVal = {};
 		break;
@@ -97,11 +98,26 @@ cainteoir::object::operator=(const object &o)
 const cainteoir::object *
 cainteoir::object::get(const char *aKey) const
 {
-	if (mType == object_type::dictionary)
+	switch (mType)
 	{
-		auto match = mDictionaryVal->find(aKey);
-		if (match != mDictionaryVal->end())
-			return &(*match).second;
+	case object_type::dictionary:
+		{
+			auto match = mDictionaryVal->find(aKey);
+			if (match != mDictionaryVal->end())
+				return &(*match).second;
+		}
+		break;
+	case object_type::dictionary_ref:
+		{
+			auto ptr = mDictionaryRefVal.lock();
+			if (ptr)
+			{
+				auto match = ptr->find(aKey);
+				if (match != ptr->end())
+					return &(*match).second;
+			}
+		}
+		break;
 	}
 	return nullptr;
 }
@@ -109,10 +125,24 @@ cainteoir::object::get(const char *aKey) const
 bool
 cainteoir::object::put(const char *aKey, const object &aValue)
 {
-	if (mType == object_type::dictionary)
+	switch (mType)
 	{
-		(*mDictionaryVal)[aKey] = aValue;
-		return true;
+	case object_type::dictionary:
+		{
+			(*mDictionaryVal)[aKey] = aValue;
+			return true;
+		}
+		break;
+	case object_type::dictionary_ref:
+		{
+			auto ptr = mDictionaryRefVal.lock();
+			if (ptr)
+			{
+				(*ptr)[aKey] = aValue;
+				return true;
+			}
+		}
+		break;
 	}
 	return false;
 }
@@ -120,8 +150,13 @@ cainteoir::object::put(const char *aKey, const object &aValue)
 std::size_t
 cainteoir::object::size() const
 {
-	if (mType == object_type::dictionary)
+	switch (mType)
+	{
+	case object_type::dictionary:
 		return mDictionaryVal->size();
+	case object_type::dictionary_ref:
+		return mDictionaryRefVal.lock()->size();
+	}
 	return 0;
 }
 
@@ -141,6 +176,9 @@ cainteoir::object::clear()
 		break;
 	case object_type::dictionary:
 		(&mDictionaryVal)->~dictionary_t();
+		break;
+	case object_type::dictionary_ref:
+		(&mDictionaryRefVal)->~dictionary_ref_t();
 		break;
 	default:
 		break;
@@ -173,8 +211,20 @@ cainteoir::object::copy(const object &o, const reference_t *ref)
 		new (&mRangeVal)range_t(o.mRangeVal);
 		break;
 	case object_type::dictionary:
+		if (ref)
+		{
+			mType = object_type::dictionary_ref;
+			new (&mDictionaryRefVal)dictionary_ref_t(o.mDictionaryVal);
+		}
+		else
+		{
+			mType = o.mType;
+			new (&mDictionaryVal)dictionary_t(o.mDictionaryVal);
+		}
+		break;
+	case object_type::dictionary_ref:
 		mType = o.mType;
-		new (&mDictionaryVal)dictionary_t(o.mDictionaryVal);
+		new (&mDictionaryRefVal)dictionary_ref_t(o.mDictionaryRefVal);
 		break;
 	case object_type::phoneme:
 		mType = o.mType;

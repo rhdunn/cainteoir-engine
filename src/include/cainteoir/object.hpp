@@ -40,6 +40,7 @@ namespace cainteoir
 		phoneme,
 		range,
 		dictionary,
+		dictionary_ref,
 	};
 
 	struct object
@@ -67,6 +68,7 @@ namespace cainteoir
 		typedef cainteoir::range<uint32_t> range_t;
 
 		typedef std::shared_ptr<std::map<const char *, object, string_compare>> dictionary_t;
+		typedef std::weak_ptr<std::map<const char *, object, string_compare>>   dictionary_ref_t;
 
 		struct reference_t {};
 	public:
@@ -149,7 +151,7 @@ namespace cainteoir
 		bool is_buffer() const { return type() == object_type::buffer || type() == object_type::buffer_ref; }
 		bool is_phoneme() const { return type() == object_type::phoneme; }
 		bool is_range() const { return type() == object_type::range; }
-		bool is_dictionary() const { return type() == object_type::dictionary; }
+		bool is_dictionary() const { return type() == object_type::dictionary || type() == object_type::dictionary_ref; }
 
 		bool boolean() const { return mBoolVal; }
 
@@ -190,6 +192,7 @@ namespace cainteoir
 			ipa::phoneme mPhonemeVal;
 			range_t mRangeVal;
 			dictionary_t mDictionaryVal;
+			dictionary_ref_t mDictionaryRefVal;
 		};
 
 		void clear();
