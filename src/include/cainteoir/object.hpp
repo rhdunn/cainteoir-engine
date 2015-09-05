@@ -165,7 +165,7 @@ namespace cainteoir
 
 		const buffer_t buffer() const
 		{
-			return type() == object_type::buffer ? mBufferVal : mBufferRefVal.lock();
+			return type() == object_type::buffer ? mBufferVal : mBufferRef.lock();
 		}
 
 		const ipa::phoneme &phoneme() const { return mPhonemeVal; }
@@ -188,11 +188,11 @@ namespace cainteoir
 			floatval_t mFloatVal;
 			const char *mStringVal;
 			buffer_t mBufferVal;
-			buffer_ref_t mBufferRefVal;
+			buffer_ref_t mBufferRef;
 			ipa::phoneme mPhonemeVal;
 			range_t mRangeVal;
 			dictionary_t mDictionaryVal;
-			dictionary_ref_t mDictionaryRefVal;
+			dictionary_ref_t mDictionaryRef;
 		};
 
 		void clear();

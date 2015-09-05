@@ -109,7 +109,7 @@ cainteoir::object::get(const char *aKey) const
 		break;
 	case object_type::dictionary_ref:
 		{
-			auto ptr = mDictionaryRefVal.lock();
+			auto ptr = mDictionaryRef.lock();
 			if (ptr)
 			{
 				auto match = ptr->find(aKey);
@@ -135,7 +135,7 @@ cainteoir::object::put(const char *aKey, const object &aValue)
 		break;
 	case object_type::dictionary_ref:
 		{
-			auto ptr = mDictionaryRefVal.lock();
+			auto ptr = mDictionaryRef.lock();
 			if (ptr)
 			{
 				(*ptr)[aKey] = aValue;
@@ -155,7 +155,7 @@ cainteoir::object::size() const
 	case object_type::dictionary:
 		return mDictionaryVal->size();
 	case object_type::dictionary_ref:
-		return mDictionaryRefVal.lock()->size();
+		return mDictionaryRef.lock()->size();
 	}
 	return 0;
 }
@@ -169,7 +169,7 @@ cainteoir::object::clear()
 		(&mBufferVal)->~buffer_t();
 		break;
 	case object_type::buffer_ref:
-		(&mBufferRefVal)->~buffer_ref_t();
+		(&mBufferRef)->~buffer_ref_t();
 		break;
 	case object_type::range:
 		(&mRangeVal)->~range_t();
@@ -178,7 +178,7 @@ cainteoir::object::clear()
 		(&mDictionaryVal)->~dictionary_t();
 		break;
 	case object_type::dictionary_ref:
-		(&mDictionaryRefVal)->~dictionary_ref_t();
+		(&mDictionaryRef)->~dictionary_ref_t();
 		break;
 	default:
 		break;
@@ -194,7 +194,7 @@ cainteoir::object::copy(const object &o, const reference_t *ref)
 		if (ref)
 		{
 			mType = object_type::buffer_ref;
-			new (&mBufferRefVal)buffer_ref_t(o.mBufferVal);
+			new (&mBufferRef)buffer_ref_t(o.mBufferVal);
 		}
 		else
 		{
@@ -204,7 +204,7 @@ cainteoir::object::copy(const object &o, const reference_t *ref)
 		break;
 	case object_type::buffer_ref:
 		mType = o.mType;
-		new (&mBufferRefVal)buffer_ref_t(o.mBufferRefVal);
+		new (&mBufferRef)buffer_ref_t(o.mBufferRef);
 		break;
 	case object_type::range:
 		mType = o.mType;
@@ -214,7 +214,7 @@ cainteoir::object::copy(const object &o, const reference_t *ref)
 		if (ref)
 		{
 			mType = object_type::dictionary_ref;
-			new (&mDictionaryRefVal)dictionary_ref_t(o.mDictionaryVal);
+			new (&mDictionaryRef)dictionary_ref_t(o.mDictionaryVal);
 		}
 		else
 		{
@@ -224,7 +224,7 @@ cainteoir::object::copy(const object &o, const reference_t *ref)
 		break;
 	case object_type::dictionary_ref:
 		mType = o.mType;
-		new (&mDictionaryRefVal)dictionary_ref_t(o.mDictionaryRefVal);
+		new (&mDictionaryRef)dictionary_ref_t(o.mDictionaryRef);
 		break;
 	case object_type::phoneme:
 		mType = o.mType;
