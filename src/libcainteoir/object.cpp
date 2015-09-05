@@ -95,16 +95,18 @@ cainteoir::object::operator=(const object &o)
 	return *this;
 }
 
-const cainteoir::object *
+const cainteoir::object &
 cainteoir::object::get(const char *aKey) const
 {
+	static const object nullobj;
+
 	switch (mType)
 	{
 	case object_type::dictionary:
 		{
 			auto match = mDictionaryVal->find(aKey);
 			if (match != mDictionaryVal->end())
-				return &(*match).second;
+				return (*match).second;
 		}
 		break;
 	case object_type::dictionary_ref:
@@ -114,12 +116,12 @@ cainteoir::object::get(const char *aKey) const
 			{
 				auto match = ptr->find(aKey);
 				if (match != ptr->end())
-					return &(*match).second;
+					return (*match).second;
 			}
 		}
 		break;
 	}
-	return nullptr;
+	return nullobj;
 }
 
 bool

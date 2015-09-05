@@ -64,9 +64,9 @@ TEST_CASE("null")
 	assert(o.size() == 0);
 	assert(o.empty());
 
-	assert(o.get("test") == nullptr);
+	assert(o.get("test").type() == cainteoir::object_type::null);
 	assert(!o.put("test", 24));
-	assert(o.get("test") == nullptr);
+	assert(o.get("test").type() == cainteoir::object_type::null);
 
 	assert(o.size() == 0);
 	assert(o.empty());
@@ -109,9 +109,9 @@ TEST_CASE("boolean")
 	assert(b.size() == 0);
 	assert(b.empty());
 
-	assert(b.get("test") == nullptr);
+	assert(b.get("test").type() == cainteoir::object_type::null);
 	assert(!b.put("test", 24));
-	assert(b.get("test") == nullptr);
+	assert(b.get("test").type() == cainteoir::object_type::null);
 
 	assert(b.size() == 0);
 	assert(b.empty());
@@ -162,9 +162,9 @@ TEST_CASE("integer  (8-bit)")
 	assert(i.size() == 0);
 	assert(i.empty());
 
-	assert(i.get("test") == nullptr);
+	assert(i.get("test").type() == cainteoir::object_type::null);
 	assert(!i.put("test", 24));
-	assert(i.get("test") == nullptr);
+	assert(i.get("test").type() == cainteoir::object_type::null);
 
 	assert(i.size() == 0);
 	assert(i.empty());
@@ -207,9 +207,9 @@ TEST_CASE("integer (16-bit)")
 	assert(i.size() == 0);
 	assert(i.empty());
 
-	assert(i.get("test") == nullptr);
+	assert(i.get("test").type() == cainteoir::object_type::null);
 	assert(!i.put("test", 24));
-	assert(i.get("test") == nullptr);
+	assert(i.get("test").type() == cainteoir::object_type::null);
 
 	assert(i.size() == 0);
 	assert(i.empty());
@@ -252,9 +252,9 @@ TEST_CASE("integer (32-bit)")
 	assert(i.size() == 0);
 	assert(i.empty());
 
-	assert(i.get("test") == nullptr);
+	assert(i.get("test").type() == cainteoir::object_type::null);
 	assert(!i.put("test", 24));
-	assert(i.get("test") == nullptr);
+	assert(i.get("test").type() == cainteoir::object_type::null);
 
 	assert(i.size() == 0);
 	assert(i.empty());
@@ -298,9 +298,9 @@ TEST_CASE("integer (64-bit)")
 	assert(i.size() == 0);
 	assert(i.empty());
 
-	assert(i.get("test") == nullptr);
+	assert(i.get("test").type() == cainteoir::object_type::null);
 	assert(!i.put("test", 24));
-	assert(i.get("test") == nullptr);
+	assert(i.get("test").type() == cainteoir::object_type::null);
 
 	assert(i.size() == 0);
 	assert(i.empty());
@@ -349,9 +349,9 @@ TEST_CASE("real (32-bit)")
 	assert(r.size() == 0);
 	assert(r.empty());
 
-	assert(r.get("test") == nullptr);
+	assert(r.get("test").type() == cainteoir::object_type::null);
 	assert(!r.put("test", 24));
-	assert(r.get("test") == nullptr);
+	assert(r.get("test").type() == cainteoir::object_type::null);
 
 	assert(r.size() == 0);
 	assert(r.empty());
@@ -395,9 +395,9 @@ TEST_CASE("real (64-bit)")
 	assert(r.size() == 0);
 	assert(r.empty());
 
-	assert(r.get("test") == nullptr);
+	assert(r.get("test").type() == cainteoir::object_type::null);
 	assert(!r.put("test", 24));
-	assert(r.get("test") == nullptr);
+	assert(r.get("test").type() == cainteoir::object_type::null);
 
 	assert(r.size() == 0);
 	assert(r.empty());
@@ -441,9 +441,9 @@ TEST_CASE("string")
 	assert(s.size() == 0);
 	assert(s.empty());
 
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 	assert(!s.put("test", 24));
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 
 	assert(s.size() == 0);
 	assert(s.empty());
@@ -475,9 +475,9 @@ TEST_CASE("string (null)")
 	assert(u.type() == cainteoir::object_type::null);
 	assert(!u.string());
 
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 	assert(!s.put("test", 24));
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 }
 
 TEST_CASE("string does not create a copy")
@@ -535,9 +535,9 @@ TEST_CASE("buffer")
 	assert(s.size() == 0);
 	assert(s.empty());
 
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 	assert(!s.put("test", 24));
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 
 	assert(s.size() == 0);
 	assert(s.empty());
@@ -569,9 +569,9 @@ TEST_CASE("buffer (null)")
 	assert(u.type() == cainteoir::object_type::null);
 	assert(!u.string());
 
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 	assert(!s.put("test", 24));
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 }
 
 TEST_CASE("buffer ref")
@@ -613,9 +613,9 @@ TEST_CASE("buffer ref")
 	assert(s.size() == 0);
 	assert(s.empty());
 
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 	assert(!s.put("test", 24));
-	assert(s.get("test") == nullptr);
+	assert(s.get("test").type() == cainteoir::object_type::null);
 
 	assert(s.size() == 0);
 	assert(s.empty());
@@ -658,9 +658,9 @@ TEST_CASE("phoneme")
 	assert(p.size() == 0);
 	assert(p.empty());
 
-	assert(p.get("test") == nullptr);
+	assert(p.get("test").type() == cainteoir::object_type::null);
 	assert(!p.put("test", 24));
-	assert(p.get("test") == nullptr);
+	assert(p.get("test").type() == cainteoir::object_type::null);
 
 	assert(p.size() == 0);
 	assert(p.empty());
@@ -708,9 +708,9 @@ TEST_CASE("range")
 	assert(p.size() == 0);
 	assert(p.empty());
 
-	assert(p.get("test") == nullptr);
+	assert(p.get("test").type() == cainteoir::object_type::null);
 	assert(!p.put("test", 24));
-	assert(p.get("test") == nullptr);
+	assert(p.get("test").type() == cainteoir::object_type::null);
 
 	assert(p.size() == 0);
 	assert(p.empty());
@@ -724,8 +724,8 @@ TEST_CASE("dictionary")
 	assert(d.size() == 0);
 	assert(d.empty());
 
-	assert(d.get("test") == nullptr);
-	assert(d.get("tester") == nullptr);
+	assert(d.get("test").type() == cainteoir::object_type::null);
+	assert(d.get("tester").type() == cainteoir::object_type::null);
 
 	assert(!d.is_null());
 	assert(!d.is_boolean());
@@ -742,23 +742,23 @@ TEST_CASE("dictionary")
 	assert(e.type() == cainteoir::object_type::dictionary);
 	assert(e.size() == 0);
 	assert(e.empty());
-	assert(e.get("test") == nullptr);
-	assert(e.get("tester") == nullptr);
+	assert(e.get("test").type() == cainteoir::object_type::null);
+	assert(e.get("tester").type() == cainteoir::object_type::null);
 
 	cainteoir::object f;
 	f = d;
 	assert(f.type() == cainteoir::object_type::dictionary);
 	assert(f.size() == 0);
 	assert(f.empty());
-	assert(f.get("test") == nullptr);
-	assert(f.get("tester") == nullptr);
+	assert(f.get("test").type() == cainteoir::object_type::null);
+	assert(f.get("tester").type() == cainteoir::object_type::null);
 
 	cainteoir::object g(d, cainteoir::object::reference);
 	assert(g.type() == cainteoir::object_type::dictionary_ref);
 	assert(g.size() == 0);
 	assert(g.empty());
-	assert(g.get("test") == nullptr);
-	assert(g.get("tester") == nullptr);
+	assert(g.get("test").type() == cainteoir::object_type::null);
+	assert(g.get("tester").type() == cainteoir::object_type::null);
 }
 
 TEST_CASE("dictionary ref")
@@ -771,8 +771,8 @@ TEST_CASE("dictionary ref")
 	assert(d.size() == 0);
 	assert(d.empty());
 
-	assert(d.get("test") == nullptr);
-	assert(d.get("tester") == nullptr);
+	assert(d.get("test").type() == cainteoir::object_type::null);
+	assert(d.get("tester").type() == cainteoir::object_type::null);
 
 	assert(!d.is_null());
 	assert(!d.is_boolean());
@@ -789,16 +789,16 @@ TEST_CASE("dictionary ref")
 	assert(e.type() == cainteoir::object_type::dictionary_ref);
 	assert(e.size() == 0);
 	assert(e.empty());
-	assert(e.get("test") == nullptr);
-	assert(e.get("tester") == nullptr);
+	assert(e.get("test").type() == cainteoir::object_type::null);
+	assert(e.get("tester").type() == cainteoir::object_type::null);
 
 	cainteoir::object f;
 	f = d;
 	assert(f.type() == cainteoir::object_type::dictionary_ref);
 	assert(f.size() == 0);
 	assert(f.empty());
-	assert(f.get("test") == nullptr);
-	assert(f.get("tester") == nullptr);
+	assert(f.get("test").type() == cainteoir::object_type::null);
+	assert(f.get("tester").type() == cainteoir::object_type::null);
 
 	cainteoir::object o(cainteoir::object_type::dictionary_ref);
 	assert(o.type() == cainteoir::object_type::null);
@@ -808,8 +808,8 @@ TEST_CASE("dictionary ref")
 	assert(g.type() == cainteoir::object_type::dictionary_ref);
 	assert(g.size() == 0);
 	assert(g.empty());
-	assert(g.get("test") == nullptr);
-	assert(g.get("tester") == nullptr);
+	assert(g.get("test").type() == cainteoir::object_type::null);
+	assert(g.get("tester").type() == cainteoir::object_type::null);
 }
 
 TEST_CASE("object::put (dictionary)")
@@ -821,11 +821,9 @@ TEST_CASE("object::put (dictionary)")
 	assert(d.size() == 1);
 	assert(!d.empty());
 
-	assert(d.get("test") != nullptr);
-	assert(d.get("tester") == nullptr);
-
-	assert(d.get("test")->type() == cainteoir::object_type::integer);
-	assert(d.get("test")->integer() == 24);
+	assert(d.get("test").type() == cainteoir::object_type::integer);
+	assert(d.get("test").integer() == 24);
+	assert(d.get("tester").type() == cainteoir::object_type::null);
 
 	assert(d.size() == 1);
 	assert(!d.empty());
@@ -841,11 +839,9 @@ TEST_CASE("object::put (dictionary_ref)")
 	assert(d.size() == 1);
 	assert(!d.empty());
 
-	assert(d.get("test") != nullptr);
-	assert(d.get("tester") == nullptr);
-
-	assert(d.get("test")->type() == cainteoir::object_type::integer);
-	assert(d.get("test")->integer() == 24);
+	assert(d.get("test").type() == cainteoir::object_type::integer);
+	assert(d.get("test").integer() == 24);
+	assert(d.get("tester").type() == cainteoir::object_type::null);
 
 	assert(d.size() == 1);
 	assert(!d.empty());
@@ -864,86 +860,86 @@ TEST_CASE("dictionary updates affect all copies and references")
 	i = g;
 
 	assert(d.put("test", 62));
-	assert(d.get("test")->type() == cainteoir::object_type::integer);
-	assert(d.get("test")->integer() == 62);
-	assert(e.get("test")->type() == cainteoir::object_type::integer);
-	assert(e.get("test")->integer() == 62);
-	assert(f.get("test")->type() == cainteoir::object_type::integer);
-	assert(f.get("test")->integer() == 62);
-	assert(g.get("test")->type() == cainteoir::object_type::integer);
-	assert(g.get("test")->integer() == 62);
-	assert(h.get("test")->type() == cainteoir::object_type::integer);
-	assert(h.get("test")->integer() == 62);
-	assert(i.get("test")->type() == cainteoir::object_type::integer);
-	assert(i.get("test")->integer() == 62);
+	assert(d.get("test").type() == cainteoir::object_type::integer);
+	assert(d.get("test").integer() == 62);
+	assert(e.get("test").type() == cainteoir::object_type::integer);
+	assert(e.get("test").integer() == 62);
+	assert(f.get("test").type() == cainteoir::object_type::integer);
+	assert(f.get("test").integer() == 62);
+	assert(g.get("test").type() == cainteoir::object_type::integer);
+	assert(g.get("test").integer() == 62);
+	assert(h.get("test").type() == cainteoir::object_type::integer);
+	assert(h.get("test").integer() == 62);
+	assert(i.get("test").type() == cainteoir::object_type::integer);
+	assert(i.get("test").integer() == 62);
 
 	assert(e.put("test", 44));
-	assert(d.get("test")->type() == cainteoir::object_type::integer);
-	assert(d.get("test")->integer() == 44);
-	assert(e.get("test")->type() == cainteoir::object_type::integer);
-	assert(e.get("test")->integer() == 44);
-	assert(f.get("test")->type() == cainteoir::object_type::integer);
-	assert(f.get("test")->integer() == 44);
-	assert(g.get("test")->type() == cainteoir::object_type::integer);
-	assert(g.get("test")->integer() == 44);
-	assert(h.get("test")->type() == cainteoir::object_type::integer);
-	assert(h.get("test")->integer() == 44);
-	assert(i.get("test")->type() == cainteoir::object_type::integer);
-	assert(i.get("test")->integer() == 44);
+	assert(d.get("test").type() == cainteoir::object_type::integer);
+	assert(d.get("test").integer() == 44);
+	assert(e.get("test").type() == cainteoir::object_type::integer);
+	assert(e.get("test").integer() == 44);
+	assert(f.get("test").type() == cainteoir::object_type::integer);
+	assert(f.get("test").integer() == 44);
+	assert(g.get("test").type() == cainteoir::object_type::integer);
+	assert(g.get("test").integer() == 44);
+	assert(h.get("test").type() == cainteoir::object_type::integer);
+	assert(h.get("test").integer() == 44);
+	assert(i.get("test").type() == cainteoir::object_type::integer);
+	assert(i.get("test").integer() == 44);
 
 	assert(f.put("test", 19));
-	assert(d.get("test")->type() == cainteoir::object_type::integer);
-	assert(d.get("test")->integer() == 19);
-	assert(e.get("test")->type() == cainteoir::object_type::integer);
-	assert(e.get("test")->integer() == 19);
-	assert(f.get("test")->type() == cainteoir::object_type::integer);
-	assert(f.get("test")->integer() == 19);
-	assert(g.get("test")->type() == cainteoir::object_type::integer);
-	assert(g.get("test")->integer() == 19);
-	assert(h.get("test")->type() == cainteoir::object_type::integer);
-	assert(h.get("test")->integer() == 19);
-	assert(i.get("test")->type() == cainteoir::object_type::integer);
-	assert(i.get("test")->integer() == 19);
+	assert(d.get("test").type() == cainteoir::object_type::integer);
+	assert(d.get("test").integer() == 19);
+	assert(e.get("test").type() == cainteoir::object_type::integer);
+	assert(e.get("test").integer() == 19);
+	assert(f.get("test").type() == cainteoir::object_type::integer);
+	assert(f.get("test").integer() == 19);
+	assert(g.get("test").type() == cainteoir::object_type::integer);
+	assert(g.get("test").integer() == 19);
+	assert(h.get("test").type() == cainteoir::object_type::integer);
+	assert(h.get("test").integer() == 19);
+	assert(i.get("test").type() == cainteoir::object_type::integer);
+	assert(i.get("test").integer() == 19);
 
 	assert(g.put("test", 73));
-	assert(d.get("test")->type() == cainteoir::object_type::integer);
-	assert(d.get("test")->integer() == 73);
-	assert(e.get("test")->type() == cainteoir::object_type::integer);
-	assert(e.get("test")->integer() == 73);
-	assert(f.get("test")->type() == cainteoir::object_type::integer);
-	assert(f.get("test")->integer() == 73);
-	assert(g.get("test")->type() == cainteoir::object_type::integer);
-	assert(g.get("test")->integer() == 73);
-	assert(h.get("test")->type() == cainteoir::object_type::integer);
-	assert(h.get("test")->integer() == 73);
-	assert(i.get("test")->type() == cainteoir::object_type::integer);
-	assert(i.get("test")->integer() == 73);
+	assert(d.get("test").type() == cainteoir::object_type::integer);
+	assert(d.get("test").integer() == 73);
+	assert(e.get("test").type() == cainteoir::object_type::integer);
+	assert(e.get("test").integer() == 73);
+	assert(f.get("test").type() == cainteoir::object_type::integer);
+	assert(f.get("test").integer() == 73);
+	assert(g.get("test").type() == cainteoir::object_type::integer);
+	assert(g.get("test").integer() == 73);
+	assert(h.get("test").type() == cainteoir::object_type::integer);
+	assert(h.get("test").integer() == 73);
+	assert(i.get("test").type() == cainteoir::object_type::integer);
+	assert(i.get("test").integer() == 73);
 
 	assert(h.put("test", 57));
-	assert(d.get("test")->type() == cainteoir::object_type::integer);
-	assert(d.get("test")->integer() == 57);
-	assert(e.get("test")->type() == cainteoir::object_type::integer);
-	assert(e.get("test")->integer() == 57);
-	assert(f.get("test")->type() == cainteoir::object_type::integer);
-	assert(f.get("test")->integer() == 57);
-	assert(g.get("test")->type() == cainteoir::object_type::integer);
-	assert(g.get("test")->integer() == 57);
-	assert(h.get("test")->type() == cainteoir::object_type::integer);
-	assert(h.get("test")->integer() == 57);
-	assert(i.get("test")->type() == cainteoir::object_type::integer);
-	assert(i.get("test")->integer() == 57);
+	assert(d.get("test").type() == cainteoir::object_type::integer);
+	assert(d.get("test").integer() == 57);
+	assert(e.get("test").type() == cainteoir::object_type::integer);
+	assert(e.get("test").integer() == 57);
+	assert(f.get("test").type() == cainteoir::object_type::integer);
+	assert(f.get("test").integer() == 57);
+	assert(g.get("test").type() == cainteoir::object_type::integer);
+	assert(g.get("test").integer() == 57);
+	assert(h.get("test").type() == cainteoir::object_type::integer);
+	assert(h.get("test").integer() == 57);
+	assert(i.get("test").type() == cainteoir::object_type::integer);
+	assert(i.get("test").integer() == 57);
 
 	assert(i.put("test", 83));
-	assert(d.get("test")->type() == cainteoir::object_type::integer);
-	assert(d.get("test")->integer() == 83);
-	assert(e.get("test")->type() == cainteoir::object_type::integer);
-	assert(e.get("test")->integer() == 83);
-	assert(f.get("test")->type() == cainteoir::object_type::integer);
-	assert(f.get("test")->integer() == 83);
-	assert(g.get("test")->type() == cainteoir::object_type::integer);
-	assert(g.get("test")->integer() == 83);
-	assert(h.get("test")->type() == cainteoir::object_type::integer);
-	assert(h.get("test")->integer() == 83);
-	assert(i.get("test")->type() == cainteoir::object_type::integer);
-	assert(i.get("test")->integer() == 83);
+	assert(d.get("test").type() == cainteoir::object_type::integer);
+	assert(d.get("test").integer() == 83);
+	assert(e.get("test").type() == cainteoir::object_type::integer);
+	assert(e.get("test").integer() == 83);
+	assert(f.get("test").type() == cainteoir::object_type::integer);
+	assert(f.get("test").integer() == 83);
+	assert(g.get("test").type() == cainteoir::object_type::integer);
+	assert(g.get("test").integer() == 83);
+	assert(h.get("test").type() == cainteoir::object_type::integer);
+	assert(h.get("test").integer() == 83);
+	assert(i.get("test").type() == cainteoir::object_type::integer);
+	assert(i.get("test").integer() == 83);
 }

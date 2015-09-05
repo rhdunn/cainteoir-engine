@@ -172,7 +172,7 @@ namespace cainteoir
 
 		const range_t &range() const { return mRangeVal; }
 
-		const object *get(const char *aKey) const;
+		const object &get(const char *aKey) const;
 
 		bool put(const char *aKey, const object &aValue);
 
