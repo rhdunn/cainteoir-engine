@@ -529,7 +529,7 @@ TEST_CASE("buffer")
 	assert(!o.buffer());
 
 	cainteoir::object v(s, cainteoir::object::reference);
-	assert(v.type() == cainteoir::object_type::buffer);
+	assert(v.type() == cainteoir::object_type::buffer_ref);
 	assert(v.buffer()->compare("hello") == 0);
 
 	assert(s.size() == 0);
@@ -572,6 +572,53 @@ TEST_CASE("buffer (null)")
 	assert(s.get("test") == nullptr);
 	assert(!s.put("test", 24));
 	assert(s.get("test") == nullptr);
+}
+
+TEST_CASE("buffer ref")
+{
+	cainteoir::object test(cainteoir::make_buffer("hello", 5));
+
+	cainteoir::object s(test, cainteoir::object::reference);
+	assert(s.type() == cainteoir::object_type::buffer_ref);
+	assert(s.buffer()->compare("hello") == 0);
+
+	assert(!s.is_null());
+	assert(!s.is_boolean());
+	assert(!s.is_integer());
+	assert(!s.is_real());
+	assert(!s.is_number());
+	assert(!s.is_string());
+	assert(s.is_buffer());
+	assert(!s.is_phoneme());
+	assert(!s.is_range());
+	assert(!s.is_dictionary());
+
+	cainteoir::object t(s);
+	assert(t.type() == cainteoir::object_type::buffer_ref);
+	assert(t.buffer()->compare("hello") == 0);
+
+	cainteoir::object u;
+	u = s;
+	assert(u.type() == cainteoir::object_type::buffer_ref);
+	assert(u.buffer()->compare("hello") == 0);
+
+	cainteoir::object o(cainteoir::object_type::buffer_ref);
+	assert(o.type() == cainteoir::object_type::null);
+	assert(!o.buffer());
+
+	cainteoir::object v(s, cainteoir::object::reference);
+	assert(v.type() == cainteoir::object_type::buffer_ref);
+	assert(v.buffer()->compare("hello") == 0);
+
+	assert(s.size() == 0);
+	assert(s.empty());
+
+	assert(s.get("test") == nullptr);
+	assert(!s.put("test", 24));
+	assert(s.get("test") == nullptr);
+
+	assert(s.size() == 0);
+	assert(s.empty());
 }
 
 TEST_CASE("phoneme")

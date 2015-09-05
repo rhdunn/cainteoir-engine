@@ -36,6 +36,7 @@ namespace cainteoir
 		real,
 		string,
 		buffer,
+		buffer_ref,
 		phoneme,
 		range,
 		dictionary,
@@ -61,7 +62,10 @@ namespace cainteoir
 		};
 
 		typedef std::shared_ptr<cainteoir::buffer> buffer_t;
+		typedef std::weak_ptr<cainteoir::buffer>   buffer_ref_t;
+
 		typedef cainteoir::range<uint32_t> range_t;
+
 		typedef std::shared_ptr<std::map<const char *, object, string_compare>> dictionary_t;
 
 		struct reference_t {};
@@ -142,7 +146,7 @@ namespace cainteoir
 		bool is_real() const { return type() == object_type::real; }
 		bool is_number() const { return type() == object_type::integer || type() == object_type::real; }
 		bool is_string() const { return type() == object_type::string; }
-		bool is_buffer() const { return type() == object_type::buffer; }
+		bool is_buffer() const { return type() == object_type::buffer || type() == object_type::buffer_ref; }
 		bool is_phoneme() const { return type() == object_type::phoneme; }
 		bool is_range() const { return type() == object_type::range; }
 		bool is_dictionary() const { return type() == object_type::dictionary; }
@@ -157,7 +161,10 @@ namespace cainteoir
 
 		const char *string() const { return mStringVal; }
 
-		const buffer_t &buffer() const { return mBufferVal; }
+		const buffer_t buffer() const
+		{
+			return type() == object_type::buffer ? mBufferVal : mBufferRefVal.lock();
+		}
 
 		const ipa::phoneme &phoneme() const { return mPhonemeVal; }
 
@@ -179,6 +186,7 @@ namespace cainteoir
 			floatval_t mFloatVal;
 			const char *mStringVal;
 			buffer_t mBufferVal;
+			buffer_ref_t mBufferRefVal;
 			ipa::phoneme mPhonemeVal;
 			range_t mRangeVal;
 			dictionary_t mDictionaryVal;

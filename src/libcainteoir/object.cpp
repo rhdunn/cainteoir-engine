@@ -61,6 +61,7 @@ cainteoir::object::object(const object_type aType)
 		break;
 	case object_type::string: // set an empty string to the null object type
 	case object_type::buffer: // set an empty buffer to the null object type
+	case object_type::buffer_ref: // set an empty buffer reference to the null object type
 		mType = object_type::null;
 		mStringVal = {};
 		break;
@@ -132,6 +133,9 @@ cainteoir::object::clear()
 	case object_type::buffer:
 		(&mBufferVal)->~buffer_t();
 		break;
+	case object_type::buffer_ref:
+		(&mBufferRefVal)->~buffer_ref_t();
+		break;
 	case object_type::range:
 		(&mRangeVal)->~range_t();
 		break;
@@ -146,22 +150,38 @@ cainteoir::object::clear()
 void
 cainteoir::object::copy(const object &o, const reference_t *ref)
 {
-	mType = o.mType;
 	switch (o.mType)
 	{
 	case object_type::buffer:
-		new (&mBufferVal)buffer_t(o.mBufferVal);
+		if (ref)
+		{
+			mType = object_type::buffer_ref;
+			new (&mBufferRefVal)buffer_ref_t(o.mBufferVal);
+		}
+		else
+		{
+			mType = o.mType;
+			new (&mBufferVal)buffer_t(o.mBufferVal);
+		}
+		break;
+	case object_type::buffer_ref:
+		mType = o.mType;
+		new (&mBufferRefVal)buffer_ref_t(o.mBufferRefVal);
 		break;
 	case object_type::range:
+		mType = o.mType;
 		new (&mRangeVal)range_t(o.mRangeVal);
 		break;
 	case object_type::dictionary:
+		mType = o.mType;
 		new (&mDictionaryVal)dictionary_t(o.mDictionaryVal);
 		break;
 	case object_type::phoneme:
+		mType = o.mType;
 		mPhonemeVal = o.mPhonemeVal;
 		break;
 	default:
+		mType = o.mType;
 		mStringVal = o.mStringVal;
 		break;
 	}
