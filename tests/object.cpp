@@ -754,4 +754,26 @@ TEST_CASE("dictionary")
 
 	assert(d.size() == 1);
 	assert(!d.empty());
+
+	cainteoir::object e(d);
+	assert(e.type() == cainteoir::object_type::dictionary);
+	assert(e.size() == 1);
+	assert(!e.empty());
+	assert(e.get("test")->type() == cainteoir::object_type::integer);
+	assert(e.get("test")->integer() == 24);
+
+	cainteoir::object f;
+	f = d;
+	assert(f.type() == cainteoir::object_type::dictionary);
+	assert(f.size() == 1);
+	assert(!f.empty());
+	assert(f.get("test")->type() == cainteoir::object_type::integer);
+	assert(f.get("test")->integer() == 24);
+
+	cainteoir::object g(d, cainteoir::object::reference);
+	assert(g.type() == cainteoir::object_type::dictionary);
+	assert(g.size() == 1);
+	assert(!g.empty());
+	assert(g.get("test")->type() == cainteoir::object_type::integer);
+	assert(g.get("test")->integer() == 24);
 }
