@@ -219,7 +219,7 @@ void print_help(const option_group &group)
 	fprintf(stdout, "\n");
 }
 
-void print_help(const std::initializer_list<option_group> &groups,
+void print_help(const std::initializer_list<const option_group *> &groups,
                 const std::initializer_list<const char *> usage)
 {
 	for (const auto &use : usage)
@@ -227,11 +227,11 @@ void print_help(const std::initializer_list<option_group> &groups,
 	fprintf(stdout, "\n");
 	fprintf(stdout, "  -h, --help                Show this help message\n");
 	for (const auto &group : groups)
-		print_help(group);
+		print_help(*group);
 	fprintf(stdout, i18n("Report bugs to msclrhd@gmail.com\n"));
 }
 
-bool parse_command_line(const std::initializer_list<option_group> &groups,
+bool parse_command_line(const std::initializer_list<const option_group *> &groups,
                         const std::initializer_list<const char *> usage,
                         int &argc,
                         char ** &argv)
@@ -244,7 +244,7 @@ bool parse_command_line(const std::initializer_list<option_group> &groups,
 	options.push_back({ "help", no_argument, nullptr, 'h' });
 	for (const auto &group : groups)
 	{
-		for (const auto &opt : group.options)
+		for (const auto &opt : group->options)
 		{
 			uint8_t c = opt.short_name ? opt.short_name : index++;
 			if (opt.short_name)

@@ -98,12 +98,17 @@ int main(int argc, char ** argv)
 			  i18n("Output a HTML tag cloud") },
 		}};
 
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
+			&format_options
+		};
+
 		const std::initializer_list<const char *> usage = {
 			i18n("tagcloud [OPTION..] DOCUMENT"),
 			i18n("tagcloud [OPTION..]"),
 		};
 
-		if (!parse_command_line({ general_options, format_options }, usage, argc, argv))
+		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
 		const char *filename = (argc == 1) ? argv[0] : nullptr;

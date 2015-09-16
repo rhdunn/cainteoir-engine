@@ -466,11 +466,19 @@ int main(int argc, char ** argv)
 			  i18n("Use LANG with the ruleset, or to locate the TTS voice") },
 		}};
 
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
+			&output_options,
+			&stress_options,
+			&action_options,
+			&pronunciation_options
+		};
+
 		const std::initializer_list<const char *> usage = {
 			i18n("dictionary [OPTION..] DOCUMENT.."),
 		};
 
-		if (!parse_command_line({ general_options, output_options, stress_options, action_options, pronunciation_options }, usage, argc, argv))
+		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
 		auto writer = tts::createPhonemeWriter(phonemeset);

@@ -108,11 +108,15 @@ int main(int argc, char ** argv)
 			  i18n("Use HTML tree construction rules to parse the file") },
 		}};
 
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
+		};
+
 		const std::initializer_list<const char *> usage = {
 			i18n("xmlreader [OPTION..] DOCUMENT"),
 		};
 
-		if (!parse_command_line({ general_options }, usage, argc, argv))
+		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
 		if (argc != 1)

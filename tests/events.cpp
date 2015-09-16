@@ -200,8 +200,8 @@ int main(int argc, char ** argv)
 			i18n("events [OPTION..]"),
 		};
 
-		const std::initializer_list<option_group> options = {
-			general_options,
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
 		};
 
 		if (!parse_command_line(options, usage, argc, argv))

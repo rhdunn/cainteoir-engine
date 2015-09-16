@@ -326,11 +326,11 @@ int main(int argc, char ** argv)
 			i18n("parsetext [OPTION..]"),
 		};
 
-		const std::initializer_list<option_group> options = {
-			general_options,
-			mode_options,
-			processing_options,
-			phoneme_options
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
+			&mode_options,
+			&processing_options,
+			&phoneme_options
 		};
 
 		if (!parse_command_line(options, usage, argc, argv))
@@ -358,7 +358,7 @@ int main(int argc, char ** argv)
 			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
 		if (show_help)
 		{
-			print_help({ general_options, mode_options }, usage);
+			print_help(options, usage);
 			return 0;
 		}
 	}

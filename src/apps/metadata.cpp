@@ -220,10 +220,10 @@ int main(int argc, char ** argv)
 			  i18n("Output the document title") },
 		}};
 
-		const std::initializer_list<option_group> options = {
-			general_options,
-			format_options,
-			extract_options,
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
+			&format_options,
+			&extract_options,
 		};
 
 		const std::initializer_list<const char *> usage = {
