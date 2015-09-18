@@ -1,6 +1,6 @@
 /* PHoneme/Prosody Synthesizer API.
  *
- * Copyright (C) 2014 Reece H. Dunn
+ * Copyright (C) 2014-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -25,6 +25,7 @@
 #include "phoneme.hpp"
 #include "content.hpp"
 #include "audio.hpp"
+#include "text.hpp"
 
 namespace cainteoir { namespace tts
 {
@@ -204,7 +205,7 @@ namespace cainteoir { namespace tts
 		}
 	};
 
-	struct synthesis_callback
+	struct synthesis_callback : public text_callback
 	{
 		virtual ~synthesis_callback() {}
 
@@ -213,8 +214,6 @@ namespace cainteoir { namespace tts
 		virtual void onaudiodata(short *data, int nsamples) = 0;
 
 		virtual void ontextrange(const range<uint32_t> &range) = 0;
-
-		virtual void onevent(const document_item &item) = 0;
 	};
 
 	struct synthesizer : public audio_info

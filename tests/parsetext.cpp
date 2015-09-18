@@ -1,6 +1,6 @@
 /* Test for extracting words, numbers and other entries from a document.
  *
- * Copyright (C) 2012-2014 Reece H. Dunn
+ * Copyright (C) 2012-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -34,6 +34,7 @@
 #include <stdexcept>
 #include <cstdio>
 
+namespace css  = cainteoir::css;
 namespace rdf  = cainteoir::rdf;
 namespace tts  = cainteoir::tts;
 namespace lang = cainteoir::language;
@@ -80,6 +81,143 @@ static const char *token_name[] = {
 	"en-dash",
 	"em-dash",
 };
+
+static void
+print_time(const css::time &time)
+{
+	switch (time.units())
+	{
+	case css::time::inherit:      fprintf(stdout, "unspecified"); break;
+	case css::time::seconds:      fprintf(stdout, "%Gs",  time.value()); break;
+	case css::time::milliseconds: fprintf(stdout, "%Gms", time.value()); break;
+	}
+}
+
+static void
+format_style(const css::styles &styles)
+{
+	switch (styles.display)
+	{
+	case css::display::inherit:    break;
+	case css::display::block:
+		switch (styles.role)
+		{
+		case css::role::none:      fprintf(stdout, "block"); break;
+		case css::role::paragraph: fprintf(stdout, "paragraph"); break;
+		case css::role::heading:   fprintf(stdout, "heading %d", styles.aria_level); return;
+		default:                   break;
+		}
+		break;
+	case css::display::inlined:
+		switch (styles.role)
+		{
+		case css::role::none:     fprintf(stdout, "span"); break;
+		case css::role::sentence: fprintf(stdout, "sentence"); break;
+		default:                   break;
+		}
+		break;
+	case css::display::line_break: fprintf(stdout, "line-break"); break;
+	case css::display::list_item:  fprintf(stdout, "list-item"); break;
+	case css::display::table:      fprintf(stdout, "table"); break;
+	case css::display::table_row:  fprintf(stdout, "row"); break;
+	case css::display::table_cell: fprintf(stdout, "cell"); break;
+	case css::display::none:       fprintf(stdout, "none"); break;
+	}
+
+	switch (styles.media_synchronisation)
+	{
+	case css::media_synchronisation::inherit:    break;
+	case css::media_synchronisation::sequential: fprintf(stdout, " +sequential"); break;
+	case css::media_synchronisation::parallel:   fprintf(stdout, " +parallel"); break;
+	}
+
+	switch (styles.vertical_align)
+	{
+	case css::vertical_align::inherit:  break;
+	case css::vertical_align::baseline: fprintf(stdout, " +baseline"); break;
+	case css::vertical_align::sub:      fprintf(stdout, " +subscript"); break;
+	case css::vertical_align::super:    fprintf(stdout, " +superscript"); break;
+	}
+
+	switch (styles.text_decoration)
+	{
+	case css::text_decoration::inherit:      break;
+	case css::text_decoration::none:         fprintf(stdout, " -underline -line-through"); break;
+	case css::text_decoration::underline:    fprintf(stdout, " +underline"); break;
+	case css::text_decoration::line_through: fprintf(stdout, " +line-through"); break;
+	}
+
+	switch (styles.font_style)
+	{
+	case css::font_style::inherit: break;
+	case css::font_style::normal:  fprintf(stdout, " +normal-style"); break;
+	case css::font_style::italic:  fprintf(stdout, " +emphasized"); break;
+	case css::font_style::oblique: fprintf(stdout, " +oblique"); break;
+	}
+
+	switch (styles.font_weight)
+	{
+	case css::font_weight::inherit: break;
+	case css::font_weight::normal:  fprintf(stdout, " +normal-weight"); break;
+	case css::font_weight::bold:    fprintf(stdout, " +strong"); break;
+	}
+
+	if (!styles.list_style_type.empty())
+		fprintf(stdout, " +list=%s", styles.list_style_type.c_str());
+
+	if (!styles.font_family.empty())
+		fprintf(stdout, " +%s", styles.font_family.c_str());
+}
+
+struct document_events: public tts::text_callback
+{
+	void onevent(const cainteoir::document_item &item);
+};
+
+void
+document_events::onevent(const cainteoir::document_item &item)
+{
+	if (item.type & cainteoir::events::anchor)
+	{
+		fprintf(stdout, "anchor [%s]%s\n",
+		        item.anchor.ns.c_str(),
+		        item.anchor.ref.c_str());
+	}
+	if (item.type & cainteoir::events::text_ref)
+	{
+		fprintf(stdout, "text-ref [%s]%s\n",
+		        item.anchor.ns.c_str(),
+		        item.anchor.ref.c_str());
+	}
+	if (item.type & cainteoir::events::media_ref)
+	{
+		fprintf(stdout, "media-ref [%s]%s [from=",
+		        item.anchor.ns.c_str(),
+		        item.anchor.ref.c_str());
+		print_time(item.media_begin);
+		fprintf(stdout, " ; to=");
+		print_time(item.media_end);
+		fprintf(stdout, "]\n");
+	}
+	if (item.type & cainteoir::events::begin_context)
+	{
+		fprintf(stdout, "begin-context ");
+		if (item.styles)
+			format_style(*item.styles);
+		fprintf(stdout, "\n");
+	}
+	if (item.type & cainteoir::events::text)
+	{
+		fprintf(stdout, "text(%zu) [%u..%u]: \"\"\"",
+			item.content->size(),
+			*item.range.begin(),
+			*item.range.end());
+		fwrite(item.content->begin(), 1, item.content->size(), stdout);
+		fwrite("\"\"\"\n", 1, 4, stdout);
+	}
+	if (item.type & cainteoir::events::end_context)
+		fprintf(stdout, "end-context\n");
+}
 
 static void
 print_event(const tts::text_event &event,
@@ -166,6 +304,7 @@ generate_events(const std::shared_ptr<tts::text_reader> &text,
 
 static bool
 parse_text(std::shared_ptr<cainteoir::document_reader> reader,
+           tts::text_callback *callback,
            mode_type type,
            phoneme_mode phonemes,
            const lang::tag &locale,
@@ -185,7 +324,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			<< tts::context_analysis()
 			<< tts::numbers_to_words(locale, scale);
 
-		auto text = tts::create_text_reader(reader);
+		auto text = tts::create_text_reader(reader, callback);
 		generate_events(text, processor, phonemeset, stress);
 	}
 	else if (type == mode_type::phoneme_stream ||
@@ -205,7 +344,7 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		if (type == mode_type::prosody_stream)
 			std::dynamic_pointer_cast<tts::clause_processor_chain>(processor) << tts::apply_prosody();
 
-		auto text = tts::create_text_reader(reader);
+		auto text = tts::create_text_reader(reader, callback);
 		switch (phonemes)
 		{
 		case phoneme_mode::events:
@@ -231,18 +370,18 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			=  std::make_shared<tts::clause_processor_chain>()
 			<< tts::context_analysis();
 
-		auto text = tts::create_text_reader(reader);
+		auto text = tts::create_text_reader(reader, callback);
 		generate_events(text, processor, phonemeset, stress);
 	}
 	else if (type == mode_type::clauses)
 	{
-		auto text = tts::create_text_reader(reader);
+		auto text = tts::create_text_reader(reader, callback);
 		std::shared_ptr<tts::clause_processor> processor;
 		generate_events(text, processor, phonemeset, stress);
 	}
 	else
 	{
-		auto text = tts::create_text_reader(reader);
+		auto text = tts::create_text_reader(reader, callback);
 		generate_events(text, phonemeset, stress);
 	}
 	return false;
@@ -264,10 +403,13 @@ int main(int argc, char ** argv)
 		phoneme_mode phonemes = phoneme_mode::events;
 		tts::number_scale scale = tts::short_scale;
 		bool document_object = false;
+		bool print_document_events = false;
 
 		const option_group general_options = { nullptr, {
 			{ 'm', "document-object", bind_value(document_object, true),
 			  i18n("Process events through a cainteoir::document object model") },
+			{ 0, "document-events", bind_value(print_document_events, true),
+			  i18n("Print document events along side the parsed text events") },
 		}};
 
 		const option_group processing_options = { i18n("Processing Options:"), {
@@ -348,14 +490,15 @@ int main(int argc, char ** argv)
 		}
 
 		bool show_help = false;
+		document_events events;
 		if (document_object)
 		{
 			cainteoir::document doc(reader, metadata);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
-			show_help = parse_text(docreader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
+			show_help = parse_text(docreader, print_document_events ? &events : nullptr, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
 		}
 		else
-			show_help = parse_text(reader, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
+			show_help = parse_text(reader, print_document_events ? &events : nullptr, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
 		if (show_help)
 		{
 			print_help(options, usage);

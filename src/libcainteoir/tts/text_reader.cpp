@@ -1,6 +1,6 @@
 /* Text Processing.
  *
- * Copyright (C) 2012-2014 Reece H. Dunn
+ * Copyright (C) 2012-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -32,7 +32,8 @@ namespace css = cainteoir::css;
 
 struct text_reader_t : public tts::text_reader
 {
-	text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader);
+	text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader,
+	              tts::text_callback *aCallback);
 
 	const tts::text_event &event() const { return mMatch; }
 
@@ -49,6 +50,7 @@ private:
 
 	std::shared_ptr<cainteoir::document_reader> mReader;
 	tts::text_event mMatch;
+	tts::text_callback *mCallback;
 
 	char mMatchBuffer[512];
 	char *mMatchCurrent;
@@ -68,8 +70,10 @@ private:
 	uint32_t mSavedMatchLast;
 };
 
-text_reader_t::text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader)
+text_reader_t::text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader,
+                             tts::text_callback *aCallback)
 	: mReader(aReader)
+	, mCallback(aCallback)
 	, mMatchCurrent(mMatchBuffer)
 	, mNeedEndPara(false)
 	, mCurrent(nullptr)
@@ -91,6 +95,8 @@ bool text_reader_t::read()
 {
 	while (mReaderState == reader_state::need_text && mReader->read())
 	{
+		if (mCallback) mCallback->onevent(*mReader);
+
 		if (mReader->type & cainteoir::events::text)
 		{
 			mCurrent = mReader->content->begin();
@@ -276,7 +282,9 @@ bool text_reader_t::matched()
 	return true;
 }
 
-std::shared_ptr<tts::text_reader> tts::create_text_reader(const std::shared_ptr<document_reader> &aReader)
+std::shared_ptr<tts::text_reader>
+tts::create_text_reader(const std::shared_ptr<document_reader> &aReader,
+                        tts::text_callback *aCallback)
 {
-	return std::make_shared<text_reader_t>(aReader);
+	return std::make_shared<text_reader_t>(aReader, aCallback);
 }

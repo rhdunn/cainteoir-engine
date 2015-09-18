@@ -1,6 +1,6 @@
 /* Text Processing API.
  *
- * Copyright (C) 2013-2014 Reece H. Dunn
+ * Copyright (C) 2013-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -89,6 +89,13 @@ namespace cainteoir { namespace tts
 		}
 	};
 
+	struct text_callback
+	{
+		virtual ~text_callback() {}
+
+		virtual void onevent(const document_item &item) = 0;
+	};
+
 	struct text_reader
 	{
 		virtual const text_event &event() const = 0;
@@ -105,7 +112,8 @@ namespace cainteoir { namespace tts
 	};
 
 	std::shared_ptr<text_reader>
-	create_text_reader(const std::shared_ptr<document_reader> &aReader);
+	create_text_reader(const std::shared_ptr<document_reader> &aReader,
+	                   text_callback *aCallback = nullptr);
 
 	bool
 	next_clause(const std::shared_ptr<text_reader> &aReader,
