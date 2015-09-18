@@ -288,7 +288,8 @@ static uint32_t from_document(tts::dictionary &base_dict,
 
 	std::shared_ptr<tts::phoneme_reader> phonemeset;
 	uint32_t words = 0;
-	auto text = tts::create_text_reader(reader);
+	auto text = tts::create_text_reader();
+	text->reset(reader);
 	while (text->read()) switch (text->event().type)
 	{
 	case tts::word_uppercase:

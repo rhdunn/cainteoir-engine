@@ -98,6 +98,8 @@ namespace cainteoir { namespace tts
 
 	struct text_reader
 	{
+		virtual void reset(const std::shared_ptr<cainteoir::document_reader> &aReader) = 0;
+
 		virtual const text_event &event() const = 0;
 
 		virtual bool read() = 0;
@@ -112,8 +114,7 @@ namespace cainteoir { namespace tts
 	};
 
 	std::shared_ptr<text_reader>
-	create_text_reader(const std::shared_ptr<document_reader> &aReader,
-	                   text_callback *aCallback = nullptr);
+	create_text_reader(text_callback *aCallback = nullptr);
 
 	bool
 	next_clause(const std::shared_ptr<text_reader> &aReader,

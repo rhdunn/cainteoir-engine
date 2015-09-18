@@ -1,6 +1,6 @@
 /* Generate a tag cloud from a document.
  *
- * Copyright (C) 2011-2014 Reece H. Dunn
+ * Copyright (C) 2011-2015 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -121,7 +121,8 @@ int main(int argc, char ** argv)
 		}
 
 		std::map<std::string, int> words;
-		auto text = tts::create_text_reader(reader);
+		auto text = tts::create_text_reader();
+		text->reset(reader);
 		while (text->read()) switch (text->event().type)
 		{
 		case tts::word_uppercase:

@@ -32,8 +32,9 @@ namespace css = cainteoir::css;
 
 struct text_reader_t : public tts::text_reader
 {
-	text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader,
-	              tts::text_callback *aCallback);
+	text_reader_t(tts::text_callback *aCallback);
+
+	void reset(const std::shared_ptr<cainteoir::document_reader> &aReader);
 
 	const tts::text_event &event() const { return mMatch; }
 
@@ -70,16 +71,14 @@ private:
 	uint32_t mSavedMatchLast;
 };
 
-text_reader_t::text_reader_t(const std::shared_ptr<cainteoir::document_reader> &aReader,
-                             tts::text_callback *aCallback)
-	: mReader(aReader)
-	, mCallback(aCallback)
+text_reader_t::text_reader_t(tts::text_callback *aCallback)
+	: mCallback(aCallback)
 	, mMatchCurrent(mMatchBuffer)
 	, mNeedEndPara(false)
 	, mCurrent(nullptr)
 	, mLast(nullptr)
 	, mState(0)
-	, mReaderState(reader_state::need_text)
+	, mReaderState(reader_state::end_paragraph)
 	, mMatchNext(0)
 	, mMatchLast(0)
 	, mHaveSavedState(false)
@@ -89,6 +88,12 @@ text_reader_t::text_reader_t(const std::shared_ptr<cainteoir::document_reader> &
 	, mSavedMatchLast(0)
 {
 	mMatch.type = tts::error;
+}
+
+void text_reader_t::reset(const std::shared_ptr<cainteoir::document_reader> &aReader)
+{
+	mReader = aReader;
+	mReaderState = mReader ? reader_state::need_text : reader_state::end_paragraph;
 }
 
 bool text_reader_t::read()
@@ -283,8 +288,7 @@ bool text_reader_t::matched()
 }
 
 std::shared_ptr<tts::text_reader>
-tts::create_text_reader(const std::shared_ptr<document_reader> &aReader,
-                        tts::text_callback *aCallback)
+tts::create_text_reader(tts::text_callback *aCallback)
 {
-	return std::make_shared<text_reader_t>(aReader, aCallback);
+	return std::make_shared<text_reader_t>(aCallback);
 }

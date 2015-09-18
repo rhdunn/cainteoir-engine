@@ -303,8 +303,7 @@ generate_events(const std::shared_ptr<tts::text_reader> &text,
 }
 
 static bool
-parse_text(std::shared_ptr<cainteoir::document_reader> reader,
-           tts::text_callback *callback,
+parse_text(std::shared_ptr<tts::text_reader> text,
            mode_type type,
            phoneme_mode phonemes,
            const lang::tag &locale,
@@ -324,7 +323,6 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			<< tts::context_analysis()
 			<< tts::numbers_to_words(locale, scale);
 
-		auto text = tts::create_text_reader(reader, callback);
 		generate_events(text, processor, phonemeset, stress);
 	}
 	else if (type == mode_type::phoneme_stream ||
@@ -344,7 +342,6 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 		if (type == mode_type::prosody_stream)
 			std::dynamic_pointer_cast<tts::clause_processor_chain>(processor) << tts::apply_prosody();
 
-		auto text = tts::create_text_reader(reader, callback);
 		switch (phonemes)
 		{
 		case phoneme_mode::events:
@@ -370,18 +367,15 @@ parse_text(std::shared_ptr<cainteoir::document_reader> reader,
 			=  std::make_shared<tts::clause_processor_chain>()
 			<< tts::context_analysis();
 
-		auto text = tts::create_text_reader(reader, callback);
 		generate_events(text, processor, phonemeset, stress);
 	}
 	else if (type == mode_type::clauses)
 	{
-		auto text = tts::create_text_reader(reader, callback);
 		std::shared_ptr<tts::clause_processor> processor;
 		generate_events(text, processor, phonemeset, stress);
 	}
 	else
 	{
-		auto text = tts::create_text_reader(reader, callback);
 		generate_events(text, phonemeset, stress);
 	}
 	return false;
@@ -489,16 +483,23 @@ int main(int argc, char ** argv)
 			return 0;
 		}
 
-		bool show_help = false;
 		document_events events;
+		auto text = tts::create_text_reader(print_document_events ? &events : nullptr);
+
+		bool show_help = false;
 		if (document_object)
 		{
 			cainteoir::document doc(reader, metadata);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
-			show_help = parse_text(docreader, print_document_events ? &events : nullptr, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
+			text->reset(docreader);
+			show_help = parse_text(text, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
 		}
 		else
-			show_help = parse_text(reader, print_document_events ? &events : nullptr, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
+		{
+			text->reset(reader);
+			show_help = parse_text(text, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
+		}
+
 		if (show_help)
 		{
 			print_help(options, usage);
