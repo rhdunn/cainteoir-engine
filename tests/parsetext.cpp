@@ -302,7 +302,7 @@ generate_events(const std::shared_ptr<tts::text_reader> &text,
 	}
 }
 
-static bool
+static void
 parse_text(std::shared_ptr<tts::text_reader> text,
            mode_type type,
            phoneme_mode phonemes,
@@ -378,7 +378,6 @@ parse_text(std::shared_ptr<tts::text_reader> text,
 	{
 		generate_events(text, phonemeset, stress);
 	}
-	return false;
 }
 
 int main(int argc, char ** argv)
@@ -486,25 +485,20 @@ int main(int argc, char ** argv)
 		document_events events;
 		auto text = tts::create_text_reader(print_document_events ? &events : nullptr);
 
-		bool show_help = false;
 		if (document_object)
 		{
 			cainteoir::document doc(reader, metadata);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
 			text->reset(docreader);
-			show_help = parse_text(text, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
+			parse_text(text, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
 		}
 		else
 		{
 			text->reset(reader);
-			show_help = parse_text(text, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
+			parse_text(text, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
 		}
 
-		if (show_help)
-		{
-			print_help(options, usage);
-			return 0;
-		}
+		return 0;
 	}
 	catch (std::runtime_error &e)
 	{
