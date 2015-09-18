@@ -93,9 +93,9 @@ int main(int argc, char ** argv)
 		  i18n("The number of samples in the window to use") },
 	}};
 
-	const std::initializer_list<option_group> options = {
-		general_options,
-		window_options,
+	const std::initializer_list<const option_group *> options = {
+		&general_options,
+		&window_options,
 	};
 
 	const std::initializer_list<const char *> usage = {

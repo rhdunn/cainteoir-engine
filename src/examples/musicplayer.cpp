@@ -77,8 +77,8 @@ int main(int argc, char ** argv)
 			  i18n("The audio format (s16le, float32le, etc.) to use") },
 		}};
 
-		const std::initializer_list<option_group> options = {
-			general_options,
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
 		};
 
 		const std::initializer_list<const char *> usage = {

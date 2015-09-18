@@ -239,17 +239,23 @@ int main(int argc, char ** argv)
 			  i18n("Use [[...]] between phonetic transcriptions") },
 		}};
 
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
+			&stress_options,
+			&marker_options
+		};
+
 		const std::initializer_list<const char *> usage = {
 			i18n("phoneme-converter [OPTION..] FROM TO TRANSCRIPTION"),
 			i18n("phoneme-converter [OPTION..] FROM TO"),
 		};
 
-		if (!parse_command_line({ general_options, stress_options, marker_options }, usage, argc, argv))
+		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
 		if (argc != 2 && argc != 3)
 		{
-			print_help({ general_options }, usage);
+			print_help(options, usage);
 			return 0;
 		}
 		auto from = tts::createPhonemeReader(argv[0]);

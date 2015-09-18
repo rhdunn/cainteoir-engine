@@ -271,13 +271,13 @@ int main(int argc, char **argv)
 			  i18n("Record the audio as a FORMAT file (default: wav)") },
 		}};
 
-		const std::initializer_list<option_group> options = {
-			general_options,
-			input_options,
-			output_options,
-			speech_options,
-			prosody_options,
-			recording_options,
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
+			&input_options,
+			&output_options,
+			&speech_options,
+			&prosody_options,
+			&recording_options,
 		};
 
 		const std::initializer_list<const char *> usage = {

@@ -328,12 +328,17 @@ int main(int argc, char ** argv)
 			  i18n("Finish reading/recording after contents marker TO") },
 		}};
 
+		const std::initializer_list<const option_group *> options = {
+			&general_options,
+			&toc_options
+		};
+
 		const std::initializer_list<const char *> usage = {
 			i18n("doc2doc [OPTION..] DOCUMENT"),
 			i18n("doc2doc [OPTION..]"),
 		};
 
-		if (!parse_command_line({ general_options, toc_options }, usage, argc, argv))
+		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
 
 		if (nav_range.second != -1) ++nav_range.second;
