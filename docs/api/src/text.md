@@ -118,11 +118,6 @@ Information about a text block match.
 
 The Unicode codepoints associated with the event.
 
-# cainteoir::tts::text_event::phonemes
-{: .doc }
-
-The sequence of phonemes associated with the event.
-
 # cainteoir::tts::text_event::type
 {: .doc }
 
@@ -208,88 +203,6 @@ Create a text reader object.
 
 @return
 : The new text reader object.
-
-# cainteoir::tts::context_analysis
-{: .doc }
-
-Create a context analysis object.
-
-@return
-: The context analysis object.
-
-# cainteoir::tts::number_scale
-{: .doc }
-
-How to pronounce large numbers.
-
-# cainteoir::tts::short_scale
-{: .doc }
-
-The short number scale (`10^6` = million, `10^9` = billion, `10^12` = trillion, etc).
-
-# cainteoir::tts::long_scale
-{: .doc }
-
-The long number scale (`10^6` = million, `10^9` = milliard, `10^12` = billion, etc).
-
-# cainteoir::tts::numbers_to_words
-{: .doc }
-
-Create a number to word converter.
-
-@aLocale
-: The language used to convert numbers, etc. into words.
-
-@aScale
-: The number scale system to use.
-
-@return
-: The number to word converter.
-
-# cainteoir::tts::words_to_phonemes
-{: .doc }
-
-Create a phoneme stream object.
-
-@aRules
-: The letter to phoneme rules to use.
-
-@aExceptionDictionary
-: Pronunciation of words that are mispronounced by `aRules`.
-
-@return
-: The phoneme stream object.
-
-# cainteoir::tts::generate_phonemes
-{: .doc }
-
-Write the phonemes to the specified file.
-
-@reader
-: The source of the phonetic transcription.
-
-@out
-: The file to write the transcription to.
-
-@phonemeset
-: The phonemeset to transcribe phonemes as.
-
-@stress
-: The placement of stress marks in the phonetic transcription.
-
-@open
-: The characters to use to indicate the start of a phoneme sequence.
-
-@close
-: The characters to use to indicate the end of a phoneme sequence.
-
-@phrase
-: The characters used to separate phrases (full stops, commas, etc.).
-
-This is used to write out the pronunciation from the [text_reader](^^cainteoir::tts::text_reader)
-object in the given `phonemeset` transcription, while preserving the punctuation.
-The punctuation is preserved to allow other TTS engines like eSpeak to produce the
-correct pauses and other prosodic elements.
 
 # License
 

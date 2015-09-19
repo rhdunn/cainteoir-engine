@@ -380,12 +380,7 @@ src_libcainteoir_libcainteoir_la_SOURCES = \
 	src/libcainteoir/tts/letter_to_phoneme.cpp \
 	src/libcainteoir/tts/lexical_rewrite_rules.cpp \
 	\
-	src/libcainteoir/tts/apply_prosody.cpp \
-	src/libcainteoir/tts/context_analysis.cpp \
-	src/libcainteoir/tts/next_clause.cpp \
-	src/libcainteoir/tts/phoneme_stream.cpp \
 	src/libcainteoir/tts/text_reader.cpp \
-	src/libcainteoir/tts/word_stream.cpp \
 	\
 	src/libcainteoir/synthesizer/distribution.cpp \
 	src/libcainteoir/synthesizer/fixed_duration.cpp \

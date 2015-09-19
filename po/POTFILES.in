@@ -29,6 +29,7 @@ src/libcainteoir/css/reader.cpp
 src/libcainteoir/css/style_manager.cpp
 src/libcainteoir/css/units.cpp
 src/libcainteoir/dictionary/cainteoir.cpp
+src/libcainteoir/dictionary/cmudict.cpp
 src/libcainteoir/dictionary/dictionary.cpp
 src/libcainteoir/dictionary/espeak.cpp
 src/libcainteoir/document.cpp
@@ -39,6 +40,7 @@ src/libcainteoir/engines/mbrola.cpp
 src/libcainteoir/engines/pico.cpp
 src/libcainteoir/languages.cpp
 src/libcainteoir/mimetype.cpp
+src/libcainteoir/object.cpp
 src/libcainteoir/parsers/document.cpp
 src/libcainteoir/parsers/epub.cpp
 src/libcainteoir/parsers/mime.cpp
@@ -84,11 +86,7 @@ src/libcainteoir/synthesizer/pitch.cpp
 src/libcainteoir/synthesizer/prosody.cpp
 src/libcainteoir/synthesizer/synthesizer.cpp
 src/libcainteoir/synthesizer/units.cpp
-src/libcainteoir/tts/apply_prosody.cpp
-src/libcainteoir/tts/context_analysis.cpp
 src/libcainteoir/tts/letter_to_phoneme.cpp
-src/libcainteoir/tts/next_clause.cpp
-src/libcainteoir/tts/phoneme_stream.cpp
+src/libcainteoir/tts/lexical_rewrite_rules.cpp
 src/libcainteoir/tts/text_reader.cpp
-src/libcainteoir/tts/word_stream.cpp
 src/libcainteoir/unicode/utf8.cpp

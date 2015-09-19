@@ -42,20 +42,6 @@ namespace lang = cainteoir::language;
 enum class mode_type
 {
 	parse_text,
-	clauses,
-	context_analysis,
-	word_stream,
-	phoneme_stream,
-	prosody_stream,
-};
-
-enum class phoneme_mode
-{
-	events,
-	phonemes,
-	broad_markers,
-	narrow_markers,
-	espeak_markers,
 };
 
 static const char *token_name[] = {
@@ -220,9 +206,7 @@ document_events::onevent(const cainteoir::document_item &item)
 }
 
 static void
-print_event(const tts::text_event &event,
-            const std::shared_ptr<tts::phoneme_writer> &phonemeset,
-            tts::stress_type stress)
+print_event(const tts::text_event &event)
 {
 	ucd::codepoint_t cp = 0;
 	bool need_space = true;
@@ -256,133 +240,19 @@ print_event(const tts::text_event &event,
 		        event.text ? event.text->str().c_str() : "(null)");
 		break;
 	}
-	if (!event.phonemes.empty())
-	{
-		if (need_space)
-			fputc(' ', stdout);
-		fputc('/', stdout);
-		auto phonemes = event.phonemes;
-		tts::make_stressed(phonemes, stress);
-		for (auto p : phonemes)
-			phonemeset->write(p);
-		fputc('/', stdout);
-	}
 	fputc('\n', stdout);
 }
 
 static void
-generate_events(const std::shared_ptr<tts::text_reader> &text,
-                const char *phonemeset,
-                tts::stress_type stress)
+print_events(const std::shared_ptr<tts::text_reader> &text)
 {
-	auto writer = tts::createPhonemeWriter(phonemeset);
-	writer->reset(stdout);
-
 	while (text->read())
 	{
 		tts::text_event event(text->token.get("Token:text").buffer(),
 		                      (tts::event_type)text->token.get("Token:type").integer(),
 		                      text->token.get("Token:range").range(),
 		                      text->token.get("Token:codepoint").codepoint());
-		print_event(event, writer, stress);
-	}
-}
-
-static void
-generate_events(const std::shared_ptr<tts::text_reader> &text,
-                std::shared_ptr<tts::clause_processor> &processor,
-                const char *phonemeset,
-                tts::stress_type stress)
-{
-	auto writer = tts::createPhonemeWriter(phonemeset);
-	writer->reset(stdout);
-
-	std::list<tts::text_event> clause;
-	while (tts::next_clause(text, clause))
-	{
-		if (processor)
-			processor->process(clause);
-		for (auto && event : clause)
-			print_event(event, writer, stress);
-		fprintf(stdout, "--------------------------------------------------\n");
-	}
-}
-
-static void
-parse_text(std::shared_ptr<tts::text_reader> text,
-           mode_type type,
-           phoneme_mode phonemes,
-           const lang::tag &locale,
-           tts::number_scale scale,
-           const char *ruleset,
-           const char *dictionary,
-           const char *phonemeset,
-           const char *preferred_phonemeset,
-           const char *phoneme_map,
-           const char *accent,
-           tts::stress_type stress)
-{
-	if (type == mode_type::word_stream)
-	{
-		std::shared_ptr<tts::clause_processor> processor
-			=  std::make_shared<tts::clause_processor_chain>()
-			<< tts::context_analysis()
-			<< tts::numbers_to_words(locale, scale);
-
-		generate_events(text, processor, phonemeset, stress);
-	}
-	else if (type == mode_type::phoneme_stream ||
-	         type == mode_type::prosody_stream)
-	{
-		auto rules = tts::createPronunciationRules(ruleset, locale);
-		if (phoneme_map)
-			rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
-		if (accent)
-			rules = tts::createAccentConverter(accent, rules);
-		auto dict = tts::createDictionaryReader(dictionary, preferred_phonemeset);
-		std::shared_ptr<tts::clause_processor> processor
-			=  std::make_shared<tts::clause_processor_chain>()
-			<< tts::context_analysis()
-			<< tts::numbers_to_words(locale, scale)
-			<< tts::words_to_phonemes(rules, dict);
-		if (type == mode_type::prosody_stream)
-			std::dynamic_pointer_cast<tts::clause_processor_chain>(processor) << tts::apply_prosody();
-
-		switch (phonemes)
-		{
-		case phoneme_mode::events:
-			generate_events(text, processor, phonemeset, stress);
-			break;
-		case phoneme_mode::phonemes:
-			tts::generate_phonemes(text, processor, stdout, phonemeset, stress, nullptr, nullptr);
-			break;
-		case phoneme_mode::broad_markers:
-			tts::generate_phonemes(text, processor, stdout, phonemeset, stress, "/", "/");
-			break;
-		case phoneme_mode::narrow_markers:
-			tts::generate_phonemes(text, processor, stdout, phonemeset, stress, "[", "]");
-			break;
-		case phoneme_mode::espeak_markers:
-			tts::generate_phonemes(text, processor, stdout, phonemeset, stress, "[[", "]]");
-			break;
-		}
-	}
-	else if (type == mode_type::context_analysis)
-	{
-		std::shared_ptr<tts::clause_processor> processor
-			=  std::make_shared<tts::clause_processor_chain>()
-			<< tts::context_analysis();
-
-		generate_events(text, processor, phonemeset, stress);
-	}
-	else if (type == mode_type::clauses)
-	{
-		std::shared_ptr<tts::clause_processor> processor;
-		generate_events(text, processor, phonemeset, stress);
-	}
-	else
-	{
-		generate_events(text, phonemeset, stress);
+		print_event(event);
 	}
 }
 
@@ -390,17 +260,7 @@ int main(int argc, char ** argv)
 {
 	try
 	{
-		const char *ruleset = nullptr;
-		const char *dictionary = nullptr;
-		const char *phonemeset = "ipa";
-		const char *preferred_phonemeset = nullptr;
-		const char *locale_name = "en";
-		const char *phoneme_map = nullptr;
-		const char *accent = nullptr;
-		tts::stress_type stress = tts::stress_type::as_transcribed;
 		mode_type type = mode_type::parse_text;
-		phoneme_mode phonemes = phoneme_mode::events;
-		tts::number_scale scale = tts::short_scale;
 		bool document_object = false;
 		bool print_document_events = false;
 
@@ -411,55 +271,9 @@ int main(int argc, char ** argv)
 			  i18n("Print document events along side the parsed text events") },
 		}};
 
-		const option_group processing_options = { i18n("Processing Options:"), {
-			{ 'l', "locale", locale_name, "LOCALE",
-			  i18n("Use LOCALE for processing numbers") },
-			{ 0, "short-scale", bind_value(scale, tts::short_scale),
-			  i18n("Use the short scale for processing numbers") },
-			{ 0, "long-scale", bind_value(scale, tts::long_scale),
-			  i18n("Use the long scale for processing numbers") },
-			{ 'd', "dictionary", dictionary, "DICTIONARY",
-			  i18n("Use the DICTIONARY pronunciation dictionary") },
-			{ 'r', "ruleset", ruleset, "RULESET",
-			  i18n("Use the RULESET pronunciation rule file") },
-			{ 'P', "phonemeset", phonemeset, "PHONEMESET",
-			  i18n("Use PHONEMESET to transcribe phonemes as (default: ipa)") },
-			{ 'I', "input-phonemeset", preferred_phonemeset, "PHONEMESET",
-			  i18n("Prefer PHONEMESET to parse phoneme entries (default: auto)") },
-		}};
-
 		const option_group mode_options = { i18n("Processing Mode:"), {
 			{ 0, "parsetext", bind_value(type, mode_type::parse_text),
 			  i18n("Split the text into lexical segments") },
-			{ 0, "clauses", bind_value(type, mode_type::clauses),
-			  i18n("Split the output of parsetext into clauses") },
-			{ 0, "wordstream", bind_value(type, mode_type::word_stream),
-			  i18n("Convert the document into a sequence of words") },
-			{ 0, "phonemestream", bind_value(type, mode_type::phoneme_stream),
-			  i18n("Convert the document into phonetic pronunciations") },
-			{ 0, "contextanalysis", bind_value(type, mode_type::context_analysis),
-			  i18n("Apply context analysis on the document") },
-			{ 0, "prosodystream", bind_value(type, mode_type::prosody_stream),
-			  i18n("Convert the document into phonetic pronunciations with adjusted stress patterns") },
-		}};
-
-		const option_group phoneme_options = { i18n("Phoneme Stream Mode:"), {
-			{ 0, "phonemes", bind_value(phonemes, phoneme_mode::phonemes),
-			  i18n("Show phonemes without event annotations") },
-			{ 0, "broad", bind_value(phonemes, phoneme_mode::broad_markers),
-			  i18n("Use /.../ between phonetic transcriptions") },
-			{ 0, "narrow", bind_value(phonemes, phoneme_mode::narrow_markers),
-			  i18n("Use [...] between phonetic transcriptions") },
-			{ 0, "espeak", bind_value(phonemes, phoneme_mode::espeak_markers),
-			  i18n("Use [[...]] between phonetic transcriptions") },
-			{ 0, "vowel-stress", bind_value(stress, tts::stress_type::vowel),
-			  i18n("Place the stress on vowels (e.g. espeak, arpabet)") },
-			{ 0, "syllable-stress", bind_value(stress, tts::stress_type::syllable),
-			  i18n("Place the stress on syllable boundaries") },
-			{ 'M', "phoneme-map", phoneme_map, "PHONEME_MAP",
-			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
-			{ 'a', "accent", accent, "ACCENT",
-			  i18n("Use ACCENT to convert phonemes to the specified accent") },
 		}};
 
 		const std::initializer_list<const char *> usage = {
@@ -470,14 +284,10 @@ int main(int argc, char ** argv)
 		const std::initializer_list<const option_group *> options = {
 			&general_options,
 			&mode_options,
-			&processing_options,
-			&phoneme_options
 		};
 
 		if (!parse_command_line(options, usage, argc, argv))
 			return 0;
-
-		lang::tag locale = lang::make_lang(locale_name);
 
 		rdf::graph metadata;
 		const char *filename = (argc == 1) ? argv[0] : nullptr;
@@ -496,12 +306,12 @@ int main(int argc, char ** argv)
 			cainteoir::document doc(reader, metadata);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
 			text->reset(docreader);
-			parse_text(text, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
+			print_events(text);
 		}
 		else
 		{
 			text->reset(reader);
-			parse_text(text, type, phonemes, locale, scale, ruleset, dictionary, phonemeset, preferred_phonemeset, phoneme_map, accent, stress);
+			print_events(text);
 		}
 
 		return 0;

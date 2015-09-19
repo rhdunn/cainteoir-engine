@@ -59,7 +59,6 @@ namespace cainteoir { namespace tts
 	struct text_event
 	{
 		std::shared_ptr<buffer> text;
-		ipa::phonemes phonemes;
 		event_type type;
 		cainteoir::range<uint32_t> range;
 		uint32_t codepoint;
@@ -108,75 +107,8 @@ namespace cainteoir { namespace tts
 		virtual ~text_reader() {}
 	};
 
-	enum number_scale
-	{
-		short_scale,
-		long_scale,
-	};
-
 	std::shared_ptr<text_reader>
 	create_text_reader(text_callback *aCallback = nullptr);
-
-	bool
-	next_clause(const std::shared_ptr<text_reader> &aReader,
-	            std::list<text_event> &aClause);
-
-	struct clause_processor
-	{
-		virtual void process(std::list<text_event> &aClause) = 0;
-
-		virtual ~clause_processor() {}
-	};
-
-	std::shared_ptr<clause_processor>
-	context_analysis();
-
-	std::shared_ptr<clause_processor>
-	numbers_to_words(const language::tag &aLocale,
-	                 number_scale aScale);
-
-	std::shared_ptr<clause_processor>
-	words_to_phonemes(const std::shared_ptr<phoneme_reader> &aRules,
-	                  const std::shared_ptr<dictionary_reader> &aExceptionDictionary);
-
-	std::shared_ptr<clause_processor>
-	apply_prosody();
-
-	struct clause_processor_chain : public clause_processor
-	{
-		void add(const std::shared_ptr<clause_processor> &aProcessor)
-		{
-			mProcessors.push_back(aProcessor);
-		}
-
-		void process(std::list<text_event> &aClause)
-		{
-			for (auto &&processor : mProcessors)
-				processor->process(aClause);
-		}
-	private:
-		std::list<std::shared_ptr<clause_processor>> mProcessors;
-	};
-
-	inline std::shared_ptr<clause_processor_chain>
-	operator<<(const std::shared_ptr<clause_processor_chain> &a, const std::shared_ptr<clause_processor> &b)
-	{
-		a->add(b);
-		return a;
-	}
-
-	void generate_phonemes(const std::shared_ptr<tts::text_reader> &reader,
-	                       std::shared_ptr<clause_processor> &processor,
-	                       FILE *out,
-	                       const char *phonemeset,
-	                       tts::stress_type stress,
-	                       const char *open,
-	                       const char *close,
-	                       const char *phrase = " ");
-
-	std::shared_ptr<tts::phoneme_reader>
-	create_phoneme_reader(const std::shared_ptr<text_reader> &aTextReader,
-	                      const std::shared_ptr<clause_processor> &aProcessor);
 }}
 
 #endif

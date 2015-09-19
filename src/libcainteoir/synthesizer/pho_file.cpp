@@ -246,6 +246,7 @@ void pho_writer::reset(FILE *aOutput)
 
 bool pho_writer::write(const tts::prosody &aProsody)
 {
+	fflush(mOutput);
 	if (!tts::write_diphone(aProsody, mPhonemeSet, mOutput))
 		return false;
 
