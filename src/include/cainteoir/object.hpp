@@ -41,6 +41,7 @@ namespace cainteoir
 		range,
 		dictionary,
 		dictionary_ref,
+		codepoint,
 	};
 
 	struct object
@@ -83,6 +84,12 @@ namespace cainteoir
 		object(bool aValue)
 			: mType(object_type::boolean)
 			, mBoolVal(aValue)
+		{
+		}
+
+		object(uint32_t aValue)
+			: mType(object_type::codepoint)
+			, mCodepointVal(aValue)
 		{
 		}
 
@@ -152,6 +159,7 @@ namespace cainteoir
 		bool is_phoneme() const { return type() == object_type::phoneme; }
 		bool is_range() const { return type() == object_type::range; }
 		bool is_dictionary() const { return type() == object_type::dictionary || type() == object_type::dictionary_ref; }
+		bool is_codepoint() const { return type() == object_type::codepoint; }
 
 		bool boolean() const { return mBoolVal; }
 
@@ -171,6 +179,8 @@ namespace cainteoir
 		const ipa::phoneme &phoneme() const { return mPhonemeVal; }
 
 		const range_t &range() const { return mRangeVal; }
+
+		uint32_t codepoint() const { return mCodepointVal; }
 
 		const object &get(const char *aKey) const;
 
@@ -193,6 +203,7 @@ namespace cainteoir
 			range_t mRangeVal;
 			dictionary_t mDictionaryVal;
 			dictionary_ref_t mDictionaryRef;
+			uint32_t mCodepointVal;
 		};
 
 		void clear();
