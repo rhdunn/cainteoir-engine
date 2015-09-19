@@ -42,7 +42,10 @@ tts::next_clause(const std::shared_ptr<tts::text_reader> &aReader,
 	clause_state state = aReader->read() ? clause_state::start : clause_state::end;
 	while (state != clause_state::end)
 	{
-		auto &event = aReader->event();
+		tts::text_event event(aReader->token.get("Token:text").buffer(),
+		                      (tts::event_type)aReader->token.get("Token:type").integer(),
+		                      aReader->token.get("Token:range").range(),
+		                      aReader->token.get("Token:codepoint").codepoint());
 
 		switch (event.type)
 		{

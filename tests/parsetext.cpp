@@ -239,7 +239,7 @@ print_event(const tts::text_event &event,
 		        token_name[event.type],
 		        *event.range.begin(),
 		        *event.range.end(),
-		        event.text->str().c_str());
+		        event.text ? event.text->str().c_str() : "(null)");
 		break;
 	case tts::paragraph:
 		fprintf(stdout, ".%-13s [%d..%d] ",
@@ -253,7 +253,7 @@ print_event(const tts::text_event &event,
 		        token_name[event.type],
 		        *event.range.begin(),
 		        *event.range.end(),
-		        event.text->str().c_str());
+		        event.text ? event.text->str().c_str() : "(null)");
 		break;
 	}
 	if (!event.phonemes.empty())
@@ -279,7 +279,13 @@ generate_events(const std::shared_ptr<tts::text_reader> &text,
 	writer->reset(stdout);
 
 	while (text->read())
-		print_event(text->event(), writer, stress);
+	{
+		tts::text_event event(text->token.get("Token:text").buffer(),
+		                      (tts::event_type)text->token.get("Token:type").integer(),
+		                      text->token.get("Token:range").range(),
+		                      text->token.get("Token:codepoint").codepoint());
+		print_event(event, writer, stress);
+	}
 }
 
 static void

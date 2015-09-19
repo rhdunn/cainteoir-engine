@@ -288,9 +288,9 @@ static uint32_t from_document(tts::dictionary &base_dict,
 
 	std::shared_ptr<tts::phoneme_reader> phonemeset;
 	uint32_t words = 0;
-	auto text = tts::create_text_reader();
-	text->reset(reader);
-	while (text->read()) switch (text->event().type)
+	auto tokens = tts::create_text_reader();
+	tokens->reset(reader);
+	while (tokens->read()) switch (tokens->token.get("Token:type").integer())
 	{
 	case tts::word_uppercase:
 	case tts::word_lowercase:
@@ -298,7 +298,8 @@ static uint32_t from_document(tts::dictionary &base_dict,
 	case tts::word_mixedcase:
 	case tts::word_script:
 		{
-			auto &match = base_dict.lookup(text->event().text);
+			auto text = tokens->token.get("Token:text").buffer();
+			auto &match = base_dict.lookup(text);
 			switch (match.type)
 			{
 			case tts::dictionary::no_match:
@@ -306,11 +307,11 @@ static uint32_t from_document(tts::dictionary &base_dict,
 				{
 				case word_mode_type::merge:
 				case word_mode_type::only_in_document:
-					dict.add_entry(text->event().text, { text->event().text });
+					dict.add_entry(text, { text });
 					++words;
 					break;
 				default:
-					fprintf(stderr, "error: cannot find '%s' in the dictionary\n", text->event().text->str().c_str());
+					fprintf(stderr, "error: cannot find '%s' in the dictionary\n", text->str().c_str());
 					break;
 				}
 				break;
@@ -318,9 +319,9 @@ static uint32_t from_document(tts::dictionary &base_dict,
 				if (word_mode == word_mode_type::in_dictionary_and_document)
 				{
 					ipa::phonemes pronunciation;
-					if (base_dict.pronounce(text->event().text, {}, pronunciation))
+					if (base_dict.pronounce(text, {}, pronunciation))
 					{
-						dict.add_entry(text->event().text, { pronunciation });
+						dict.add_entry(text, { pronunciation });
 						++words;
 					}
 				}
@@ -328,7 +329,7 @@ static uint32_t from_document(tts::dictionary &base_dict,
 			case tts::dictionary::phonemes:
 				if (word_mode == word_mode_type::in_dictionary_and_document)
 				{
-					dict.add_entry(text->event().text, match );
+					dict.add_entry(text, match );
 					++words;
 				}
 				break;

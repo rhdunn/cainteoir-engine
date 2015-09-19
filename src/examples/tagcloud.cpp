@@ -121,15 +121,15 @@ int main(int argc, char ** argv)
 		}
 
 		std::map<std::string, int> words;
-		auto text = tts::create_text_reader();
-		text->reset(reader);
-		while (text->read()) switch (text->event().type)
+		auto tokens = tts::create_text_reader();
+		tokens->reset(reader);
+		while (tokens->read()) switch (tokens->token.get("Token:type").integer())
 		{
 		case tts::word_uppercase:
 		case tts::word_lowercase:
 		case tts::word_mixedcase:
 		case tts::word_capitalized:
-			++words[text->event().text->str()];
+			++words[tokens->token.get("Token:text").buffer()->str()];
 			break;
 		}
 

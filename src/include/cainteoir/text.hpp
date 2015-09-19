@@ -21,6 +21,7 @@
 #ifndef CAINTEOIR_ENGINE_TEXT_HPP
 #define CAINTEOIR_ENGINE_TEXT_HPP
 
+#include "object.hpp"
 #include "document.hpp"
 #include "locale.hpp"
 #include "dictionary.hpp"
@@ -98,9 +99,9 @@ namespace cainteoir { namespace tts
 
 	struct text_reader
 	{
-		virtual void reset(const std::shared_ptr<cainteoir::document_reader> &aReader) = 0;
+		object token;
 
-		virtual const text_event &event() const = 0;
+		virtual void reset(const std::shared_ptr<cainteoir::document_reader> &aReader) = 0;
 
 		virtual bool read() = 0;
 
