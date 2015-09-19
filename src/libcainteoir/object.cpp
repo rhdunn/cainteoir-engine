@@ -95,6 +95,19 @@ cainteoir::object::operator=(const object &o)
 	return *this;
 }
 
+const cainteoir::object::buffer_t
+cainteoir::object::buffer() const
+{
+	switch (type())
+	{
+	case object_type::buffer:
+		return mBufferVal;
+	case object_type::buffer_ref:
+		return mBufferRef.lock();
+	}
+	return {};
+}
+
 const cainteoir::object &
 cainteoir::object::get(const char *aKey) const
 {

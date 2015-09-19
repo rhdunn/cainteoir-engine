@@ -558,7 +558,7 @@ TEST_CASE("buffer (null)")
 {
 	cainteoir::object s(std::shared_ptr<cainteoir::buffer>{});
 	assert(s.type() == cainteoir::object_type::null);
-	assert(!s.string());
+	assert(!s.buffer());
 
 	assert(s.is_null());
 	assert(!s.is_boolean());

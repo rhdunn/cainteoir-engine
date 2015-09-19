@@ -171,10 +171,7 @@ namespace cainteoir
 
 		const char *string() const { return mStringVal; }
 
-		const buffer_t buffer() const
-		{
-			return type() == object_type::buffer ? mBufferVal : mBufferRef.lock();
-		}
+		const buffer_t buffer() const;
 
 		const ipa::phoneme &phoneme() const { return mPhonemeVal; }
 
