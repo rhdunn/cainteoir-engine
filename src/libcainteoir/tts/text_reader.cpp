@@ -54,7 +54,6 @@ private:
 	char *mMatchCurrent;
 	uint32_t mMatchNext;
 	uint32_t mMatchLast;
-	uint32_t mMatchCodepoint;
 
 	bool mNeedEndPara;
 	const char *mCurrent;
@@ -79,7 +78,6 @@ text_reader_t::text_reader_t(tts::text_callback *aCallback)
 	, mReaderState(reader_state::end_paragraph)
 	, mMatchNext(0)
 	, mMatchLast(0)
-	, mMatchCodepoint(0)
 	, mHaveSavedState(false)
 	, mSavedState(0)
 	, mSavedCurrent(nullptr)
@@ -142,7 +140,6 @@ bool text_reader_t::read()
 		token.put("Token:type", tts::paragraph);
 		token.put("Token:text", cainteoir::object{});
 		token.put("Token:range", cainteoir::range<uint32_t>{ mMatchNext, mMatchLast });
-		token.put("Token:codepoint", cainteoir::object{});
 
 		mReaderState = reader_state::need_text;
 		mNeedEndPara = false;
@@ -259,7 +256,6 @@ bool text_reader_t::read()
 		{
 			if (data.replacement_character)
 				cp = data.replacement_character;
-			mMatchCodepoint = cp;
 			mMatchCurrent = cainteoir::utf8::write(mMatchCurrent, ucd::tolower(cp));
 			if ((mMatchCurrent - mMatchBuffer) >= (sizeof(mMatchBuffer) - 12))
 			{
@@ -283,7 +279,6 @@ bool text_reader_t::matched()
 	token.put("Token:type", fsm::data[mState].value);
 	token.put("Token:text", cainteoir::make_buffer(mMatchBuffer, mMatchCurrent - mMatchBuffer));
 	token.put("Token:range", cainteoir::range<uint32_t>{ mMatchNext, mMatchLast });
-	token.put("Token:codepoint", mMatchCodepoint);
 
 	mMatchCurrent = mMatchBuffer;
 	mMatchNext = mMatchLast;
