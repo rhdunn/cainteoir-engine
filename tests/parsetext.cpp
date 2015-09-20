@@ -206,54 +206,51 @@ document_events::onevent(const cainteoir::document_item &item)
 }
 
 static void
-print_event(const tts::text_event &event)
+print_token(const cainteoir::object &token)
 {
 	ucd::codepoint_t cp = 0;
 	bool need_space = true;
-	switch (event.type)
+	auto text = token.get("Token:text").buffer();
+	auto type = (tts::event_type)token.get("Token:type").integer();
+	auto range = token.get("Token:range").range();
+	switch (type)
 	{
 	case tts::word_uppercase:
 	case tts::word_lowercase:
 	case tts::word_capitalized:
 	case tts::word_mixedcase:
 	case tts::word_script:
-		cainteoir::utf8::read(event.text->begin(), cp);
+		cainteoir::utf8::read(text->begin(), cp);
 		fprintf(stdout, ".%s.%-8s [%d..%d] %s",
 		        ucd::get_script_string(ucd::lookup_script(cp)),
-		        token_name[event.type],
-		        *event.range.begin(),
-		        *event.range.end(),
-		        event.text ? event.text->str().c_str() : "(null)");
+		        token_name[type],
+		        *range.begin(),
+		        *range.end(),
+		        text ? text->str().c_str() : "(null)");
 		break;
 	case tts::paragraph:
 		fprintf(stdout, ".%-13s [%d..%d] ",
-		        token_name[event.type],
-		        *event.range.begin(),
-		        *event.range.end());
+		        token_name[type],
+		        *range.begin(),
+		        *range.end());
 		need_space = false;
 		break;
 	default:
 		fprintf(stdout, ".%-13s [%d..%d] %s",
-		        token_name[event.type],
-		        *event.range.begin(),
-		        *event.range.end(),
-		        event.text ? event.text->str().c_str() : "(null)");
+		        token_name[type],
+		        *range.begin(),
+		        *range.end(),
+		        text ? text->str().c_str() : "(null)");
 		break;
 	}
 	fputc('\n', stdout);
 }
 
 static void
-print_events(const std::shared_ptr<tts::text_reader> &text)
+print_tokens(const std::shared_ptr<tts::text_reader> &text)
 {
 	while (text->read())
-	{
-		tts::text_event event(text->token.get("Token:text").buffer(),
-		                      (tts::event_type)text->token.get("Token:type").integer(),
-		                      text->token.get("Token:range").range(),
-		                      text->token.get("Token:codepoint").codepoint());
-		print_event(event);
-	}
+		print_token(text->token);
 }
 
 int main(int argc, char ** argv)
@@ -306,12 +303,12 @@ int main(int argc, char ** argv)
 			cainteoir::document doc(reader, metadata);
 			auto docreader = cainteoir::createDocumentReader(doc.children());
 			text->reset(docreader);
-			print_events(text);
+			print_tokens(text);
 		}
 		else
 		{
 			text->reset(reader);
-			print_events(text);
+			print_tokens(text);
 		}
 
 		return 0;

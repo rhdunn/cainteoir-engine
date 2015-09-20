@@ -56,39 +56,6 @@ namespace cainteoir { namespace tts
 		em_dash,
 	};
 
-	struct text_event
-	{
-		std::shared_ptr<buffer> text;
-		event_type type;
-		cainteoir::range<uint32_t> range;
-		uint32_t codepoint;
-
-		text_event(const std::shared_ptr<buffer> &aText,
-		           event_type aType,
-		           const cainteoir::range<uint32_t> &aRange,
-		           uint32_t aCodePoint)
-			: text(aText)
-			, type(aType)
-			, range(aRange)
-			, codepoint(aCodePoint)
-		{
-		}
-
-		text_event(event_type aType,
-		           const cainteoir::range<uint32_t> &aRange,
-		           uint32_t aCodePoint)
-			: type(aType)
-			, range(aRange)
-			, codepoint(aCodePoint)
-		{
-		}
-
-		text_event()
-			: range(0, 0)
-		{
-		}
-	};
-
 	struct text_callback
 	{
 		virtual ~text_callback() {}
