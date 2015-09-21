@@ -45,14 +45,12 @@ language:
 - "LF" # U+000A : Line Feed
 - "AP" # U+0027 : Apostrophe
 - "HM" # U+002D : Hyphen-Minus
-- "FS" # U+002E : Full Stop
 - "SH" # U+00AD : Soft Hyphen
 - "RQ" # U+2019 : Right Single Quotation Mark
 - "PS" # U+2029 : Paragraph Separator
   # Extended Classifications
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
-- "Xf" # Full Stops (Periods)
 - "Xm" # Em Dash
 - "Xn" # En Dash
 
@@ -103,10 +101,8 @@ groups:
         E1: [ "Lm", "Mc", "Me", "Mn" ]
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-        P4: [ "Xf" ]
         P8: [ "Xn" ]
         P9: [ "Xm" ]
-        P11: [ "FS" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
         S1: [ "PS" ]
         S2: [ "LF" ]
@@ -122,10 +118,8 @@ groups:
         E1: [ "Lm", "Mc", "Me", "Mn" ]
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-        P4: [ "Xf" ]
         P8: [ "Xn" ]
         P9: [ "Xm" ]
-        P11: [ "FS" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
         S1: [ "PS", "LF" ]
         H7: [ "HM" ]
@@ -150,10 +144,14 @@ groups:
         name: Punctuation
         terminal: true
         value: tts::punctuation
-      P4:
-        name: Full Stop
-        terminal: true
-        value: tts::full_stop
+      P2:
+        name: Punctuation with space
+        terminal: false
+        emit: false
+        value: tts::punctuation
+    transitions:
+      P1:
+        P2: [ "Zs" ]
 
   #############################################################################
 
@@ -180,23 +178,6 @@ groups:
         H8: [ "HM" ]
       H8:
         P9: [ "HM" ]
-
-  #############################################################################
-
-  - name: Ellipsis and Double Stop
-    states:
-      P11:
-        name: Full Stop
-        terminal: true
-        value: tts::full_stop
-      P12:
-        name: Full Stop with space
-        terminal: false
-        emit: false
-        value: tts::full_stop
-    transitions:
-      P11:
-        P12: [ "Zs" ]
 
   #############################################################################
 

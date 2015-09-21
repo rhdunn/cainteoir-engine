@@ -48,11 +48,6 @@ An ordinal number such as 1st, 2nd or 3rd.
 
 A generic punctuation character.
 
-# cainteoir::tts::full_stop
-{: .doc }
-
-A full stop (period) punctuation character.
-
 # cainteoir::tts::symbol
 {: .doc }
 

@@ -169,9 +169,6 @@ bool text_reader_t::read()
 		case 0x002D: // HYPHEN-MINUS
 			lang = fsm::language::HM;
 			break;
-		case 0x002E: // FULL STOP
-			lang = fsm::language::FS;
-			break;
 		case 0x00AD: // SOFT HYPHEN
 			lang = fsm::language::SH;
 			break;

@@ -1,12 +1,12 @@
 .number        [0..1] 1
-.full-stop     [1..2] .
+.punctuation   [1..2] .
 .Latn.lower    [2..5] one
 .end-para      [5..5] 
 .number        [5..6] 2
-.full-stop     [6..7] .
+.punctuation   [6..7] .
 .Latn.lower    [7..10] two
 .end-para      [10..10] 
 .number        [10..11] 3
-.full-stop     [11..12] .
+.punctuation   [11..12] .
 .Latn.lower    [12..17] three
 .end-para      [17..17] 

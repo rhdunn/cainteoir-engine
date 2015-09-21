@@ -42,7 +42,6 @@ namespace cainteoir { namespace tts
 		number,
 		ordinal_number,
 		punctuation,
-		full_stop,
 		symbol,
 		paragraph,
 		en_dash,

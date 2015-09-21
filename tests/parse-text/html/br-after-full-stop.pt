@@ -1,13 +1,13 @@
 .Latn.lower    [0..3] one
-.full-stop     [3..4] .
+.punctuation   [3..4] .
 .Latn.lower    [4..7] two
-.full-stop     [7..8] .
+.punctuation   [7..8] .
 .Latn.lower    [8..13] three
-.full-stop     [13..14] .
+.punctuation   [13..14] .
 .Latn.lower    [14..18] four
-.full-stop     [18..19] .
-.full-stop     [19..20] .
-.full-stop     [21..22] .
+.punctuation   [18..19] .
+.punctuation   [19..20] .
+.punctuation   [21..22] .
 .Latn.lower    [23..27] five
-.full-stop     [27..28] .
+.punctuation   [27..28] .
 .end-para      [28..28] 
