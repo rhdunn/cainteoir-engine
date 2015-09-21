@@ -194,21 +194,9 @@ groups:
         terminal: false
         emit: false
         value: tts::full_stop
-      P13:
-        name: Double Stop
-        terminal: true
-        value: tts::double_stop
-      P14:
-        name: Double Stop with space
-        terminal: false
-        emit: false
-        value: tts::double_stop
     transitions:
       P11:
         P12: [ "Zs" ]
-        P13: [ "FS" ]
-      P12:
-        P13: [ "FS" ]
 
   #############################################################################
 

@@ -5,7 +5,8 @@
 .Latn.lower    [8..13] three
 .full-stop     [13..14] .
 .Latn.lower    [14..18] four
-.double-stop   [18..20] ..
+.full-stop     [18..19] .
+.full-stop     [19..20] .
 .full-stop     [21..22] .
 .Latn.lower    [23..27] five
 .full-stop     [27..28] .

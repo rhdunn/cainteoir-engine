@@ -53,11 +53,6 @@ A generic punctuation character.
 
 A full stop (period) punctuation character.
 
-# cainteoir::tts::double_stop
-{: .doc }
-
-A sequence of two full stop punctuation characters.
-
 # cainteoir::tts::symbol
 {: .doc }
 
