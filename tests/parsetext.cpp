@@ -60,7 +60,6 @@ static const char *token_name[] = {
 	"ellipsis",
 	"full-stop",
 	"double-stop",
-	"question",
 	"symbol",
 	"end-para",
 	"en-dash",

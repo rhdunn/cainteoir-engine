@@ -48,7 +48,6 @@ namespace cainteoir { namespace tts
 		ellipsis,
 		full_stop,
 		double_stop,
-		question,
 		symbol,
 		paragraph,
 		en_dash,

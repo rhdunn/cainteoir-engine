@@ -56,11 +56,11 @@
 .Latn.capital  [197..200] why
 .Latn.lower    [201..203] is
 .Latn.lower    [204..208] that
-.question      [208..209] ?
+.punctuation   [208..209] ?
 .Latn.capital  [210..216] surely
 .Latn.lower    [217..220] not
 .punctuation   [220..221] !
-.question      [221..222] ?
+.punctuation   [221..222] ?
 .end-para      [223..224] 
 .Latn.capital  [224..234] horizontal
 .ellipsis      [234..235] …

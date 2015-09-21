@@ -58,7 +58,6 @@ language:
 - "Xl" # Colons
 - "Xm" # Em Dash
 - "Xn" # En Dash
-- "Xq" # Question Marks
 - "Xs" # Semicolons
 
 value_type: tts::event_type
@@ -112,7 +111,6 @@ groups:
         P4: [ "Xf" ]
         P5: [ "Xl" ]
         P6: [ "Xs" ]
-        P7: [ "Xq" ]
         P8: [ "Xn" ]
         P9: [ "Xm" ]
         P10: [ "Xe" ]
@@ -136,7 +134,6 @@ groups:
         P4: [ "Xf" ]
         P5: [ "Xl" ]
         P6: [ "Xs" ]
-        P7: [ "Xq" ]
         P8: [ "Xn" ]
         P9: [ "Xm" ]
         P10: [ "Xe" ]
@@ -181,10 +178,6 @@ groups:
         name: Semicolon
         terminal: true
         value: tts::semicolon
-      P7:
-        name: Question Mark
-        terminal: true
-        value: tts::question
 
   #############################################################################
 

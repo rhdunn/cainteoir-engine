@@ -78,11 +78,6 @@ A full stop (period) punctuation character.
 
 A sequence of two full stop punctuation characters.
 
-# cainteoir::tts::question
-{: .doc }
-
-A question mark punctuation character.
-
 # cainteoir::tts::symbol
 {: .doc }
 

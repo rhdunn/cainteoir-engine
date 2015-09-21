@@ -199,9 +199,6 @@ bool text_reader_t::read()
 		case 0x2013: // EN DASH
 			lang = fsm::language::Xn;
 			break;
-		case 0x003F: // QUESTION MARK
-			lang = fsm::language::Xq;
-			break;
 		case 0x003B: // SEMICOLON
 			lang = fsm::language::Xs;
 			break;
