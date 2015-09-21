@@ -182,10 +182,6 @@ bool text_reader_t::read()
 			lang = fsm::language::PS;
 			break;
 		// Extended Classifications
-		case 0x002C: // COMMA
-		case 0x3001: // IDEOGRAPHIC COMMA
-			lang = fsm::language::Xc;
-			break;
 		case 0x2026: // HORIZONTAL ELLIPSIS
 		case 0x22EE: // VERTICAL ELLIPSIS
 			lang = fsm::language::Xe;

@@ -52,7 +52,6 @@ language:
   # Extended Classifications
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
-- "Xc" # Commas
 - "Xe" # Ellipsis
 - "Xf" # Full Stops (Periods)
 - "Xl" # Colons
@@ -107,7 +106,6 @@ groups:
         E1: [ "Lm", "Mc", "Me", "Mn" ]
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-        P3: [ "Xc" ]
         P4: [ "Xf" ]
         P5: [ "Xl" ]
         P6: [ "Xs" ]
@@ -130,7 +128,6 @@ groups:
         E1: [ "Lm", "Mc", "Me", "Mn" ]
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-        P3: [ "Xc" ]
         P4: [ "Xf" ]
         P5: [ "Xl" ]
         P6: [ "Xs" ]
@@ -162,10 +159,6 @@ groups:
         name: Punctuation
         terminal: true
         value: tts::punctuation
-      P3:
-        name: Comma
-        terminal: true
-        value: tts::comma
       P4:
         name: Full Stop
         terminal: true

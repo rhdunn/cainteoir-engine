@@ -48,11 +48,6 @@ An ordinal number such as 1st, 2nd or 3rd.
 
 A generic punctuation character.
 
-# cainteoir::tts::comma
-{: .doc }
-
-A comma punctuation character.
-
 # cainteoir::tts::semicolon
 {: .doc }
 

@@ -54,7 +54,6 @@ static const char *token_name[] = {
 	"number",
 	"ordinal",
 	"punctuation",
-	"comma",
 	"semicolon",
 	"colon",
 	"ellipsis",
