@@ -52,7 +52,6 @@ language:
   # Extended Classifications
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
-- "Xe" # Ellipsis
 - "Xf" # Full Stops (Periods)
 - "Xm" # Em Dash
 - "Xn" # En Dash
@@ -107,7 +106,6 @@ groups:
         P4: [ "Xf" ]
         P8: [ "Xn" ]
         P9: [ "Xm" ]
-        P10: [ "Xe" ]
         P11: [ "FS" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
         S1: [ "PS" ]
@@ -127,7 +125,6 @@ groups:
         P4: [ "Xf" ]
         P8: [ "Xn" ]
         P9: [ "Xm" ]
-        P10: [ "Xe" ]
         P11: [ "FS" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
         S1: [ "PS", "LF" ]
@@ -188,10 +185,6 @@ groups:
 
   - name: Ellipsis and Double Stop
     states:
-      P10:
-        name: Ellipsis
-        terminal: true
-        value: tts::ellipsis
       P11:
         name: Full Stop
         terminal: true
@@ -216,11 +209,6 @@ groups:
         P13: [ "FS" ]
       P12:
         P13: [ "FS" ]
-      P13:
-        P14: [ "Zs" ]
-        P10: [ "FS" ]
-      P14:
-        P10: [ "FS" ]
 
   #############################################################################
 

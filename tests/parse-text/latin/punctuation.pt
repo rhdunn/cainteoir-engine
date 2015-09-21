@@ -6,13 +6,15 @@
 .full-stop     [18..19] .
 .end-para      [20..21] 
 .Latn.capital  [21..28] ordered
-.ellipsis      [29..32] ...
+.double-stop   [29..31] ..
+.full-stop     [31..32] .
 .Latn.lower    [33..36] the
 .Latn.lower    [37..42] first
 .punctuation   [42..43] ;
 .Latn.lower    [44..47] the
 .Latn.lower    [48..54] second
-.ellipsis      [55..60] ...
+.double-stop   [55..58] ..
+.full-stop     [59..60] .
 .Latn.lower    [61..64] and
 .Latn.lower    [65..68] the
 .Latn.lower    [69..74] third
@@ -63,9 +65,9 @@
 .punctuation   [221..222] ?
 .end-para      [223..224] 
 .Latn.capital  [224..234] horizontal
-.ellipsis      [234..235] …
+.punctuation   [234..235] …
 .Latn.lower    [235..238] and
-.ellipsis      [238..239] ⋮
+.symbol        [238..239] ⋮
 .Latn.lower    [239..247] vertical
 .Latn.lower    [248..256] ellipsis
 .full-stop     [256..257] .
