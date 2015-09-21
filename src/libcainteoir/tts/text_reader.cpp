@@ -186,9 +186,6 @@ bool text_reader_t::read()
 		case 0x22EE: // VERTICAL ELLIPSIS
 			lang = fsm::language::Xe;
 			break;
-		case 0x003A: // COLON
-			lang = fsm::language::Xl;
-			break;
 		case 0x2014: // EM DASH
 			lang = fsm::language::Xm;
 			break;

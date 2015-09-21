@@ -54,7 +54,6 @@ language:
   #     finer grain than the general categories.
 - "Xe" # Ellipsis
 - "Xf" # Full Stops (Periods)
-- "Xl" # Colons
 - "Xm" # Em Dash
 - "Xn" # En Dash
 
@@ -106,7 +105,6 @@ groups:
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
         P4: [ "Xf" ]
-        P5: [ "Xl" ]
         P8: [ "Xn" ]
         P9: [ "Xm" ]
         P10: [ "Xe" ]
@@ -127,7 +125,6 @@ groups:
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
         P4: [ "Xf" ]
-        P5: [ "Xl" ]
         P8: [ "Xn" ]
         P9: [ "Xm" ]
         P10: [ "Xe" ]
@@ -160,10 +157,6 @@ groups:
         name: Full Stop
         terminal: true
         value: tts::full_stop
-      P5:
-        name: Colon
-        terminal: true
-        value: tts::colon
 
   #############################################################################
 
