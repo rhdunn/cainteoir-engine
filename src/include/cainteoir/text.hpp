@@ -45,7 +45,6 @@ namespace cainteoir { namespace tts
 		symbol,
 		paragraph,
 		en_dash,
-		em_dash,
 	};
 
 	struct text_callback

@@ -57,7 +57,6 @@ static const char *token_name[] = {
 	"symbol",
 	"end-para",
 	"en-dash",
-	"em-dash",
 };
 
 static void

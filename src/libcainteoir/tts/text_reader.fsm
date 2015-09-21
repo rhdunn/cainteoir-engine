@@ -51,7 +51,6 @@ language:
   # Extended Classifications
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
-- "Xm" # Em Dash
 - "Xn" # En Dash
 
 value_type: tts::event_type
@@ -102,7 +101,6 @@ groups:
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
         P8: [ "Xn" ]
-        P9: [ "Xm" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
         S1: [ "PS" ]
         S2: [ "LF" ]
@@ -119,7 +117,6 @@ groups:
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
         P8: [ "Xn" ]
-        P9: [ "Xm" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
         S1: [ "PS", "LF" ]
         H7: [ "HM" ]
@@ -161,10 +158,6 @@ groups:
         name: En Dash
         terminal: true
         value: tts::en_dash
-      P9:
-        name: Em Dash
-        terminal: true
-        value: tts::em_dash
       H7:
         name: "Hyphen"
         terminal: true
@@ -176,8 +169,6 @@ groups:
     transitions:
       H7:
         H8: [ "HM" ]
-      H8:
-        P9: [ "HM" ]
 
   #############################################################################
 

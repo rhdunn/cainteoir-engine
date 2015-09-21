@@ -41,9 +41,10 @@
 .Latn.lower    [130..138] sentence
 .punctuation   [138..139] .
 .Latn.capital  [140..142] so
-.em-dash       [142..143] —
+.punctuation   [142..143] —
 .Latn.lower    [143..146] too
-.em-dash       [146..149] ---
+.en-dash       [146..148] --
+.punctuation   [148..149] -
 .Latn.lower    [149..151] is
 .Latn.lower    [152..156] this
 .punctuation   [156..157] .

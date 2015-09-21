@@ -63,11 +63,6 @@ A separator between two paragraphs.
 
 An en-dash punctuation character.
 
-# cainteoir::tts::em_dash
-{: .doc }
-
-An em-dash punctuation character.
-
 # cainteoir::tts::text_reader
 {: .doc }
 

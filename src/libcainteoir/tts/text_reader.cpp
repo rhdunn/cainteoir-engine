@@ -179,9 +179,6 @@ bool text_reader_t::read()
 			lang = fsm::language::PS;
 			break;
 		// Extended Classifications
-		case 0x2014: // EM DASH
-			lang = fsm::language::Xm;
-			break;
 		case 0x2013: // EN DASH
 			lang = fsm::language::Xn;
 			break;
