@@ -9,7 +9,7 @@
 .ellipsis      [29..32] ...
 .Latn.lower    [33..36] the
 .Latn.lower    [37..42] first
-.semicolon     [42..43] ;
+.punctuation   [42..43] ;
 .Latn.lower    [44..47] the
 .Latn.lower    [48..54] second
 .ellipsis      [55..60] ...

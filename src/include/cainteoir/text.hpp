@@ -42,7 +42,6 @@ namespace cainteoir { namespace tts
 		number,
 		ordinal_number,
 		punctuation,
-		semicolon,
 		colon,
 		ellipsis,
 		full_stop,
