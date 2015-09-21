@@ -60,7 +60,6 @@ language:
 - "Xn" # En Dash
 - "Xq" # Question Marks
 - "Xs" # Semicolons
-- "Xx" # Exclamation Marks
 
 value_type: tts::event_type
 
@@ -109,7 +108,6 @@ groups:
         E1: [ "Lm", "Mc", "Me", "Mn" ]
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-        P2: [ "Xx" ]
         P3: [ "Xc" ]
         P4: [ "Xf" ]
         P5: [ "Xl" ]
@@ -134,7 +132,6 @@ groups:
         E1: [ "Lm", "Mc", "Me", "Mn" ]
         N1: [ "Nd", "Nl", "No" ]
         P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-        P2: [ "Xx" ]
         P3: [ "Xc" ]
         P4: [ "Xf" ]
         P5: [ "Xl" ]
@@ -168,10 +165,6 @@ groups:
         name: Punctuation
         terminal: true
         value: tts::punctuation
-      P2:
-        name: Exclamation Mark
-        terminal: true
-        value: tts::exclamation
       P3:
         name: Comma
         terminal: true
