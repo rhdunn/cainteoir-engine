@@ -48,6 +48,7 @@ language:
 - "FS" # U+002E : Full Stop
 - "SH" # U+00AD : Soft Hyphen
 - "RQ" # U+2019 : Right Single Quotation Mark
+- "PS" # U+2029 : Paragraph Separator
   # Extended Classifications
   #     These are classsifications for particular groups of characters at a
   #     finer grain than the general categories.
@@ -57,7 +58,6 @@ language:
 - "Xl" # Colons
 - "Xm" # Em Dash
 - "Xn" # En Dash
-- "Xp" # Paragraph Separators
 - "Xq" # Question Marks
 - "Xs" # Semicolons
 - "Xx" # Exclamation Marks
@@ -120,11 +120,11 @@ groups:
         P10: [ "Xe" ]
         P11: [ "FS" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
-        S1: [ "Xp" ]
+        S1: [ "PS" ]
         S2: [ "LF" ]
         H7: [ "HM" ]
       S1:
-        S1: [ "Xp", "LF" ]
+        S1: [ "PS", "LF" ]
       S2:
         S0: [ "Cc", "Cf", "Cn", "Co", "Cs", "Ii", "Zl", "Zp", "Zs", "SH" ]
         L1: [ "Lu" ]
@@ -145,7 +145,7 @@ groups:
         P10: [ "Xe" ]
         P11: [ "FS" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
-        S1: [ "Xp", "LF" ]
+        S1: [ "PS", "LF" ]
         H7: [ "HM" ]
 
   #############################################################################

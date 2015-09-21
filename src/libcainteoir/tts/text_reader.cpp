@@ -178,6 +178,9 @@ bool text_reader_t::read()
 		case 0x2019: // RIGHT SINGLE QUOTATION MARK
 			lang = fsm::language::RQ;
 			break;
+		case 0x2029: // PARAGRAPH SEPARATOR
+			lang = fsm::language::PS;
+			break;
 		// Extended Classifications
 		case 0x002C: // COMMA
 		case 0x3001: // IDEOGRAPHIC COMMA
@@ -195,9 +198,6 @@ bool text_reader_t::read()
 			break;
 		case 0x2013: // EN DASH
 			lang = fsm::language::Xn;
-			break;
-		case 0x2029: // PARAGRAPH SEPARATOR
-			lang = fsm::language::Xp;
 			break;
 		case 0x003F: // QUESTION MARK
 			lang = fsm::language::Xq;
