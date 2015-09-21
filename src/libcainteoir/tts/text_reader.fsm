@@ -48,10 +48,6 @@ language:
 - "SH" # U+00AD : Soft Hyphen
 - "RQ" # U+2019 : Right Single Quotation Mark
 - "PS" # U+2029 : Paragraph Separator
-  # Extended Classifications
-  #     These are classsifications for particular groups of characters at a
-  #     finer grain than the general categories.
-- "Xn" # En Dash
 
 value_type: tts::event_type
 
@@ -99,12 +95,10 @@ groups:
         L7: [ "Lo" ]
         E1: [ "Lm", "Mc", "Me", "Mn" ]
         N1: [ "Nd", "Nl", "No" ]
-        P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-        P8: [ "Xn" ]
+        P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP", "HM" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
         S1: [ "PS" ]
         S2: [ "LF" ]
-        H7: [ "HM" ]
       S1:
         S1: [ "PS", "LF" ]
       S2:
@@ -115,11 +109,9 @@ groups:
         L7: [ "Lo" ]
         E1: [ "Lm", "Mc", "Me", "Mn" ]
         N1: [ "Nd", "Nl", "No" ]
-        P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP" ]
-        P8: [ "Xn" ]
+        P1: [ "Pc", "Pd", "Pe", "Pf", "Pi", "Po", "Ps", "RQ", "AP", "HM" ]
         Y1: [ "Sc", "Sk", "Sm", "So" ]
         S1: [ "PS", "LF" ]
-        H7: [ "HM" ]
 
   #############################################################################
 
@@ -149,26 +141,6 @@ groups:
     transitions:
       P1:
         P2: [ "Zs" ]
-
-  #############################################################################
-
-  - name: Hyphen Dashes
-    states:
-      P8:
-        name: En Dash
-        terminal: true
-        value: tts::en_dash
-      H7:
-        name: "Hyphen"
-        terminal: true
-        value: tts::punctuation
-      H8:
-        name: "En Dash (Hyphen)"
-        terminal: true
-        value: tts::en_dash
-    transitions:
-      H7:
-        H8: [ "HM" ]
 
   #############################################################################
 
