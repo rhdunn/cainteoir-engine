@@ -92,7 +92,8 @@ cmudict_parser::cmudict_parser(const char *aDictionaryPath)
 	}
 }
 
-bool cmudict_parser::read()
+bool
+cmudict_parser::read()
 {
 	while (mCurrent != mEnd) switch (mState)
 	{
@@ -244,12 +245,41 @@ bool cmudict_parser::read()
 	return false;
 }
 
+static std::pair<cainteoir::buffer, cainteoir::buffer>
+read_key_value_pair(const char * &first, const char *last)
+{
+	if (first == last)
+		return { {nullptr, nullptr}, {nullptr, nullptr} };
+
+	while (first != last && (*first == ' ' || *first == '\t'))
+		++first;
+
+	const char *key_first = first;
+	while (first != last && *first != '=')
+		++first;
+
+	if (first == last)
+		return { {nullptr, nullptr}, {nullptr, nullptr} };
+
+	cainteoir::buffer key{ key_first, first };
+
+	++first;
+
+	const char *value_first = first;
+	while (first != last && !(*first == ' ' || *first == '\t'))
+		++first;
+
+	return { key, { value_first, first } };
+}
+
 struct cmudict_dictionary_reader : public tts::dictionary_reader
 {
 	cmudict_dictionary_reader(const char *aDictionaryPath, const char *aPhonemeSet);
 
 	bool read();
 private:
+	void parse_line_metadata(cainteoir::buffer comment);
+
 	cmudict_parser mReader;
 	std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
 };
@@ -260,7 +290,8 @@ cmudict_dictionary_reader::cmudict_dictionary_reader(const char *aDictionaryPath
 {
 }
 
-bool cmudict_dictionary_reader::read()
+bool
+cmudict_dictionary_reader::read()
 {
 	enum class state_t
 	{
@@ -286,7 +317,10 @@ bool cmudict_dictionary_reader::read()
 			entry_word = mReader.match();
 			state = state_t::entry;
 			break;
-		default: // Ignore line comments and errors ...
+		case cmudict_parser::line_comment:
+			parse_line_metadata(mReader.match());
+			break;
+		default: // Ignore errors ...
 			break;
 		}
 		break;
@@ -362,6 +396,43 @@ bool cmudict_dictionary_reader::read()
 		break;
 	}
 	return false;
+}
+
+void
+cmudict_dictionary_reader::parse_line_metadata(cainteoir::buffer comment)
+{
+	std::string phonemeset;
+	std::string accent;
+
+	const char *first = comment.begin();
+	const char *last  = comment.end();
+
+	if (comment.size() < 5 || !(first[0] == '@' && first[1] == '@' && last[-1] == '@' && last[-2] == '@'))
+		return;
+
+	first += 2;
+	last  -= 2;
+
+	while (true)
+	{
+		auto data = read_key_value_pair(first, last);
+		if (data.first.begin() == nullptr)
+		{
+			if (!phonemeset.empty() && !accent.empty())
+			{
+				std::string name = phonemeset + "/" + accent;
+				auto reader = tts::createPhonemeReader(name.c_str());
+				if (reader)
+					mPhonemeSet = reader;
+			}
+			return;
+		}
+
+		if (data.first.compare("phoneset") == 0)
+			phonemeset = data.second.str();
+		else if (data.first.compare("accent") == 0)
+			accent = data.second.str();
+	}
 }
 
 std::shared_ptr<tts::dictionary_reader> tts::createCMUDictionaryReader(const char *aDictionaryPath, const char *aPreferredPhonemeSet)
