@@ -13,6 +13,7 @@ AH	/{lmd,bck,unr,vwl}/ # /ʌ/
 AO	/{lmd,bck,rnd,vwl,lng}/ # /ɔː/
 AW	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/
 AX	/{mid,cnt,unr,vwl}/ # /ə/
+AXR	/{mid,cnt,unr,vwl,rzd}/ # /ɚ/
 AY	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/
 B	/{vcd,blb,stp}/ # /b/
 CH	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
