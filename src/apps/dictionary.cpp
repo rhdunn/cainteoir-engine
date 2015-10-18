@@ -146,7 +146,7 @@ static bool is_variant(const cainteoir::buffer &s)
 	return false;
 }
 
-static bool pronounce(tts::dictionary &dict,
+static bool pronounce(std::shared_ptr<tts::phoneme_reader> &dict,
                       const std::shared_ptr<cainteoir::buffer> &word,
                       std::shared_ptr<tts::phoneme_reader> &rules,
                       std::shared_ptr<tts::dictionary_formatter> &formatter,
@@ -160,20 +160,15 @@ static bool pronounce(tts::dictionary &dict,
 	ipa::phonemes phonemes;
 	if (mode != mode_type::pronounce_entries)
 	{
-		if (!dict.pronounce(word, {}, phonemes))
+		try
 		{
-			auto &entry = dict.lookup(word);
-			switch (entry.type)
-			{
-			case tts::dictionary::say_as:
-				fprintf(stderr, "error: cannot resolve '%s' from '%s'.\n",
-				        entry.text->str().c_str(),
-				        word->str().c_str());
-				break;
-			case tts::dictionary::no_match:
-				fprintf(stderr, "error: no entry for '%s'.\n", word->str().c_str());
-				break;
-			}
+			dict->reset(word);
+			while (dict->read())
+				phonemes.push_back(*dict);
+		}
+		catch (const tts::phoneme_error &e)
+		{
+			fprintf(stdout, "missing entry : %s\n", e.what());
 			return false;
 		}
 	}
@@ -227,7 +222,8 @@ static bool pronounce(tts::dictionary &dict,
 	return match;
 }
 
-static void pronounce(tts::dictionary &dict,
+static bool pronounce(tts::dictionary &words,
+                      std::shared_ptr<tts::phoneme_reader> &dict,
                       std::shared_ptr<tts::phoneme_reader> rules,
                       std::shared_ptr<tts::dictionary_formatter> &formatter,
                       std::shared_ptr<tts::phoneme_writer> writer,
@@ -248,7 +244,7 @@ static void pronounce(tts::dictionary &dict,
 	int matched = 0;
 	int entries = 0;
 
-	for (auto &entry : dict)
+	for (auto &entry : words)
 	{
 		if (is_variant(*entry.first)) continue;
 
@@ -419,16 +415,18 @@ int main(int argc, char ** argv)
 		const char *source_dictionary = nullptr;
 		const char *phoneme_map = nullptr;
 		const char *accent = nullptr;
+		const char *dictionary_phoneme_map = nullptr;
+		const char *dictionary_accent = nullptr;
 
 		const option_group general_options = { nullptr, {
 			{ 't', "time", bind_value(time, true),
 			  i18n("Time how long it takes to complete the action") },
 			{ 'd', "dictionary", dictionary, "DICTIONARY",
 			  i18n("Use the words in DICTIONARY") },
-			{ 'M', "phoneme-map", phoneme_map, "PHONEME_MAP",
-			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
-			{ 'a', "accent", accent, "ACCENT",
-			  i18n("Use ACCENT to convert phonemes to the specified accent") },
+			{ 0, "dictionary-phoneme-map", dictionary_phoneme_map, "PHONEME_MAP",
+			  i18n("Use PHONEME_MAP to convert dictionary phonemes (e.g. accent conversion)") },
+			{ 0, "dictionary-accent", dictionary_accent, "ACCENT",
+			  i18n("Use ACCENT to convert dictionary phonemes to the specified accent") },
 		}};
 
 		const option_group output_options = { i18n("Output:"), {
@@ -475,6 +473,10 @@ int main(int argc, char ** argv)
 			  i18n("Use the TTS voice named VOICE") },
 			{ 'l', "language", language, "LANG",
 			  i18n("Use LANG with the ruleset, or to locate the TTS voice") },
+			{ 'M', "phoneme-map", phoneme_map, "PHONEME_MAP",
+			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
+			{ 'a', "accent", accent, "ACCENT",
+			  i18n("Use ACCENT to convert phonemes to the specified accent") },
 		}};
 
 		const std::initializer_list<const option_group *> options = {
@@ -554,7 +556,8 @@ int main(int argc, char ** argv)
 			if (source_dictionary != nullptr)
 			{
 				auto rules = create_dict_reader(src_dict, phoneme_map, accent);
-				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
+				auto dictionary = create_dict_reader(dict, dictionary_phoneme_map, dictionary_accent);
+				pronounce(dict, dictionary, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
 			}
 			else if (ruleset != nullptr)
 			{
@@ -569,7 +572,8 @@ int main(int argc, char ** argv)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 				if (accent)
 					rules = tts::createAccentConverter(accent, rules);
-				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
+				auto dictionary = create_dict_reader(dict, dictionary_phoneme_map, dictionary_accent);
+				pronounce(dict, dictionary, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
 			}
 			else
 			{
@@ -592,7 +596,8 @@ int main(int argc, char ** argv)
 					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
 				if (accent)
 					rules = tts::createAccentConverter(accent, rules);
-				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
+				auto dictionary = create_dict_reader(dict, dictionary_phoneme_map, dictionary_accent);
+				pronounce(dict, dictionary, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
 			}
 			break;
 		case mode_type::from_document:
