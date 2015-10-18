@@ -387,6 +387,19 @@ static uint32_t from_dictionary(tts::dictionary &base_dict,
 	return words;
 }
 
+static std::shared_ptr<tts::phoneme_reader>
+create_dict_reader(tts::dictionary &dict,
+                   const char *phoneme_map,
+                   const char *accent)
+{
+	std::shared_ptr<tts::phoneme_reader> reader = std::make_shared<dictionary_phoneme_reader>(dict);
+	if (phoneme_map)
+		reader = tts::createPhonemeToPhonemeConverter(phoneme_map, reader);
+	if (accent)
+		reader = tts::createAccentConverter(accent, reader);
+	return reader;
+}
+
 int main(int argc, char ** argv)
 {
 	try
@@ -529,11 +542,7 @@ int main(int argc, char ** argv)
 			writer->reset(stdout);
 			if (phoneme_map || accent)
 			{
-				std::shared_ptr<tts::phoneme_reader> rules = std::make_shared<dictionary_phoneme_reader>(dict);
-				if (phoneme_map)
-					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
-				if (accent)
-					rules = tts::createAccentConverter(accent, rules);
+				auto rules = create_dict_reader(dict, phoneme_map, accent);
 				tts::formatDictionary(dict, formatter, rules, writer);
 			}
 			else
@@ -544,11 +553,7 @@ int main(int argc, char ** argv)
 		case mode_type::mismatched_entries:
 			if (source_dictionary != nullptr)
 			{
-				std::shared_ptr<tts::phoneme_reader> rules = std::make_shared<dictionary_phoneme_reader>(src_dict);
-				if (phoneme_map)
-					rules = tts::createPhonemeToPhonemeConverter(phoneme_map, rules);
-				if (accent)
-					rules = tts::createAccentConverter(accent, rules);
+				auto rules = create_dict_reader(src_dict, phoneme_map, accent);
 				pronounce(dict, rules, formatter, writer, phonemeset, stress, ignore_syllable_breaks, ignore_stress, mode);
 			}
 			else if (ruleset != nullptr)
