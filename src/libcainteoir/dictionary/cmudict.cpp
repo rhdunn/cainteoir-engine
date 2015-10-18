@@ -274,7 +274,7 @@ read_key_value_pair(const char * &first, const char *last)
 
 struct cmudict_dictionary_reader : public tts::dictionary_reader
 {
-	cmudict_dictionary_reader(const char *aDictionaryPath, const char *aPhonemeSet);
+	cmudict_dictionary_reader(const char *aDictionaryPath);
 
 	bool read();
 private:
@@ -284,9 +284,9 @@ private:
 	std::shared_ptr<tts::phoneme_reader> mPhonemeSet;
 };
 
-cmudict_dictionary_reader::cmudict_dictionary_reader(const char *aDictionaryPath, const char *aPhonemeSet)
+cmudict_dictionary_reader::cmudict_dictionary_reader(const char *aDictionaryPath)
 	: mReader(aDictionaryPath)
-	, mPhonemeSet(tts::createPhonemeReader(aPhonemeSet))
+	, mPhonemeSet(tts::createPhonemeReader("cmu"))
 {
 }
 
@@ -435,9 +435,9 @@ cmudict_dictionary_reader::parse_line_metadata(cainteoir::buffer comment)
 	}
 }
 
-std::shared_ptr<tts::dictionary_reader> tts::createCMUDictionaryReader(const char *aDictionaryPath, const char *aPreferredPhonemeSet)
+std::shared_ptr<tts::dictionary_reader> tts::createCMUDictionaryReader(const char *aDictionaryPath)
 {
-	return std::make_shared<cmudict_dictionary_reader>(aDictionaryPath, aPreferredPhonemeSet ? aPreferredPhonemeSet : "cmu");
+	return std::make_shared<cmudict_dictionary_reader>(aDictionaryPath);
 }
 
 struct cmudict_formatter : public tts::dictionary_formatter

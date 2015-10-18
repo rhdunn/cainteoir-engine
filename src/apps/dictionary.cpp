@@ -53,10 +53,9 @@ enum class word_mode_type
 
 static bool
 add_dictionary_entries(const char *aDictionaryPath,
-                       tts::dictionary &aDictionary,
-                       const char *aPreferredPhonemeSet)
+                       tts::dictionary &aDictionary)
 {
-	auto reader = tts::createDictionaryReader(aDictionaryPath, aPreferredPhonemeSet);
+	auto reader = tts::createDictionaryReader(aDictionaryPath);
 	if (!reader)
 	{
 		fprintf(stderr, "unsupported dictionary format for: %s\n", aDictionaryPath);
@@ -404,7 +403,6 @@ int main(int argc, char ** argv)
 		const char *dictionary = nullptr;
 		const char *dictionary_format = nullptr;
 		const char *phonemeset = "ipa";
-		const char *preferred_phonemeset = nullptr;
 		const char *source_dictionary = nullptr;
 		const char *phoneme_map = nullptr;
 		const char *accent = nullptr;
@@ -418,8 +416,6 @@ int main(int argc, char ** argv)
 			  i18n("Use PHONEME_MAP to convert phonemes (e.g. accent conversion)") },
 			{ 'a', "accent", accent, "ACCENT",
 			  i18n("Use ACCENT to convert phonemes to the specified accent") },
-			{ 'I', "input-phonemeset", preferred_phonemeset, "PHONEMESET",
-			  i18n("Prefer PHONEMESET to parse phoneme entries (default: auto)") },
 		}};
 
 		const option_group output_options = { i18n("Output:"), {
@@ -493,7 +489,7 @@ int main(int argc, char ** argv)
 		uint32_t words = 0;
 		if (dictionary != nullptr)
 		{
-			if (!add_dictionary_entries(dictionary, base_dict, preferred_phonemeset))
+			if (!add_dictionary_entries(dictionary, base_dict))
 				return 0;
 			if (word_mode == word_mode_type::merge)
 			{
@@ -512,7 +508,7 @@ int main(int argc, char ** argv)
 
 		if (source_dictionary != nullptr)
 		{
-			if (!add_dictionary_entries(source_dictionary, src_dict, preferred_phonemeset))
+			if (!add_dictionary_entries(source_dictionary, src_dict))
 				return 0;
 		}
 
