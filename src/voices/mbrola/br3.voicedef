@@ -1,0 +1,223 @@
+# MBROLA br3 Voice Definition File
+#
+# Copyright (C) 2015 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.rdfns		"http://reecedunn.co.uk/tts/synthesizer/mbrola#"
+.id		br3 # This is also the MBROLA voice data filename.
+.name		br3
+.synthesizer	MBROLA
+.voice-author	Denis R. Costa (University of São Paulo)
+.locale		pt-BR # Portuguese (Brazil)
+.gender		male
+.volume-scale	0.91 # Samples default to max. height of 0.55.
+.frequency	16000
+.channels	1
+.sample-format	s16le
+.phonemeset	ipa
+
+pitch 86Hz 12Hz 3Hz # min=80Hz max=140Hz
+
+# Plosives ####################################################################
+
+phoneme /p/
+	duration 50ms
+	unit "p"
+end
+
+phoneme /b/
+	duration 80ms
+	unit "b"
+end
+
+phoneme /t/
+	duration 50ms
+	unit "t"
+end
+
+phoneme /d/
+	duration 80ms
+	unit "d"
+end
+
+phoneme /k/
+	duration 50ms
+	unit "k"
+end
+
+phoneme /ɡ/
+	duration 80ms
+	unit "g"
+end
+
+# Fricatives ##################################################################
+
+phoneme /f/
+	duration 95ms
+	unit "f"
+end
+
+phoneme /v/
+	duration 50ms
+	unit "v"
+end
+
+phoneme /s/
+	duration 100ms
+	unit "s"
+end
+
+phoneme /s̺/
+	duration 100ms
+	unit "s2"
+end
+
+phoneme /z/
+	duration 70ms
+	unit "z"
+end
+
+phoneme /ʃ/
+	duration 100ms
+	unit "x"
+end
+
+phoneme /ʒ/
+	duration 70ms
+	unit "j"
+end
+
+# Nasals ######################################################################
+
+phoneme /m/
+	duration 70ms
+	unit "m"
+end
+
+phoneme /n/
+	duration 70ms
+	unit "n"
+end
+
+phoneme /ɲ/
+	duration 90ms
+	unit "nh"
+end
+
+# Sonorants ###################################################################
+
+phoneme /l/
+	duration 55ms
+	unit "l"
+end
+
+phoneme /ʎ/
+	duration 70ms
+	unit "lh"
+end
+
+phoneme /ɹ/
+	duration 55ms
+	unit "r"
+end
+
+phoneme /ɾ/
+	duration 55ms
+	unit "r2"
+end
+
+phoneme /ʁ/
+	duration 55ms
+	unit "rr"
+end
+
+phoneme /w/
+	duration 55ms
+	unit "w"
+end
+
+phoneme /j/
+	duration 50ms
+	unit "y"
+end
+
+# Vowels ######################################################################
+
+phoneme /i/
+	duration  60ms
+	duration 120ms if /iː/
+	unit "i"
+end
+
+phoneme /ĩ/
+	duration  60ms
+	duration 120ms if /ĩː/
+	unit "im"
+end
+
+phoneme /u/
+	duration  60ms
+	duration 120ms if /uː/
+	unit "u"
+end
+
+phoneme /ũ/
+	duration  60ms
+	duration 120ms if /ũː/
+	unit "um"
+end
+
+phoneme /e/
+	duration  60ms
+	duration 120ms if /eː/
+	unit "e"
+end
+
+phoneme /ẽ/
+	duration  60ms
+	duration 120ms if /ẽː/
+	unit "em"
+end
+
+phoneme /o/
+	duration  60ms
+	duration 120ms if /oː/
+	unit "o"
+end
+
+phoneme /õ/
+	duration  60ms
+	duration 120ms if /õː/
+	unit "om"
+end
+
+phoneme /ɛ/
+	duration  60ms
+	duration 120ms if /ɛː/
+	unit "ee"
+end
+
+phoneme /ɔ/
+	duration  60ms
+	duration 120ms if /ɔː/
+	unit "oo"
+end
+
+phoneme /ɐ/
+	duration  60ms
+	duration 100ms if /ɐː/
+	unit "6"
+end
+
+phoneme /a/
+	duration  60ms
+	duration 120ms if /aː/
+	unit "a"
+end
+
+phoneme /ã/
+	duration  60ms
+	duration 120ms if /ãː/
+	unit "am"
+end
