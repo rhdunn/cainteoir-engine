@@ -1,0 +1,396 @@
+# MBROLA bz1 Voice Definition File
+#
+# Copyright (C) 2015 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.rdfns		"http://reecedunn.co.uk/tts/synthesizer/mbrola#"
+.id		bz1 # This is also the MBROLA voice data filename.
+.name		bz1
+.synthesizer	MBROLA
+.voice-author	Kenaoz ar Gomz e Brezhoneg (Lannuon Computing Labs)
+.voice-artist	Annie Ebrel
+.locale		br # Breton
+.gender		female
+.volume-scale	0.714 # Samples default to max. height of 0.7.
+.frequency	16000
+.channels	1
+.sample-format	s16le
+.phonemeset	ipa
+
+pitch 132.5Hz 15Hz 3.75Hz # min=125Hz max=200Hz
+
+# TODO: /k'/, /g'/, /Nk/
+
+# Plosives ####################################################################
+
+phoneme /p/
+	duration 50ms
+	unit "p"
+end
+
+phoneme /b/
+	duration 80ms
+	unit "b"
+end
+
+phoneme /t/
+	duration 50ms
+	unit "t"
+end
+
+phoneme /d/
+	duration 80ms
+	unit "d"
+end
+
+phoneme /k/
+	duration 50ms
+	unit "k"
+end
+
+phoneme /ɡ/
+	duration 80ms
+	unit "g"
+end
+
+# Fricatives ##################################################################
+
+phoneme /f/
+	duration 95ms
+	unit "f"
+end
+
+phoneme /v/
+	duration 50ms
+	unit "v"
+end
+
+phoneme /s/
+	duration 100ms
+	unit "s"
+end
+
+phoneme /z/
+	duration 70ms
+	unit "z"
+end
+
+phoneme /ʃ/
+	duration 100ms
+	unit "S"
+end
+
+phoneme /ʒ/
+	duration 70ms
+	unit "Z"
+end
+
+phoneme /x/
+	duration 60ms
+	unit "x"
+end
+
+phoneme /h/
+	duration 60ms
+	unit "h"
+end
+
+# Nasals ######################################################################
+
+phoneme /m/
+	duration 70ms
+	unit "m"
+end
+
+phoneme /n/
+	duration 70ms
+	unit "n"
+end
+
+phoneme /ɲ/
+	duration 90ms
+	unit "J"
+end
+
+# Sonorants ###################################################################
+
+phoneme /l/
+	duration 55ms
+	unit "l"
+end
+
+phoneme /ʎ/
+	duration 70ms
+	unit "L"
+end
+
+phoneme /ɥ/
+	duration 55ms
+	unit "H"
+end
+
+phoneme /r/
+	duration 55ms
+	unit "r"
+end
+
+phoneme /w/
+	duration 55ms
+	unit "w"
+end
+
+phoneme /j/
+	duration 50ms
+	unit "j"
+end
+
+# Vowels ######################################################################
+
+phoneme /i/
+	duration 60ms
+	unit "i"
+end
+
+phoneme /iː/
+	duration 120ms
+	unit "i:"
+end
+
+phoneme /ĩ/
+	duration 60ms
+	unit "i~"
+end
+
+phoneme /ĩː/
+	duration 120ms
+	unit "i~:"
+end
+
+phoneme /y/
+	duration 60ms
+	unit "y"
+end
+
+phoneme /yː/
+	duration 120ms
+	unit "y:"
+end
+
+phoneme /ỹ/
+	duration 60ms
+	unit "y~"
+end
+
+phoneme /ỹː/
+	duration 120ms
+	unit "y~:"
+end
+
+phoneme /u/
+	duration 60ms
+	unit "u"
+end
+
+phoneme /uː/
+	duration 120ms
+	unit "u:"
+end
+
+phoneme /e/
+	duration 60ms
+	unit "e"
+end
+
+phoneme /eː/
+	duration 120ms
+	unit "e:"
+end
+
+phoneme /ẽ/
+	duration 60ms
+	unit "e~"
+end
+
+phoneme /ẽː/
+	duration 120ms
+	unit "e~:"
+end
+
+phoneme /ø/
+	duration 60ms
+	unit "2"
+end
+
+phoneme /øː/
+	duration 120ms
+	unit "2:"
+end
+
+phoneme /ø̃/
+	duration 60ms
+	unit "2~"
+end
+
+phoneme /ø̃ː/
+	duration 120ms
+	unit "2~:"
+end
+
+phoneme /o/
+	duration 60ms
+	unit "o"
+end
+
+phoneme /oː/
+	duration 120ms
+	unit "o:"
+end
+
+phoneme /õ/
+	duration 60ms
+	unit "o~"
+end
+
+phoneme /õː/
+	duration 120ms
+	unit "o~"
+end
+
+phoneme /ɛ/
+	duration 60ms
+	unit "E"
+end
+
+phoneme /ɛː/
+	duration 120ms
+	unit "E:"
+end
+
+phoneme /ɛ̃/
+	duration 60ms
+	unit "E~"
+end
+
+phoneme /ɛ̃ː/
+	duration 120ms
+	unit "E~:"
+end
+
+phoneme /œ/
+	duration 60ms
+	unit "9"
+end
+
+phoneme /œː/
+	duration 120ms
+	unit "9:"
+end
+
+phoneme /œ̃/
+	duration  60ms
+	duration 120ms if /œ̃ː/
+	unit "9~:"
+end
+
+phoneme /ɔ/
+	duration 60ms
+	unit "O"
+end
+
+phoneme /ɔː/
+	duration 120ms
+	unit "O:"
+end
+
+phoneme /ɑ/
+	duration 60ms
+	unit "A"
+end
+
+phoneme /ɑː/
+	duration 120ms
+	unit "A:"
+end
+
+phoneme /ɑ̃/
+	duration 60ms
+	unit "A~"
+end
+
+phoneme /ɑ̃ː/
+	duration 120ms
+	unit "A~:"
+end
+
+# Diphthongs ##################################################################
+
+phoneme /ɑi̯/
+	duration 150ms
+	unit "Aj"
+end
+
+phoneme /ɑu̯/
+	duration 150ms
+	unit "Aw"
+end
+
+phoneme /ɑ̃u̯/
+	duration 150ms
+	unit "A~w"
+end
+
+phoneme /eu̯/
+	duration 150ms
+	unit "ew"
+end
+
+phoneme /ẽu̯/
+	duration 150ms
+	unit "e~w"
+end
+
+phoneme /ɛi̯/
+	duration 150ms
+	unit "Ej"
+end
+
+phoneme /ɛu̯/
+	duration 150ms
+	unit "Ew"
+end
+
+phoneme /iu̯/
+	duration 150ms
+	unit "iw"
+end
+
+phoneme /oi̯/
+	duration 150ms
+	unit "oj"
+end
+
+phoneme /ou̯/
+	duration 150ms
+	unit "ow"
+end
+
+phoneme /øi̯/
+	duration 150ms
+	unit "2j"
+end
+
+phoneme /ø̃i̯/
+	duration 150ms
+	unit "2~j"
+end
+
+phoneme /œi̯/
+	duration 150ms
+	unit "9j"
+end
+
+phoneme /œ̃i̯/
+	duration 150ms
+	unit "9~j"
+end
