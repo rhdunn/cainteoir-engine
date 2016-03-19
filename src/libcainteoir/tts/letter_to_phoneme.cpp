@@ -1,6 +1,6 @@
 /* Letter-to-Phoneme Rule Processor.
  *
- * Copyright (C) 2013-2015 Reece H. Dunn
+ * Copyright (C) 2013-2016 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -177,6 +177,7 @@ bool ruleset::read()
 		mCurrent        = match.first;
 		mPhonemeCurrent = match.second;
 		mPhonemeEnd     = match.second + strlen(match.second);
+		mPhonemeSet->initialize();
 	}
 	return true;
 }
