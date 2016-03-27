@@ -1,6 +1,6 @@
 /* Voice Database File Builder.
  *
- * Copyright (C) 2014-2015 Reece H. Dunn
+ * Copyright (C) 2014-2016 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -643,11 +643,16 @@ parse_conditional(cainteoir_file_reader &reader,
 	std::string expression = reader.match().str();
 	if (expression.find("locale=") == 0)
 	{
-		++current;
-		conditional_names[name] = current;
+		uint8_t c;
+
+		auto match = conditional_names.find(name);
+		if (match == conditional_names.end())
+			c = conditional_names[name] = current++;
+		else
+			c = match->second;
 
 		std::string locale = expression.substr(7);
-		conditionals.push_back({ current, (uint8_t)(tts::LANGDB_CONDRULE_LOCALE | set), locale });
+		conditionals.push_back({ c, (uint8_t)(tts::LANGDB_CONDRULE_LOCALE | set), locale });
 	}
 	else
 		throw std::runtime_error("unsupported conditional expression");
