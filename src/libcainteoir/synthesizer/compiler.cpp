@@ -551,7 +551,8 @@ parse_rewrite(cainteoir_file_reader &reader,
 
 void
 parse_rules(cainteoir_file_reader &reader,
-            std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> &l2p_rules)
+            std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> &l2p_rules,
+            std::map<std::string, uint8_t> &conditional_names)
 {
 	cainteoir::buffer context{ nullptr, nullptr };
 	cainteoir::buffer left{ nullptr, nullptr };
@@ -566,12 +567,12 @@ parse_rules(cainteoir_file_reader &reader,
 
 			if ((*reader.match().begin() == '@' || *reader.match().begin() == '!') && rule)
 			{
-				if (reader.match().size() != 2)
-					throw std::runtime_error("invalid rule conditional");
-				auto c = *(reader.match().begin() + 1);
-				if (c <= 0x20 || c >= 0x7F)
-					throw std::runtime_error("invalid rule conditional");
-				rule->first = reader.match().str() + rule->first;
+				std::string name{ reader.match().begin() + 1, reader.match().end() };
+				auto match = conditional_names.find(name);
+				if (match == conditional_names.end())
+					throw std::runtime_error("rule conditional not found");
+				char conditional[3] = { *reader.match().begin(), (char)match->second, 0 };
+				rule->first = conditional + rule->first;
 			}
 
 			auto last = reader.match().end();
@@ -604,17 +605,22 @@ parse_rules(cainteoir_file_reader &reader,
 	}
 }
 
-void
+uint8_t
 parse_conditional(cainteoir_file_reader &reader,
-                  std::list<conditional_t> &conditionals)
+                  std::list<conditional_t> &conditionals,
+                  std::map<std::string, uint8_t> &conditional_names,
+                  uint8_t current)
 {
-	// set @c if type=value
-	// set !c if type=value
+	if (current == 255)
+		throw std::runtime_error("too many conditional variables");
+
+	// set @conditional if type=value
+	// set !conditional if type=value
 
 	if (!reader.read() || reader.type() != cainteoir_file_reader::text)
 		throw std::runtime_error("invalid conditional expression");
 
-	if (reader.match().size() != 2)
+	if (reader.match().size() <= 1)
 		throw std::runtime_error("invalid conditional expression");
 
 	uint8_t set = tts::LANGDB_CONDRULE_SET;
@@ -623,9 +629,7 @@ parse_conditional(cainteoir_file_reader &reader,
 	else if (*reader.match().begin() != '@')
 		throw std::runtime_error("invalid conditional expression");
 
-	uint8_t c = *(reader.match().begin() + 1);
-	if (c <= 0x20 || c >= 0x7F)
-		throw std::runtime_error("invalid conditional expression");
+	std::string name{ reader.match().begin() + 1, reader.match().end() };
 
 	if (!reader.read() || reader.type() != cainteoir_file_reader::text)
 		throw std::runtime_error("invalid conditional expression");
@@ -639,11 +643,16 @@ parse_conditional(cainteoir_file_reader &reader,
 	std::string expression = reader.match().str();
 	if (expression.find("locale=") == 0)
 	{
+		++current;
+		conditional_names[name] = current;
+
 		std::string locale = expression.substr(7);
-		conditionals.push_back({ c, (uint8_t)(tts::LANGDB_CONDRULE_LOCALE | set), locale });
+		conditionals.push_back({ current, (uint8_t)(tts::LANGDB_CONDRULE_LOCALE | set), locale });
 	}
 	else
 		throw std::runtime_error("unsupported conditional expression");
+
+	return current;
 }
 
 void
@@ -683,6 +692,8 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 	std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> rewrite_rules;
 	std::map<uint8_t, std::list<std::pair<std::string, cainteoir::buffer>>> l2p_rules;
 	std::list<conditional_t> conditionals;
+	std::map<std::string, uint8_t> conditional_names;
+	uint8_t current_conditional = 1;
 	tts::dictionary dict;
 	uint8_t boundary = ' ';
 
@@ -706,7 +717,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 		{
 			if (reader.match().compare("rules") == 0)
 			{
-				parse_rules(reader, l2p_rules);
+				parse_rules(reader, l2p_rules, conditional_names);
 			}
 			else if (reader.match().compare("classdef") == 0)
 			{
@@ -714,7 +725,7 @@ tts::compile_language(const char *aFileName, FILE *aOutput)
 			}
 			else if (reader.match().compare("set") == 0)
 			{
-				parse_conditional(reader, conditionals);
+				current_conditional = parse_conditional(reader, conditionals, conditional_names, current_conditional);
 			}
 			else if (reader.match().compare("dictionary") == 0)
 			{
