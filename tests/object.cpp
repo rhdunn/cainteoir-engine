@@ -760,7 +760,7 @@ TEST_CASE("codepoint")
 
 	cainteoir::object f(c, cainteoir::object::reference);
 	assert(f.type() == cainteoir::object_type::codepoint);
-	assert(f.integer() == 0x20);
+	assert(f.codepoint() == 0x20);
 
 	assert(c.size() == 0);
 	assert(c.empty());
