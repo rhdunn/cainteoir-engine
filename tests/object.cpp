@@ -1,6 +1,6 @@
 /* Multi-type Object API tests.
  *
- * Copyright (C) 2015 Reece H. Dunn
+ * Copyright (C) 2015-2016 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -752,15 +752,18 @@ TEST_CASE("codepoint")
 	cainteoir::object d(c);
 	assert(d.type() == cainteoir::object_type::codepoint);
 	assert(d.codepoint() == 0x20);
+	assert(d.integer() == 0x20);
 
 	cainteoir::object e;
 	e = c;
 	assert(e.type() == cainteoir::object_type::codepoint);
 	assert(e.codepoint() == 0x20);
+	assert(e.integer() == 0x20);
 
 	cainteoir::object f(c, cainteoir::object::reference);
 	assert(f.type() == cainteoir::object_type::codepoint);
 	assert(f.codepoint() == 0x20);
+	assert(f.integer() == 0x20);
 
 	assert(c.size() == 0);
 	assert(c.empty());

@@ -1,6 +1,6 @@
 /* Multi-type Object API.
  *
- * Copyright (C) 2015 Reece H. Dunn
+ * Copyright (C) 2015-2016 Reece H. Dunn
  *
  * This file is part of cainteoir-engine.
  *
@@ -89,7 +89,7 @@ namespace cainteoir
 
 		object(uint32_t aValue)
 			: mType(object_type::codepoint)
-			, mCodepointVal(aValue)
+			, mIntVal(aValue)
 		{
 		}
 
