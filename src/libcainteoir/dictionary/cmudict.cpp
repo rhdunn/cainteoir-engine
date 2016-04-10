@@ -380,13 +380,6 @@ cmudict_dictionary_reader::read()
 				ptr = utf8::write(ptr, ucd::tolower(c));
 			}
 
-			if (!context.empty())
-			{
-				*ptr++ = '@';
-				for (auto c : context)
-					*ptr++ = c;
-			}
-
 			word = cainteoir::make_buffer(data, ptr - data);
 
 			ipa::phonemes phonemes;
@@ -397,6 +390,8 @@ cmudict_dictionary_reader::read()
 
 			entry = { cainteoir::object_type::dictionary };
 			entry.put("Entry::pronunciation", phonemes);
+			if (!context.empty())
+				entry.put("Entry::context", cainteoir::copy(context, context.size()));
 			return true;
 		}
 		break;
@@ -473,26 +468,25 @@ void cmudict_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buf
                                             const cainteoir::object &entry,
                                             const char *line_separator)
 {
-	bool in_variant = false;
 	for (auto c : *word)
+		fputc(toupper(c), mOut);
+
+	const auto &context = entry.get("Entry::context");
+	if (context.is_buffer())
 	{
-		if (in_variant)
+		fputc('(', mOut);
+		for (auto c : *context.buffer())
 			fputc(c, mOut);
-		else if (c == '@')
-		{
-			in_variant = true;
-			fputc('(', mOut);
-		}
-		else
-			fputc(toupper(c), mOut);
-	}
-	if (in_variant)
 		fputc(')', mOut);
+	}
+
 	fputc(' ', mOut);
 	fputc(' ', mOut);
+
 	for (auto p : phonemes)
 		writer->write(p);
 	writer->flush();
+
 	fputc('\n', mOut);
 }
 
