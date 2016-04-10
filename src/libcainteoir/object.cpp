@@ -45,6 +45,12 @@ cainteoir::object::object(const cainteoir::range<uint32_t> &aValue)
 	new (&mRangeVal)range_t(aValue);
 }
 
+cainteoir::object::object(const ipa::phonemes &aValue)
+	: mType(cainteoir::object_type::phonemes)
+{
+	new (&mPhonemesVal)phonemes_t(std::make_shared<phonemes_t::element_type>(aValue));
+}
+
 cainteoir::object::object(const object_type aType)
 	: mType(aType)
 {
@@ -63,8 +69,12 @@ cainteoir::object::object(const object_type aType)
 	case object_type::buffer: // set an empty buffer to the null object type
 	case object_type::buffer_ref: // set an empty buffer reference to the null object type
 	case object_type::dictionary_ref: // set an empty dictionary reference to the null object type
+	case object_type::phonemes_ref: // set an empty phonemes reference to the null object type
 		mType = object_type::null;
 		mStringVal = {};
+		break;
+	case object_type::phonemes:
+		new (&mPhonemesVal)phonemes_t(std::make_shared<phonemes_t::element_type>());
 		break;
 	default:
 		mStringVal = {};
@@ -104,6 +114,19 @@ cainteoir::object::buffer() const
 		return mBufferVal;
 	case object_type::buffer_ref:
 		return mBufferRef.lock();
+	}
+	return {};
+}
+
+const cainteoir::object::phonemes_t
+cainteoir::object::phonemes() const
+{
+	switch (type())
+	{
+	case object_type::phonemes:
+		return mPhonemesVal;
+	case object_type::phonemes_ref:
+		return mPhonemesRef.lock();
 	}
 	return {};
 }
@@ -171,6 +194,10 @@ cainteoir::object::size() const
 		return mDictionaryVal->size();
 	case object_type::dictionary_ref:
 		return mDictionaryRef.lock()->size();
+	case object_type::phonemes:
+		return mPhonemesVal->size();
+	case object_type::phonemes_ref:
+		return mPhonemesRef.lock()->size();
 	}
 	return 0;
 }
@@ -194,6 +221,12 @@ cainteoir::object::clear()
 		break;
 	case object_type::dictionary_ref:
 		(&mDictionaryRef)->~dictionary_ref_t();
+		break;
+	case object_type::phonemes:
+		(&mPhonemesVal)->~phonemes_t();
+		break;
+	case object_type::phonemes_ref:
+		(&mPhonemesRef)->~phonemes_ref_t();
 		break;
 	default:
 		break;
@@ -244,6 +277,22 @@ cainteoir::object::copy(const object &o, const reference_t *ref)
 	case object_type::phoneme:
 		mType = o.mType;
 		mPhonemeVal = o.mPhonemeVal;
+		break;
+	case object_type::phonemes:
+		if (ref)
+		{
+			mType = object_type::phonemes_ref;
+			new (&mPhonemesRef)phonemes_ref_t(o.mPhonemesVal);
+		}
+		else
+		{
+			mType = o.mType;
+			new (&mPhonemesVal)phonemes_t(o.mPhonemesVal);
+		}
+		break;
+	case object_type::phonemes_ref:
+		mType = o.mType;
+		new (&mPhonemesRef)phonemes_ref_t(o.mPhonemesRef);
 		break;
 	default:
 		mType = o.mType;

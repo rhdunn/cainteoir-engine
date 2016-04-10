@@ -41,6 +41,7 @@ TEST_CASE("null")
 	assert(!o.is_string());
 	assert(!o.is_buffer());
 	assert(!o.is_phoneme());
+	assert(!o.is_phonemes());
 	assert(!o.is_range());
 	assert(!o.is_dictionary());
 	assert(!o.is_codepoint());
@@ -87,6 +88,7 @@ TEST_CASE("boolean")
 	assert(!b.is_string());
 	assert(!b.is_buffer());
 	assert(!b.is_phoneme());
+	assert(!b.is_phonemes());
 	assert(!b.is_range());
 	assert(!b.is_dictionary());
 	assert(!b.is_codepoint());
@@ -137,6 +139,7 @@ TEST_CASE("integer  (8-bit)")
 	assert(!i.is_string());
 	assert(!i.is_buffer());
 	assert(!i.is_phoneme());
+	assert(!i.is_phonemes());
 	assert(!i.is_range());
 	assert(!i.is_dictionary());
 	assert(!i.is_codepoint());
@@ -188,6 +191,7 @@ TEST_CASE("integer (16-bit)")
 	assert(!i.is_string());
 	assert(!i.is_buffer());
 	assert(!i.is_phoneme());
+	assert(!i.is_phonemes());
 	assert(!i.is_range());
 	assert(!i.is_dictionary());
 	assert(!i.is_codepoint());
@@ -234,6 +238,7 @@ TEST_CASE("integer (32-bit)")
 	assert(!i.is_string());
 	assert(!i.is_buffer());
 	assert(!i.is_phoneme());
+	assert(!i.is_phonemes());
 	assert(!i.is_range());
 	assert(!i.is_dictionary());
 	assert(!i.is_codepoint());
@@ -281,6 +286,7 @@ TEST_CASE("integer (64-bit)")
 	assert(!i.is_string());
 	assert(!i.is_buffer());
 	assert(!i.is_phoneme());
+	assert(!i.is_phonemes());
 	assert(!i.is_range());
 	assert(!i.is_dictionary());
 	assert(!i.is_codepoint());
@@ -328,6 +334,7 @@ TEST_CASE("real (32-bit)")
 	assert(!r.is_string());
 	assert(!r.is_buffer());
 	assert(!r.is_phoneme());
+	assert(!r.is_phonemes());
 	assert(!r.is_range());
 	assert(!r.is_dictionary());
 	assert(!r.is_codepoint());
@@ -380,6 +387,7 @@ TEST_CASE("real (64-bit)")
 	assert(!r.is_string());
 	assert(!r.is_buffer());
 	assert(!r.is_phoneme());
+	assert(!r.is_phonemes());
 	assert(!r.is_range());
 	assert(!r.is_dictionary());
 	assert(!r.is_codepoint());
@@ -426,6 +434,7 @@ TEST_CASE("string")
 	assert(s.is_string());
 	assert(!s.is_buffer());
 	assert(!s.is_phoneme());
+	assert(!s.is_phonemes());
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
@@ -472,6 +481,7 @@ TEST_CASE("string (null)")
 	assert(!s.is_string());
 	assert(!s.is_buffer());
 	assert(!s.is_phoneme());
+	assert(!s.is_phonemes());
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
@@ -522,6 +532,7 @@ TEST_CASE("buffer")
 	assert(!s.is_string());
 	assert(s.is_buffer());
 	assert(!s.is_phoneme());
+	assert(!s.is_phonemes());
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
@@ -568,6 +579,7 @@ TEST_CASE("buffer (null)")
 	assert(!s.is_string());
 	assert(!s.is_buffer());
 	assert(!s.is_phoneme());
+	assert(!s.is_phonemes());
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
@@ -602,6 +614,7 @@ TEST_CASE("buffer ref")
 	assert(!s.is_string());
 	assert(s.is_buffer());
 	assert(!s.is_phoneme());
+	assert(!s.is_phonemes());
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
@@ -648,6 +661,7 @@ TEST_CASE("phoneme")
 	assert(!p.is_string());
 	assert(!p.is_buffer());
 	assert(p.is_phoneme());
+	assert(!p.is_phonemes());
 	assert(!p.is_range());
 	assert(!p.is_dictionary());
 	assert(!p.is_codepoint());
@@ -695,6 +709,7 @@ TEST_CASE("range")
 	assert(!p.is_string());
 	assert(!p.is_buffer());
 	assert(!p.is_phoneme());
+	assert(!p.is_phonemes());
 	assert(p.is_range());
 	assert(!p.is_dictionary());
 	assert(!p.is_codepoint());
@@ -745,6 +760,7 @@ TEST_CASE("codepoint")
 	assert(!c.is_string());
 	assert(!c.is_buffer());
 	assert(!c.is_phoneme());
+	assert(!c.is_phonemes());
 	assert(!c.is_range());
 	assert(!c.is_dictionary());
 	assert(c.is_codepoint());
@@ -795,6 +811,7 @@ TEST_CASE("dictionary")
 	assert(!d.is_string());
 	assert(!d.is_buffer());
 	assert(!d.is_phoneme());
+	assert(!d.is_phonemes());
 	assert(!d.is_range());
 	assert(d.is_dictionary());
 	assert(!d.is_codepoint());
@@ -843,6 +860,7 @@ TEST_CASE("dictionary ref")
 	assert(!d.is_string());
 	assert(!d.is_buffer());
 	assert(!d.is_phoneme());
+	assert(!d.is_phonemes());
 	assert(!d.is_range());
 	assert(d.is_dictionary());
 	assert(!d.is_codepoint());
@@ -1004,4 +1022,127 @@ TEST_CASE("dictionary updates affect all copies and references")
 	assert(h.get("test").integer() == 83);
 	assert(i.get("test").type() == cainteoir::object_type::integer);
 	assert(i.get("test").integer() == 83);
+}
+
+TEST_CASE("phonemes")
+{
+	ipa::phonemes test;
+	test.push_back(ipa::voiceless | ipa::bilabial);
+	test.push_back(ipa::voiced | ipa::dental);
+
+	cainteoir::object p(test);
+	assert(p.type() == cainteoir::object_type::phonemes);
+	assert(p.phonemes()->size() == 2);
+	assert(p.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(p.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	assert(!p.is_null());
+	assert(!p.is_boolean());
+	assert(!p.is_integer());
+	assert(!p.is_real());
+	assert(!p.is_number());
+	assert(!p.is_string());
+	assert(!p.is_buffer());
+	assert(!p.is_phoneme());
+	assert(p.is_phonemes());
+	assert(!p.is_range());
+	assert(!p.is_dictionary());
+	assert(!p.is_codepoint());
+
+	cainteoir::object q(p);
+	assert(q.type() == cainteoir::object_type::phonemes);
+	assert(p.phonemes()->size() == 2);
+	assert(p.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(p.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	cainteoir::object r;
+	r = p;
+	assert(r.type() == cainteoir::object_type::phonemes);
+	assert(r.phonemes()->size() == 2);
+	assert(r.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(r.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	cainteoir::object s(cainteoir::object_type::phonemes);
+	assert(s.type() == cainteoir::object_type::phonemes);
+	assert(s.phonemes()->size() == 0);
+
+	cainteoir::object t(p, cainteoir::object::reference);
+	assert(t.type() == cainteoir::object_type::phonemes_ref);
+	assert(t.phonemes()->size() == 2);
+	assert(t.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(t.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	assert(p.size() == 2);
+	assert(!p.empty());
+
+	assert(s.size() == 0);
+	assert(s.empty());
+
+	assert(s.get("test").type() == cainteoir::object_type::null);
+	assert(!s.put("test", 24));
+	assert(s.get("test").type() == cainteoir::object_type::null);
+
+	assert(s.size() == 0);
+	assert(s.empty());
+}
+
+TEST_CASE("phonemes ref")
+{
+	ipa::phonemes data;
+	data.push_back(ipa::voiceless | ipa::bilabial);
+	data.push_back(ipa::voiced | ipa::dental);
+
+	cainteoir::object test(data);
+
+	cainteoir::object p(test, cainteoir::object::reference);
+	assert(p.type() == cainteoir::object_type::phonemes_ref);
+	assert(p.phonemes()->size() == 2);
+	assert(p.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(p.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	assert(!p.is_null());
+	assert(!p.is_boolean());
+	assert(!p.is_integer());
+	assert(!p.is_real());
+	assert(!p.is_number());
+	assert(!p.is_string());
+	assert(!p.is_buffer());
+	assert(!p.is_phoneme());
+	assert(p.is_phonemes());
+	assert(!p.is_range());
+	assert(!p.is_dictionary());
+	assert(!p.is_codepoint());
+
+	cainteoir::object q(p);
+	assert(q.type() == cainteoir::object_type::phonemes_ref);
+	assert(q.phonemes()->size() == 2);
+	assert(q.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(q.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	cainteoir::object r;
+	r = p;
+	assert(r.type() == cainteoir::object_type::phonemes_ref);
+	assert(r.phonemes()->size() == 2);
+	assert(r.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(r.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	cainteoir::object s(cainteoir::object_type::phonemes_ref);
+	assert(s.type() == cainteoir::object_type::null);
+	assert(!s.phonemes());
+
+	cainteoir::object t(p, cainteoir::object::reference);
+	assert(t.type() == cainteoir::object_type::phonemes_ref);
+	assert(t.phonemes()->size() == 2);
+	assert(t.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(t.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	assert(p.size() == 2);
+	assert(!p.empty());
+
+	assert(p.get("test").type() == cainteoir::object_type::null);
+	assert(!p.put("test", 24));
+	assert(p.get("test").type() == cainteoir::object_type::null);
+
+	assert(p.size() == 2);
+	assert(!p.empty());
 }

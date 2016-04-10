@@ -42,6 +42,8 @@ namespace cainteoir
 		dictionary,
 		dictionary_ref,
 		codepoint,
+		phonemes,
+		phonemes_ref,
 	};
 
 	struct object
@@ -70,6 +72,9 @@ namespace cainteoir
 
 		typedef std::shared_ptr<std::map<const char *, object, string_compare>> dictionary_t;
 		typedef std::weak_ptr<std::map<const char *, object, string_compare>>   dictionary_ref_t;
+
+		typedef std::shared_ptr<ipa::phonemes> phonemes_t;
+		typedef std::weak_ptr<ipa::phonemes>   phonemes_ref_t;
 
 		struct reference_t {};
 	public:
@@ -137,6 +142,8 @@ namespace cainteoir
 
 		object(const cainteoir::range<uint32_t> &aValue);
 
+		object(const ipa::phonemes &aValue);
+
 		object(const object_type aType);
 
 		object(const object &o);
@@ -157,6 +164,7 @@ namespace cainteoir
 		bool is_string() const { return type() == object_type::string; }
 		bool is_buffer() const { return type() == object_type::buffer || type() == object_type::buffer_ref; }
 		bool is_phoneme() const { return type() == object_type::phoneme; }
+		bool is_phonemes() const { return type() == object_type::phonemes || type() == object_type::phonemes_ref; }
 		bool is_range() const { return type() == object_type::range; }
 		bool is_dictionary() const { return type() == object_type::dictionary || type() == object_type::dictionary_ref; }
 		bool is_codepoint() const { return type() == object_type::codepoint; }
@@ -178,6 +186,8 @@ namespace cainteoir
 		const range_t &range() const { return mRangeVal; }
 
 		uint32_t codepoint() const { return mCodepointVal; }
+
+		const phonemes_t phonemes() const;
 
 		const object &get(const char *aKey) const;
 
@@ -201,6 +211,8 @@ namespace cainteoir
 			dictionary_t mDictionaryVal;
 			dictionary_ref_t mDictionaryRef;
 			uint32_t mCodepointVal;
+			phonemes_t mPhonemesVal;
+			phonemes_ref_t mPhonemesRef;
 		};
 
 		void clear();
