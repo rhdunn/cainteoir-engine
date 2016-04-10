@@ -44,6 +44,8 @@ namespace cainteoir
 		codepoint,
 		phonemes,
 		phonemes_ref,
+		array,
+		array_ref,
 	};
 
 	struct object
@@ -75,6 +77,9 @@ namespace cainteoir
 
 		typedef std::shared_ptr<ipa::phonemes> phonemes_t;
 		typedef std::weak_ptr<ipa::phonemes>   phonemes_ref_t;
+
+		typedef std::shared_ptr<std::vector<object>> array_t;
+		typedef std::weak_ptr<std::vector<object>>   array_ref_t;
 
 		struct reference_t {};
 	public:
@@ -168,6 +173,7 @@ namespace cainteoir
 		bool is_range() const { return type() == object_type::range; }
 		bool is_dictionary() const { return type() == object_type::dictionary || type() == object_type::dictionary_ref; }
 		bool is_codepoint() const { return type() == object_type::codepoint; }
+		bool is_array() const { return type() == object_type::array || type() == object_type::array_ref; }
 
 		bool boolean() const { return mBoolVal; }
 
@@ -188,6 +194,10 @@ namespace cainteoir
 		uint32_t codepoint() const { return mCodepointVal; }
 
 		const phonemes_t phonemes() const;
+
+		const object &get(int aIndex) const;
+
+		bool put(const object &aValue);
 
 		const object &get(const char *aKey) const;
 
@@ -213,6 +223,8 @@ namespace cainteoir
 			uint32_t mCodepointVal;
 			phonemes_t mPhonemesVal;
 			phonemes_ref_t mPhonemesRef;
+			array_t mArrayVal;
+			array_ref_t mArrayRef;
 		};
 
 		void clear();

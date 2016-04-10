@@ -70,11 +70,15 @@ cainteoir::object::object(const object_type aType)
 	case object_type::buffer_ref: // set an empty buffer reference to the null object type
 	case object_type::dictionary_ref: // set an empty dictionary reference to the null object type
 	case object_type::phonemes_ref: // set an empty phonemes reference to the null object type
+	case object_type::array_ref: // set an empty phonemes reference to the null object type
 		mType = object_type::null;
 		mStringVal = {};
 		break;
 	case object_type::phonemes:
 		new (&mPhonemesVal)phonemes_t(std::make_shared<phonemes_t::element_type>());
+		break;
+	case object_type::array:
+		new (&mArrayVal)array_t(std::make_shared<array_t::element_type>());
 		break;
 	default:
 		mStringVal = {};
@@ -129,6 +133,43 @@ cainteoir::object::phonemes() const
 		return mPhonemesRef.lock();
 	}
 	return {};
+}
+
+const cainteoir::object &
+cainteoir::object::get(int aValue) const
+{
+	static const object nullobj;
+
+	switch (mType)
+	{
+	case object_type::array:
+		if (aValue >= 0 && aValue < mArrayVal->size())
+			return (*mArrayVal)[aValue];
+		break;
+	case object_type::array_ref:
+		{
+			auto ptr = mArrayRef.lock();
+			if (aValue >= 0 && aValue < ptr->size())
+				return (*ptr)[aValue];
+		}
+		break;
+	}
+	return nullobj;
+}
+
+bool
+cainteoir::object::put(const object &aValue)
+{
+	switch (mType)
+	{
+	case object_type::array:
+		mArrayVal->push_back(aValue);
+		return true;
+	case object_type::array_ref:
+		mArrayRef.lock()->push_back(aValue);
+		return true;
+	}
+	return false;
 }
 
 const cainteoir::object &
@@ -198,6 +239,10 @@ cainteoir::object::size() const
 		return mPhonemesVal->size();
 	case object_type::phonemes_ref:
 		return mPhonemesRef.lock()->size();
+	case object_type::array:
+		return mArrayVal->size();
+	case object_type::array_ref:
+		return mArrayRef.lock()->size();
 	}
 	return 0;
 }
@@ -228,6 +273,12 @@ cainteoir::object::clear()
 	case object_type::phonemes_ref:
 		(&mPhonemesRef)->~phonemes_ref_t();
 		break;
+	case object_type::array:
+		(&mArrayVal)->~array_t();
+		break;
+	case object_type::array_ref:
+		(&mArrayRef)->~array_ref_t();
+		break;
 	default:
 		break;
 	}
@@ -257,6 +308,22 @@ cainteoir::object::copy(const object &o, const reference_t *ref)
 	case object_type::range:
 		mType = o.mType;
 		new (&mRangeVal)range_t(o.mRangeVal);
+		break;
+	case object_type::array:
+		if (ref)
+		{
+			mType = object_type::array_ref;
+			new (&mArrayRef)array_ref_t(o.mArrayVal);
+		}
+		else
+		{
+			mType = o.mType;
+			new (&mArrayVal)array_t(o.mArrayVal);
+		}
+		break;
+	case object_type::array_ref:
+		mType = o.mType;
+		new (&mArrayRef)array_ref_t(o.mArrayRef);
 		break;
 	case object_type::dictionary:
 		if (ref)

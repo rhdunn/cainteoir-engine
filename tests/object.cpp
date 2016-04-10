@@ -45,6 +45,7 @@ TEST_CASE("null")
 	assert(!o.is_range());
 	assert(!o.is_dictionary());
 	assert(!o.is_codepoint());
+	assert(!o.is_array());
 
 	cainteoir::object p(o);
 	assert(p.type() == cainteoir::object_type::null);
@@ -92,6 +93,7 @@ TEST_CASE("boolean")
 	assert(!b.is_range());
 	assert(!b.is_dictionary());
 	assert(!b.is_codepoint());
+	assert(!b.is_array());
 
 	cainteoir::object c(b);
 	assert(c.type() == cainteoir::object_type::boolean);
@@ -143,6 +145,7 @@ TEST_CASE("integer  (8-bit)")
 	assert(!i.is_range());
 	assert(!i.is_dictionary());
 	assert(!i.is_codepoint());
+	assert(!i.is_array());
 
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
@@ -195,6 +198,7 @@ TEST_CASE("integer (16-bit)")
 	assert(!i.is_range());
 	assert(!i.is_dictionary());
 	assert(!i.is_codepoint());
+	assert(!i.is_array());
 
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
@@ -242,6 +246,7 @@ TEST_CASE("integer (32-bit)")
 	assert(!i.is_range());
 	assert(!i.is_dictionary());
 	assert(!i.is_codepoint());
+	assert(!i.is_array());
 
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
@@ -290,6 +295,7 @@ TEST_CASE("integer (64-bit)")
 	assert(!i.is_range());
 	assert(!i.is_dictionary());
 	assert(!i.is_codepoint());
+	assert(!i.is_array());
 
 	cainteoir::object j(i);
 	assert(j.type() == cainteoir::object_type::integer);
@@ -338,6 +344,7 @@ TEST_CASE("real (32-bit)")
 	assert(!r.is_range());
 	assert(!r.is_dictionary());
 	assert(!r.is_codepoint());
+	assert(!r.is_array());
 
 	cainteoir::object s(r);
 	assert(s.type() == cainteoir::object_type::real);
@@ -391,6 +398,7 @@ TEST_CASE("real (64-bit)")
 	assert(!r.is_range());
 	assert(!r.is_dictionary());
 	assert(!r.is_codepoint());
+	assert(!r.is_array());
 
 	cainteoir::object s(r);
 	assert(s.type() == cainteoir::object_type::real);
@@ -438,6 +446,7 @@ TEST_CASE("string")
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
+	assert(!s.is_array());
 
 	cainteoir::object t(s);
 	assert(t.type() == cainteoir::object_type::string);
@@ -485,6 +494,7 @@ TEST_CASE("string (null)")
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
+	assert(!s.is_array());
 
 	cainteoir::object t(s);
 	assert(t.type() == cainteoir::object_type::null);
@@ -536,6 +546,7 @@ TEST_CASE("buffer")
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
+	assert(!s.is_array());
 
 	cainteoir::object t(s);
 	assert(t.type() == cainteoir::object_type::buffer);
@@ -583,6 +594,7 @@ TEST_CASE("buffer (null)")
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
+	assert(!s.is_array());
 
 	cainteoir::object t(s);
 	assert(t.type() == cainteoir::object_type::null);
@@ -618,6 +630,7 @@ TEST_CASE("buffer ref")
 	assert(!s.is_range());
 	assert(!s.is_dictionary());
 	assert(!s.is_codepoint());
+	assert(!s.is_array());
 
 	cainteoir::object t(s);
 	assert(t.type() == cainteoir::object_type::buffer_ref);
@@ -665,6 +678,7 @@ TEST_CASE("phoneme")
 	assert(!p.is_range());
 	assert(!p.is_dictionary());
 	assert(!p.is_codepoint());
+	assert(!p.is_array());
 
 	cainteoir::object q(p);
 	assert(q.type() == cainteoir::object_type::phoneme);
@@ -713,6 +727,7 @@ TEST_CASE("range")
 	assert(p.is_range());
 	assert(!p.is_dictionary());
 	assert(!p.is_codepoint());
+	assert(!p.is_array());
 
 	cainteoir::object q(p);
 	assert(q.type() == cainteoir::object_type::range);
@@ -764,6 +779,7 @@ TEST_CASE("codepoint")
 	assert(!c.is_range());
 	assert(!c.is_dictionary());
 	assert(c.is_codepoint());
+	assert(!c.is_array());
 
 	cainteoir::object d(c);
 	assert(d.type() == cainteoir::object_type::codepoint);
@@ -815,6 +831,7 @@ TEST_CASE("dictionary")
 	assert(!d.is_range());
 	assert(d.is_dictionary());
 	assert(!d.is_codepoint());
+	assert(!d.is_array());
 
 	cainteoir::object e(d);
 	assert(e.type() == cainteoir::object_type::dictionary);
@@ -864,6 +881,7 @@ TEST_CASE("dictionary ref")
 	assert(!d.is_range());
 	assert(d.is_dictionary());
 	assert(!d.is_codepoint());
+	assert(!d.is_array());
 
 	cainteoir::object e(d);
 	assert(e.type() == cainteoir::object_type::dictionary_ref);
@@ -886,6 +904,233 @@ TEST_CASE("dictionary ref")
 
 	cainteoir::object g(d, cainteoir::object::reference);
 	assert(g.type() == cainteoir::object_type::dictionary_ref);
+	assert(g.size() == 0);
+	assert(g.empty());
+	assert(g.get("test").type() == cainteoir::object_type::null);
+	assert(g.get("tester").type() == cainteoir::object_type::null);
+}
+
+TEST_CASE("phonemes")
+{
+	ipa::phonemes test;
+	test.push_back(ipa::voiceless | ipa::bilabial);
+	test.push_back(ipa::voiced | ipa::dental);
+
+	cainteoir::object p(test);
+	assert(p.type() == cainteoir::object_type::phonemes);
+	assert(p.phonemes()->size() == 2);
+	assert(p.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(p.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	assert(!p.is_null());
+	assert(!p.is_boolean());
+	assert(!p.is_integer());
+	assert(!p.is_real());
+	assert(!p.is_number());
+	assert(!p.is_string());
+	assert(!p.is_buffer());
+	assert(!p.is_phoneme());
+	assert(p.is_phonemes());
+	assert(!p.is_range());
+	assert(!p.is_dictionary());
+	assert(!p.is_codepoint());
+	assert(!p.is_array());
+
+	cainteoir::object q(p);
+	assert(q.type() == cainteoir::object_type::phonemes);
+	assert(p.phonemes()->size() == 2);
+	assert(p.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(p.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	cainteoir::object r;
+	r = p;
+	assert(r.type() == cainteoir::object_type::phonemes);
+	assert(r.phonemes()->size() == 2);
+	assert(r.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(r.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	cainteoir::object s(cainteoir::object_type::phonemes);
+	assert(s.type() == cainteoir::object_type::phonemes);
+	assert(s.phonemes()->size() == 0);
+
+	cainteoir::object t(p, cainteoir::object::reference);
+	assert(t.type() == cainteoir::object_type::phonemes_ref);
+	assert(t.phonemes()->size() == 2);
+	assert(t.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(t.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	assert(p.size() == 2);
+	assert(!p.empty());
+
+	assert(s.size() == 0);
+	assert(s.empty());
+
+	assert(s.get("test").type() == cainteoir::object_type::null);
+	assert(!s.put("test", 24));
+	assert(s.get("test").type() == cainteoir::object_type::null);
+
+	assert(s.size() == 0);
+	assert(s.empty());
+}
+
+TEST_CASE("phonemes ref")
+{
+	ipa::phonemes data;
+	data.push_back(ipa::voiceless | ipa::bilabial);
+	data.push_back(ipa::voiced | ipa::dental);
+
+	cainteoir::object test(data);
+
+	cainteoir::object p(test, cainteoir::object::reference);
+	assert(p.type() == cainteoir::object_type::phonemes_ref);
+	assert(p.phonemes()->size() == 2);
+	assert(p.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(p.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	assert(!p.is_null());
+	assert(!p.is_boolean());
+	assert(!p.is_integer());
+	assert(!p.is_real());
+	assert(!p.is_number());
+	assert(!p.is_string());
+	assert(!p.is_buffer());
+	assert(!p.is_phoneme());
+	assert(p.is_phonemes());
+	assert(!p.is_range());
+	assert(!p.is_dictionary());
+	assert(!p.is_codepoint());
+	assert(!p.is_array());
+
+	cainteoir::object q(p);
+	assert(q.type() == cainteoir::object_type::phonemes_ref);
+	assert(q.phonemes()->size() == 2);
+	assert(q.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(q.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	cainteoir::object r;
+	r = p;
+	assert(r.type() == cainteoir::object_type::phonemes_ref);
+	assert(r.phonemes()->size() == 2);
+	assert(r.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(r.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	cainteoir::object s(cainteoir::object_type::phonemes_ref);
+	assert(s.type() == cainteoir::object_type::null);
+	assert(!s.phonemes());
+
+	cainteoir::object t(p, cainteoir::object::reference);
+	assert(t.type() == cainteoir::object_type::phonemes_ref);
+	assert(t.phonemes()->size() == 2);
+	assert(t.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
+	assert(t.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
+
+	assert(p.size() == 2);
+	assert(!p.empty());
+
+	assert(p.get("test").type() == cainteoir::object_type::null);
+	assert(!p.put("test", 24));
+	assert(p.get("test").type() == cainteoir::object_type::null);
+
+	assert(p.size() == 2);
+	assert(!p.empty());
+}
+
+TEST_CASE("array")
+{
+	cainteoir::object d(cainteoir::object_type::array);
+	assert(d.type() == cainteoir::object_type::array);
+
+	assert(d.size() == 0);
+	assert(d.empty());
+
+	assert(d.get("test").type() == cainteoir::object_type::null);
+	assert(d.get("tester").type() == cainteoir::object_type::null);
+
+	assert(!d.is_null());
+	assert(!d.is_boolean());
+	assert(!d.is_integer());
+	assert(!d.is_real());
+	assert(!d.is_number());
+	assert(!d.is_string());
+	assert(!d.is_buffer());
+	assert(!d.is_phoneme());
+	assert(!d.is_phonemes());
+	assert(!d.is_range());
+	assert(!d.is_dictionary());
+	assert(!d.is_codepoint());
+	assert(d.is_array());
+
+	cainteoir::object e(d);
+	assert(e.type() == cainteoir::object_type::array);
+	assert(e.size() == 0);
+	assert(e.empty());
+	assert(e.get("test").type() == cainteoir::object_type::null);
+	assert(e.get("tester").type() == cainteoir::object_type::null);
+
+	cainteoir::object f;
+	f = d;
+	assert(f.type() == cainteoir::object_type::array);
+	assert(f.size() == 0);
+	assert(f.empty());
+	assert(f.get("test").type() == cainteoir::object_type::null);
+	assert(f.get("tester").type() == cainteoir::object_type::null);
+
+	cainteoir::object g(d, cainteoir::object::reference);
+	assert(g.type() == cainteoir::object_type::array_ref);
+	assert(g.size() == 0);
+	assert(g.empty());
+	assert(g.get("test").type() == cainteoir::object_type::null);
+	assert(g.get("tester").type() == cainteoir::object_type::null);
+}
+
+TEST_CASE("array ref")
+{
+	cainteoir::object test(cainteoir::object_type::array);
+
+	cainteoir::object d(test, cainteoir::object::reference);
+	assert(d.type() == cainteoir::object_type::array_ref);
+
+	assert(d.size() == 0);
+	assert(d.empty());
+
+	assert(d.get("test").type() == cainteoir::object_type::null);
+	assert(d.get("tester").type() == cainteoir::object_type::null);
+
+	assert(!d.is_null());
+	assert(!d.is_boolean());
+	assert(!d.is_integer());
+	assert(!d.is_real());
+	assert(!d.is_number());
+	assert(!d.is_string());
+	assert(!d.is_buffer());
+	assert(!d.is_phoneme());
+	assert(!d.is_phonemes());
+	assert(!d.is_range());
+	assert(!d.is_dictionary());
+	assert(!d.is_codepoint());
+	assert(d.is_array());
+
+	cainteoir::object e(d);
+	assert(e.type() == cainteoir::object_type::array_ref);
+	assert(e.size() == 0);
+	assert(e.empty());
+	assert(e.get("test").type() == cainteoir::object_type::null);
+	assert(e.get("tester").type() == cainteoir::object_type::null);
+
+	cainteoir::object f;
+	f = d;
+	assert(f.type() == cainteoir::object_type::array_ref);
+	assert(f.size() == 0);
+	assert(f.empty());
+	assert(f.get("test").type() == cainteoir::object_type::null);
+	assert(f.get("tester").type() == cainteoir::object_type::null);
+
+	cainteoir::object o(cainteoir::object_type::array_ref);
+	assert(o.type() == cainteoir::object_type::null);
+	assert(o.number() == 0);
+
+	cainteoir::object g(d, cainteoir::object::reference);
+	assert(g.type() == cainteoir::object_type::array_ref);
 	assert(g.size() == 0);
 	assert(g.empty());
 	assert(g.get("test").type() == cainteoir::object_type::null);
@@ -922,6 +1167,41 @@ TEST_CASE("object::put (dictionary_ref)")
 	assert(d.get("test").type() == cainteoir::object_type::integer);
 	assert(d.get("test").integer() == 24);
 	assert(d.get("tester").type() == cainteoir::object_type::null);
+
+	assert(d.size() == 1);
+	assert(!d.empty());
+}
+
+TEST_CASE("object::put (array)")
+{
+	cainteoir::object d(cainteoir::object_type::array);
+
+	assert(d.put(24));
+
+	assert(d.size() == 1);
+	assert(!d.empty());
+
+	assert(d.get(0).type() == cainteoir::object_type::integer);
+	assert(d.get(0).integer() == 24);
+	assert(d.get(1).type() == cainteoir::object_type::null);
+
+	assert(d.size() == 1);
+	assert(!d.empty());
+}
+
+TEST_CASE("object::put (array_ref)")
+{
+	cainteoir::object o(cainteoir::object_type::array);
+	cainteoir::object d(o, cainteoir::object::reference);
+
+	assert(d.put(24));
+
+	assert(d.size() == 1);
+	assert(!d.empty());
+
+	assert(d.get(0).type() == cainteoir::object_type::integer);
+	assert(d.get(0).integer() == 24);
+	assert(d.get(1).type() == cainteoir::object_type::null);
 
 	assert(d.size() == 1);
 	assert(!d.empty());
@@ -1022,127 +1302,4 @@ TEST_CASE("dictionary updates affect all copies and references")
 	assert(h.get("test").integer() == 83);
 	assert(i.get("test").type() == cainteoir::object_type::integer);
 	assert(i.get("test").integer() == 83);
-}
-
-TEST_CASE("phonemes")
-{
-	ipa::phonemes test;
-	test.push_back(ipa::voiceless | ipa::bilabial);
-	test.push_back(ipa::voiced | ipa::dental);
-
-	cainteoir::object p(test);
-	assert(p.type() == cainteoir::object_type::phonemes);
-	assert(p.phonemes()->size() == 2);
-	assert(p.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
-	assert(p.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
-
-	assert(!p.is_null());
-	assert(!p.is_boolean());
-	assert(!p.is_integer());
-	assert(!p.is_real());
-	assert(!p.is_number());
-	assert(!p.is_string());
-	assert(!p.is_buffer());
-	assert(!p.is_phoneme());
-	assert(p.is_phonemes());
-	assert(!p.is_range());
-	assert(!p.is_dictionary());
-	assert(!p.is_codepoint());
-
-	cainteoir::object q(p);
-	assert(q.type() == cainteoir::object_type::phonemes);
-	assert(p.phonemes()->size() == 2);
-	assert(p.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
-	assert(p.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
-
-	cainteoir::object r;
-	r = p;
-	assert(r.type() == cainteoir::object_type::phonemes);
-	assert(r.phonemes()->size() == 2);
-	assert(r.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
-	assert(r.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
-
-	cainteoir::object s(cainteoir::object_type::phonemes);
-	assert(s.type() == cainteoir::object_type::phonemes);
-	assert(s.phonemes()->size() == 0);
-
-	cainteoir::object t(p, cainteoir::object::reference);
-	assert(t.type() == cainteoir::object_type::phonemes_ref);
-	assert(t.phonemes()->size() == 2);
-	assert(t.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
-	assert(t.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
-
-	assert(p.size() == 2);
-	assert(!p.empty());
-
-	assert(s.size() == 0);
-	assert(s.empty());
-
-	assert(s.get("test").type() == cainteoir::object_type::null);
-	assert(!s.put("test", 24));
-	assert(s.get("test").type() == cainteoir::object_type::null);
-
-	assert(s.size() == 0);
-	assert(s.empty());
-}
-
-TEST_CASE("phonemes ref")
-{
-	ipa::phonemes data;
-	data.push_back(ipa::voiceless | ipa::bilabial);
-	data.push_back(ipa::voiced | ipa::dental);
-
-	cainteoir::object test(data);
-
-	cainteoir::object p(test, cainteoir::object::reference);
-	assert(p.type() == cainteoir::object_type::phonemes_ref);
-	assert(p.phonemes()->size() == 2);
-	assert(p.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
-	assert(p.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
-
-	assert(!p.is_null());
-	assert(!p.is_boolean());
-	assert(!p.is_integer());
-	assert(!p.is_real());
-	assert(!p.is_number());
-	assert(!p.is_string());
-	assert(!p.is_buffer());
-	assert(!p.is_phoneme());
-	assert(p.is_phonemes());
-	assert(!p.is_range());
-	assert(!p.is_dictionary());
-	assert(!p.is_codepoint());
-
-	cainteoir::object q(p);
-	assert(q.type() == cainteoir::object_type::phonemes_ref);
-	assert(q.phonemes()->size() == 2);
-	assert(q.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
-	assert(q.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
-
-	cainteoir::object r;
-	r = p;
-	assert(r.type() == cainteoir::object_type::phonemes_ref);
-	assert(r.phonemes()->size() == 2);
-	assert(r.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
-	assert(r.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
-
-	cainteoir::object s(cainteoir::object_type::phonemes_ref);
-	assert(s.type() == cainteoir::object_type::null);
-	assert(!s.phonemes());
-
-	cainteoir::object t(p, cainteoir::object::reference);
-	assert(t.type() == cainteoir::object_type::phonemes_ref);
-	assert(t.phonemes()->size() == 2);
-	assert(t.phonemes()->front().get(ipa::main) == (ipa::voiceless | ipa::bilabial));
-	assert(t.phonemes()->back().get(ipa::main) == (ipa::voiced | ipa::dental));
-
-	assert(p.size() == 2);
-	assert(!p.empty());
-
-	assert(p.get("test").type() == cainteoir::object_type::null);
-	assert(!p.put("test", 24));
-	assert(p.get("test").type() == cainteoir::object_type::null);
-
-	assert(p.size() == 2);
-	assert(!p.empty());
 }
