@@ -157,6 +157,8 @@ static bool pronounce(std::shared_ptr<tts::phoneme_reader> &dict,
                       ipa::phoneme::value_type mask,
                       mode_type mode)
 {
+	static const cainteoir::object null_entry;
+
 	ipa::phonemes phonemes;
 	if (mode != mode_type::pronounce_entries)
 	{
@@ -184,7 +186,7 @@ static bool pronounce(std::shared_ptr<tts::phoneme_reader> &dict,
 	{
 		if (mode == mode_type::compare_entries)
 		{
-			formatter->write_phoneme_entry(word, writer, phonemes, " ... ");
+			formatter->write_phoneme_entry(word, writer, phonemes, null_entry, " ... ");
 			fprintf(stdout, "cannot pronounce : %s\n", e.what());
 		}
 		else
@@ -200,7 +202,7 @@ static bool pronounce(std::shared_ptr<tts::phoneme_reader> &dict,
 
 	if (mode == mode_type::compare_entries)
 	{
-		formatter->write_phoneme_entry(word, writer, phonemes, " ... ");
+		formatter->write_phoneme_entry(word, writer, phonemes, null_entry, " ... ");
 		if (match)
 		{
 			fprintf(stdout, "matched\n");
@@ -215,9 +217,9 @@ static bool pronounce(std::shared_ptr<tts::phoneme_reader> &dict,
 		}
 	}
 	else if (mode == mode_type::mismatched_entries)
-		formatter->write_phoneme_entry(word, writer, phonemes);
+		formatter->write_phoneme_entry(word, writer, phonemes, null_entry);
 	else
-		formatter->write_phoneme_entry(word, writer, pronounced);
+		formatter->write_phoneme_entry(word, writer, pronounced, null_entry);
 
 	return match;
 }
@@ -295,7 +297,7 @@ static uint32_t from_document(tts::dictionary &base_dict,
 		{
 			auto text = tokens->token.get("Token:text").buffer();
 			auto &match = base_dict.lookup(text);
-			switch (match.get("Entry::pronunciation").type())
+			switch (match.get(0).get("Entry::pronunciation").type())
 			{
 			case cainteoir::object_type::null: // no match
 				switch (word_mode)
@@ -345,7 +347,7 @@ static uint32_t from_dictionary(tts::dictionary &base_dict,
 	for (auto &entry : src_dict)
 	{
 		auto &match = base_dict.lookup(entry.first);
-		switch (match.get("Entry::pronunciation").type())
+		switch (match.get(0).get("Entry::pronunciation").type())
 		{
 		case cainteoir::object_type::null: // no match
 			switch (word_mode)

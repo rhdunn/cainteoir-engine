@@ -28,7 +28,7 @@ if __name__ == '__main__':
 			{'test': '../data/locale/en-GB/cardinal.dict', 'result': 'dict/cainteoir/en-GB-cardinal.lst'}, # .import directive
 			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
 			{'test': 'dict/cainteoir/comments.dict', 'result': 'dict/cainteoir/comments.lst'},
-			{'test': 'dict/cainteoir/duplicate-entry.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},
+			{'test': 'dict/cainteoir/duplicate-entry.dict', 'result': 'dict/cainteoir/duplicate-entry.lst'},
 		]},
 		{'name': 'Resolve Say As', 'type': 'dictionary', 'args': ['--resolve-say-as'], 'tests': [
 			{'test': 'dict/cainteoir/ipa-phonemes.dict', 'result': 'dict/cainteoir/ipa-phonemes.lst'},

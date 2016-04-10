@@ -155,21 +155,24 @@ std::size_t tts::dictionary::key_hash::operator()(const key_type &a) const
 
 void tts::dictionary::add_entry(const key_type &aWord, const object &aEntry)
 {
-	mEntries[aWord] = aEntry;
+	object &entry = mEntries[aWord];
+	if (entry.type() == object_type::null)
+		entry = { object_type::array };
+	entry.put(aEntry);
 }
 
 void tts::dictionary::add_entry(const key_type &aWord, const std::shared_ptr<buffer> &aEntry)
 {
 	object e{ object_type::dictionary };
 	e.put("Entry::pronunciation", aEntry);
-	mEntries[aWord] = e;
+	add_entry(aWord, e);
 }
 
 void tts::dictionary::add_entry(const key_type &aWord, const ipa::phonemes &aEntry)
 {
 	object e{ object_type::dictionary };
 	e.put("Entry::pronunciation", aEntry);
-	mEntries[aWord] = e;
+	add_entry(aWord, e);
 }
 
 const cainteoir::object &
@@ -185,7 +188,7 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
                                 ipa::phonemes &aPhonemes,
                                 int depth)
 {
-	const auto &entry = lookup(aWord).get("Entry::pronunciation");
+	const auto &entry = lookup(aWord).get(0).get("Entry::pronunciation");
 	switch (entry.type())
 	{
 	case object_type::phonemes: case object_type::phonemes_ref:
@@ -255,10 +258,12 @@ struct dictionary_entry_formatter : public tts::dictionary_formatter
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
 	                         const ipa::phonemes &phonemes,
+	                         const cainteoir::object &entry,
 	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                        const std::shared_ptr<cainteoir::buffer> &say_as,
+	                        const cainteoir::object &entry,
 	                        const char *line_separator);
 
 	FILE *mOut;
@@ -267,6 +272,7 @@ struct dictionary_entry_formatter : public tts::dictionary_formatter
 void dictionary_entry_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                                      std::shared_ptr<tts::phoneme_writer> &writer,
                                                      const ipa::phonemes &phonemes,
+                                                     const cainteoir::object &entry,
                                                      const char *line_separator)
 {
 	fprintf(stdout, "\"%s\" => /", word->str().c_str());
@@ -278,6 +284,7 @@ void dictionary_entry_formatter::write_phoneme_entry(const std::shared_ptr<caint
 
 void dictionary_entry_formatter::write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                                     const std::shared_ptr<cainteoir::buffer> &say_as,
+                                                    const cainteoir::object &entry,
                                                     const char *line_separator)
 {
 	ucd::codepoint_t cp = 0;
@@ -335,17 +342,22 @@ void tts::formatDictionary(tts::dictionary &dict,
 {
 	for (auto &entry : dict)
 	{
-		const auto &pronunciation = entry.second.get("Entry::pronunciation");
-		if (pronunciation.is_phonemes())
-			formatter->write_phoneme_entry(entry.first, writer, *pronunciation.phonemes());
-		else if (resolve_say_as_entries)
+		size_t n = entry.second.size();
+		for (size_t i = 0; i != n; ++i)
 		{
-			ipa::phonemes pronunciation;
-			if (dict.pronounce(entry.first, {}, pronunciation))
-				formatter->write_phoneme_entry(entry.first, writer, pronunciation);
+			const auto &e = entry.second.get(i);
+			const auto &pronunciation = e.get("Entry::pronunciation");
+			if (pronunciation.is_phonemes())
+				formatter->write_phoneme_entry(entry.first, writer, *pronunciation.phonemes(), e);
+			else if (resolve_say_as_entries)
+			{
+				ipa::phonemes pronunciation;
+				if (dict.pronounce(entry.first, {}, pronunciation))
+					formatter->write_phoneme_entry(entry.first, writer, pronunciation, e);
+			}
+			else
+				formatter->write_say_as_entry(entry.first, pronunciation.buffer(), e);
 		}
-		else
-			formatter->write_say_as_entry(entry.first, pronunciation.buffer());
 	}
 }
 
@@ -354,6 +366,8 @@ void tts::formatDictionary(tts::dictionary &dict,
 	                   std::shared_ptr<phoneme_reader> &reader,
 	                   std::shared_ptr<phoneme_writer> &writer)
 {
+	static const object null_entry;
+
 	for (auto &entry : dict)
 	{
 		ipa::phonemes pronunciation;
@@ -361,6 +375,6 @@ void tts::formatDictionary(tts::dictionary &dict,
 		while (reader->read())
 			pronunciation.push_back(*reader);
 
-		formatter->write_phoneme_entry(entry.first, writer, pronunciation);
+		formatter->write_phoneme_entry(entry.first, writer, pronunciation, null_entry);
 	}
 }

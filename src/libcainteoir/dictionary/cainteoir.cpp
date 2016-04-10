@@ -165,10 +165,12 @@ struct cainteoir_formatter : public tts::dictionary_formatter
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
 	                         const ipa::phonemes &phonemes,
+	                         const cainteoir::object &entry,
 	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                        const std::shared_ptr<cainteoir::buffer> &say_as,
+	                        const cainteoir::object &entry,
 	                        const char *line_separator);
 
 	FILE *mOut;
@@ -177,6 +179,7 @@ struct cainteoir_formatter : public tts::dictionary_formatter
 void cainteoir_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                               std::shared_ptr<tts::phoneme_writer> &writer,
                                               const ipa::phonemes &phonemes,
+                                              const cainteoir::object &entry,
                                               const char *line_separator)
 {
 	int n = fprintf(mOut, is_multiword_entry(*word) ? "\"%s\"" : "%s", word->str().c_str());
@@ -191,6 +194,7 @@ void cainteoir_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::b
 
 void cainteoir_formatter::write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
                                              const std::shared_ptr<cainteoir::buffer> &say_as,
+                                             const cainteoir::object &entry,
                                              const char *line_separator)
 {
 	int n = fprintf(mOut, is_multiword_entry(*word) ? "\"%s\"" : "%s", word->str().c_str());

@@ -456,19 +456,22 @@ struct cmudict_formatter : public tts::dictionary_formatter
 	void write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                         std::shared_ptr<tts::phoneme_writer> &writer,
 	                         const ipa::phonemes &phonemes,
+	                         const cainteoir::object &entry,
 	                         const char *line_separator);
 
 	void write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
 	                        const std::shared_ptr<cainteoir::buffer> &say_as,
+	                        const cainteoir::object &entry,
 	                        const char *line_separator);
 
 	FILE *mOut;
 };
 
 void cmudict_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buffer> &word,
-                                           std::shared_ptr<tts::phoneme_writer> &writer,
-                                           const ipa::phonemes &phonemes,
-                                           const char *line_separator)
+                                            std::shared_ptr<tts::phoneme_writer> &writer,
+                                            const ipa::phonemes &phonemes,
+                                            const cainteoir::object &entry,
+                                            const char *line_separator)
 {
 	bool in_variant = false;
 	for (auto c : *word)
@@ -494,8 +497,9 @@ void cmudict_formatter::write_phoneme_entry(const std::shared_ptr<cainteoir::buf
 }
 
 void cmudict_formatter::write_say_as_entry(const std::shared_ptr<cainteoir::buffer> &word,
-                                          const std::shared_ptr<cainteoir::buffer> &say_as,
-                                          const char *line_separator)
+                                           const std::shared_ptr<cainteoir::buffer> &say_as,
+                                           const cainteoir::object &entry,
+                                           const char *line_separator)
 {
 	throw std::runtime_error("cmudict does not support say-as entries");
 }
