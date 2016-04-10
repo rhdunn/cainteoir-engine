@@ -22,6 +22,7 @@
 #define CAINTEOIR_ENGINE_DICTIONARY_HPP
 
 #include "phoneme.hpp"
+#include "object.hpp"
 
 #include <list>
 #include <unordered_map>
@@ -78,39 +79,6 @@ namespace cainteoir { namespace tts
 
 	struct dictionary
 	{
-		enum entry_type
-		{
-			no_match,
-			say_as,
-			phonemes,
-		};
-
-		struct entry
-		{
-			entry_type type;
-			std::shared_ptr<buffer> text;
-			ipa::phonemes phonemes;
-
-			entry()
-				: type(dictionary::no_match)
-			{
-			}
-
-			entry(const std::shared_ptr<buffer> &aSayAs)
-				: type(dictionary::say_as)
-				, text(aSayAs)
-			{
-			}
-
-			entry(const ipa::phonemes &aPhonemes)
-				: type(dictionary::phonemes)
-				, phonemes(aPhonemes)
-			{
-			}
-
-			entry(const std::shared_ptr<buffer> &aPhonemes, std::shared_ptr<phoneme_reader> &aPhonemeSet);
-		};
-
 		typedef std::shared_ptr<buffer> key_type;
 
 		struct key_hash : public std::unary_function<key_type, std::size_t>
@@ -126,12 +94,14 @@ namespace cainteoir { namespace tts
 			}
 		};
 
-		typedef std::unordered_map<key_type, entry, key_hash, key_equals> storage_type;
+		typedef std::unordered_map<key_type, object, key_hash, key_equals> storage_type;
 		typedef storage_type::const_iterator const_iterator;
 
-		void add_entry(const key_type &aWord, const entry &aEntry);
+		void add_entry(const key_type &aWord, const object &aEntry);
+		void add_entry(const key_type &aWord, const std::shared_ptr<buffer> &aEntry);
+		void add_entry(const key_type &aWord, const ipa::phonemes &aEntry);
 
-		const entry &lookup(const key_type &aWord) const;
+		const object &lookup(const key_type &aWord) const;
 
 		std::size_t size()  const { return mEntries.size();  }
 		bool        empty() const { return mEntries.empty(); }
@@ -157,7 +127,7 @@ namespace cainteoir { namespace tts
 	struct dictionary_reader
 	{
 		std::shared_ptr<cainteoir::buffer> word;
-		tts::dictionary::entry entry;
+		object entry;
 
 		virtual bool read() = 0;
 

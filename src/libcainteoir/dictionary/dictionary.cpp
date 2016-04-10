@@ -144,14 +144,6 @@ void tts::multiword_entry::advance()
 		mValue.word = std::make_shared<cainteoir::buffer>(first, next);
 }
 
-tts::dictionary::entry::entry(const std::shared_ptr<buffer> &aPhonemes, std::shared_ptr<phoneme_reader> &aPhonemeSet)
-	: type(tts::dictionary::phonemes)
-{
-	aPhonemeSet->reset(aPhonemes);
-	while (aPhonemeSet->read())
-		phonemes.push_back(*aPhonemeSet);
-}
-
 std::size_t tts::dictionary::key_hash::operator()(const key_type &a) const
 {
 	// DJB2 Hash Algorithm by Dan Bernstein:
@@ -161,14 +153,29 @@ std::size_t tts::dictionary::key_hash::operator()(const key_type &a) const
         return hash;
 }
 
-void tts::dictionary::add_entry(const key_type &aWord, const entry &aEntry)
+void tts::dictionary::add_entry(const key_type &aWord, const object &aEntry)
 {
 	mEntries[aWord] = aEntry;
 }
 
-const tts::dictionary::entry &tts::dictionary::lookup(const key_type &aWord) const
+void tts::dictionary::add_entry(const key_type &aWord, const std::shared_ptr<buffer> &aEntry)
 {
-	static const entry no_match = {};
+	object e{ object_type::dictionary };
+	e.put("Entry::pronunciation", aEntry);
+	mEntries[aWord] = e;
+}
+
+void tts::dictionary::add_entry(const key_type &aWord, const ipa::phonemes &aEntry)
+{
+	object e{ object_type::dictionary };
+	e.put("Entry::pronunciation", aEntry);
+	mEntries[aWord] = e;
+}
+
+const cainteoir::object &
+tts::dictionary::lookup(const key_type &aWord) const
+{
+	static const object no_match = {};
 	const auto &match = mEntries.find(aWord);
 	return (match == mEntries.end()) ? no_match : match->second;
 }
@@ -178,20 +185,20 @@ bool tts::dictionary::pronounce(const std::shared_ptr<buffer> &aWord,
                                 ipa::phonemes &aPhonemes,
                                 int depth)
 {
-	const auto &entry = lookup(aWord);
-	switch (entry.type)
+	const auto &entry = lookup(aWord).get("Entry::pronunciation");
+	switch (entry.type())
 	{
-	case dictionary::phonemes:
-		aPhonemes = entry.phonemes;
+	case object_type::phonemes: case object_type::phonemes_ref:
+		aPhonemes = *entry.phonemes();
 		return true;
-	case dictionary::say_as:
+	case object_type::buffer: case object_type::buffer_ref: // say-as entries
 		if (depth == 5)
 		{
 			fprintf(stderr, "error: too much recursion for entry '%s'.\n", aWord->str().c_str());
 			return false;
 		}
-		return pronounce(entry.text, aPronunciationRules, aPhonemes, depth + 1);
-	case dictionary::no_match:
+		return pronounce(entry.buffer(), aPronunciationRules, aPhonemes, depth + 1);
+	case object_type::null: // no match
 		{
 			multiword_entry words{ aWord, depth == 0
 			                            ? multiword_entry::hyphenated : multiword_entry::stressed };
@@ -328,8 +335,9 @@ void tts::formatDictionary(tts::dictionary &dict,
 {
 	for (auto &entry : dict)
 	{
-		if (entry.second.type == tts::dictionary::phonemes)
-			formatter->write_phoneme_entry(entry.first, writer, entry.second.phonemes);
+		const auto &pronunciation = entry.second.get("Entry::pronunciation");
+		if (pronunciation.is_phonemes())
+			formatter->write_phoneme_entry(entry.first, writer, *pronunciation.phonemes());
 		else if (resolve_say_as_entries)
 		{
 			ipa::phonemes pronunciation;
@@ -337,7 +345,7 @@ void tts::formatDictionary(tts::dictionary &dict,
 				formatter->write_phoneme_entry(entry.first, writer, pronunciation);
 		}
 		else
-			formatter->write_say_as_entry(entry.first, entry.second.text);
+			formatter->write_say_as_entry(entry.first, pronunciation.buffer());
 	}
 }
 

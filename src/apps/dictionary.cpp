@@ -295,14 +295,14 @@ static uint32_t from_document(tts::dictionary &base_dict,
 		{
 			auto text = tokens->token.get("Token:text").buffer();
 			auto &match = base_dict.lookup(text);
-			switch (match.type)
+			switch (match.get("Entry::pronunciation").type())
 			{
-			case tts::dictionary::no_match:
+			case cainteoir::object_type::null: // no match
 				switch (word_mode)
 				{
 				case word_mode_type::merge:
 				case word_mode_type::only_in_document:
-					dict.add_entry(text, { text });
+					dict.add_entry(text, text);
 					++words;
 					break;
 				default:
@@ -310,21 +310,21 @@ static uint32_t from_document(tts::dictionary &base_dict,
 					break;
 				}
 				break;
-			case tts::dictionary::say_as:
+			case cainteoir::object_type::buffer: // say-as entry
 				if (word_mode == word_mode_type::in_dictionary_and_document)
 				{
 					ipa::phonemes pronunciation;
 					if (base_dict.pronounce(text, {}, pronunciation))
 					{
-						dict.add_entry(text, { pronunciation });
+						dict.add_entry(text, pronunciation);
 						++words;
 					}
 				}
 				break;
-			case tts::dictionary::phonemes:
+			case cainteoir::object_type::phonemes: case cainteoir::object_type::phonemes_ref:
 				if (word_mode == word_mode_type::in_dictionary_and_document)
 				{
-					dict.add_entry(text, match );
+					dict.add_entry(text, match);
 					++words;
 				}
 				break;
@@ -345,9 +345,9 @@ static uint32_t from_dictionary(tts::dictionary &base_dict,
 	for (auto &entry : src_dict)
 	{
 		auto &match = base_dict.lookup(entry.first);
-		switch (match.type)
+		switch (match.get("Entry::pronunciation").type())
 		{
-		case tts::dictionary::no_match:
+		case cainteoir::object_type::null: // no match
 			switch (word_mode)
 			{
 			case word_mode_type::merge:
@@ -360,21 +360,21 @@ static uint32_t from_dictionary(tts::dictionary &base_dict,
 				break;
 			}
 			break;
-		case tts::dictionary::say_as:
+		case cainteoir::object_type::buffer: // say-as entry
 			if (word_mode == word_mode_type::in_dictionary_and_document)
 			{
 				ipa::phonemes pronunciation;
 				if (base_dict.pronounce(entry.first, {}, pronunciation))
 				{
-					dict.add_entry(entry.first, { pronunciation });
+					dict.add_entry(entry.first, pronunciation);
 					++words;
 				}
 			}
 			break;
-		case tts::dictionary::phonemes:
+		case cainteoir::object_type::phonemes: case cainteoir::object_type::phonemes_ref:
 			if (word_mode == word_mode_type::in_dictionary_and_document)
 			{
-				dict.add_entry(entry.first, match );
+				dict.add_entry(entry.first, match);
 				++words;
 			}
 			break;

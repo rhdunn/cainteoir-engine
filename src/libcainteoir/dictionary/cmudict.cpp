@@ -387,10 +387,16 @@ cmudict_dictionary_reader::read()
 					*ptr++ = c;
 			}
 
-			std::shared_ptr<cainteoir::buffer> phonemes = std::make_shared<cainteoir::buffer>(pronunciation.begin(), pronunciation.end());
-
 			word = cainteoir::make_buffer(data, ptr - data);
-			entry = { phonemes, mPhonemeSet };
+
+			ipa::phonemes phonemes;
+
+			mPhonemeSet->reset(std::make_shared<cainteoir::buffer>(pronunciation.begin(), pronunciation.end()));
+			while (mPhonemeSet->read())
+				phonemes.push_back(*mPhonemeSet);
+
+			entry = { cainteoir::object_type::dictionary };
+			entry.put("Entry::pronunciation", phonemes);
 			return true;
 		}
 		break;

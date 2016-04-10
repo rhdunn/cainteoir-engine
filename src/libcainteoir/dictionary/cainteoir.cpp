@@ -117,14 +117,26 @@ bool cainteoir_dictionary_reader::read()
 			if (top->read()) switch (top->type())
 			{
 			case cainteoir_file_reader::text:
-				entry = { top->buffer() };
+				entry = { cainteoir::object_type::dictionary };
+				entry.put("Entry::pronunciation", top->buffer());
 				return true;
 			case cainteoir_file_reader::phonemes:
 				if (top->match().empty())
 					continue;
 				if (!top->mPhonemeSet.get())
 					throw std::runtime_error("The dictionary does not specify a phonemeset.");
-				entry = { top->buffer(), top->mPhonemeSet };
+
+				{
+					ipa::phonemes phonemes;
+
+					top->mPhonemeSet->reset(top->buffer());
+					while (top->mPhonemeSet->read())
+						phonemes.push_back(*top->mPhonemeSet);
+
+					entry = { cainteoir::object_type::dictionary };
+					entry.put("Entry::pronunciation", phonemes);
+				}
+
 				return true;
 			}
 
