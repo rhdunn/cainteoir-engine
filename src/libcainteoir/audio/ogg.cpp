@@ -286,7 +286,7 @@ struct ogg_audio_s16le : public ogg_audio
 
 		long i;
 		for (i = 0; i < len/2; ++i)
-			buffer[i] = ((data[i*2+1]<<8)|(uint8_t)data[i*2])/32768.f;
+			buffer[i] = (((int8_t)data[i*2+1]<<8)|(0x00ff&(int)data[i*2]))/32768.f;
 
 		write_ogg_data(i);
 
