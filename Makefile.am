@@ -7,6 +7,8 @@ xmldir     = $(mimedir)/packages
 vimdir     = $(prefix)/share/vim
 
 AM_LDFLAGS  = ${LTLIBINTL}
+AM_CFLAGS   = \
+	-Isrc/include -Isrc -Iucd-tools/src/include
 AM_CXXFLAGS = \
 	-Isrc/include -Isrc -Iucd-tools/src/include \
 	-DMBROLA_DIR=\"$(MBROLA_DIR)\" \
@@ -282,11 +284,11 @@ src_libcainteoir_libcainteoir_la_CXXFLAGS = ${AM_CXXFLAGS} \
 
 src_libcainteoir_libcainteoir_la_SOURCES = \
 	ucd-tools/src/include/ucd/ucd.h \
-	ucd-tools/src/case.cpp \
-	ucd-tools/src/categories.cpp \
-	ucd-tools/src/ctype.cpp \
-	ucd-tools/src/scripts.cpp \
-	ucd-tools/src/tostring.cpp \
+	ucd-tools/src/case.c \
+	ucd-tools/src/categories.c \
+	ucd-tools/src/ctype.c \
+	ucd-tools/src/scripts.c \
+	ucd-tools/src/tostring.c \
 	\
 	src/i18n.h \
 	src/compatibility.hpp \
