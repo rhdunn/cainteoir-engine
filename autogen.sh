@@ -8,7 +8,7 @@ fi
 
 mkdir -p m4
 ln -sf README.md README
-ln -sf docs/ReleaseNotes.md NEWS
+ln -sf CHANGELOG.md NEWS
 
 if [ -d .git ] ; then
 	git submodule update --init --recursive || exit 1

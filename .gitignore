@@ -70,7 +70,9 @@ tests/rewrite
 
 # docs/phonemes output:
 
+CHANGELOG.html
 README.html
+
 docs/*.html
 docs/*/*.html
 docs/*/*/*.html

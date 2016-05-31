@@ -424,7 +424,7 @@ html:	README.html \
 	$(DOC_SOURCE_FILES:%.md=%.html) \
 	docs/langdb-format.html \
 	docs/voicedb-format.html \
-	docs/ReleaseNotes.html
+	CHANGELOG.html
 
 doc:	html api
 
