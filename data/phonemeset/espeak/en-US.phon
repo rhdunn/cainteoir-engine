@@ -120,25 +120,3 @@ aI@	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aɪ̯ə̯/
 aI3	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,rzd,nsy}/ # /aɪ̯ɚ̯/
 aI3:	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{lmd,cnt,unr,vwl,lng}/ # /aɪ̯ɜː/
 aU@	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aʊ̯ə̯/
-
-# Foreign
-
-C	/{vls,pal,frc}/ # /ç/
-L	/{vcd,alv,lat,apr,vfz}/ # /ɫ/
-l\#	/{vls,alv,lat,frc}/ # /ɬ/
-n^	/{vcd,pal,nas}/ # /ɲ/
-Q	/{vcd,vel,frc}/ # /ɣ/
-q	/{vls,uvl,stp}/ # /q/
-Q\"	/{vcd,uvl,frc}/ # /ʁ/
-R2	/{vcd,alv,trl}/ # /r/
-R	/{vcd,alv,trl}/ # /r/
-z.	/{vcd,rfx,sib,frc}/ # /ʐ/
-tS;	/{vls,alv,stp,tie}{vls,alp,sib,frc}/ # /t͡ɕ/
-
-u	/{hgh,bck,rnd,vwl}/     # /u/
-e	/{umd,fnt,unr,vwl}/     # /e/
-e:	/{umd,fnt,unr,vwl,lng}/ # /eː/
-o	/{umd,bck,rnd,vwl}/     # /o/
-o:	/{umd,bck,rnd,vwl,lng}/ # /oː/
-A~	/{low,bck,unr,vwl,nzd}/ # /ɑ̃/
-O~	/{lmd,bck,rnd,vwl,nzd}/ # /ɔ̃/
