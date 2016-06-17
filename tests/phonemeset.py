@@ -134,7 +134,7 @@ if __name__ == '__main__':
 		]},
 		{'name': 'English (Scottish)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en-GB-scotland.ipa', 'result': 'phonemeset/espeak/en-GB-scotland.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-scotland'},
-			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en-GB-scotland.ipa', 'from': 'espeak/en-GB-scotland', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en-GB-scotland', 'result': 'phonemeset/espeak/en-GB-scotland.ipa', 'from': 'espeak/en-GB-scotland', 'to': 'ipa'},
 		]},
 		{'name': 'English (Lancastrian)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-gbclan'},
@@ -150,11 +150,11 @@ if __name__ == '__main__':
 		]},
 		{'name': 'English (American)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en-US.ipa', 'result': 'phonemeset/espeak/en-US.espeak', 'from': 'ipa', 'to': 'espeak/en-US'},
-			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en-US.ipa', 'from': 'espeak/en-US', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en-US', 'result': 'phonemeset/espeak/en-US.ipa', 'from': 'espeak/en-US', 'to': 'ipa'},
 		]},
 		{'name': 'English (Caribbean)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en-029.ipa', 'result': 'phonemeset/espeak/en-029.espeak', 'from': 'ipa', 'to': 'espeak/en-029'},
-			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en-029.ipa', 'from': 'espeak/en-029', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en-029', 'result': 'phonemeset/espeak/en-029.ipa', 'from': 'espeak/en-029', 'to': 'ipa'},
 		]},
 		{'name': 'Spanish (Spain)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/es.ipa', 'result': 'phonemeset/espeak/es.espeak', 'from': 'ipa', 'to': 'espeak/es'},
