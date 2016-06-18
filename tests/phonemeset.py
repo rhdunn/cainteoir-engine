@@ -141,8 +141,8 @@ if __name__ == '__main__':
 			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-gbclan', 'to': 'ipa'},
 		]},
 		{'name': 'English (Received Pronunciation)', 'type': 'phonemeset', 'tests': [
-			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-rp'},
-			{'test': 'phonemeset/espeak/en', 'result': 'phonemeset/espeak/en.ipa', 'from': 'espeak/en-GB-x-rp', 'to': 'ipa'},
+			{'test': 'phonemeset/espeak/en-GB-x-rp.ipa', 'result': 'phonemeset/espeak/en-GB-x-rp.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-rp'},
+			{'test': 'phonemeset/espeak/en-GB-x-rp', 'result': 'phonemeset/espeak/en-GB-x-rp.ipa', 'from': 'espeak/en-GB-x-rp', 'to': 'ipa'},
 		]},
 		{'name': 'English (West Midlands)', 'type': 'phonemeset', 'tests': [
 			{'test': 'phonemeset/espeak/en.ipa', 'result': 'phonemeset/espeak/en.espeak', 'from': 'ipa', 'to': 'espeak/en-GB-x-gbcwmd'},

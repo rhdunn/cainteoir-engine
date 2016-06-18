@@ -1,1 +1,90 @@
-en.phon
+# Copyright (C) 2014-2016 Reece H. Dunn
+#
+# License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
+
+.type	espeak
+
+# Linking Phonemes
+
+r-	/{vcd,alv,apr}/ # /ɹ/
+@-	/{mid,cnt,unr,vwl}/ # /ə/
+;	//
+
+# Consonants
+
+b	/{vcd,blb,stp}/ # /b/
+d	/{vcd,alv,stp}/ # /d/
+D	/{vcd,dnt,frc}/ # /ð/
+dZ	/{vcd,alv,stp,tie}{vcd,pla,sib,frc}/ # /d͡ʒ/
+f	/{vls,lbd,frc}/ # /f/
+g	/{vcd,vel,stp}/ # /ɡ/
+h	/{vls,glt,apr}/ # /h/
+j	/{vcd,pal,apr}/ # /j/
+k	/{vls,vel,stp}/ # /k/
+l	/{vcd,alv,lat,apr}/ # /l/
+m	/{vcd,blb,nas}/ # /m/
+n	/{vcd,alv,nas}/ # /n/
+N	/{vcd,vel,nas}/ # /ŋ/
+T	/{vls,dnt,frc}/ # /θ/
+p	/{vls,blb,stp}/ # /p/
+r	/{vcd,alv,apr}/ # /ɹ/
+s	/{vls,alv,sib,frc}/ # /s/
+S	/{vls,pla,sib,frc}/ # /ʃ/
+t	/{vls,alv,stp}/ # /t/
+tS	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
+v	/{vcd,lbd,frc}/ # /v/
+w	/{vcd,lbv,apr}/ # /w/
+z	/{vcd,alv,sib,frc}/ # /z/
+Z	/{vcd,pla,sib,frc}/ # /ʒ/
+
+x	/{vls,vel,frc}/ # /x/
+
+@L	/{vcd,alv,lat,apr,syl}/ # /l̩/
+n-	/{vcd,alv,nas,syl}/ # /n/
+
+# Vowels
+
+I	/{smh,fnt,unr,vwl}/     # /ɪ/  K[I]T
+U	/{smh,bck,rnd,vwl}/     # /ʊ/  F[OO]T
+E	/{lmd,fnt,unr,vwl}/     # /ɛ/  DR[E]SS
+V	/{lmd,bck,unr,vwl}/     # /ʌ/  STR[U]T
+a	/{sml,fnt,unr,vwl}/     # /æ/  TR[A]P
+aa	/{low,fnt,unr,vwl,lng}/ # /aː/ B[A]TH
+0	/{low,bck,rnd,vwl}/     # /ɒ/  L[O]T-CL[O]TH
+
+i::	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FL[EE]CE (for <wii>)
+i:	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FL[EE]CE
+u:	/{hgh,bck,rnd,vwl,lng}/ # /uː/ G[OO]SE
+O:	/{lmd,bck,rnd,vwl,lng}/ # /ɔː/ TH[OUGH]T
+A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ P[AL]M
+
+O@	/{lmd,bck,rnd,vwl,rzd,lng}/ # /ɔ˞ː/ N[OR]TH
+o@	/{umd,bck,rnd,vwl,rzd,lng}/ # /o˞ː/ F[OR]CE
+A@	/{low,bck,unr,vwl,rzd,lng}/ # /ɑ˞ː/ ST[AR]T
+
+3:	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/ N[UR]SE
+
+i	/{hgh,fnt,unr,vwl}/     # /i/  HAPP[Y]
+I2	/{hgh,cnt,unr,vwl}/	# /ɨ/  ROS[E]S
+@2	/{mid,cnt,unr,vwl}/     # /ə/  COMM[A]
+@5	/{mid,cnt,unr,vwl}/     # /ə/  COMM[A]
+@	/{mid,cnt,unr,vwl}/     # /ə/  COMM[A]
+3	/{mid,cnt,unr,vwl,rzd}/ # /ɚ/  LETT[ER]
+a\#	/{sml,cnt,unr,vwl}/	# /ɐ/  [A]BOUT
+
+# Diphthongs
+
+i@	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/ MILL[IO]N
+i@3	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/ N[EAR]
+U@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/ C[URE]
+eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ F[A]CE
+oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ G[OA]T
+e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQU[ARE]
+OI	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/ CH[OI]CE
+aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PRICE
+aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/ MOUTH
+
+# Triphthongs
+
+aI@	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aɪ̯ə̯/ F[IRE]
+aU@	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aʊ̯ə̯/ H[OUR]
