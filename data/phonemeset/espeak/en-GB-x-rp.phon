@@ -98,5 +98,7 @@ aU@	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aʊ̯ə̯/ 
 
 # Disambiguation
 
+aa\#	/{sml,fnt,unr,vwl}{sml,cnt,unr,vwl}/ # /æɐ/
+
 aI@L	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{vcd,alv,lat,apr,syl}/ # /aɪ̯l̩/ trial, etc.
 aU@L	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{vcd,alv,lat,apr,syl}/ # /aʊ̯l̩/ towel, etc.
