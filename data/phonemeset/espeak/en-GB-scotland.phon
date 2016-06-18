@@ -63,9 +63,9 @@ O@r	/{lmd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɔə̯/ N[OR]TH
 o@r	/{umd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /oə̯/ F[OR]CE
 A@r	/{low,bck,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɑə̯/ ST[AR]T
 
-IR	/{smh,fnt,unr,vwl,rzd}/ # /ɪ˞/ N[UR]SE (F[IR])
-VR	/{smh,bck,rnd,vwl,rzd}/ # /ʊ˞/ N[UR]SE (F[UR])
-3:	/{lmd,fnt,unr,vwl,rzd}/ # /ɛ˞/ N[UR]SE (F[ER]N)
+IR	/{smh,fnt,unr,vwl,lng}/ # /ɪː/ N[UR]SE (F[IR])
+VR	/{smh,bck,rnd,vwl,lng}/ # /ʊː/ N[UR]SE (F[UR])
+3:	/{lmd,fnt,unr,vwl,lng}/ # /ɛː/ N[UR]SE (F[ER]N)
 
 i	/{hgh,fnt,unr,vwl}/     # /i/  HAPP[Y]
 I2	/{hgh,cnt,unr,vwl}/	# /ɨ/  ROS[E]S
