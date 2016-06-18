@@ -51,6 +51,7 @@ V	/{lmd,bck,unr,vwl}/     # /ʌ/  STR[U]T
 a	/{sml,fnt,unr,vwl}/     # /æ/  TR[A]P
 0	/{low,bck,rnd,vwl}/     # /ɒ/  L[O]T-CL[O]TH
 
+A~	/{low,bck,unr,vwl,nzd}/ # /ɑ̃/ CROISS[ANT]
 O~	/{lmd,bck,rnd,vwl,nzd}/ # /ɔ̃/ REAPPROCHEM[ENT]
 
 i::	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FL[EE]CE (for <wii>)
