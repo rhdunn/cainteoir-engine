@@ -90,3 +90,7 @@ aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/ M[OU]TH
 
 aI@	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aɪ̯ə̯/ F[IRE]
 aU@	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aʊ̯ə̯/ H[OUR]
+
+# Disambiguation
+
+aU@L	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{vcd,alv,lat,apr,syl}/ # /aʊ̯l̩/ towel, etc.

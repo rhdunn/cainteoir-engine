@@ -81,10 +81,14 @@ eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ F[A]CE
 oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ G[OA]T
 e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQU[ARE]
 OI	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/ CH[OI]CE
-aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PRICE
-aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/ MOUTH
+aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PR[I]CE
+aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/ M[OU]TH
 
 # Triphthongs
 
 aI@	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aɪ̯ə̯/ F[IRE]
 aU@	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aʊ̯ə̯/ H[OUR]
+
+# Disambiguation
+
+aU@L	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{vcd,alv,lat,apr,syl}/ # /aʊ̯l̩/ towel, etc.
