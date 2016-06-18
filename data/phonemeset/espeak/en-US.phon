@@ -71,7 +71,7 @@ aa	/{low,fnt,unr,vwl,lng}/ # /aː/ B[A]TH
 i	/{hgh,fnt,unr,vwl}/     # /i/  HAPP[Y]
 I\#	/{hgh,cnt,unr,vwl}/	# /ɨ/  ROS[E]S
 I2	/{hgh,cnt,unr,vwl}/	# /ɨ/  ROS[E]S
-@2	/{mid,cnt,unr,vwl}/     # /ə/  COMM~A~
+@2	/{mid,cnt,unr,vwl}/     # /ə/  COMM[A]
 @	/{mid,cnt,unr,vwl}/     # /ə/  COMM[A]
 3	/{mid,cnt,unr,vwl,rzd}/ # /ɚ/  LETT[ER]
 a\#	/{sml,cnt,unr,vwl}/	# /ɐ/  [A]BOUT
