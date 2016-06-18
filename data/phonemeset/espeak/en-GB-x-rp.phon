@@ -38,6 +38,7 @@ w	/{vcd,lbv,apr}/ # /w/
 z	/{vcd,alv,sib,frc}/ # /z/
 Z	/{vcd,pla,sib,frc}/ # /ʒ/
 
+\?	/{vls,glt,stp}/ # /ʔ/
 x	/{vls,vel,frc}/ # /x/
 
 @L	/{vcd,alv,lat,apr,syl}/ # /l̩/
