@@ -39,6 +39,7 @@ Z	/{vcd,pla,sib,frc}/ # /ʒ/
 
 \?	/{vls,glt,stp}/ # /ʔ/
 x	/{vls,vel,frc}/ # /x/
+C	/{vls,pal,frc}/ # /ç/
 
 @L	/{vcd,alv,lat,apr,syl}/ # /l̩/
 n-	/{vcd,alv,nas,syl}/ # /n/
