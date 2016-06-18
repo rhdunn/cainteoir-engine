@@ -51,9 +51,9 @@ I	/{smh,fnt,unr,vwl}/ # /ɪ/ K[I]T
 U	/{smh,bck,rnd,vwl}/ # /ʊ/ F[OO]T
 E	/{lmd,fnt,unr,vwl}/ # /ɛ/ DR[E]SS
 V	/{lmd,bck,unr,vwl}/ # /ʌ/ STR[U]T
-O	/{lmd,bck,rnd,vwl}/ # /ɔ/ CL[O]TH
 a	/{sml,fnt,unr,vwl}/ # /æ/ TR[A]P
 0	/{low,bck,rnd,vwl}/ # /ɒ/ L[O]T
+O	/{lmd,bck,rnd,vwl}/ # /ɔ/ CL[O]TH
 
 A~	/{low,bck,unr,vwl,nzd}/ # /ɑ̃/ CROISS[ANT]
 O~	/{lmd,bck,rnd,vwl,nzd}/ # /ɔ̃/ REAPPROCHEM[ENT]
