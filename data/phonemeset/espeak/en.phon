@@ -49,7 +49,6 @@ U	/{smh,bck,rnd,vwl}/     # /ʊ/  F[OO]T
 E	/{lmd,fnt,unr,vwl}/     # /ɛ/  DR[E]SS
 V	/{lmd,bck,unr,vwl}/     # /ʌ/  STR[U]T
 a	/{sml,fnt,unr,vwl}/     # /æ/  TR[A]P
-aa	/{low,fnt,unr,vwl,lng}/ # /aː/ B[A]TH
 0	/{low,bck,rnd,vwl}/     # /ɒ/  L[O]T-CL[O]TH
 
 i::	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FL[EE]CE (for <wii>)
@@ -57,10 +56,7 @@ i:	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FL[EE]CE
 u:	/{hgh,bck,rnd,vwl,lng}/ # /uː/ G[OO]SE
 O:	/{lmd,bck,rnd,vwl,lng}/ # /ɔː/ TH[OUGH]T
 A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ P[AL]M
-
-O@	/{lmd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɔə̯/ N[OR]TH
-o@	/{umd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /oə̯/ F[OR]CE
-A@	/{low,bck,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɑə̯/ ST[AR]T
+aa	/{low,fnt,unr,vwl,lng}/ # /aː/ B[A]TH
 
 3:	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/ N[UR]SE
 
@@ -73,13 +69,19 @@ a\#	/{sml,cnt,unr,vwl}/	# /ɐ/  [A]BOUT
 # Diphthongs
 
 i@	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/ MILL[IO]N
-i@3	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/ N[EAR]
+
+i@3	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy,rzd}/ # /ɪɚ̯/ N[EAR]
 U@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/ C[URE]
-eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ F[A]CE
-oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ G[OA]T
 e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQU[ARE]
+O@	/{lmd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɔə̯/ N[OR]TH
+o@	/{umd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /oə̯/ F[OR]CE
+A@	/{low,bck,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɑə̯/ ST[AR]T
+
+eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ F[A]CE
 OI	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/ CH[OI]CE
 aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PR[I]CE
+
+oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ G[OA]T
 aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/ M[OU]TH
 
 # Triphthongs
