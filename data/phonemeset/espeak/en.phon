@@ -58,9 +58,9 @@ u:	/{hgh,bck,rnd,vwl,lng}/ # /uː/ G[OO]SE
 O:	/{lmd,bck,rnd,vwl,lng}/ # /ɔː/ TH[OUGH]T
 A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ P[AL]M
 
-O@	/{lmd,bck,rnd,vwl,rzd,lng}/ # /ɔ˞ː/ N[OR]TH
-o@	/{umd,bck,rnd,vwl,rzd,lng}/ # /o˞ː/ F[OR]CE
-A@	/{low,bck,unr,vwl,rzd,lng}/ # /ɑ˞ː/ ST[AR]T
+O@	/{lmd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɔə̯/ N[OR]TH
+o@	/{umd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /oə̯/ F[OR]CE
+A@	/{low,bck,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɑə̯/ ST[AR]T
 
 3:	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/ N[UR]SE
 
