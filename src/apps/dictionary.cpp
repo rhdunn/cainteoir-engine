@@ -182,7 +182,7 @@ static bool pronounce(std::shared_ptr<tts::phoneme_reader> &dict,
 		while (rules->read())
 			pronounced.push_back(*rules);
 	}
-	catch (const tts::phoneme_error &e)
+	catch (const std::exception &e)
 	{
 		if (mode == mode_type::compare_entries)
 		{
