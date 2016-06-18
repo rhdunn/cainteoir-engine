@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2015 Reece H. Dunn
+# Copyright (C) 2014-2016 Reece H. Dunn
 #
 # License: CC-BY-SA 3.0 [http://creativecommons.org/licenses/by-sa/3.0/]
 
@@ -7,10 +7,8 @@
 # Linking Phonemes
 
 r-	/{vcd,alv,apr}/ # /ɹ/
-g-	/{vcd,vel,stp}/ # /ɡ/
 @-	/{mid,cnt,unr,vwl}/ # /ə/
-;	// # /j/
-j-	// # /j/
+;	//
 
 # Consonants
 
@@ -32,9 +30,6 @@ p	/{vls,blb,stp}/ # /p/
 r	/{vcd,alv,apr}/ # /ɹ/
 s	/{vls,alv,sib,frc}/ # /s/
 S	/{vls,pla,sib,frc}/ # /ʃ/
-t\#	/{vls,alv,stp}/ # /t/
-t2	/{vls,alv,stp}/ # /t/
-t[	/{vls,alv,stp}/ # /t/
 t	/{vls,alv,stp}/ # /t/
 tS	/{vls,alv,stp,tie}{vls,pla,sib,frc}/ # /t͡ʃ/
 v	/{vcd,lbd,frc}/ # /v/
@@ -43,7 +38,6 @@ w\#	/{vls,lbv,apr}/ # /ʍ/
 z	/{vcd,alv,sib,frc}/ # /z/
 Z	/{vcd,pla,sib,frc}/ # /ʒ/
 
-\?	/{vls,glt,stp}/ # /ʔ/
 x	/{vls,vel,frc}/ # /x/
 
 @L	/{vcd,alv,lat,apr,syl}/ # /l̩/
@@ -51,71 +45,48 @@ n-	/{vcd,alv,nas,syl}/ # /n/
 
 # Vowels
 
-I	/{smh,fnt,unr,vwl}/     # /ɪ/  KIT
-U	/{smh,bck,rnd,vwl}/     # /ʊ/  FOOT
-E	/{lmd,fnt,unr,vwl}/     # /ɛ/  DRESS
-V	/{lmd,bck,unr,vwl}/     # /ʌ/  STRUT
-O	/{lmd,bck,rnd,vwl}/     # /ɔ/  LONG
-a	/{sml,fnt,unr,vwl}/     # /æ/  TRAP
-aa\#:	/{sml,fnt,unr,vwl}{sml,cnt,unr,vwl,lng}/	# /æɐː/ (for wmids/h-elision)
-aa\#	/{sml,fnt,unr,vwl}{sml,cnt,unr,vwl}/		# /æɐ/  (for wmids/h-elision)
-aa	/{low,fnt,unr,vwl,lng}/ # /aː/ BATH
-0	/{low,bck,rnd,vwl}/     # /ɒ/  LOT-CLOTH
+I	/{smh,fnt,unr,vwl}/     # /ɪ/  K[I]T
+U	/{smh,bck,rnd,vwl}/     # /ʊ/  F[OO]T
+E	/{lmd,fnt,unr,vwl}/     # /ɛ/  DR[E]SS
+V	/{lmd,bck,unr,vwl}/     # /ʌ/  STR[U]T
+a	/{sml,fnt,unr,vwl}/     # /æ/  TR[A]P
+aa	/{low,fnt,unr,vwl,lng}/ # /aː/ B[A]TH
+0	/{low,bck,rnd,vwl}/     # /ɒ/  L[O]T-CL[O]TH
 
-i::	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FLEECE (for <wii>)
-i:	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FLEECE
-u:	/{hgh,bck,rnd,vwl,lng}/ # /uː/ GOOSE
-O:	/{lmd,bck,rnd,vwl,lng}/ # /ɔː/ THOUGHT
-A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ PALM
-a:	/{sml,fnt,unr,vwl,lng}/ # /æː/
-a\#:	/{sml,cnt,unr,vwl,lng}/	# /ɐː/
+i::	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FL[EE]CE (for <wii>)
+i:	/{hgh,fnt,unr,vwl,lng}/ # /iː/ FL[EE]CE
+u:	/{hgh,bck,rnd,vwl,lng}/ # /uː/ G[OO]SE
+O:	/{lmd,bck,rnd,vwl,lng}/ # /ɔː/ TH[OUGH]T
+A:	/{low,bck,unr,vwl,lng}/ # /ɑː/ P[AL]M
 
-O@	/{lmd,bck,rnd,vwl,rzd,lng}/ # /ɔ˞ː/ NORTH
-O@r	/{lmd,bck,rnd,vwl,rzd,lng}/ # /ɔ˞ː/ NORTH (en-sc)
-O@r-	/{lmd,bck,rnd,vwl,rzd,lng}{vcd,alv,apr}/ # /ɔ˞ːɹ/
-o@	/{umd,bck,rnd,vwl,rzd,lng}/ # /o˞ː/ FORCE
-o@r	/{umd,bck,rnd,vwl,rzd,lng}/ # /o˞ː/ FORCE (en-sc)
-o@r-	/{umd,bck,rnd,vwl,rzd,lng}{vcd,alv,apr}/ # /o˞ːɹ/
-A@	/{low,bck,unr,vwl,rzd,lng}/ # /ɑ˞ː/ START
-A@r	/{low,bck,unr,vwl,rzd,lng}/ # /ɑ˞ː/ START (en-sc)
-A@r-	/{low,bck,unr,vwl,rzd,lng}{vcd,alv,apr}/ # /ɑ˞ːɹ/
+O@r	/{lmd,bck,rnd,vwl,rzd,lng}/ # /ɔ˞ː/ N[OR]TH
+o@r	/{umd,bck,rnd,vwl,rzd,lng}/ # /o˞ː/ F[OR]CE
+A@r	/{low,bck,unr,vwl,rzd,lng}/ # /ɑ˞ː/ ST[AR]T
 
-IR	/{smh,fnt,unr,vwl,rzd}/ # /ɪ˞/ NURSE (FIR)
-VR	/{smh,bck,rnd,vwl,rzd}/ # /ʊ˞/ NURSE (FUR)
-3:	/{lmd,fnt,unr,vwl,rzd}/ # /ɛ˞/ NURSE (FERN)
+IR	/{smh,fnt,unr,vwl,rzd}/ # /ɪ˞/ N[UR]SE (F[IR])
+VR	/{smh,bck,rnd,vwl,rzd}/ # /ʊ˞/ N[UR]SE (F[UR])
+3:	/{lmd,fnt,unr,vwl,rzd}/ # /ɛ˞/ N[UR]SE (F[ER]N)
 
-i	/{hgh,fnt,unr,vwl}/     # /i/  HAPP~Y~
-I\#	/{hgh,cnt,unr,vwl}/	# /ɨ/  RO~SES~
-I2	/{hgh,cnt,unr,vwl}/	# /ɨ/  RO~SES~
-@2	/{mid,cnt,unr,vwl}/     # /ə/  COMM~A~
-@	/{mid,cnt,unr,vwl}/     # /ə/  COMM~A~
-3	/{mid,cnt,unr,vwl,rzd}/ # /ɚ/  LETT~ER~
-a2	/{sml,cnt,unr,vwl}/	# /ɐ/  ~A~BOUT (espeak 1.43.10 and earlier)
-a\#	/{sml,cnt,unr,vwl}/	# /ɐ/  ~A~BOUT
-@5	/{hgh,bck,rnd,vwl}/     # /u/  INT~O~
+i	/{hgh,fnt,unr,vwl}/     # /i/  HAPP[Y]
+I2	/{hgh,cnt,unr,vwl}/	# /ɨ/  ROS[E]S
+@	/{mid,cnt,unr,vwl}/     # /ə/  COMM[A]
+3	/{mid,cnt,unr,vwl,rzd}/ # /ɚ/  LETT[ER]
+a\#	/{sml,cnt,unr,vwl}/	# /ɐ/  [A]BOUT
 
 # Diphthongs
 
-i@	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/ NEAR
-i@3	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/
-i@3r	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/ (en-sc)
-i@3r-	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}{vcd,alv,apr}/ # /ɪɚ̯ɹ/
-U@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/ CURE
-eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ FACE
-oU	/{umd,bck,rnd,vwl}{smh,bck,rnd,vwl,nsy}/ # /oʊ̯/ GOAT (AmE)
-oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ GOAT (BrE)
-e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE
-e@:	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE (old espeak versions)
-e@r	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQUARE (en-sc)
-e@r-	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}{vcd,alv,apr}/ # /ɛə̯ɹ/
-OI	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/ CHOICE
-aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PRICE
-aI2	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PRICE (en-sc)
-aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/ MOUTH
+i@	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/ MILL[IO]N
+i@3r	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,rzd,nsy}/ # /ɪɚ̯/ N[EAR]
+U@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/ C[URE]
+eI	/{umd,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /eɪ̯/ F[A]CE
+oU	/{mid,cnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /əʊ̯/ G[OA]T
+e@r	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQU[ARE]
+OI	/{lmd,bck,rnd,vwl}{smh,fnt,unr,vwl,nsy}/ # /ɔɪ̯/ CH[OI]CE
+aI	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PR[I]CE
+aI2	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}/ # /aɪ̯/ PR[I]CE
+aU	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}/ # /aʊ̯/ M[OU]TH
 
 # Triphthongs
 
-aI@	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aɪ̯ə̯/
-aI3	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,rzd,nsy}/ # /aɪ̯ɚ̯/
-aI3:	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{lmd,fnt,unr,vwl}{vcd,alv,trl}/ # /aɪ̯ɛr/
-aU@	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aʊ̯ə̯/
+aI@	/{low,fnt,unr,vwl}{smh,fnt,unr,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aɪ̯ə̯/ F[IRE]
+aU@	/{low,fnt,unr,vwl}{smh,bck,rnd,vwl,nsy}{mid,cnt,unr,vwl,nsy}/ # /aʊ̯ə̯/ H[OUR]
