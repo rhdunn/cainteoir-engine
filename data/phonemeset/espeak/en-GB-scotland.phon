@@ -22,6 +22,7 @@ h	/{vls,glt,apr}/ # /h/
 j	/{vcd,pal,apr}/ # /j/
 k	/{vls,vel,stp}/ # /k/
 l	/{vcd,alv,lat,apr}/ # /l/
+l\#	/{vls,alv,lat,frc}/ # /ɬ/
 m	/{vcd,blb,nas}/ # /m/
 n	/{vcd,alv,nas}/ # /n/
 N	/{vcd,vel,nas}/ # /ŋ/
