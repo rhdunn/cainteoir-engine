@@ -351,7 +351,7 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 	, mPhonemeSet("ipa")
 {
 	baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
-	default_voice = "default";
+	default_voice = "english";
 
 	int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, nullptr, espeakINITIALIZE_DONT_EXIT);
 	espeak_SetSynthCallback(espeak_tts_callback);
