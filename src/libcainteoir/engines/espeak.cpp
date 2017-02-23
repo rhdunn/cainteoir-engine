@@ -351,7 +351,6 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 	, mPhonemeSet("ipa")
 {
 	baseuri = "http://rhdunn.github.com/cainteoir/engines/espeak";
-	default_voice = "english";
 
 	int frequency = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0, nullptr, espeakINITIALIZE_DONT_EXIT);
 	espeak_SetSynthCallback(espeak_tts_callback);
@@ -377,9 +376,10 @@ espeak_engine::espeak_engine(rdf::graph &metadata, std::string &baseuri, std::st
 	for (const espeak_VOICE **data = espeak_ListVoices(nullptr); *data; ++data)
 	{
 		std::string lang = correct_lang((*data)->languages+1);
-		std::string id = (*data)->name;
-		if (id == "french (Belgium)")
-			id = "french-belgium";
+		std::string id = (*data)->identifier;
+
+		if (id == "en" || id == "gmw/en")
+			default_voice = id;
 
 		rdf::uri voice = rdf::uri(baseuri, id);
 		metadata.statement(voice, rdf::rdf("type"), rdf::tts("Voice"));
