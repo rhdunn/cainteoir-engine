@@ -191,6 +191,18 @@ static const std::string get_region_code(const std::string &lang, const std::str
 	return code;
 }
 
+std::string lang::tag::str() const
+{
+	std::ostringstream os;
+	os << lang;
+	if (!extlang.empty())     os << "-" << extlang;
+	if (!script.empty())      os << "-" << script;
+	if (!region.empty())      os << "-" << region;
+	if (!variant.empty())     os << "-" << variant;
+	if (!private_use.empty()) os << "-x-" << private_use;
+	return os.str();
+}
+
 lang::tag lang::make_lang(const std::string &code)
 {
 	const lang::tag *alias = lookup_alias(code);

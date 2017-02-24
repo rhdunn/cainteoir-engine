@@ -34,6 +34,8 @@ namespace cainteoir { namespace language
 		std::string variant;
 		std::string private_use;
 
+		std::string str() const;
+
 		tag(const std::string &l,
 		    const std::string &e = std::string(),
 		    const std::string &s = std::string(),

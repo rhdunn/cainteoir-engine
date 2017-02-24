@@ -62,7 +62,7 @@ std::string correct_lang(std::string lang)
 	auto match = voice_corrections.find(lang);
 	if (match != voice_corrections.end())
 		return match->second;
-	return lang;
+	return cainteoir::language::make_lang(lang).str();
 }
 
 std::string phonemeset_from_language(const std::string &lang)
@@ -94,9 +94,9 @@ struct mbrola_voice
 static const std::initializer_list<const mbrola_voice> mbrola_voices = {
 	{ "mb-af1",     "af1/af1", "af",    16000, "male" },
 	{ "mb-af1-en",  "af1/af1", "en",    16000, "male" },
-	{ "mb-br1",     "br1/br1", "pt-br", 16000, "male" },
-	{ "mb-br3",     "br3/br3", "pt-br", 22050, "male" },
-	{ "mb-br4",     "br4/br4", "pt-br", 16000, "female" },
+	{ "mb-br1",     "br1/br1", "pt-BR", 16000, "male" },
+	{ "mb-br3",     "br3/br3", "pt-BR", 22050, "male" },
+	{ "mb-br4",     "br4/br4", "pt-BR", 16000, "female" },
 	{ "mb-cr1",     "cr1/cr1", "hr",    16000, "male" },
 	{ "mb-cz2",     "cz2/cz2", "cs",    16000, "male" },
 	{ "mb-de2",     "de2/de2", "de",    16000, "male" },
@@ -108,7 +108,7 @@ static const std::initializer_list<const mbrola_voice> mbrola_voices = {
 	{ "mb-de6-grc", "de6/de6", "el",    22050, "male" },
 	{ "mb-de7",     "de7/de7", "de",    22050, "female" },
 	{ "mb-ee1",     "ee1/ee1", "et",    16000, "male" },
-	{ "mb-en1",     "en1/en1", "en-gb", 16000, "male" },
+	{ "mb-en1",     "en1/en1", "en-GB", 16000, "male" },
 	{ "mb-es1",     "es1/es1", "es",    16000, "male" },
 	{ "mb-es2",     "es2/es2", "es",    22050, "male" },
 	{ "mb-fr1",     "fr1/fr1", "fr",    16000, "male" },
@@ -124,13 +124,13 @@ static const std::initializer_list<const mbrola_voice> mbrola_voices = {
 	{ "mb-it3",     "it3/it3", "it",    16000, "male" },
 	{ "mb-it4",     "it4/it4", "it",    16000, "female" },
 	{ "mb-la1",     "la1/la1", "la",    16000, "male" },
-	{ "mb-mx1",     "mx1/mx1", "es-mx", 16000, "male" },
-	{ "mb-mx2",     "mx2/mx2", "es-mx", 16000, "male" },
+	{ "mb-mx1",     "mx1/mx1", "es-MX", 16000, "male" },
+	{ "mb-mx2",     "mx2/mx2", "es-MX", 16000, "male" },
 	{ "mb-nl2",     "nl2/nl2", "nl",    16000, "male" },
 	{ "mb-nl2-en",  "nl2/nl2", "en",    16000, "male" },
 	{ "mb-pl1",     "pl1/pl1", "pl",    16000, "female" },
 	{ "mb-pl1-en",  "pl1/pl1", "en",    16000, "female" },
-	{ "mb-pt1",     "pt1/pt1", "pt-pt", 22050, "female" },
+	{ "mb-pt1",     "pt1/pt1", "pt-PT", 22050, "female" },
 	{ "mb-ro1",     "ro1/ro1", "ro",    16000, "male" },
 	{ "mb-ro1-en",  "ro1/ro1", "en",    16000, "male" },
 	{ "mb-sw1",     "sw1/sw1", "sv",    16000, "male" },
@@ -139,10 +139,10 @@ static const std::initializer_list<const mbrola_voice> mbrola_voices = {
 	{ "mb-sw2-en",  "sw2/sw2", "en",    16000, "female" },
 	{ "mb-tr1",     "tr1/tr1", "tr",    16000, "male" },
 	{ "mb-tr2",     "tr2/tr2", "tr",    22050, "female" },
-	{ "mb-us1",     "us1/us1", "en-us", 16000, "female" },
-	{ "mb-us2",     "us2/us2", "en-us", 16000, "male" },
-	{ "mb-us3",     "us3/us3", "en-us", 16000, "male" },
-	{ "mb-vz1",     "vz1/vz1", "es-ve", 16000, "male" },
+	{ "mb-us1",     "us1/us1", "en-US", 16000, "female" },
+	{ "mb-us2",     "us2/us2", "en-US", 16000, "male" },
+	{ "mb-us3",     "us3/us3", "en-US", 16000, "male" },
+	{ "mb-vz1",     "vz1/vz1", "es-VE", 16000, "male" },
 };
 
 static bool is_mbrola_voice_available(const char *voice)
