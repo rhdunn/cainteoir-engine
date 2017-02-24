@@ -589,7 +589,8 @@ int main(int argc, char ** argv)
 				}
 				else if (language)
 				{
-					const rdf::uri *ref = tts::get_voice_uri(metadata, rdf::dc("language"), language);
+					auto locale = cainteoir::language::make_lang(language);
+					const rdf::uri *ref = tts::get_voice_uri(metadata, rdf::dc("language"), locale);
 					if (ref)
 						engine.select_voice(metadata, *ref);
 				}

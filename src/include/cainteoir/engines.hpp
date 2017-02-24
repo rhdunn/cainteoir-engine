@@ -118,6 +118,10 @@ namespace cainteoir { namespace tts
 	const rdf::uri *get_voice_uri(const rdf::graph &aMetadata,
 	                              const rdf::uri &predicate,
 	                              const std::string &value);
+
+	const rdf::uri *get_voice_uri(const rdf::graph &aMetadata,
+	                              const rdf::uri &predicate,
+	                              const cainteoir::language::tag &value);
 }}
 
 #endif

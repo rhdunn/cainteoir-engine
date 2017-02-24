@@ -489,3 +489,21 @@ const rdf::uri *tts::get_voice_uri(const rdf::graph &aMetadata,
 
 	return nullptr;
 }
+
+const rdf::uri *tts::get_voice_uri(const rdf::graph &aMetadata,
+                                   const rdf::uri &predicate,
+                                   const cainteoir::language::tag &value)
+{
+	for (auto &voice : rql::select(aMetadata,
+	                               rql::predicate == rdf::rdf("type") && rql::object == rdf::tts("Voice")))
+	{
+		const rdf::uri &uri = rql::subject(voice);
+		for (auto &statement : rql::select(aMetadata, rql::subject == uri))
+		{
+			if (rql::predicate(statement) == predicate && cainteoir::language::issubtag(cainteoir::language::make_lang(rql::value(statement)), value))
+				return &uri;
+		}
+	}
+
+	return nullptr;
+}
