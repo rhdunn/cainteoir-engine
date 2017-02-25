@@ -47,6 +47,8 @@ n-	/{vcd,alv,nas,syl}/ # /n/
 
 # Vowels
 
+i	/{smh,fnt,unr,vwl}/     # /ɪ/  HAPP[Y]
+
 I	/{smh,fnt,unr,vwl}/ # /ɪ/ K[I]T
 U	/{smh,bck,rnd,vwl}/ # /ʊ/ F[OO]T
 E	/{lmd,fnt,unr,vwl}/ # /ɛ/ DR[E]SS
@@ -67,7 +69,6 @@ aa	/{low,fnt,unr,vwl,lng}/ # /aː/ B[A]TH
 
 3:	/{lmd,cnt,unr,vwl,lng}/ # /ɜː/ N[UR]SE
 
-i	/{hgh,fnt,unr,vwl}/     # /i/  HAPP[Y]
 I2	/{hgh,cnt,unr,vwl}/	# /ɨ/  ROS[E]S
 @2	/{mid,cnt,unr,vwl}/     # /ə/  COMM[A]
 @5	/{mid,cnt,unr,vwl}/     # /ə/  COMM[A]
