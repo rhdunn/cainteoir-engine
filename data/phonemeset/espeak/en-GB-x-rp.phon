@@ -78,9 +78,9 @@ a\#	/{sml,cnt,unr,vwl}/	# /ɐ/  [A]BOUT
 
 # Diphthongs
 
-i@	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/ MILL[IO]N
+i@	/{hgh,fnt,unr,vwl}{mid,cnt,unr,vwl}/ # /iə/ MILL[IO]N
 
-i@3	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy,rzd}/ # /ɪɚ̯/ N[EAR]
+i@3	/{smh,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɪə̯/ N[EAR]
 U@	/{smh,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ʊə̯/ C[URE]
 e@	/{lmd,fnt,unr,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɛə̯/ SQU[ARE]
 O@	/{lmd,bck,rnd,vwl}{mid,cnt,unr,vwl,nsy}/ # /ɔə̯/ N[OR]TH
