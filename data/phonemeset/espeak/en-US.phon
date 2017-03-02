@@ -55,6 +55,7 @@ E	/{lmd,fnt,unr,vwl}/ # /ɛ/ DR[E]SS
 V	/{lmd,bck,unr,vwl}/ # /ʌ/ STR[U]T
 a	/{sml,fnt,unr,vwl}/ # /æ/ TR[A]P
 0	/{low,bck,rnd,vwl}/ # /ɒ/ L[O]T
+O2	/{lmd,bck,rnd,vwl}/ # /ɔ/ CL[O]TH
 O	/{lmd,bck,rnd,vwl}/ # /ɔ/ CL[O]TH
 
 A~	/{low,bck,unr,vwl,nzd}/ # /ɑ̃/ CROISS[ANT]
